@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import CoreHaptics
 
 class ViewController: UITabBarController, UITabBarControllerDelegate {
+    
+    var engine: CHHapticEngine?
     
     var tabOne = UINavigationController()
     var tabTwo = UINavigationController()
@@ -23,6 +26,19 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.createTabBar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        do {
+            engine = try CHHapticEngine()
+            engine?.playsHapticsOnly = true
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
     }
     
     func createTabBar() {
@@ -73,6 +89,50 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        self.hapticPatternType1()
+    }
+    
+    //MARK: Haptic patterns
+    
+    func hapticPatternType1() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int != nil {
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                if CHHapticEngine.capabilitiesForHardware().supportsHaptics {
+                    self.hapticPattern1()
+                } else {
+                    let selection = UISelectionFeedbackGenerator()
+                    selection.selectionChanged()
+                }
+            } else {
+                
+            }
+        } else {
+            if CHHapticEngine.capabilitiesForHardware().supportsHaptics {
+                self.hapticPattern1()
+            } else {
+                let selection = UISelectionFeedbackGenerator()
+                selection.selectionChanged()
+            }
+        }
+    }
+    
+    func hapticPattern1() {
+        var events = [CHHapticEvent]()
+        for i in stride(from: 0, to: 1.0, by: 1) {
+            let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(0.65))
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: Float(0.7))
+            let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i)
+            events.append(event)
+        }
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription).")
+        }
+    }
     
 }
 
