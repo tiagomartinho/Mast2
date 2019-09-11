@@ -13,6 +13,11 @@
 		53449D3823293E3600A470E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3623293E3600A470E2 /* Main.storyboard */; };
 		53449D3A23293E3700A470E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3923293E3700A470E2 /* Assets.xcassets */; };
 		53449D3D23293E3700A470E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3B23293E3700A470E2 /* LaunchScreen.storyboard */; };
+		53449D4523293EF900A470E2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4423293EF900A470E2 /* FirstViewController.swift */; };
+		53449D4723293F1C00A470E2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4623293F1C00A470E2 /* SecondViewController.swift */; };
+		53449D4923293F2F00A470E2 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4823293F2F00A470E2 /* ThirdViewController.swift */; };
+		53449D4B23293F4100A470E2 /* FourthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4A23293F4100A470E2 /* FourthViewController.swift */; };
+		53449D4D23293F7100A470E2 /* FifthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4C23293F7100A470E2 /* FifthViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		53449D3923293E3700A470E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53449D3C23293E3700A470E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		53449D3E23293E3700A470E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		53449D4423293EF900A470E2 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		53449D4623293F1C00A470E2 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		53449D4823293F2F00A470E2 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		53449D4A23293F4100A470E2 /* FourthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthViewController.swift; sourceTree = "<group>"; };
+		53449D4C23293F7100A470E2 /* FifthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FifthViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +69,11 @@
 				53449D3023293E3600A470E2 /* AppDelegate.swift */,
 				53449D3223293E3600A470E2 /* SceneDelegate.swift */,
 				53449D3423293E3600A470E2 /* ViewController.swift */,
+				53449D4423293EF900A470E2 /* FirstViewController.swift */,
+				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
+				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
+				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
+				53449D4C23293F7100A470E2 /* FifthViewController.swift */,
 				53449D3623293E3600A470E2 /* Main.storyboard */,
 				53449D3923293E3700A470E2 /* Assets.xcassets */,
 				53449D3B23293E3700A470E2 /* LaunchScreen.storyboard */,
@@ -141,6 +156,11 @@
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
 				53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */,
+				53449D4B23293F4100A470E2 /* FourthViewController.swift in Sources */,
+				53449D4D23293F7100A470E2 /* FifthViewController.swift in Sources */,
+				53449D4723293F1C00A470E2 /* SecondViewController.swift in Sources */,
+				53449D4923293F2F00A470E2 /* ThirdViewController.swift in Sources */,
+				53449D4523293EF900A470E2 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
