@@ -27,7 +27,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     func createTabBar() {
         DispatchQueue.main.async {
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular)
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
             
             let im1 = UIImage(systemName: "bubble.middle.bottom", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             let im1b = UIImage(systemName: "bubble.middle.bottom.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
@@ -76,3 +76,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
 }
 
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
+    }
+}
