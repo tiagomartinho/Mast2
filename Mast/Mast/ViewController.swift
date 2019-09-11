@@ -121,7 +121,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         var events = [CHHapticEvent]()
         for i in stride(from: 0, to: 1.0, by: 1) {
             let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: Float(0.65))
-            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: Float(0.7))
+            let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: Float(0.5))
             let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: i)
             events.append(event)
         }

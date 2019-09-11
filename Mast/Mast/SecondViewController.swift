@@ -19,10 +19,6 @@ class SecondViewController: UIViewController {
     }
     
     func removeTabbarItemsText() {
-        var offset: CGFloat = 6.0
-        if #available(iOS 11.0, *), traitCollection.horizontalSizeClass == .regular {
-            offset = 0.0
-        }
         if let items = self.tabBarController?.tabBar.items {
             for item in items {
                 item.title = ""
