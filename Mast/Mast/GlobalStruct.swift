@@ -15,7 +15,12 @@ class GlobalStruct {
     static var clientSecret = ""
     static var returnedText = ""
     static var accessToken = ""
+    static var authCode = ""
+    static var redirect = ""
     static var baseTint = UIColor.blue
+    
+    static var statusesHome: [Status] = []
+    static var currentUser: Account!
     
     static var medType = 0
     static var avaFile = "avatar"

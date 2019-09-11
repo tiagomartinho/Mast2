@@ -11,8 +11,6 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -21,6 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.black
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.black]
         return true
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if url.host == "success" {
+            print("Response ==> \(url.absoluteString)")
+            let x = url.absoluteString
+            let y = x.split(separator: "=")
+            GlobalStruct.authCode = y.last?.description ?? ""
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "logged"), object: nil)
+            return true
+        } else {
+            return true
+        }
     }
 
     // MARK: UISceneSession Lifecycle
