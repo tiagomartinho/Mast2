@@ -14,13 +14,11 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     var tabTwo = UINavigationController()
     var tabThree = UINavigationController()
     var tabFour = UINavigationController()
-    var tabFive = UINavigationController()
     
     var firstView = FirstViewController()
     var secondView = SecondViewController()
     var thirdView = ThirdViewController()
     var fourthView = FourthViewController()
-    var fifthView = FifthViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,21 +27,18 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     func createTabBar() {
         DispatchQueue.main.async {
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .light)
-            let im1 = UIImage(systemName: "tray.full", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            let im1b = UIImage(systemName: "tray.full.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular)
+            let im1 = UIImage(systemName: "bubble.middle.bottom", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im1b = UIImage(systemName: "bubble.middle.bottom.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
-            let im2 = UIImage(systemName: "bolt", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            let im2b = UIImage(systemName: "bolt.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im2 = UIImage(systemName: "paperplane", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im2b = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
-            let im3 = UIImage(systemName: "ellipses.bubble", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            let im3b = UIImage(systemName: "ellipses.bubble.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im3 = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im3b = UIImage(systemName: "person.crop.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
-            let im4 = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            let im4b = UIImage(systemName: "person.crop.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            
-            let im5 = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            let im5b = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.blue.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im4 = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im4b = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
             // Create Tab one
             self.tabOne = UINavigationController(rootViewController: self.firstView)
@@ -55,8 +50,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab two
             self.tabTwo = UINavigationController(rootViewController: self.secondView)
-            let tabTwoBarItem2 = UITabBarItem(title: "", image: im2, selectedImage: im2b)
-            self.tabTwo.tabBarItem = tabTwoBarItem2
+            let tabTwoBarItem = UITabBarItem(title: "", image: im2, selectedImage: im2b)
+            self.tabTwo.tabBarItem = tabTwoBarItem
             self.tabTwo.navigationBar.backgroundColor = UIColor.white
             self.tabTwo.navigationBar.barTintColor = UIColor.white
             self.tabTwo.tabBarItem.tag = 2
@@ -77,15 +72,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabFour.navigationBar.barTintColor = UIColor.white
             self.tabFour.tabBarItem.tag = 4
             
-            // Create Tab five
-            self.tabFive = UINavigationController(rootViewController: self.fourthView)
-            let tabFiveBarItem = UITabBarItem(title: "", image: im5, selectedImage: im5b)
-            self.tabFive.tabBarItem = tabFiveBarItem
-            self.tabFive.navigationBar.backgroundColor = UIColor.white
-            self.tabFive.navigationBar.barTintColor = UIColor.white
-            self.tabFive.tabBarItem.tag = 5
-            
-            let viewControllerList = [self.tabOne, self.tabTwo, self.tabThree, self.tabFour, self.tabFive]
+            let viewControllerList = [self.tabOne, self.tabTwo, self.tabThree, self.tabFour]
             self.viewControllers = viewControllerList
         }
     }
