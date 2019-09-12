@@ -15,7 +15,7 @@ class ThirdViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.title = "Profile".localized
-        self.removeTabbarItemsText()
+//        self.removeTabbarItemsText()
     }
     
     func removeTabbarItemsText() {

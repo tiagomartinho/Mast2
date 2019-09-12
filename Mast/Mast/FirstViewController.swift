@@ -21,8 +21,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.title = "Home".localized
-        self.removeTabbarItemsText()
+        self.title = "Feed".localized
+//        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
         
@@ -79,7 +79,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
                 GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
                 let request = Clients.register(
                     clientName: "Mast",
-                    redirectURI: "com.shi.mastodon://success",
+                    redirectURI: "com.shi.Mast2://success",
                     scopes: [.read, .write, .follow, .push],
                     website: "https://twitter.com/jpeguin"
                 )
@@ -112,7 +112,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
                         GlobalStruct.clientSecret = application.clientSecret
                         GlobalStruct.returnedText = returnedText
                         DispatchQueue.main.async {
-                            let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                            let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                             UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                 if !success {
                                     if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
@@ -138,7 +138,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
         self.textField.removeFromSuperview()
         self.safariVC?.dismiss(animated: true, completion: nil)
         
-        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.authCode)&redirect_uri=com.shi.mast2://success&client_id=\(GlobalStruct.clientID)&client_secret=\(GlobalStruct.clientSecret)&scope=read%20write%20follow%20push")!)
+        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.authCode)&redirect_uri=\("com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&client_id=\(GlobalStruct.clientID)&client_secret=\(GlobalStruct.clientSecret)&scope=read%20write%20follow%20push")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")

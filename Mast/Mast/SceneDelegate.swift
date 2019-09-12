@@ -19,6 +19,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
     }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = (URLContexts.first?.url ?? URL(string: "www.google.com")) {
+            if url.host == "success" {
+                print("Response ==> \(url.absoluteString)")
+                let x = url.absoluteString
+                let y = x.split(separator: "=")
+                GlobalStruct.authCode = y.last?.description ?? ""
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "logged"), object: nil)
+            }
+        }
+    }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

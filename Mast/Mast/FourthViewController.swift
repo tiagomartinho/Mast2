@@ -14,8 +14,8 @@ class FourthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.title = "New Toot".localized
-        self.removeTabbarItemsText()
+        self.title = "Toot".localized
+//        self.removeTabbarItemsText()
     }
     
     func removeTabbarItemsText() {

@@ -14,8 +14,8 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        self.title = "Notifications".localized
-        self.removeTabbarItemsText()
+        self.title = "Mentions".localized
+//        self.removeTabbarItemsText()
     }
     
     func removeTabbarItemsText() {
