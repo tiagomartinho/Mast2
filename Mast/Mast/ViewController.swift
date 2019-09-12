@@ -59,28 +59,28 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab one
             self.tabOne = UINavigationController(rootViewController: self.firstView)
-            self.tabOne.tabBarItem = UITabBarItem(title: "Feed".localized, image: im1, selectedImage: im1b)
+            self.tabOne.tabBarItem = UITabBarItem(title: "".localized, image: im1, selectedImage: im1b)
             self.tabOne.navigationBar.backgroundColor = UIColor.white
             self.tabOne.navigationBar.barTintColor = UIColor.white
             self.tabOne.tabBarItem.tag = 1
             
             // Create Tab two
             self.tabTwo = UINavigationController(rootViewController: self.secondView)
-            self.tabTwo.tabBarItem = UITabBarItem(title: "Mentions".localized, image: im2, selectedImage: im2b)
+            self.tabTwo.tabBarItem = UITabBarItem(title: "".localized, image: im2, selectedImage: im2b)
             self.tabTwo.navigationBar.backgroundColor = UIColor.white
             self.tabTwo.navigationBar.barTintColor = UIColor.white
             self.tabTwo.tabBarItem.tag = 2
             
             // Create Tab three
             self.tabThree = UINavigationController(rootViewController: self.thirdView)
-            self.tabThree.tabBarItem = UITabBarItem(title: "Profile".localized, image: im3, selectedImage: im3b)
+            self.tabThree.tabBarItem = UITabBarItem(title: "".localized, image: im3, selectedImage: im3b)
             self.tabThree.navigationBar.backgroundColor = UIColor.white
             self.tabThree.navigationBar.barTintColor = UIColor.white
             self.tabThree.tabBarItem.tag = 3
             
             // Create Tab four
             self.tabFour = UINavigationController(rootViewController: self.fourthView)
-            self.tabFour.tabBarItem = UITabBarItem(title: "Toot".localized, image: im4, selectedImage: im4b)
+            self.tabFour.tabBarItem = UITabBarItem(title: "".localized, image: im4, selectedImage: im4b)
             self.tabFour.navigationBar.backgroundColor = UIColor.white
             self.tabFour.navigationBar.barTintColor = UIColor.white
             self.tabFour.tabBarItem.tag = 4

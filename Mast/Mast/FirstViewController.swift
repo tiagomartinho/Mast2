@@ -22,9 +22,22 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.title = "Feed".localized
-//        self.removeTabbarItemsText()
+        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
+        
+        if UserDefaults.standard.object(forKey: "clientID") == nil {} else {
+            GlobalStruct.clientID = UserDefaults.standard.object(forKey: "clientID") as! String
+        }
+        if UserDefaults.standard.object(forKey: "clientSecret") == nil {} else {
+            GlobalStruct.clientSecret = UserDefaults.standard.object(forKey: "clientSecret") as! String
+        }
+        if UserDefaults.standard.object(forKey: "authCode") == nil {} else {
+            GlobalStruct.authCode = UserDefaults.standard.object(forKey: "authCode") as! String
+        }
+        if UserDefaults.standard.object(forKey: "returnedText") == nil {} else {
+            GlobalStruct.returnedText = UserDefaults.standard.object(forKey: "returnedText") as! String
+        }
         
         // Log in
         if UserDefaults.standard.object(forKey: "accessToken") == nil {
@@ -149,6 +162,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
                     GlobalStruct.accessToken = (json["access_token"] as? String ?? "")
+                    
+                    UserDefaults.standard.set(GlobalStruct.clientID, forKey: "clientID")
+                    UserDefaults.standard.set(GlobalStruct.clientSecret, forKey: "clientSecret")
+                    UserDefaults.standard.set(GlobalStruct.authCode, forKey: "authCode")
+                    UserDefaults.standard.set(GlobalStruct.accessToken, forKey: "accessToken")
+                    UserDefaults.standard.set(GlobalStruct.returnedText, forKey: "returnedText")
+                    
                     let request2 = Accounts.currentUser()
                     GlobalStruct.client.run(request2) { (statuses) in
                         if let stat = (statuses.value) {
@@ -165,44 +185,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "refresh"), object: nil)
                         }
                     }
-//                    let request3 = Instances.customEmojis()
-//                    GlobalStruct.client.run(request3) { (statuses) in
-//                        if let stat = (statuses.value) {
-//                            DispatchQueue.main.async {
-//                                StoreStruct.emotiFace = stat
-//                            }
-//                            stat.map({
-//                                let attributedString = NSAttributedString(string: "    \($0.shortcode)")
-//                                let textAttachment = NSTextAttachment()
-//                                textAttachment.loadImageUsingCache(withUrl: $0.staticURL.absoluteString)
-//                                textAttachment.bounds = CGRect(x:0, y: Int(-9), width: Int(30), height: Int(30))
-//                                let attrStringWithImage = NSAttributedString(attachment: textAttachment)
-//                                let result = NSMutableAttributedString()
-//                                result.append(attrStringWithImage)
-//                                result.append(attributedString)
-//                                StoreStruct.mainResult.append(result)
-//
-//                                let textAttachment1 = NSTextAttachment()
-//                                textAttachment1.loadImageUsingCache(withUrl: $0.staticURL.absoluteString)
-//                                textAttachment1.bounds = CGRect(x:0, y: Int(-9), width: Int(30), height: Int(30))
-//                                let attrStringWithImage1 = NSAttributedString(attachment: textAttachment1)
-//                                let result1 = NSMutableAttributedString()
-//                                result1.append(attrStringWithImage1)
-//                                StoreStruct.mainResult1.append(result1)
-//
-//                                let attributedString2 = NSAttributedString(string: "\($0.shortcode)")
-//                                let result2 = NSMutableAttributedString()
-//                                result2.append(attributedString2)
-//                                StoreStruct.mainResult2.append(result)
-//                            })
-//                        }
-//                    }
-//                    if (UserDefaults.standard.object(forKey: "onb") == nil) || (UserDefaults.standard.object(forKey: "onb") as! Int == 0) {
-//                        DispatchQueue.main.async {
-//                            self.bulletinManager.prepare()
-//                            self.bulletinManager.presentBulletin(above: self, animated: true, completion: nil)
-//                        }
-//                    }
                 }
             } catch let error {
                 print(error.localizedDescription)

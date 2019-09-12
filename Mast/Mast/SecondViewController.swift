@@ -15,7 +15,7 @@ class SecondViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         self.title = "Mentions".localized
-//        self.removeTabbarItemsText()
+        self.removeTabbarItemsText()
     }
     
     func removeTabbarItemsText() {
