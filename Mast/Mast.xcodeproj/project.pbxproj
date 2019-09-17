@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -88,7 +88,6 @@
 		53449DDC23294C1000A470E2 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D9623294C0F00A470E2 /* Payload.swift */; };
 		53449DDD23294C1000A470E2 /* MediaAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D9723294C0F00A470E2 /* MediaAttachment.swift */; };
 		53449DDF23294E4900A470E2 /* GlobalStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449DDE23294E4900A470E2 /* GlobalStruct.swift */; };
-		53449DE2232A46D600A470E2 /* Disk in Frameworks */ = {isa = PBXBuildFile; productRef = 53449DE1232A46D600A470E2 /* Disk */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -190,7 +189,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53449DE2232A46D600A470E2 /* Disk in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,7 +377,6 @@
 			);
 			name = Mast;
 			packageProductDependencies = (
-				53449DE1232A46D600A470E2 /* Disk */,
 			);
 			productName = Mast;
 			productReference = 53449D2D23293E3600A470E2 /* Mast.app */;
@@ -410,7 +407,6 @@
 			);
 			mainGroup = 53449D2423293E3600A470E2;
 			packageReferences = (
-				53449DE0232A46D500A470E2 /* XCRemoteSwiftPackageReference "Disk" */,
 			);
 			productRefGroup = 53449D2E23293E3600A470E2 /* Products */;
 			projectDirPath = "";
@@ -718,25 +714,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		53449DE0232A46D500A470E2 /* XCRemoteSwiftPackageReference "Disk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/saoudrizwan/Disk.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		53449DE1232A46D600A470E2 /* Disk */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 53449DE0232A46D500A470E2 /* XCRemoteSwiftPackageReference "Disk" */;
-			productName = Disk;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 53449D2523293E3600A470E2 /* Project object */;
 }
