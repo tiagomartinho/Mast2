@@ -51,6 +51,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     @objc func addTapped() {
         self.hapticPatternType1()
+        self.show(UINavigationController(rootViewController: TootViewController()), sender: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {

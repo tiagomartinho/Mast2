@@ -93,6 +93,7 @@
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
 		5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41623311BDC00DC1F33 /* DetailViewController.swift */; };
 		5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41B23313B1700DC1F33 /* SettingsViewController.swift */; };
+		5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41D23313CAA00DC1F33 /* TootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,6 +185,7 @@
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
 		5379F41623311BDC00DC1F33 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		5379F41B23313B1700DC1F33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		5379F41D23313CAA00DC1F33 /* TootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -359,6 +361,7 @@
 				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
+				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 				53449DD523294C1000A470E2 /* Search.swift in Sources */,
 				53449DAF23294C1000A470E2 /* Card.swift in Sources */,
 				53449DD923294C1000A470E2 /* Request.swift in Sources */,
+				5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,
