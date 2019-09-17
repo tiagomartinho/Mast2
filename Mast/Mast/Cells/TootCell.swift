@@ -29,6 +29,7 @@ class TootCell: UITableViewCell {
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
         profile.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.1)
+        profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
         
         username.translatesAutoresizingMaskIntoConstraints = false

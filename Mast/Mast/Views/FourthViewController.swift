@@ -11,6 +11,8 @@ import UIKit
 
 class FourthViewController: UIViewController {
     
+    var pickedCurrentUser: Account!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
