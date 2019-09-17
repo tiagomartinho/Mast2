@@ -63,6 +63,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let addButton = UIBarButtonItem(customView: btn1)
         self.navigationItem.setRightBarButton(addButton, animated: true)
         
+        let btn2 = UIButton(type: .custom)
+        btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
+        let settingsButton = UIBarButtonItem(customView: btn2)
+        self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        
         // Log in
         if UserDefaults.standard.object(forKey: "accessToken") == nil {
             self.createLoginView()
@@ -107,6 +114,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.view.addSubview(self.tableView)
     }
     
+    @objc func sortTapped() {
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         GlobalStruct.statusesHome.count
     }
@@ -134,6 +145,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FourthViewController()
+        vc.isYou = false
         vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
