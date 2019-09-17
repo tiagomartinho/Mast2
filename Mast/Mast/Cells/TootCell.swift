@@ -12,6 +12,7 @@ import UIKit
 class TootCell: UITableViewCell {
     
     var containerView = UIView()
+    var profile = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
     var content = UILabel()
@@ -24,6 +25,11 @@ class TootCell: UITableViewCell {
         containerView.layer.cornerRadius = 8
         containerView.alpha = 0
         contentView.addSubview(containerView)
+        
+        profile.translatesAutoresizingMaskIntoConstraints = false
+        profile.layer.cornerRadius = 20
+        profile.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
+        contentView.addSubview(profile)
         
         username.translatesAutoresizingMaskIntoConstraints = false
         username.textColor = UIColor(named: "baseBlack")
@@ -56,6 +62,7 @@ class TootCell: UITableViewCell {
         
         let viewsDict = [
             "containerView" : containerView,
+            "profile" : profile,
             "username" : username,
             "usertag" : usertag,
             "content" : content,
@@ -63,8 +70,9 @@ class TootCell: UITableViewCell {
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[containerView]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-2-[containerView]-2-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[content]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-8-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-8-[content]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
     }

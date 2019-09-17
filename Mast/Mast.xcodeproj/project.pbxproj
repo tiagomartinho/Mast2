@@ -219,16 +219,9 @@
 				53449D4E23294C0F00A470E2 /* MastodonKit */,
 				53449D3023293E3600A470E2 /* AppDelegate.swift */,
 				53449D3223293E3600A470E2 /* SceneDelegate.swift */,
-				53449D3423293E3600A470E2 /* ViewController.swift */,
-				53449D4423293EF900A470E2 /* FirstViewController.swift */,
-				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
-				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
-				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
-				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
-				5379F4102331115B00DC1F33 /* TootCell.swift */,
-				53449DDE23294E4900A470E2 /* GlobalStruct.swift */,
-				5379F4122331122100DC1F33 /* Spring.swift */,
-				5379F41423311A5700DC1F33 /* StripHTML.swift */,
+				5379F41A2331237900DC1F33 /* Views */,
+				5379F4192331236C00DC1F33 /* Cells */,
+				5379F4182331236100DC1F33 /* Other */,
 				53449D3623293E3600A470E2 /* Main.storyboard */,
 				53449D3923293E3700A470E2 /* Assets.xcassets */,
 				53449D3B23293E3700A470E2 /* LaunchScreen.storyboard */,
@@ -336,6 +329,37 @@
 				53449D9023294C0F00A470E2 /* Timelines.swift */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		5379F4182331236100DC1F33 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				53449DDE23294E4900A470E2 /* GlobalStruct.swift */,
+				5379F4122331122100DC1F33 /* Spring.swift */,
+				5379F41423311A5700DC1F33 /* StripHTML.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		5379F4192331236C00DC1F33 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5379F4102331115B00DC1F33 /* TootCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5379F41A2331237900DC1F33 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				53449D3423293E3600A470E2 /* ViewController.swift */,
+				53449D4423293EF900A470E2 /* FirstViewController.swift */,
+				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
+				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
+				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
+				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
