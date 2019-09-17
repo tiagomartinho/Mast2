@@ -118,7 +118,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             cell.username.text = GlobalStruct.statusesHome[indexPath.row].account.displayName
             cell.usertag.text = "@\(GlobalStruct.statusesHome[indexPath.row].account.username)"
             cell.content.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
-            cell.configure()
+            cell.configure(GlobalStruct.statusesHome[indexPath.row].account.avatar)
         }
         
         cell.backgroundColor = UIColor(named: "baseWhite")

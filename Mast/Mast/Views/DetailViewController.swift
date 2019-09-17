@@ -61,7 +61,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.username.text = self.pickedStatusesHome[0].account.displayName
             cell.usertag.text = "@\(self.pickedStatusesHome[0].account.username)"
             cell.content.text = self.pickedStatusesHome[0].content.stripHTML()
-            cell.configure()
+            cell.configure(self.pickedStatusesHome[0].account.avatar)
         }
         
         cell.backgroundColor = UIColor(named: "baseWhite")

@@ -84,8 +84,18 @@ class TootCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    func configure(_ url: String) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
+        
+        guard let imageURL = URL(string: url) else { return }
+        DispatchQueue.global().async {
+            guard let imageData = try? Data(contentsOf: imageURL) else { return }
+            let image = UIImage(data: imageData)
+            DispatchQueue.main.async {
+                self.profile.image = image
+                self.profile.layer.masksToBounds = true
+            }
+        }
     }
     
     func highlightCell() {
