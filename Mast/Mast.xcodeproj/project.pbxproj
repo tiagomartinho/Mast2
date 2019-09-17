@@ -92,6 +92,7 @@
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
 		5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41623311BDC00DC1F33 /* DetailViewController.swift */; };
+		5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41B23313B1700DC1F33 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -182,6 +183,7 @@
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
 		5379F41623311BDC00DC1F33 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		5379F41B23313B1700DC1F33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +357,7 @@
 				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
 				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
 				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
+				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
 			);
 			path = Views;
@@ -491,6 +494,7 @@
 				53449DD623294C1000A470E2 /* Timelines.swift in Sources */,
 				53449DAA23294C1000A470E2 /* ScheduledStatus.swift in Sources */,
 				53449DA123294C1000A470E2 /* Decodable.swift in Sources */,
+				5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */,
 				53449DD023294C1000A470E2 /* Accounts.swift in Sources */,
 				53449DC423294C1000A470E2 /* HTTPMethod.swift in Sources */,
 				53449DC023294C1000A470E2 /* Filters.swift in Sources */,

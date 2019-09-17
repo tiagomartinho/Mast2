@@ -39,12 +39,13 @@ class FourthViewController: UIViewController {
         }
     }
     
-    @objc func addTapped() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+    @objc func settingsTapped() {
+        let vc = SettingsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func settingsTapped() {
-        
+    @objc func addTapped() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     
     func removeTabbarItemsText() {

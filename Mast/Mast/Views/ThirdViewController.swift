@@ -25,6 +25,18 @@ class ThirdViewController: UIViewController {
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         let addButton = UIBarButtonItem(customView: btn1)
         self.navigationItem.setRightBarButton(addButton, animated: true)
+        
+        let btn2 = UIButton(type: .custom)
+        btn2.setImage(UIImage(systemName: "gear", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn2.addTarget(self, action: #selector(self.settingsTapped), for: .touchUpInside)
+        let settingsButton = UIBarButtonItem(customView: btn2)
+        self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+    }
+    
+    @objc func settingsTapped() {
+        let vc = SettingsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func addTapped() {
