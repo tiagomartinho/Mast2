@@ -76,8 +76,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             let im2 = UIImage(systemName: "bell", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
             let im2b = UIImage(systemName: "bell.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
             
-            let im3 = UIImage(systemName: "star", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
-            let im3b = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
+            let im3 = UIImage(systemName: "grid.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
+            let im3b = UIImage(systemName: "grid.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
             
             let im4 = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
             let im4b = UIImage(systemName: "person.crop.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.8), renderingMode: .alwaysOriginal)
