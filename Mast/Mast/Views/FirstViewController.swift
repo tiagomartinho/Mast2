@@ -173,19 +173,32 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let like = UIAction(__title: "Like".localized, image: UIImage(systemName: "star"), identifier: nil) { action in
             
         }
+        
+        let tran = UIAction(__title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
+            
+        }
         let mute = UIAction(__title: "Mute".localized, image: UIImage(systemName: "bubble.middle.bottom"), identifier: nil) { action in
             
         }
         let bloc = UIAction(__title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
             
         }
+        let dupl = UIAction(__title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+            
+        }
+        let shar = UIAction(__title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            
+        }
         let repo = UIAction(__title: "Report".localized, image: UIImage(systemName: "xmark.octagon"), identifier: nil) { action in
             
         }
-        let delete = UIAction(__title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil, options: [.destructive]) { action in
+        let delete = UIAction(__title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
             
         }
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, mute, bloc, repo delete])
+        delete.attributes = .destructive
+        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, shar, repo, delete])
+        
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, more])
     }
     
     @objc func addTapped() {
