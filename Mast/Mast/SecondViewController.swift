@@ -11,7 +11,7 @@ import UIKit
 
 class SecondViewController: UIViewController {
     
-    let segment: UISegmentedControl = UISegmentedControl(items: ["All".localized, "Mentions".localized, "Direct".localized])
+    let segment: UISegmentedControl = UISegmentedControl(items: ["Activity".localized, "Mentions".localized, "Direct".localized])
     
     override func viewDidLoad() {
         super.viewDidLoad()

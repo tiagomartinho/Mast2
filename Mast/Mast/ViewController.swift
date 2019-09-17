@@ -26,6 +26,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = UIColor(named: "baseWhite")
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
@@ -33,6 +34,9 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
         
         self.createTabBar()
+        self.tabBar.barTintColor = UIColor(named: "baseWhite")
+        self.tabBar.backgroundColor = UIColor(named: "baseWhite")
+        self.tabBar.isTranslucent = false
     }
     
     @objc func startHaptics() {
@@ -46,7 +50,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @objc func addTapped() {
-        print("added")
+        self.hapticPatternType1()
     }
     
     override func viewDidAppear(_ animated: Bool) {
