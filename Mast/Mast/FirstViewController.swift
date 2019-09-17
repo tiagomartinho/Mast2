@@ -17,6 +17,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
     var loginLabel = UILabel()
     var textField = PaddedTextField()
     var safariVC: SFSafariViewController?
+    let segment: UISegmentedControl = UISegmentedControl(items: ["Home".localized, "Local".localized, "All".localized])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
         if UserDefaults.standard.object(forKey: "returnedText") == nil {} else {
             GlobalStruct.returnedText = UserDefaults.standard.object(forKey: "returnedText") as! String
         }
+        
+        // Segmented control
+        self.segment.frame = CGRect(x: 15, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
+        self.segment.selectedSegmentIndex = 0
+        self.view.addSubview(self.segment)
         
         // Log in
         if UserDefaults.standard.object(forKey: "accessToken") == nil {
