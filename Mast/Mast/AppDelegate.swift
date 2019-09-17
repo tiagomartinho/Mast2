@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().backgroundColor = UIColor(named: "baseWhite")
         UINavigationBar.appearance().barTintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().tintColor = UIColor(named: "baseBlack")
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")]
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         return true
     }
     

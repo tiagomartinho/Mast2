@@ -42,14 +42,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         
-        do {
+//        do {
 //            StoreStruct.currentUser = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)use.json", from: .documents, as: Account.self)
 //            StoreStruct.statusesHome = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)home.json", from: .documents, as: [Status].self)
 //            StoreStruct.statusesLocal = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)local.json", from: .documents, as: [Status].self)
 //            StoreStruct.statusesFederated = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)fed.json", from: .documents, as: [Status].self)
-        } catch {
-            print("Couldn't load")
-        }
+//        } catch {
+//            print("Couldn't load")
+//        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
