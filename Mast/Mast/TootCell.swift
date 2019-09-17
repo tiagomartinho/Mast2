@@ -27,18 +27,20 @@ class TootCell: UITableViewCell {
         title.translatesAutoresizingMaskIntoConstraints = false
         title.textColor = UIColor(named: "baseBlack")
         title.textAlignment = .natural
-        title.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        title.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         title.isUserInteractionEnabled = false
         title.numberOfLines = 3
         title.adjustsFontForContentSizeCategory = true
+        title.numberOfLines = 0
         contentView.addSubview(title)
         
         title2.translatesAutoresizingMaskIntoConstraints = false
         title2.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.5)
         title2.textAlignment = .natural
-        title2.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+        title2.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         title2.isUserInteractionEnabled = false
         title2.adjustsFontForContentSizeCategory = true
+        title2.numberOfLines = 0
         contentView.addSubview(title2)
         
         let viewsDict = [

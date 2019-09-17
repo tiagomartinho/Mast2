@@ -67,19 +67,36 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.object(forKey: "accessToken") == nil {
             self.createLoginView()
         } else {
+            GlobalStruct.returnedText = UserDefaults.standard.object(forKey: "returnedText") as? String ?? ""
+            GlobalStruct.accessToken = UserDefaults.standard.object(forKey: "accessToken") as? String ?? ""
             GlobalStruct.client = Client(
                 baseURL: "https://\(GlobalStruct.returnedText)",
                 accessToken: GlobalStruct.accessToken
             )
+            let request2 = Accounts.currentUser()
+            GlobalStruct.client.run(request2) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        GlobalStruct.currentUser = stat
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
+                    }
+                }
+            }
+            let request = Timelines.home()
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        GlobalStruct.statusesHome = stat
+                        self.tableView.reloadData()
+                    }
+                }
+            }
         }
         
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
-//        self.tableView.dragDelegate = self
-//        self.tableView.dragInteractionEnabled = true
-//        self.tableView.dropDelegate = self
         self.tableView.separatorStyle = .none
         self.tableView.backgroundColor = UIColor.clear
         self.tableView.layer.masksToBounds = true
@@ -90,14 +107,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20
+        GlobalStruct.statusesHome.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-        cell.title.text = "Test title"
-        cell.title2.text = "Test description"
-        cell.configure()
+        
+        if GlobalStruct.statusesHome.isEmpty {} else {
+            cell.title.text = GlobalStruct.statusesHome[indexPath.row].account.username
+            cell.title2.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
+            cell.configure()
+        }
         
         cell.backgroundColor = UIColor(named: "baseWhite")
         let bgColorView = UIView()
@@ -241,8 +261,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let request = Timelines.home()
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
-                            GlobalStruct.statusesHome = stat
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refresh"), object: nil)
+                            DispatchQueue.main.async {
+                                GlobalStruct.statusesHome = stat
+                                self.tableView.reloadData()
+                            }
                         }
                     }
                 }
