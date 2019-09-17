@@ -35,7 +35,7 @@ class TootCell: UITableViewCell {
         contentView.addSubview(title)
         
         title2.translatesAutoresizingMaskIntoConstraints = false
-        title2.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.5)
+        title2.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.8)
         title2.textAlignment = .natural
         title2.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         title2.isUserInteractionEnabled = false
@@ -51,8 +51,8 @@ class TootCell: UITableViewCell {
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[containerView]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-2-[containerView]-2-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[title]-15-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[title2]-15-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[title]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[title2]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[title]-2-[title2]-10-|", options: [], metrics: nil, views: viewsDict))
     }
     

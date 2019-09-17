@@ -97,7 +97,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.separatorStyle = .none
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
         self.tableView.backgroundColor = UIColor.clear
         self.tableView.layer.masksToBounds = true
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
@@ -124,6 +125,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         bgColorView.backgroundColor = UIColor.clear
         cell.selectedBackgroundView = bgColorView
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationController?.pushViewController(DetailViewController(), animated: true)
     }
     
     @objc func addTapped() {
