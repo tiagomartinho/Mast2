@@ -20,7 +20,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Feed".localized
         self.removeTabbarItemsText()
         
@@ -52,7 +52,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
     
     func createLoginView(newInstance: Bool = false) {
         self.loginBG.frame = self.view.frame
-        self.loginBG.backgroundColor = UIColor.white
+        self.loginBG.backgroundColor = UIColor(named: "baseWhite")
         UIApplication.shared.windows.first?.addSubview(self.loginBG)
         
         self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: self.view.bounds.height/4 - 40, width: 80, height: 80)
@@ -63,15 +63,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate {
         
         self.loginLabel.frame = CGRect(x: 50, y: self.view.bounds.height/2 - 57.5, width: self.view.bounds.width - 80, height: 35)
         self.loginLabel.text = "Instance name:".localized
-        self.loginLabel.textColor = UIColor.black.withAlphaComponent(0.6)
+        self.loginLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.6)
         self.loginLabel.font = UIFont.systemFont(ofSize: 14)
         UIApplication.shared.windows.first?.addSubview(self.loginLabel)
         
         self.textField.frame = CGRect(x: 40, y: self.view.bounds.height/2 - 22.5, width: self.view.bounds.width - 80, height: 45)
-        self.textField.backgroundColor = UIColor.black.withAlphaComponent(0.04)
+        self.textField.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.04)
         self.textField.borderStyle = .none
         self.textField.layer.cornerRadius = 10
-        self.textField.textColor = UIColor.black
+        self.textField.textColor = UIColor(named: "baseBlack")
         self.textField.spellCheckingType = .no
         self.textField.returnKeyType = .done
         self.textField.autocorrectionType = .no
