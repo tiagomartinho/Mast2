@@ -89,6 +89,8 @@
 		53449DDD23294C1000A470E2 /* MediaAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D9723294C0F00A470E2 /* MediaAttachment.swift */; };
 		53449DDF23294E4900A470E2 /* GlobalStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449DDE23294E4900A470E2 /* GlobalStruct.swift */; };
 		53449DE2232A46D600A470E2 /* Disk in Frameworks */ = {isa = PBXBuildFile; productRef = 53449DE1232A46D600A470E2 /* Disk */; };
+		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
+		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +177,8 @@
 		53449D9623294C0F00A470E2 /* Payload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		53449D9723294C0F00A470E2 /* MediaAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaAttachment.swift; sourceTree = "<group>"; };
 		53449DDE23294E4900A470E2 /* GlobalStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalStruct.swift; sourceTree = "<group>"; };
+		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
+		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,7 +220,9 @@
 				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
 				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
 				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
+				5379F4102331115B00DC1F33 /* TootCell.swift */,
 				53449DDE23294E4900A470E2 /* GlobalStruct.swift */,
+				5379F4122331122100DC1F33 /* Spring.swift */,
 				53449D3623293E3600A470E2 /* Main.storyboard */,
 				53449D3923293E3700A470E2 /* Assets.xcassets */,
 				53449D3B23293E3700A470E2 /* LaunchScreen.storyboard */,
@@ -429,6 +435,7 @@
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,
 				53449DB823294C1000A470E2 /* Relationship.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
+				5379F4132331122100DC1F33 /* Spring.swift in Sources */,
 				53449D9E23294C1000A470E2 /* CharacterSet.swift in Sources */,
 				53449DCB23294C1000A470E2 /* Favourites.swift in Sources */,
 				53449DAB23294C1000A470E2 /* Attachment.swift in Sources */,
@@ -437,6 +444,7 @@
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
 				53449D9D23294C1000A470E2 /* URLComponents.swift in Sources */,
 				53449D9B23294C1000A470E2 /* Functions.swift in Sources */,
+				5379F4112331115B00DC1F33 /* TootCell.swift in Sources */,
 				53449DCE23294C1000A470E2 /* FilterToots.swift in Sources */,
 				53449D9923294C1000A470E2 /* ClientType.swift in Sources */,
 				53449DDD23294C1000A470E2 /* MediaAttachment.swift in Sources */,
