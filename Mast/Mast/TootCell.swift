@@ -61,17 +61,21 @@ class TootCell: UITableViewCell {
     }
     
     func configure() {
-        containerView.backgroundColor = UIColor.blue
+        containerView.backgroundColor = GlobalStruct.baseTint
     }
     
     func highlightCell() {
         springWithDelay(duration: 0.3, delay: 0, animations: {
+            self.title.textColor = UIColor(named: "alwaysWhite")
+            self.title2.textColor = UIColor(named: "alwaysWhite")?.withAlphaComponent(0.8)
             self.containerView.alpha = 1
         })
     }
     
     func unhighlightCell() {
         springWithDelay(duration: 0.3, delay: 0, animations: {
+            self.title.textColor = UIColor(named: "baseBlack")
+            self.title2.textColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.8)
             self.containerView.alpha = 0
         })
     }

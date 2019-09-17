@@ -128,7 +128,20 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(DetailViewController(), animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
+            cell.highlightCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
+            cell.unhighlightCell()
+        }
     }
     
     @objc func addTapped() {

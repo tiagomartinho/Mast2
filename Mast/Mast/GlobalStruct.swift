@@ -17,7 +17,7 @@ class GlobalStruct {
     static var accessToken = ""
     static var authCode = ""
     static var redirect = ""
-    static var baseTint = UIColor.blue
+    static var baseTint = UIColor(red: 123/255, green: 112/255, blue: 238/255, alpha: 1)
     
     static var statusesHome: [Status] = []
     static var currentUser: Account!
