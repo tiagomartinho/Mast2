@@ -115,8 +115,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
         
         if GlobalStruct.statusesHome.isEmpty {} else {
-            cell.title.text = GlobalStruct.statusesHome[indexPath.row].account.username
-            cell.title2.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
+            cell.username.text = GlobalStruct.statusesHome[indexPath.row].account.displayName
+            cell.usertag.text = "@\(GlobalStruct.statusesHome[indexPath.row].account.username)"
+            cell.content.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
             cell.configure()
         }
         
@@ -129,7 +130,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+        let vc = DetailViewController()
+        vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
