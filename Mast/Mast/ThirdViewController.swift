@@ -16,6 +16,19 @@ class ThirdViewController: UIViewController {
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Profile".localized
         self.removeTabbarItemsText()
+
+        // Add button
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        let btn1 = UIButton(type: .custom)
+        btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
+        let addButton = UIBarButtonItem(customView: btn1)
+        self.navigationItem.setRightBarButton(addButton, animated: true)
+    }
+    
+    @objc func addTapped() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     
     func removeTabbarItemsText() {

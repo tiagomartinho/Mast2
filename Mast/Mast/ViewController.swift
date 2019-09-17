@@ -29,7 +29,13 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
+        
         self.createTabBar()
+    }
+    
+    @objc func addTapped() {
+        print("added")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,8 +64,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             let im3 = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             let im3b = UIImage(systemName: "person.crop.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
-            let im4 = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
-            let im4b = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im4 = UIImage(systemName: "bookmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im4b = UIImage(systemName: "bookmark.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
             // Create Tab one
             self.tabOne = UINavigationController(rootViewController: self.firstView)
