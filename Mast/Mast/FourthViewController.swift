@@ -14,7 +14,7 @@ class FourthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "Bookmarked".localized
+        self.title = "Profile".localized
         self.removeTabbarItemsText()
 
         // Add button

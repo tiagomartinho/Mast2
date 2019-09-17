@@ -14,7 +14,7 @@ class ThirdViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "Profile".localized
+        self.title = "Saved".localized
         self.removeTabbarItemsText()
 
         // Add button
