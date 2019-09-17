@@ -22,7 +22,7 @@ class TootCell: UITableViewCell {
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.backgroundColor = GlobalStruct.baseTint
-        containerView.layer.cornerRadius = 8
+        containerView.layer.cornerRadius = 0
         containerView.alpha = 0
         contentView.addSubview(containerView)
         
@@ -68,8 +68,8 @@ class TootCell: UITableViewCell {
             "content" : content,
         ]
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[containerView]-12-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-2-[containerView]-2-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))

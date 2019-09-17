@@ -147,6 +147,47 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
+    func tableView(_ tableView: UITableView, willCommitMenuWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
+        animator.addCompletion {
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: {
+            nil
+        }, actionProvider: { suggestedActions in
+            return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)
+        })
+    }
+    
+    func makeContextMenu(_ status: [Status], indexPath: IndexPath) -> UIMenu {
+        let repl = UIAction(__title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
+            
+        }
+        let boos = UIAction(__title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
+            
+        }
+        let like = UIAction(__title: "Like".localized, image: UIImage(systemName: "star"), identifier: nil) { action in
+            
+        }
+        let mute = UIAction(__title: "Mute".localized, image: UIImage(systemName: "bubble.middle.bottom"), identifier: nil) { action in
+            
+        }
+        let bloc = UIAction(__title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
+            
+        }
+        let repo = UIAction(__title: "Report".localized, image: UIImage(systemName: "xmark.octagon"), identifier: nil) { action in
+            
+        }
+        let delete = UIAction(__title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil, options: [.destructive]) { action in
+            
+        }
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, mute, bloc, repo delete])
+    }
+    
     @objc func addTapped() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
