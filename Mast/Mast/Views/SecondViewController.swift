@@ -142,15 +142,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             if GlobalStruct.notificationsDirect.isEmpty {
                 self.fetchDirect()
             } else {
-                cell.username.text = GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.displayName ?? ""
-                cell.usertag.text = "@\(GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.username ?? "")"
-                cell.content.text = GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.content.stripHTML() ?? ""
-                cell.configure(GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.avatar ?? "", isUnread: GlobalStruct.notificationsDirect[indexPath.row].unread)
-                
+                cell.configure(GlobalStruct.notificationsDirect[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                
                 if indexPath.row == GlobalStruct.notificationsDirect.count - 10 {
                     self.fetchMoreNotificationsDirect()
                 }

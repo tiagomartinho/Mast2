@@ -81,10 +81,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
             if GlobalStruct.statusesHome.isEmpty {} else {
-                cell.username.text = self.pickedStatusesHome[0].account.displayName
-                cell.usertag.text = "@\(self.pickedStatusesHome[0].account.username)"
-                cell.content.text = self.pickedStatusesHome[0].content.stripHTML()
-                cell.configure(self.pickedStatusesHome[0].account.avatar)
+                cell.configure(self.pickedStatusesHome[0])
             }
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()

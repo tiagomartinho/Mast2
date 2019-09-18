@@ -15,6 +15,7 @@ class DetailCell: UITableViewCell {
     var profile = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
+    var timestamp = UILabel()
     var content = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -37,9 +38,8 @@ class DetailCell: UITableViewCell {
         username.textAlignment = .natural
         username.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         username.isUserInteractionEnabled = false
-        username.numberOfLines = 3
         username.adjustsFontForContentSizeCategory = true
-        username.numberOfLines = 0
+        username.numberOfLines = 1
         contentView.addSubview(username)
         
         usertag.translatesAutoresizingMaskIntoConstraints = false
@@ -47,10 +47,19 @@ class DetailCell: UITableViewCell {
         usertag.textAlignment = .natural
         usertag.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         usertag.isUserInteractionEnabled = false
-        usertag.numberOfLines = 3
         usertag.adjustsFontForContentSizeCategory = true
-        usertag.numberOfLines = 0
+        usertag.numberOfLines = 1
         contentView.addSubview(usertag)
+        
+        timestamp.translatesAutoresizingMaskIntoConstraints = false
+        timestamp.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+        timestamp.textAlignment = .natural
+        timestamp.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize)
+        timestamp.isUserInteractionEnabled = false
+        timestamp.adjustsFontForContentSizeCategory = true
+        timestamp.numberOfLines = 1
+        timestamp.lineBreakMode = .byTruncatingTail
+        contentView.addSubview(timestamp)
         
         content.translatesAutoresizingMaskIntoConstraints = false
         content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
@@ -61,11 +70,16 @@ class DetailCell: UITableViewCell {
         content.numberOfLines = 0
         contentView.addSubview(content)
         
+        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
         let viewsDict = [
             "containerView" : containerView,
             "profile" : profile,
             "username" : username,
             "usertag" : usertag,
+            "timestamp" : timestamp,
             "content" : content,
         ]
         
@@ -73,10 +87,11 @@ class DetailCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=5)-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[timestamp]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
     }
@@ -85,10 +100,13 @@ class DetailCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ url: String) {
+    func configure(_ stat: Status) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        
-        guard let imageURL = URL(string: url) else { return }
+        self.username.text = stat.account.displayName
+        self.usertag.text = "@\(stat.account.username)"
+        self.content.text = stat.content.stripHTML()
+        self.timestamp.text = stat.createdAt.toStringWithRelativeTime()
+        guard let imageURL = URL(string: stat.account.avatar) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)

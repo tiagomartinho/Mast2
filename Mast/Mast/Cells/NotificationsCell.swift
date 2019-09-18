@@ -18,6 +18,7 @@ class NotificationsCell: UITableViewCell {
     var title = UILabel()
     var username = UILabel()
     var usertag = UILabel()
+    var timestamp = UILabel()
     var content = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -77,6 +78,16 @@ class NotificationsCell: UITableViewCell {
         usertag.lineBreakMode = .byTruncatingTail
         contentView.addSubview(usertag)
         
+        timestamp.translatesAutoresizingMaskIntoConstraints = false
+        timestamp.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+        timestamp.textAlignment = .natural
+        timestamp.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize)
+        timestamp.isUserInteractionEnabled = false
+        timestamp.adjustsFontForContentSizeCategory = true
+        timestamp.numberOfLines = 1
+        timestamp.lineBreakMode = .byTruncatingTail
+        contentView.addSubview(timestamp)
+        
         content.translatesAutoresizingMaskIntoConstraints = false
         content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
         content.textAlignment = .natural
@@ -88,6 +99,7 @@ class NotificationsCell: UITableViewCell {
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         let viewsDict = [
             "containerView" : containerView,
@@ -97,13 +109,14 @@ class NotificationsCell: UITableViewCell {
             "title" : title,
             "username" : username,
             "usertag" : usertag,
+            "timestamp" : timestamp,
             "content" : content,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=5)-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-66-[profile2(28)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[title]-18-|", options: [], metrics: nil, views: viewsDict))
@@ -113,6 +126,7 @@ class NotificationsCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-33-[profile2(28)]-(>=5)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[timestamp]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -121,6 +135,7 @@ class NotificationsCell: UITableViewCell {
     
     func configure(_ noti: Notificationt) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
+        self.timestamp.text = noti.createdAt.toStringWithRelativeTime()
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
         if noti.type == .mention {
             self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
@@ -188,6 +203,27 @@ class NotificationsCell: UITableViewCell {
                 }
                 self.profile2.alpha = 1
                 self.profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
+            }
+        }
+        if (noti.status?.mediaAttachments.count ?? 0) > 0 {
+            if noti.type == .mention || noti.type == .reblog || noti.type == .favourite {
+                if noti.status?.mediaAttachments.count == 1 {
+                    let firstImage = noti.status?.mediaAttachments[0].url
+                } else if noti.status?.mediaAttachments.count == 2 {
+                    let firstImage = noti.status?.mediaAttachments[0].url
+                    let secondImage = noti.status?.mediaAttachments[1].url
+                } else if noti.status?.mediaAttachments.count == 3 {
+                    let firstImage = noti.status?.mediaAttachments[0].url
+                    let secondImage = noti.status?.mediaAttachments[1].url
+                    let thirdImage = noti.status?.mediaAttachments[2].url
+                } else {
+                    let firstImage = noti.status?.mediaAttachments[0].url
+                    let secondImage = noti.status?.mediaAttachments[1].url
+                    let thirdImage = noti.status?.mediaAttachments[2].url
+                    let fourthImage = noti.status?.mediaAttachments[3].url
+                }
+            } else {
+                
             }
         }
     }

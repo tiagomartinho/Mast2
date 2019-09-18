@@ -219,15 +219,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if tableView == self.tableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
             if GlobalStruct.statusesHome.isEmpty {} else {
-                cell.username.text = GlobalStruct.statusesHome[indexPath.row].account.displayName
-                cell.usertag.text = "@\(GlobalStruct.statusesHome[indexPath.row].account.username)"
-                cell.content.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
-                cell.configure(GlobalStruct.statusesHome[indexPath.row].account.avatar)
-                
+                cell.configure(GlobalStruct.statusesHome[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                
                 if indexPath.row == GlobalStruct.statusesHome.count - 10 {
                     self.fetchMoreHome()
                 }
@@ -240,15 +235,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         } else if tableView == self.tableViewL {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
             if GlobalStruct.statusesLocal.isEmpty {} else {
-                cell.username.text = GlobalStruct.statusesLocal[indexPath.row].account.displayName
-                cell.usertag.text = "@\(GlobalStruct.statusesLocal[indexPath.row].account.username)"
-                cell.content.text = GlobalStruct.statusesLocal[indexPath.row].content.stripHTML()
-                cell.configure(GlobalStruct.statusesLocal[indexPath.row].account.avatar)
-                
+                cell.configure(GlobalStruct.statusesLocal[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                
                 if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
                     self.fetchMoreLocal()
                 }
@@ -261,15 +251,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellF", for: indexPath) as! TootCell
             if GlobalStruct.statusesFed.isEmpty {} else {
-                cell.username.text = GlobalStruct.statusesFed[indexPath.row].account.displayName
-                cell.usertag.text = "@\(GlobalStruct.statusesFed[indexPath.row].account.username)"
-                cell.content.text = GlobalStruct.statusesFed[indexPath.row].content.stripHTML()
-                cell.configure(GlobalStruct.statusesFed[indexPath.row].account.avatar)
-                
+                cell.configure(GlobalStruct.statusesFed[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                
                 if indexPath.row == GlobalStruct.statusesFed.count - 10 {
                     self.fetchMoreFed()
                 }

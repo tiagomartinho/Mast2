@@ -98,6 +98,7 @@
 		5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4212332349500DC1F33 /* DetailActionsCell.swift */; };
 		5379F42423323D3100DC1F33 /* NotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42323323D3100DC1F33 /* NotificationsCell.swift */; };
 		5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42523323F8C00DC1F33 /* DirectCell.swift */; };
+		5379F428233271D800DC1F33 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F427233271D800DC1F33 /* Date.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -194,6 +195,7 @@
 		5379F4212332349500DC1F33 /* DetailActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailActionsCell.swift; sourceTree = "<group>"; };
 		5379F42323323D3100DC1F33 /* NotificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCell.swift; sourceTree = "<group>"; };
 		5379F42523323F8C00DC1F33 /* DirectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectCell.swift; sourceTree = "<group>"; };
+		5379F427233271D800DC1F33 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +349,7 @@
 				53449DDE23294E4900A470E2 /* GlobalStruct.swift */,
 				5379F4122331122100DC1F33 /* Spring.swift */,
 				5379F41423311A5700DC1F33 /* StripHTML.swift */,
+				5379F427233271D800DC1F33 /* Date.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				53449DAF23294C1000A470E2 /* Card.swift in Sources */,
 				53449DD923294C1000A470E2 /* Request.swift in Sources */,
 				5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */,
+				5379F428233271D800DC1F33 /* Date.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,

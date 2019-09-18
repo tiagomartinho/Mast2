@@ -15,6 +15,7 @@ class DirectCell: UITableViewCell {
     var profile = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
+    var timestamp = UILabel()
     var content = UILabel()
     var unread = UIView()
     
@@ -58,6 +59,16 @@ class DirectCell: UITableViewCell {
         usertag.lineBreakMode = .byTruncatingTail
         contentView.addSubview(usertag)
         
+        timestamp.translatesAutoresizingMaskIntoConstraints = false
+        timestamp.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+        timestamp.textAlignment = .natural
+        timestamp.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize)
+        timestamp.isUserInteractionEnabled = false
+        timestamp.adjustsFontForContentSizeCategory = true
+        timestamp.numberOfLines = 1
+        timestamp.lineBreakMode = .byTruncatingTail
+        contentView.addSubview(timestamp)
+        
         content.translatesAutoresizingMaskIntoConstraints = false
         content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
         content.textAlignment = .natural
@@ -69,6 +80,7 @@ class DirectCell: UITableViewCell {
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         let viewsDict = [
             "containerView" : containerView,
@@ -76,6 +88,7 @@ class DirectCell: UITableViewCell {
             "profile" : profile,
             "username" : username,
             "usertag" : usertag,
+            "timestamp" : timestamp,
             "content" : content,
         ]
         
@@ -83,29 +96,32 @@ class DirectCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[unread(10)]-9-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-81-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-81-[username]-5-[usertag]-(>=5)-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-81-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-30-[unread(10)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[timestamp]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ url: String, isUnread: Bool) {
+    func configure(_ convo: Conversation) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        
-        if isUnread {
+        if convo.unread {
             self.unread.backgroundColor = GlobalStruct.baseTint
         } else {
             self.unread.backgroundColor = UIColor.clear
         }
-        
-        guard let imageURL = URL(string: url) else { return }
+        self.username.text = convo.lastStatus?.account.displayName ?? ""
+        self.usertag.text = "@\(convo.lastStatus?.account.username ?? "")"
+        self.content.text = convo.lastStatus?.content.stripHTML() ?? ""
+        self.timestamp.text = convo.lastStatus?.createdAt.toStringWithRelativeTime() ?? ""
+        guard let imageURL = URL(string: convo.lastStatus?.account.avatar ?? "") else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)
