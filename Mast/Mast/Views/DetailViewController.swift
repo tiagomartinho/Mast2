@@ -15,6 +15,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var pickedStatusesHome: [Status] = []
     var allPrevious: [Status] = []
     var allReplies: [Status] = []
+    let detailPrev = UIButton()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -29,6 +30,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Detail".localized
         self.removeTabbarItemsText()
+        
+        // Add button
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        let btn1 = UIButton(type: .custom)
+        btn1.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn1.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
+        let addButton = UIBarButtonItem(customView: btn1)
+        self.navigationItem.setRightBarButton(addButton, animated: true)
         
         // Table
         self.tableView.register(DetailCell.self, forCellReuseIdentifier: "DetailCell")
@@ -47,14 +57,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        // Add button
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        let btn1 = UIButton(type: .custom)
-        btn1.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn1.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
-        let addButton = UIBarButtonItem(customView: btn1)
-        self.navigationItem.setRightBarButton(addButton, animated: true)
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.detailPrev.frame = CGRect(x: Int(self.view.bounds.width) - 50, y: Int(startHeight + 15), width: 30, height: 30)
+        self.detailPrev.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.2), renderingMode: .alwaysOriginal), for: .normal)
+        self.detailPrev.backgroundColor = UIColor.clear
+        self.detailPrev.alpha = 0
+        self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)
+        self.view.addSubview(self.detailPrev)
         
         self.fetchReplies()
     }
@@ -68,12 +77,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     self.allReplies = (stat.descendants)
                     self.tableView.reloadData()
                     if self.allPrevious.count == 0 {} else {
-//                        self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-//                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-//                            self.detailPrev.alpha = 1
-//                            self.detailPrev.transform = CGAffineTransform(scaleX: 1, y: 1)
-//                        }) { (completed: Bool) in
-//                        }
+                        self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.detailPrev.alpha = 1
+                            self.detailPrev.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
                         var zCount = 0
                         var zHeights: CGFloat = 0
                         for _ in self.allReplies {
@@ -91,6 +100,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                 }
             }
+        }
+    }
+    
+    @objc func didTouchDetailPrev() {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.detailPrev.alpha = 0
+            self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
         }
     }
     
