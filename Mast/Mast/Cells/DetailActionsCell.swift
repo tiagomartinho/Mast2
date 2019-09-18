@@ -38,7 +38,7 @@ class DetailActionsCell: UITableViewCell {
         
         button3.translatesAutoresizingMaskIntoConstraints = false
         button3.backgroundColor = UIColor.clear
-        button3.setImage(UIImage(systemName: "star", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button3.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button3)
         
         button4.translatesAutoresizingMaskIntoConstraints = false

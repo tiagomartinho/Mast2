@@ -227,8 +227,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let vc = FourthViewController()
         vc.isYou = false
         if self.tableView.alpha == 1 {
-            vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].status!.account
-            self.navigationController?.pushViewController(vc, animated: true)
+            if let stat = GlobalStruct.notifications[gesture.view!.tag].status {
+                vc.pickedCurrentUser = stat.account
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if self.tableView2.alpha == 1 {
             vc.pickedCurrentUser = GlobalStruct.notificationsDirect[gesture.view!.tag].lastStatus!.account
             self.navigationController?.pushViewController(vc, animated: true)

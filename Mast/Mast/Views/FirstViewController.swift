@@ -397,7 +397,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let boos = UIAction(__title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             
         }
-        let like = UIAction(__title: "Like".localized, image: UIImage(systemName: "star"), identifier: nil) { action in
+        let like = UIAction(__title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             
         }
         let shar = UIAction(__title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in

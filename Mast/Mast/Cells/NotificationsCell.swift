@@ -136,19 +136,19 @@ class NotificationsCell: UITableViewCell {
     func configure(_ noti: Notificationt) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         self.timestamp.text = noti.createdAt.toStringWithRelativeTime()
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .bold)
         if noti.type == .mention {
             self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
         } else if noti.type == .favourite {
-            self.typeOf.image = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemOrange, renderingMode: .alwaysOriginal)
+            self.typeOf.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         } else if noti.type == .reblog {
             self.typeOf.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen, renderingMode: .alwaysOriginal)
         } else if noti.type == .direct {
             self.typeOf.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black, renderingMode: .alwaysOriginal)
         } else if noti.type == .poll {
-            self.typeOf.image = UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+            self.typeOf.image = UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemTeal, renderingMode: .alwaysOriginal)
         } else if noti.type == .follow {
-            self.typeOf.image = UIImage(systemName: "person.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemRed, renderingMode: .alwaysOriginal)
+            self.typeOf.image = UIImage(systemName: "person.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPurple, renderingMode: .alwaysOriginal)
         }
         if noti.type == .follow {
             self.title.text = "New follower".localized
