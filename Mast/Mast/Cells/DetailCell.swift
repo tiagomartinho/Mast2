@@ -126,7 +126,7 @@ class DetailCell: UITableViewCell {
         numberFormatter2.numberStyle = NumberFormatter.Style.decimal
         let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: stat.reblogsCount))
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 2, weight: .bold)
         let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         let attachment = NSTextAttachment()
         attachment.image = UIImage(systemName: "star", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
@@ -137,11 +137,14 @@ class DetailCell: UITableViewCell {
         let attString = NSAttributedString(attachment: attachment)
         let attString2 = NSAttributedString(attachment: attachment2)
         let fullString = NSMutableAttributedString(string: "")
-        let spaceString = NSMutableAttributedString(string: "  ")
+        let spaceString0 = NSMutableAttributedString(string: " ")
+        let spaceString = NSMutableAttributedString(string: "   ")
         fullString.append(attString)
+        fullString.append(spaceString0)
         fullString.append(attStringNewLine)
         fullString.append(spaceString)
         fullString.append(attString2)
+        fullString.append(spaceString0)
         fullString.append(attStringNewLine2)
         self.metrics.setAttributedTitle(fullString, for: .normal)
         
