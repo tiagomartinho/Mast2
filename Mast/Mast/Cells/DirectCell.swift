@@ -16,6 +16,7 @@ class DirectCell: UITableViewCell {
     var username = UILabel()
     var usertag = UILabel()
     var content = UILabel()
+    var unread = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,6 +26,11 @@ class DirectCell: UITableViewCell {
         containerView.layer.cornerRadius = 0
         containerView.alpha = 0
         contentView.addSubview(containerView)
+        
+        unread.translatesAutoresizingMaskIntoConstraints = false
+        unread.backgroundColor = UIColor.clear
+        unread.layer.cornerRadius = 5
+        contentView.addSubview(unread)
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
@@ -66,6 +72,7 @@ class DirectCell: UITableViewCell {
         
         let viewsDict = [
             "containerView" : containerView,
+            "unread" : unread,
             "profile" : profile,
             "username" : username,
             "usertag" : usertag,
@@ -75,11 +82,12 @@ class DirectCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-5-[unread(10)]-13-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-78-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[unread(10)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
     }
@@ -88,8 +96,14 @@ class DirectCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ url: String) {
+    func configure(_ url: String, isUnread: Bool) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
+        
+        if isUnread {
+            self.unread.backgroundColor = GlobalStruct.baseTint
+        } else {
+            self.unread.backgroundColor = UIColor.clear
+        }
         
         guard let imageURL = URL(string: url) else { return }
         DispatchQueue.global().async {

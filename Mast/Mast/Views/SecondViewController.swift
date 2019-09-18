@@ -113,7 +113,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
-            if GlobalStruct.notifications.isEmpty {} else {
+            if GlobalStruct.notifications.isEmpty {
+                self.fetchNotifications()
+            } else {
                 cell.username.text = GlobalStruct.notifications[indexPath.row].status?.account.displayName ?? ""
                 cell.usertag.text = "@\(GlobalStruct.notifications[indexPath.row].status?.account.username ?? "")"
                 cell.content.text = GlobalStruct.notifications[indexPath.row].status?.content.stripHTML() ?? ""
@@ -134,11 +136,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell
-            if GlobalStruct.notificationsDirect.isEmpty {} else {
+            if GlobalStruct.notificationsDirect.isEmpty {
+                self.fetchDirect()
+            } else {
                 cell.username.text = GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.displayName ?? ""
                 cell.usertag.text = "@\(GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.username ?? "")"
                 cell.content.text = GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.content.stripHTML() ?? ""
-                cell.configure(GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.avatar ?? "")
+                cell.configure(GlobalStruct.notificationsDirect[indexPath.row].lastStatus?.account.avatar ?? "", isUnread: GlobalStruct.notificationsDirect[indexPath.row].unread)
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
@@ -153,6 +157,38 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView
             return cell
+        }
+    }
+    
+    func fetchNotifications() {
+        let request = Notifications.all(range: .default)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.notifications = stat
+                let _ = GlobalStruct.notifications.map({
+                    if $0.type == .mention {
+                        DispatchQueue.main.async {
+                            GlobalStruct.notificationsMentions.append($0)
+                            GlobalStruct.notificationsMentions = GlobalStruct.notificationsMentions.sorted(by: { $0.createdAt > $1.createdAt })
+                                self.tableView.reloadData()
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
+    func fetchDirect() {
+        let request = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                        self.tableView2.reloadData()
+                    }
+                }
+            }
         }
     }
     
