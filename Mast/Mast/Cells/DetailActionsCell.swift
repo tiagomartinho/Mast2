@@ -24,7 +24,7 @@ class DetailActionsCell: UITableViewCell {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerView)
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
         
         button1.translatesAutoresizingMaskIntoConstraints = false
         button1.backgroundColor = UIColor.clear
@@ -48,7 +48,7 @@ class DetailActionsCell: UITableViewCell {
         
         button5.translatesAutoresizingMaskIntoConstraints = false
         button5.backgroundColor = UIColor.clear
-        button5.setImage(UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button5.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button5)
         
         let viewsDict = [

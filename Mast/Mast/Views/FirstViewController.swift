@@ -423,7 +423,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
         }
         delete.attributes = .destructive
-        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, repo, delete])
+        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, repo, delete])
         
         return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
     }
