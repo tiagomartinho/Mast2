@@ -22,6 +22,11 @@ class GlobalStruct {
     static var statusesHome: [Status] = []
     static var statusesLocal: [Status] = []
     static var statusesFed: [Status] = []
+    
+    static var notifications: [Notificationt] = []
+    static var notificationsMentions: [Notificationt] = []
+    static var notificationsDirect: [Conversation] = []
+    
     static var currentUser: Account!
     
     static var medType = 0

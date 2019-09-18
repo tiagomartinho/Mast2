@@ -168,6 +168,27 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 }
             }
         }
+        
+        let request4 = Notifications.all(range: .default)
+        GlobalStruct.client.run(request4) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.notifications = stat
+                let _ = GlobalStruct.notifications.map({
+                    if $0.type == .mention {
+                        GlobalStruct.notificationsMentions.append($0)
+                        GlobalStruct.notificationsMentions = GlobalStruct.notificationsMentions.sorted(by: { $0.createdAt > $1.createdAt })
+                    }
+                })
+            }
+        }
+        let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        GlobalStruct.client.run(request5) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                }
+            }
+        }
     }
     
     @objc func changeSegment(_ segment: UISegmentedControl) {

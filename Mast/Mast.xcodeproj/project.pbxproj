@@ -96,6 +96,8 @@
 		5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41D23313CAA00DC1F33 /* TootViewController.swift */; };
 		5379F4202332346700DC1F33 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41F2332346700DC1F33 /* DetailCell.swift */; };
 		5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4212332349500DC1F33 /* DetailActionsCell.swift */; };
+		5379F42423323D3100DC1F33 /* NotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42323323D3100DC1F33 /* NotificationsCell.swift */; };
+		5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42523323F8C00DC1F33 /* DirectCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -190,6 +192,8 @@
 		5379F41D23313CAA00DC1F33 /* TootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootViewController.swift; sourceTree = "<group>"; };
 		5379F41F2332346700DC1F33 /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		5379F4212332349500DC1F33 /* DetailActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailActionsCell.swift; sourceTree = "<group>"; };
+		5379F42323323D3100DC1F33 /* NotificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCell.swift; sourceTree = "<group>"; };
+		5379F42523323F8C00DC1F33 /* DirectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +357,8 @@
 				5379F4102331115B00DC1F33 /* TootCell.swift */,
 				5379F41F2332346700DC1F33 /* DetailCell.swift */,
 				5379F4212332349500DC1F33 /* DetailActionsCell.swift */,
+				5379F42323323D3100DC1F33 /* NotificationsCell.swift */,
+				5379F42523323F8C00DC1F33 /* DirectCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -501,6 +507,7 @@
 				53449D4B23293F4100A470E2 /* FourthViewController.swift in Sources */,
 				53449DC323294C1000A470E2 /* RequestError.swift in Sources */,
 				5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */,
+				5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */,
 				53449DA223294C1000A470E2 /* String.swift in Sources */,
 				53449DD623294C1000A470E2 /* Timelines.swift in Sources */,
 				53449DAA23294C1000A470E2 /* ScheduledStatus.swift in Sources */,
@@ -514,6 +521,7 @@
 				53449D4723293F1C00A470E2 /* SecondViewController.swift in Sources */,
 				53449DB923294C1000A470E2 /* Notification.swift in Sources */,
 				53449DC523294C1000A470E2 /* Mutes.swift in Sources */,
+				5379F42423323D3100DC1F33 /* NotificationsCell.swift in Sources */,
 				53449DDC23294C1000A470E2 /* Payload.swift in Sources */,
 				53449DA623294C1000A470E2 /* Mention.swift in Sources */,
 				53449DAC23294C1000A470E2 /* Poll.swift in Sources */,
