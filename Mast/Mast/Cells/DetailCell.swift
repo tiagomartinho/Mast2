@@ -125,15 +125,25 @@ class DetailCell: UITableViewCell {
         let numberFormatter2 = NumberFormatter()
         numberFormatter2.numberStyle = NumberFormatter.Style.decimal
         let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: stat.reblogsCount))
-        var likeText = "likes".localized
-        if formattedNumber == "1" {
-            likeText = "like".localized
-        }
-        var boostText = "boosts".localized
-        if formattedNumber2 == "1" {
-            boostText = "boost".localized
-        }
-        self.metrics.setTitle("\(formattedNumber ?? "0") \(likeText) \("and".localized) \(formattedNumber2 ?? "0") \(boostText)", for: .normal)
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+        let attStringNewLine = NSMutableAttributedString(string: "\(formattedNumber ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint])
+        let attStringNewLine2 = NSMutableAttributedString(string: "\(formattedNumber2 ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint])
+        let attString = NSAttributedString(attachment: attachment)
+        let attString2 = NSAttributedString(attachment: attachment2)
+        let fullString = NSMutableAttributedString(string: "")
+        let spaceString = NSMutableAttributedString(string: "  ")
+        fullString.append(attString)
+        fullString.append(attStringNewLine)
+        fullString.append(spaceString)
+        fullString.append(attString2)
+        fullString.append(attStringNewLine2)
+        self.metrics.setAttributedTitle(fullString, for: .normal)
         
         guard let imageURL = URL(string: stat.account.avatar) else { return }
         DispatchQueue.global().async {
