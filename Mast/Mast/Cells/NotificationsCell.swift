@@ -36,16 +36,15 @@ class NotificationsCell: UITableViewCell {
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
-        profile.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.1)
+        profile.backgroundColor = UIColor(named: "baseWhite")
         profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
         
         profile2.translatesAutoresizingMaskIntoConstraints = false
         profile2.layer.cornerRadius = 15
-        profile2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.1)
+        profile2.backgroundColor = UIColor(named: "baseWhite")
         profile2.isUserInteractionEnabled = true
         profile2.layer.borderWidth = 2
-        profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
         contentView.addSubview(profile2)
         
         title.translatesAutoresizingMaskIntoConstraints = false
@@ -105,13 +104,13 @@ class NotificationsCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-72-[profile2(30)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-66-[profile2(30)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[title]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[typeOf(20)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-39-[profile2(30)]-(>=5)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-33-[profile2(30)]-(>=5)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
     }
@@ -188,6 +187,7 @@ class NotificationsCell: UITableViewCell {
                     }
                 }
                 self.profile2.alpha = 1
+                self.profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
             }
         }
     }

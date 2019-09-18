@@ -34,7 +34,7 @@ class DirectCell: UITableViewCell {
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
-        profile.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.1)
+        profile.backgroundColor = UIColor(named: "baseWhite")
         profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
         
