@@ -374,8 +374,8 @@
 				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
 				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
 				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
-				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
+				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 			);
 			path = Views;
