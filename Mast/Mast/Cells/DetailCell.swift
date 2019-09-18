@@ -138,7 +138,7 @@ class DetailCell: UITableViewCell {
         let attString2 = NSAttributedString(attachment: attachment2)
         let fullString = NSMutableAttributedString(string: "")
         let spaceString0 = NSMutableAttributedString(string: " ")
-        let spaceString = NSMutableAttributedString(string: "   ")
+        let spaceString = NSMutableAttributedString(string: "  ")
         fullString.append(attString)
         fullString.append(spaceString0)
         fullString.append(attStringNewLine)
