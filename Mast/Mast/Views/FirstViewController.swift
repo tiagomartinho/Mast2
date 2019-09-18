@@ -265,8 +265,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FourthViewController()
         vc.isYou = false
-        vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
-        self.navigationController?.pushViewController(vc, animated: true)
+        if self.tableView.alpha == 1 {
+            vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if self.tableViewL.alpha == 1 {
+            vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].account
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if self.tableViewF.alpha == 1 {
+            vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].account
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func fetchMoreHome() {
@@ -298,9 +306,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             IndexPath(row: $0, section: 0)
                         }
                         GlobalStruct.statusesLocal.append(contentsOf: stat)
-                        self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.endUpdates()
+                        self.tableViewL.beginUpdates()
+                        self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableViewL.endUpdates()
                     }
                 }
             }
@@ -317,9 +325,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             IndexPath(row: $0, section: 0)
                         }
                         GlobalStruct.statusesFed.append(contentsOf: stat)
-                        self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.endUpdates()
+                        self.tableViewF.beginUpdates()
+                        self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableViewF.endUpdates()
                     }
                 }
             }
