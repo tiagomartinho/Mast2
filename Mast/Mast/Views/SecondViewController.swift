@@ -167,10 +167,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 GlobalStruct.notifications = stat
                 let _ = GlobalStruct.notifications.map({
                     if $0.type == .mention {
+                        GlobalStruct.notificationsMentions.append($0)
+                        GlobalStruct.notificationsMentions = GlobalStruct.notificationsMentions.sorted(by: { $0.createdAt > $1.createdAt })
                         DispatchQueue.main.async {
-                            GlobalStruct.notificationsMentions.append($0)
-                            GlobalStruct.notificationsMentions = GlobalStruct.notificationsMentions.sorted(by: { $0.createdAt > $1.createdAt })
-                                self.tableView.reloadData()
+                            self.tableView.reloadData()
                         }
                     }
                 })
