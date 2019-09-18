@@ -13,6 +13,8 @@ import SafariServices
 class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()
+    var tableViewL = UITableView()
+    var tableViewF = UITableView()
     var loginBG = UIView()
     var loginLogo = UIImageView()
     var loginLabel = UILabel()
@@ -26,6 +28,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         // Table
         let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        self.tableViewL.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        self.tableViewF.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
     }
     
     override func viewDidLoad() {
@@ -52,6 +56,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         // Segmented control
         self.segment.frame = CGRect(x: 15, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
         self.segment.selectedSegmentIndex = 0
+        self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
         self.view.addSubview(self.segment)
 
         // Add button
@@ -80,8 +85,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 baseURL: "https://\(GlobalStruct.returnedText)",
                 accessToken: GlobalStruct.accessToken
             )
-            let request2 = Accounts.currentUser()
-            GlobalStruct.client.run(request2) { (statuses) in
+            let request0 = Accounts.currentUser()
+            GlobalStruct.client.run(request0) { (statuses) in
                 if let stat = (statuses.value) {
                     DispatchQueue.main.async {
                         GlobalStruct.currentUser = stat
@@ -95,6 +100,24 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     DispatchQueue.main.async {
                         GlobalStruct.statusesHome = stat
                         self.tableView.reloadData()
+                    }
+                }
+            }
+            let request2 = Timelines.public(local: true, range: .default)
+            GlobalStruct.client.run(request2) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        GlobalStruct.statusesLocal = stat
+                        self.tableViewL.reloadData()
+                    }
+                }
+            }
+            let request3 = Timelines.public(local: false, range: .default)
+            GlobalStruct.client.run(request3) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        GlobalStruct.statusesFed = stat
+                        self.tableViewF.reloadData()
                     }
                 }
             }
@@ -112,6 +135,50 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.showsVerticalScrollIndicator = true
         self.view.addSubview(self.tableView)
+        
+        self.tableViewL.register(TootCell.self, forCellReuseIdentifier: "TootCellL")
+        self.tableViewL.delegate = self
+        self.tableViewL.dataSource = self
+        self.tableViewL.separatorStyle = .singleLine
+        self.tableViewL.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
+        self.tableViewL.backgroundColor = UIColor.clear
+        self.tableViewL.layer.masksToBounds = true
+        self.tableViewL.estimatedRowHeight = UITableView.automaticDimension
+        self.tableViewL.rowHeight = UITableView.automaticDimension
+        self.tableViewL.showsVerticalScrollIndicator = true
+        self.tableViewL.alpha = 0
+        self.view.addSubview(self.tableViewL)
+        
+        self.tableViewF.register(TootCell.self, forCellReuseIdentifier: "TootCellF")
+        self.tableViewF.delegate = self
+        self.tableViewF.dataSource = self
+        self.tableViewF.separatorStyle = .singleLine
+        self.tableViewF.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
+        self.tableViewF.backgroundColor = UIColor.clear
+        self.tableViewF.layer.masksToBounds = true
+        self.tableViewF.estimatedRowHeight = UITableView.automaticDimension
+        self.tableViewF.rowHeight = UITableView.automaticDimension
+        self.tableViewF.showsVerticalScrollIndicator = true
+        self.tableViewF.alpha = 0
+        self.view.addSubview(self.tableViewF)
+    }
+    
+    @objc func changeSegment(_ segment: UISegmentedControl) {
+        if segment.selectedSegmentIndex == 0 {
+            self.tableView.alpha = 1
+            self.tableViewL.alpha = 0
+            self.tableViewF.alpha = 0
+        }
+        if segment.selectedSegmentIndex == 1 {
+            self.tableView.alpha = 0
+            self.tableViewL.alpha = 1
+            self.tableViewF.alpha = 0
+        }
+        if segment.selectedSegmentIndex == 2 {
+            self.tableView.alpha = 0
+            self.tableViewL.alpha = 0
+            self.tableViewF.alpha = 1
+        }
     }
     
     @objc func sortTapped() {
@@ -119,32 +186,80 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        GlobalStruct.statusesHome.count
+        if tableView == self.tableView {
+            return GlobalStruct.statusesHome.count
+        } else if tableView == self.tableViewL {
+            return GlobalStruct.statusesLocal.count
+        } else {
+            return GlobalStruct.statusesFed.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-        
-        if GlobalStruct.statusesHome.isEmpty {} else {
-            cell.username.text = GlobalStruct.statusesHome[indexPath.row].account.displayName
-            cell.usertag.text = "@\(GlobalStruct.statusesHome[indexPath.row].account.username)"
-            cell.content.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
-            cell.configure(GlobalStruct.statusesHome[indexPath.row].account.avatar)
-            
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-            cell.profile.tag = indexPath.row
-            cell.profile.addGestureRecognizer(tap)
-            
-            if indexPath.row == GlobalStruct.statusesHome.count - 7 {
-                self.fetchMoreHome()
+        if tableView == self.tableView {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
+            if GlobalStruct.statusesHome.isEmpty {} else {
+                cell.username.text = GlobalStruct.statusesHome[indexPath.row].account.displayName
+                cell.usertag.text = "@\(GlobalStruct.statusesHome[indexPath.row].account.username)"
+                cell.content.text = GlobalStruct.statusesHome[indexPath.row].content.stripHTML()
+                cell.configure(GlobalStruct.statusesHome[indexPath.row].account.avatar)
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                cell.profile.tag = indexPath.row
+                cell.profile.addGestureRecognizer(tap)
+                
+                if indexPath.row == GlobalStruct.statusesHome.count - 10 {
+                    self.fetchMoreHome()
+                }
             }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        } else if tableView == self.tableViewL {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
+            if GlobalStruct.statusesLocal.isEmpty {} else {
+                cell.username.text = GlobalStruct.statusesLocal[indexPath.row].account.displayName
+                cell.usertag.text = "@\(GlobalStruct.statusesLocal[indexPath.row].account.username)"
+                cell.content.text = GlobalStruct.statusesLocal[indexPath.row].content.stripHTML()
+                cell.configure(GlobalStruct.statusesLocal[indexPath.row].account.avatar)
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                cell.profile.tag = indexPath.row
+                cell.profile.addGestureRecognizer(tap)
+                
+                if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
+                    self.fetchMoreLocal()
+                }
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellF", for: indexPath) as! TootCell
+            if GlobalStruct.statusesFed.isEmpty {} else {
+                cell.username.text = GlobalStruct.statusesFed[indexPath.row].account.displayName
+                cell.usertag.text = "@\(GlobalStruct.statusesFed[indexPath.row].account.username)"
+                cell.content.text = GlobalStruct.statusesFed[indexPath.row].content.stripHTML()
+                cell.configure(GlobalStruct.statusesFed[indexPath.row].account.avatar)
+                
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                cell.profile.tag = indexPath.row
+                cell.profile.addGestureRecognizer(tap)
+                
+                if indexPath.row == GlobalStruct.statusesFed.count - 10 {
+                    self.fetchMoreFed()
+                }
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         }
-        
-        cell.backgroundColor = UIColor(named: "baseWhite")
-        let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor.clear
-        cell.selectedBackgroundView = bgColorView
-        return cell
     }
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
@@ -173,21 +288,69 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
+    func fetchMoreLocal() {
+        let request = Timelines.public(local: true, range: .max(id: GlobalStruct.statusesLocal.last?.id ?? "", limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = ((GlobalStruct.statusesLocal.count)..<(GlobalStruct.statusesLocal.count + stat.count)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        GlobalStruct.statusesLocal.append(contentsOf: stat)
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableView.endUpdates()
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchMoreFed() {
+        let request = Timelines.public(local: false, range: .max(id: GlobalStruct.statusesFed.last?.id ?? "", limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = ((GlobalStruct.statusesFed.count)..<(GlobalStruct.statusesFed.count + stat.count)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        GlobalStruct.statusesFed.append(contentsOf: stat)
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableView.endUpdates()
+                    }
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        let vc = DetailViewController()
-        vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
-        self.navigationController?.pushViewController(vc, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        if tableView == self.tableView {
+            let vc = DetailViewController()
+            vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if tableView == self.tableViewL {
+            let vc = DetailViewController()
+            vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row]]
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = DetailViewController()
+            vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row]]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
+        if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
             cell.highlightCell()
         }
     }
     
     func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-        if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
+        if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
             cell.unhighlightCell()
         }
     }
@@ -204,7 +367,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         return UIContextMenuConfiguration(identifier: nil, previewProvider: {
             nil
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)
+            if tableView == self.tableView {
+                return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)
+            } else if tableView == self.tableViewL {
+                return self.makeContextMenu([GlobalStruct.statusesLocal[indexPath.row]], indexPath: indexPath)
+            } else {
+                return self.makeContextMenu([GlobalStruct.statusesFed[indexPath.row]], indexPath: indexPath)
+            }
         })
     }
     
@@ -369,8 +538,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     UserDefaults.standard.set(GlobalStruct.accessToken, forKey: "accessToken")
                     UserDefaults.standard.set(GlobalStruct.returnedText, forKey: "returnedText")
                     
-                    let request2 = Accounts.currentUser()
-                    GlobalStruct.client.run(request2) { (statuses) in
+                    let request0 = Accounts.currentUser()
+                    GlobalStruct.client.run(request0) { (statuses) in
                         if let stat = (statuses.value) {
                             DispatchQueue.main.async {
                                 GlobalStruct.currentUser = stat
@@ -384,6 +553,24 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             DispatchQueue.main.async {
                                 GlobalStruct.statusesHome = stat
                                 self.tableView.reloadData()
+                            }
+                        }
+                    }
+                    let request2 = Timelines.public(local: true, range: .default)
+                    GlobalStruct.client.run(request2) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                GlobalStruct.statusesLocal = stat
+                                self.tableViewL.reloadData()
+                            }
+                        }
+                    }
+                    let request3 = Timelines.public(local: false, range: .default)
+                    GlobalStruct.client.run(request3) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                GlobalStruct.statusesFed = stat
+                                self.tableViewF.reloadData()
                             }
                         }
                     }
