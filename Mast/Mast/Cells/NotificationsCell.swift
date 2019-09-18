@@ -12,6 +12,7 @@ import UIKit
 class NotificationsCell: UITableViewCell {
     
     var containerView = UIView()
+    var typeOf = UIImageView()
     var profile = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
@@ -25,6 +26,11 @@ class NotificationsCell: UITableViewCell {
         containerView.layer.cornerRadius = 0
         containerView.alpha = 0
         contentView.addSubview(containerView)
+        
+        typeOf.translatesAutoresizingMaskIntoConstraints = false
+        typeOf.backgroundColor = UIColor.clear
+        typeOf.contentMode = .scaleAspectFit
+        contentView.addSubview(typeOf)
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
@@ -66,6 +72,7 @@ class NotificationsCell: UITableViewCell {
         
         let viewsDict = [
             "containerView" : containerView,
+            "typeOf" : typeOf,
             "profile" : profile,
             "username" : username,
             "usertag" : usertag,
@@ -75,10 +82,10 @@ class NotificationsCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[typeOf(20)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
@@ -90,7 +97,20 @@ class NotificationsCell: UITableViewCell {
     
     func configure(_ noti: Notificationt) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        if noti.type == .favourite {
+            self.typeOf.image = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemOrange, renderingMode: .alwaysOriginal)
+        } else if noti.type == .reblog {
+            self.typeOf.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen, renderingMode: .alwaysOriginal)
+        } else if noti.type == .mention {
+            self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
+        } else if noti.type == .direct {
+            self.typeOf.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.black, renderingMode: .alwaysOriginal)
+        } else if noti.type == .follow {
+            self.typeOf.image = UIImage(systemName: "person.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemRed, renderingMode: .alwaysOriginal)
+        } else if noti.type == .poll {
+            self.typeOf.image = UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        }
         self.username.text = noti.status?.account.displayName ?? ""
         self.usertag.text = "@\(noti.status?.account.username ?? "")"
         self.content.text = noti.status?.content.stripHTML() ?? ""
