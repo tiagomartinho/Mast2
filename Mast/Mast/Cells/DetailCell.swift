@@ -126,10 +126,10 @@ class DetailCell: UITableViewCell {
         numberFormatter2.numberStyle = NumberFormatter.Style.decimal
         let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: stat.reblogsCount))
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .regular)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
         let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+        attachment.image = UIImage(systemName: "star", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
         let attachment2 = NSTextAttachment()
         attachment2.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
         let attStringNewLine = NSMutableAttributedString(string: "\(formattedNumber ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint])
