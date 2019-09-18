@@ -134,6 +134,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
             cell.profile.tag = indexPath.row
             cell.profile.addGestureRecognizer(tap)
+            
+            if indexPath.row == GlobalStruct.statusesHome.count - 7 {
+                self.fetchMoreHome()
+            }
         }
         
         cell.backgroundColor = UIColor(named: "baseWhite")
@@ -148,6 +152,25 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         vc.isYou = false
         vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func fetchMoreHome() {
+        let request = Timelines.home(range: .max(id: GlobalStruct.statusesHome.last?.id ?? "", limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = ((GlobalStruct.statusesHome.count)..<(GlobalStruct.statusesHome.count + stat.count)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        GlobalStruct.statusesHome.append(contentsOf: stat)
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableView.endUpdates()
+                    }
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
