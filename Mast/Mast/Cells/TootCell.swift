@@ -37,9 +37,9 @@ class TootCell: UITableViewCell {
         username.textAlignment = .natural
         username.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         username.isUserInteractionEnabled = false
-        username.numberOfLines = 3
         username.adjustsFontForContentSizeCategory = true
-        username.numberOfLines = 0
+        username.numberOfLines = 1
+        username.lineBreakMode = .byTruncatingTail
         contentView.addSubview(username)
         
         usertag.translatesAutoresizingMaskIntoConstraints = false
@@ -47,9 +47,9 @@ class TootCell: UITableViewCell {
         usertag.textAlignment = .natural
         usertag.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         usertag.isUserInteractionEnabled = false
-        usertag.numberOfLines = 3
         usertag.adjustsFontForContentSizeCategory = true
-        usertag.numberOfLines = 0
+        usertag.numberOfLines = 1
+        usertag.lineBreakMode = .byTruncatingTail
         contentView.addSubview(usertag)
         
         content.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +60,9 @@ class TootCell: UITableViewCell {
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
         contentView.addSubview(content)
+        
+        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         let viewsDict = [
             "containerView" : containerView,
