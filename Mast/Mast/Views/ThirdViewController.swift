@@ -35,8 +35,7 @@ class ThirdViewController: UIViewController {
     }
     
     @objc func settingsTapped() {
-        let vc = SettingsViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.show(UINavigationController(rootViewController: SettingsViewController()), sender: self)
     }
     
     @objc func addTapped() {
