@@ -88,10 +88,13 @@ class NotificationsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ url: String) {
+    func configure(_ noti: Notificationt) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         
-        guard let imageURL = URL(string: url) else { return }
+        self.username.text = noti.status?.account.displayName ?? ""
+        self.usertag.text = "@\(noti.status?.account.username ?? "")"
+        self.content.text = noti.status?.content.stripHTML() ?? ""
+        guard let imageURL = URL(string: noti.status?.account.avatar ?? "") else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)

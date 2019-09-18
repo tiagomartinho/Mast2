@@ -116,10 +116,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             if GlobalStruct.notifications.isEmpty {
                 self.fetchNotifications()
             } else {
-                cell.username.text = GlobalStruct.notifications[indexPath.row].status?.account.displayName ?? ""
-                cell.usertag.text = "@\(GlobalStruct.notifications[indexPath.row].status?.account.username ?? "")"
-                cell.content.text = GlobalStruct.notifications[indexPath.row].status?.content.stripHTML() ?? ""
-                cell.configure(GlobalStruct.notifications[indexPath.row].status?.account.avatar ?? "")
+                cell.configure(GlobalStruct.notifications[indexPath.row])
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
@@ -164,16 +161,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let request = Notifications.all(range: .default)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
-                GlobalStruct.notifications = stat
-                let _ = GlobalStruct.notifications.map({
-                    if $0.type == .mention {
-                        GlobalStruct.notificationsMentions.append($0)
-                        GlobalStruct.notificationsMentions = GlobalStruct.notificationsMentions.sorted(by: { $0.createdAt > $1.createdAt })
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                })
+                DispatchQueue.main.async {
+                    GlobalStruct.notifications = stat
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -182,11 +173,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let request = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
-                    DispatchQueue.main.async {
-                        GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
-                        self.tableView2.reloadData()
-                    }
+                DispatchQueue.main.async {
+                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    self.tableView2.reloadData()
                 }
             }
         }
