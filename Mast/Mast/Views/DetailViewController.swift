@@ -58,9 +58,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.view.addSubview(self.tableView)
         
         let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
-        self.detailPrev.frame = CGRect(x: Int(self.view.bounds.width) - 50, y: Int(startHeight + 15), width: 30, height: 30)
-        self.detailPrev.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.2), renderingMode: .alwaysOriginal), for: .normal)
-        self.detailPrev.backgroundColor = UIColor.clear
+        let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
+        self.detailPrev.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        self.detailPrev.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+        self.detailPrev.backgroundColor = UIColor(named: "baseWhite")
+        self.detailPrev.layer.cornerRadius = 19
         self.detailPrev.alpha = 0
         self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)
         self.view.addSubview(self.detailPrev)
@@ -105,6 +107,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func didTouchDetailPrev() {
         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.detailPrev.alpha = 0
+            self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
             self.detailPrev.alpha = 0
             self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
