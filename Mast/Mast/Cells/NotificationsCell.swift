@@ -207,21 +207,21 @@ class NotificationsCell: UITableViewCell {
         }
         if (noti.status?.mediaAttachments.count ?? 0) > 0 {
             if noti.type == .mention || noti.type == .reblog || noti.type == .favourite {
-                if noti.status?.mediaAttachments.count == 1 {
-                    let firstImage = noti.status?.mediaAttachments[0].url
-                } else if noti.status?.mediaAttachments.count == 2 {
-                    let firstImage = noti.status?.mediaAttachments[0].url
-                    let secondImage = noti.status?.mediaAttachments[1].url
-                } else if noti.status?.mediaAttachments.count == 3 {
-                    let firstImage = noti.status?.mediaAttachments[0].url
-                    let secondImage = noti.status?.mediaAttachments[1].url
-                    let thirdImage = noti.status?.mediaAttachments[2].url
-                } else {
-                    let firstImage = noti.status?.mediaAttachments[0].url
-                    let secondImage = noti.status?.mediaAttachments[1].url
-                    let thirdImage = noti.status?.mediaAttachments[2].url
-                    let fourthImage = noti.status?.mediaAttachments[3].url
-                }
+//                if noti.status?.mediaAttachments.count == 1 {
+//                    let firstImage = noti.status?.mediaAttachments[0].url
+//                } else if noti.status?.mediaAttachments.count == 2 {
+//                    let firstImage = noti.status?.mediaAttachments[0].url
+//                    let secondImage = noti.status?.mediaAttachments[1].url
+//                } else if noti.status?.mediaAttachments.count == 3 {
+//                    let firstImage = noti.status?.mediaAttachments[0].url
+//                    let secondImage = noti.status?.mediaAttachments[1].url
+//                    let thirdImage = noti.status?.mediaAttachments[2].url
+//                } else {
+//                    let firstImage = noti.status?.mediaAttachments[0].url
+//                    let secondImage = noti.status?.mediaAttachments[1].url
+//                    let thirdImage = noti.status?.mediaAttachments[2].url
+//                    let fourthImage = noti.status?.mediaAttachments[3].url
+//                }
             } else {
                 
             }

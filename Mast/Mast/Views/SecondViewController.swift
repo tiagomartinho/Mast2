@@ -46,9 +46,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.navigationItem.setRightBarButton(addButton, animated: true)
         
         let btn2 = UIButton(type: .custom)
-        btn2.setImage(UIImage(systemName: "chart.pie", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn2.addTarget(self, action: #selector(self.chartTapped), for: .touchUpInside)
+        btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
@@ -96,7 +96,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    @objc func chartTapped() {
+    @objc func sortTapped() {
         
     }
     
@@ -128,6 +128,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
+                let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                cell.profile2.tag = indexPath.row
+                cell.profile2.addGestureRecognizer(tap2)
                 if indexPath.row == GlobalStruct.notifications.count - 10 {
                     self.fetchMoreNotifications()
                 }
@@ -232,8 +235,31 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
+        let vc = FourthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if tableView == self.tableView {
+            if GlobalStruct.notifications[indexPath.row].type == .direct {
+                
+            } else if GlobalStruct.notifications[indexPath.row].type == .follow {
+                let vc = FourthViewController()
+                vc.isYou = false
+                vc.pickedCurrentUser = GlobalStruct.notifications[indexPath.row].account
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = DetailViewController()
+                vc.pickedStatusesHome = [GlobalStruct.notifications[indexPath.row].status!]
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        } else {
+            
+        }
     }
     
     func removeTabbarItemsText() {
