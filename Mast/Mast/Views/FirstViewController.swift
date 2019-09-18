@@ -85,42 +85,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 baseURL: "https://\(GlobalStruct.returnedText)",
                 accessToken: GlobalStruct.accessToken
             )
-            let request0 = Accounts.currentUser()
-            GlobalStruct.client.run(request0) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        GlobalStruct.currentUser = stat
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
-                    }
-                }
-            }
-            let request = Timelines.home()
-            GlobalStruct.client.run(request) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        GlobalStruct.statusesHome = stat
-                        self.tableView.reloadData()
-                    }
-                }
-            }
-            let request2 = Timelines.public(local: true, range: .default)
-            GlobalStruct.client.run(request2) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        GlobalStruct.statusesLocal = stat
-                        self.tableViewL.reloadData()
-                    }
-                }
-            }
-            let request3 = Timelines.public(local: false, range: .default)
-            GlobalStruct.client.run(request3) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        GlobalStruct.statusesFed = stat
-                        self.tableViewF.reloadData()
-                    }
-                }
-            }
+            self.initialFetches()
         }
         
         // Table
@@ -161,6 +126,45 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.showsVerticalScrollIndicator = true
         self.tableViewF.alpha = 0
         self.view.addSubview(self.tableViewF)
+    }
+    
+    func initialFetches() {
+        let request0 = Accounts.currentUser()
+        GlobalStruct.client.run(request0) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.currentUser = stat
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
+                }
+            }
+        }
+        let request = Timelines.home()
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.statusesHome = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        let request2 = Timelines.public(local: true, range: .default)
+        GlobalStruct.client.run(request2) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.statusesLocal = stat
+                    self.tableViewL.reloadData()
+                }
+            }
+        }
+        let request3 = Timelines.public(local: false, range: .default)
+        GlobalStruct.client.run(request3) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.statusesFed = stat
+                    self.tableViewF.reloadData()
+                }
+            }
+        }
     }
     
     @objc func changeSegment(_ segment: UISegmentedControl) {
@@ -546,42 +550,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     UserDefaults.standard.set(GlobalStruct.accessToken, forKey: "accessToken")
                     UserDefaults.standard.set(GlobalStruct.returnedText, forKey: "returnedText")
                     
-                    let request0 = Accounts.currentUser()
-                    GlobalStruct.client.run(request0) { (statuses) in
-                        if let stat = (statuses.value) {
-                            DispatchQueue.main.async {
-                                GlobalStruct.currentUser = stat
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
-                            }
-                        }
-                    }
-                    let request = Timelines.home()
-                    GlobalStruct.client.run(request) { (statuses) in
-                        if let stat = (statuses.value) {
-                            DispatchQueue.main.async {
-                                GlobalStruct.statusesHome = stat
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
-                    let request2 = Timelines.public(local: true, range: .default)
-                    GlobalStruct.client.run(request2) { (statuses) in
-                        if let stat = (statuses.value) {
-                            DispatchQueue.main.async {
-                                GlobalStruct.statusesLocal = stat
-                                self.tableViewL.reloadData()
-                            }
-                        }
-                    }
-                    let request3 = Timelines.public(local: false, range: .default)
-                    GlobalStruct.client.run(request3) { (statuses) in
-                        if let stat = (statuses.value) {
-                            DispatchQueue.main.async {
-                                GlobalStruct.statusesFed = stat
-                                self.tableViewF.reloadData()
-                            }
-                        }
-                    }
+                    self.initialFetches()
                 }
             } catch let error {
                 print(error.localizedDescription)
