@@ -114,16 +114,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-            
-            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
             if GlobalStruct.notifications.isEmpty {
                 self.fetchNotifications()
-                let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
-                cell.backgroundColor = UIColor(named: "baseWhite")
-                let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor.clear
-                cell.selectedBackgroundView = bgColorView
-                return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
                 cell.configure(GlobalStruct.notifications[indexPath.row])
@@ -133,14 +126,12 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 if indexPath.row == GlobalStruct.notifications.count - 10 {
                     self.fetchMoreNotifications()
                 }
-                cell.backgroundColor = UIColor(named: "baseWhite")
-                let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor.clear
-                cell.selectedBackgroundView = bgColorView
-                return cell
             }
-            
-            
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell
             if GlobalStruct.notificationsDirect.isEmpty {
