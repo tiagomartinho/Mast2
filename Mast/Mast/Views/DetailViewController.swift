@@ -43,8 +43,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Table
         self.tableView.register(DetailCell.self, forCellReuseIdentifier: "DetailCell")
         self.tableView.register(DetailActionsCell.self, forCellReuseIdentifier: "DetailActionsCell")
-        self.tableView.register(DetailCell.self, forCellReuseIdentifier: "PrevCell")
-        self.tableView.register(DetailCell.self, forCellReuseIdentifier: "RepliesCell")
+        self.tableView.register(TootCell.self, forCellReuseIdentifier: "PrevCell")
+        self.tableView.register(TootCell.self, forCellReuseIdentifier: "RepliesCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -152,7 +152,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PrevCell", for: indexPath) as! DetailCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PrevCell", for: indexPath) as! TootCell
             if self.allPrevious.isEmpty {} else {
                 cell.configure(self.allPrevious[indexPath.row])
             }
@@ -179,7 +179,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.selectedBackgroundView = bgColorView
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesCell", for: indexPath) as! DetailCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesCell", for: indexPath) as! TootCell
             if self.allReplies.isEmpty {} else {
                 cell.configure(self.allReplies[indexPath.row])
             }

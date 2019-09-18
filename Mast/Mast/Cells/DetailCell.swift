@@ -15,6 +15,7 @@ class DetailCell: UITableViewCell {
     var profile = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
+    var metrics = UIButton()
     var timestamp = UILabel()
     var content = UILabel()
     
@@ -51,10 +52,19 @@ class DetailCell: UITableViewCell {
         usertag.numberOfLines = 1
         contentView.addSubview(usertag)
         
+        metrics.translatesAutoresizingMaskIntoConstraints = false
+        metrics.setTitleColor(GlobalStruct.baseTint, for: .normal)
+        metrics.contentHorizontalAlignment = .leading
+        metrics.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        metrics.titleLabel?.adjustsFontForContentSizeCategory = true
+        metrics.titleLabel?.numberOfLines = 1
+        metrics.titleLabel?.lineBreakMode = .byTruncatingTail
+        contentView.addSubview(metrics)
+        
         timestamp.translatesAutoresizingMaskIntoConstraints = false
         timestamp.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
         timestamp.textAlignment = .natural
-        timestamp.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize)
+        timestamp.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
         timestamp.isUserInteractionEnabled = false
         timestamp.adjustsFontForContentSizeCategory = true
         timestamp.numberOfLines = 1
@@ -79,6 +89,7 @@ class DetailCell: UITableViewCell {
             "profile" : profile,
             "username" : username,
             "usertag" : usertag,
+            "metrics" : metrics,
             "timestamp" : timestamp,
             "content" : content,
         ]
@@ -89,11 +100,12 @@ class DetailCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[metrics]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-8-[timestamp]-15-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-8-[timestamp]-15-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-5-[metrics]-3-[timestamp]-15-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-5-[metrics]-3-[timestamp]-15-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -106,6 +118,23 @@ class DetailCell: UITableViewCell {
         self.usertag.text = "@\(stat.account.username)"
         self.content.text = stat.content.stripHTML()
         self.timestamp.text = stat.createdAt.toString(dateStyle: .medium, timeStyle: .medium)
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: stat.favouritesCount))
+        let numberFormatter2 = NumberFormatter()
+        numberFormatter2.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: stat.reblogsCount))
+        var likeText = "likes".localized
+        if formattedNumber == "1" {
+            likeText = "like".localized
+        }
+        var boostText = "boosts".localized
+        if formattedNumber2 == "1" {
+            boostText = "boost".localized
+        }
+        self.metrics.setTitle("\(formattedNumber ?? "0") \(likeText) \("and".localized) \(formattedNumber2 ?? "0") \(boostText)", for: .normal)
+        
         guard let imageURL = URL(string: stat.account.avatar) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
