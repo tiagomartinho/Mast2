@@ -99,6 +99,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
         self.tableViewL.register(TootCell.self, forCellReuseIdentifier: "TootCellL")
@@ -111,6 +112,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewL.estimatedRowHeight = UITableView.automaticDimension
         self.tableViewL.rowHeight = UITableView.automaticDimension
         self.tableViewL.showsVerticalScrollIndicator = true
+        self.tableViewL.tableFooterView = UIView()
         self.tableViewL.alpha = 0
         self.view.addSubview(self.tableViewL)
         
@@ -124,6 +126,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.estimatedRowHeight = UITableView.automaticDimension
         self.tableViewF.rowHeight = UITableView.automaticDimension
         self.tableViewF.showsVerticalScrollIndicator = true
+        self.tableViewF.tableFooterView = UIView()
         self.tableViewF.alpha = 0
         self.view.addSubview(self.tableViewF)
     }

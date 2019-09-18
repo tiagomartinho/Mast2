@@ -29,7 +29,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.removeTabbarItemsText()
         
         // Table
-        self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
+        self.tableView.register(DetailCell.self, forCellReuseIdentifier: "DetailCell")
+        self.tableView.register(DetailActionsCell.self, forCellReuseIdentifier: "DetailActionsCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -39,6 +40,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
         // Add button
@@ -63,25 +65,40 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        if section == 0 {
+            return 1
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-        
-        if GlobalStruct.statusesHome.isEmpty {} else {
-            cell.username.text = self.pickedStatusesHome[0].account.displayName
-            cell.usertag.text = "@\(self.pickedStatusesHome[0].account.username)"
-            cell.content.text = self.pickedStatusesHome[0].content.stripHTML()
-            cell.configure(self.pickedStatusesHome[0].account.avatar)
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
+            if GlobalStruct.statusesHome.isEmpty {} else {
+                cell.username.text = self.pickedStatusesHome[0].account.displayName
+                cell.usertag.text = "@\(self.pickedStatusesHome[0].account.username)"
+                cell.content.text = self.pickedStatusesHome[0].content.stripHTML()
+                cell.configure(self.pickedStatusesHome[0].account.avatar)
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailActionsCell", for: indexPath) as! DetailActionsCell
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         }
-        
-        cell.backgroundColor = UIColor(named: "baseWhite")
-        let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor.clear
-        cell.selectedBackgroundView = bgColorView
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

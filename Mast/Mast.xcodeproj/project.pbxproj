@@ -94,6 +94,8 @@
 		5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41623311BDC00DC1F33 /* DetailViewController.swift */; };
 		5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41B23313B1700DC1F33 /* SettingsViewController.swift */; };
 		5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41D23313CAA00DC1F33 /* TootViewController.swift */; };
+		5379F4202332346700DC1F33 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41F2332346700DC1F33 /* DetailCell.swift */; };
+		5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4212332349500DC1F33 /* DetailActionsCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -186,6 +188,8 @@
 		5379F41623311BDC00DC1F33 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		5379F41B23313B1700DC1F33 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		5379F41D23313CAA00DC1F33 /* TootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootViewController.swift; sourceTree = "<group>"; };
+		5379F41F2332346700DC1F33 /* DetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		5379F4212332349500DC1F33 /* DetailActionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailActionsCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +351,8 @@
 			isa = PBXGroup;
 			children = (
 				5379F4102331115B00DC1F33 /* TootCell.swift */,
+				5379F41F2332346700DC1F33 /* DetailCell.swift */,
+				5379F4212332349500DC1F33 /* DetailActionsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,
+				5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */,
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,
 				53449DB823294C1000A470E2 /* Relationship.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
@@ -521,6 +528,7 @@
 				53449DA023294C1000A470E2 /* Data.swift in Sources */,
 				53449DC623294C1000A470E2 /* Instances.swift in Sources */,
 				53449DB723294C1000A470E2 /* Instance.swift in Sources */,
+				5379F4202332346700DC1F33 /* DetailCell.swift in Sources */,
 				53449DBD23294C1000A470E2 /* HashType.swift in Sources */,
 				53449DCC23294C1000A470E2 /* Blocks.swift in Sources */,
 				53449DCA23294C1000A470E2 /* Polls.swift in Sources */,
