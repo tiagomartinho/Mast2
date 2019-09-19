@@ -15,7 +15,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isYou = true
     var pickedCurrentUser: Account!
     var profileStatusesImages: [Status] = []
-    let segment: UISegmentedControl = UISegmentedControl(items: ["All".localized, "More".localized])
     var profileStatuses: [Status] = []
     
     override func viewDidLayoutSubviews() {
@@ -57,6 +56,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
         self.tableView.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
+        self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell2")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -117,38 +117,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 2 {
-            return segment.bounds.height + 10
-        } else {
-            return 0
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 2 {
-            let vw = UIView()
-            vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: segment.bounds.height + 10)
-            vw.backgroundColor = UIColor(named: "baseWhite")
-            self.segment.frame = CGRect(x: 15, y: 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
-            self.segment.selectedSegmentIndex = 0
-            self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
-            vw.addSubview(self.segment)
-            return vw
-        } else {
-            return nil
-        }
-    }
-    
-    @objc func changeSegment(_ segment: UISegmentedControl) {
-        if segment.selectedSegmentIndex == 0 {
-            
-        }
-        if segment.selectedSegmentIndex == 1 {
-            
-        }
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
@@ -181,7 +149,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if GlobalStruct.statusesHome.isEmpty {
+            if self.profileStatuses.isEmpty {
                 self.fetchUserData()
             } else {
                 cell.configure(self.profileStatuses[indexPath.row])
