@@ -268,7 +268,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
-        let vc = FourthViewController()
+        let vc = FifthViewController()
         vc.isYou = false
         if self.tableView.alpha == 1 {
             vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account

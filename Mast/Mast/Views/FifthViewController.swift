@@ -1,5 +1,5 @@
 //
-//  FourthViewController.swift
+//  FifthViewController.swift
 //  Mast
 //
 //  Created by Shihab Mehboob on 11/09/2019.
@@ -9,12 +9,15 @@
 import Foundation
 import UIKit
 
-class FourthViewController: UIViewController {
+class FifthViewController: UIViewController {
+    
+    var isYou = true
+    var pickedCurrentUser: Account!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "Explore".localized
+        self.title = "Profile".localized
         self.removeTabbarItemsText()
 
         // Add button
@@ -31,7 +34,9 @@ class FourthViewController: UIViewController {
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.settingsTapped), for: .touchUpInside)
         let settingsButton = UIBarButtonItem(customView: btn2)
-        self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        if self.isYou {
+            self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        }
     }
     
     @objc func settingsTapped() {

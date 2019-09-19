@@ -13,7 +13,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     var tableView = UITableView()
     var tableView2 = UITableView()
-    let segment: UISegmentedControl = UISegmentedControl(items: ["Activity".localized, "Direct".localized])
+    let segment: UISegmentedControl = UISegmentedControl(items: ["Activity".localized, "Metrics".localized])
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -108,7 +108,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         if tableView == self.tableView {
             return GlobalStruct.notifications.count
         } else {
-            return GlobalStruct.notificationsDirect.count
+            return 0
         }
     }
     
@@ -142,17 +142,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell
-            if GlobalStruct.notificationsDirect.isEmpty {
-                self.fetchDirect()
-            } else {
-                cell.configure(GlobalStruct.notificationsDirect[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == GlobalStruct.notificationsDirect.count - 10 {
-                    self.fetchMoreNotificationsDirect()
-                }
-            }
+            
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
@@ -168,18 +158,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 DispatchQueue.main.async {
                     GlobalStruct.notifications = stat
                     self.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    func fetchDirect() {
-        let request = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                DispatchQueue.main.async {
-                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
-                    self.tableView2.reloadData()
                 }
             }
         }
@@ -204,27 +182,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    func fetchMoreNotificationsDirect() {
-        let request = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
-                    DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.notificationsDirect.count)..<(GlobalStruct.notificationsDirect.count + stat.count)).map {
-                            IndexPath(row: $0, section: 0)
-                        }
-                        GlobalStruct.notificationsDirect.append(contentsOf: stat)
-                        self.tableView2.beginUpdates()
-                        self.tableView2.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView2.endUpdates()
-                    }
-                }
-            }
-        }
-    }
-    
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
-        let vc = FourthViewController()
+        let vc = FifthViewController()
         vc.isYou = false
         if self.tableView.alpha == 1 {
             if let stat = GlobalStruct.notifications[gesture.view!.tag].status {
@@ -234,14 +193,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        } else if self.tableView2.alpha == 1 {
-            vc.pickedCurrentUser = GlobalStruct.notificationsDirect[gesture.view!.tag].lastStatus!.account
-            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
-        let vc = FourthViewController()
+        let vc = FifthViewController()
         vc.isYou = false
         vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
@@ -253,7 +209,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             if GlobalStruct.notifications[indexPath.row].type == .direct {
                 
             } else if GlobalStruct.notifications[indexPath.row].type == .follow {
-                let vc = FourthViewController()
+                let vc = FifthViewController()
                 vc.isYou = false
                 vc.pickedCurrentUser = GlobalStruct.notifications[indexPath.row].account
                 self.navigationController?.pushViewController(vc, animated: true)

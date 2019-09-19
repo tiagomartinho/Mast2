@@ -15,8 +15,8 @@
 		53449D3D23293E3700A470E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3B23293E3700A470E2 /* LaunchScreen.storyboard */; };
 		53449D4523293EF900A470E2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4423293EF900A470E2 /* FirstViewController.swift */; };
 		53449D4723293F1C00A470E2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4623293F1C00A470E2 /* SecondViewController.swift */; };
-		53449D4923293F2F00A470E2 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4823293F2F00A470E2 /* ThirdViewController.swift */; };
-		53449D4B23293F4100A470E2 /* FourthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4A23293F4100A470E2 /* FourthViewController.swift */; };
+		53449D4923293F2F00A470E2 /* FourthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4823293F2F00A470E2 /* FourthViewController.swift */; };
+		53449D4B23293F4100A470E2 /* FifthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4A23293F4100A470E2 /* FifthViewController.swift */; };
 		53449D9823294C1000A470E2 /* PaginationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D4F23294C0F00A470E2 /* PaginationItem.swift */; };
 		53449D9923294C1000A470E2 /* ClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D5023294C0F00A470E2 /* ClientType.swift */; };
 		53449D9A23294C1000A470E2 /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D5123294C0F00A470E2 /* Parameter.swift */; };
@@ -99,6 +99,7 @@
 		5379F42423323D3100DC1F33 /* NotificationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42323323D3100DC1F33 /* NotificationsCell.swift */; };
 		5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42523323F8C00DC1F33 /* DirectCell.swift */; };
 		5379F428233271D800DC1F33 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F427233271D800DC1F33 /* Date.swift */; };
+		5379F42C2333751C00DC1F33 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42B2333751C00DC1F33 /* ThirdViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,8 +113,8 @@
 		53449D3E23293E3700A470E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53449D4423293EF900A470E2 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
 		53449D4623293F1C00A470E2 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		53449D4823293F2F00A470E2 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
-		53449D4A23293F4100A470E2 /* FourthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthViewController.swift; sourceTree = "<group>"; };
+		53449D4823293F2F00A470E2 /* FourthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthViewController.swift; sourceTree = "<group>"; };
+		53449D4A23293F4100A470E2 /* FifthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FifthViewController.swift; sourceTree = "<group>"; };
 		53449D4F23294C0F00A470E2 /* PaginationItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationItem.swift; sourceTree = "<group>"; };
 		53449D5023294C0F00A470E2 /* ClientType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientType.swift; sourceTree = "<group>"; };
 		53449D5123294C0F00A470E2 /* Parameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 		5379F42323323D3100DC1F33 /* NotificationsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCell.swift; sourceTree = "<group>"; };
 		5379F42523323F8C00DC1F33 /* DirectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectCell.swift; sourceTree = "<group>"; };
 		5379F427233271D800DC1F33 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		5379F42B2333751C00DC1F33 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,8 +374,9 @@
 				53449D3423293E3600A470E2 /* ViewController.swift */,
 				53449D4423293EF900A470E2 /* FirstViewController.swift */,
 				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
-				53449D4823293F2F00A470E2 /* ThirdViewController.swift */,
-				53449D4A23293F4100A470E2 /* FourthViewController.swift */,
+				5379F42B2333751C00DC1F33 /* ThirdViewController.swift */,
+				53449D4823293F2F00A470E2 /* FourthViewController.swift */,
+				53449D4A23293F4100A470E2 /* FifthViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
@@ -508,7 +511,7 @@
 				53449DBB23294C1000A470E2 /* StatusPara.swift in Sources */,
 				53449DD423294C1000A470E2 /* DomainBlocks.swift in Sources */,
 				5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */,
-				53449D4B23293F4100A470E2 /* FourthViewController.swift in Sources */,
+				53449D4B23293F4100A470E2 /* FifthViewController.swift in Sources */,
 				53449DC323294C1000A470E2 /* RequestError.swift in Sources */,
 				5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */,
 				5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */,
@@ -532,12 +535,13 @@
 				53449DBE23294C1000A470E2 /* Emoji.swift in Sources */,
 				53449DD723294C1000A470E2 /* Pagination.swift in Sources */,
 				53449DBA23294C1000A470E2 /* Application.swift in Sources */,
-				53449D4923293F2F00A470E2 /* ThirdViewController.swift in Sources */,
+				53449D4923293F2F00A470E2 /* FourthViewController.swift in Sources */,
 				53449DCD23294C1000A470E2 /* Notifications.swift in Sources */,
 				53449DD823294C1000A470E2 /* Client.swift in Sources */,
 				53449D4523293EF900A470E2 /* FirstViewController.swift in Sources */,
 				53449DC923294C1000A470E2 /* Login.swift in Sources */,
 				53449DA023294C1000A470E2 /* Data.swift in Sources */,
+				5379F42C2333751C00DC1F33 /* ThirdViewController.swift in Sources */,
 				53449DC623294C1000A470E2 /* Instances.swift in Sources */,
 				53449DB723294C1000A470E2 /* Instance.swift in Sources */,
 				5379F4202332346700DC1F33 /* DetailCell.swift in Sources */,

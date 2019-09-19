@@ -17,11 +17,13 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     var tabTwo = UINavigationController()
     var tabThree = UINavigationController()
     var tabFour = UINavigationController()
+    var tabFive = UINavigationController()
     
     var firstView = FirstViewController()
     var secondView = SecondViewController()
     var thirdView = ThirdViewController()
     var fourthView = FourthViewController()
+    var fifthView = FifthViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,11 +79,14 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             let im2 = UIImage(systemName: "bell", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
             let im2b = UIImage(systemName: "bell.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
-            let im3 = UIImage(systemName: "grid.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
-            let im3b = UIImage(systemName: "grid.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im3 = UIImage(systemName: "paperplane", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            let im3b = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
-            let im4 = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
-            let im4b = UIImage(systemName: "person.crop.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im4 = UIImage(systemName: "grid.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            let im4b = UIImage(systemName: "grid.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            
+            let im5 = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            let im5b = UIImage(systemName: "person.crop.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
             // Create Tab one
             self.tabOne = UINavigationController(rootViewController: self.firstView)
@@ -111,7 +116,14 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabFour.navigationBar.barTintColor = UIColor(named: "baseWhite")
             self.tabFour.tabBarItem.tag = 4
             
-            self.viewControllers = [self.tabOne, self.tabTwo, self.tabThree, self.tabFour]
+            // Create Tab five
+            self.tabFive = UINavigationController(rootViewController: self.fifthView)
+            self.tabFive.tabBarItem = UITabBarItem(title: "".localized, image: im5, selectedImage: im5b)
+            self.tabFive.navigationBar.backgroundColor = UIColor(named: "baseWhite")
+            self.tabFive.navigationBar.barTintColor = UIColor(named: "baseWhite")
+            self.tabFive.tabBarItem.tag = 5
+            
+            self.viewControllers = [self.tabOne, self.tabTwo, self.tabThree, self.tabFour, self.tabFive]
         }
     }
     
