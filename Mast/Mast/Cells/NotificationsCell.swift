@@ -135,8 +135,7 @@ class NotificationsCell: UITableViewCell {
     
     func configure(_ noti: Notificationt) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-//        self.timestamp.text = noti.createdAt.toStringWithRelativeTime()
-        self.timestamp.text = ""
+        self.timestamp.text = timeAgoSince(noti.createdAt)
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .bold)
         if noti.type == .mention {
             self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
