@@ -220,7 +220,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
                         self.profileStatuses = stat
-                        self.tableView.reloadData()
+                        self.tableView.reloadSections(IndexSet([2]), with: .none)
                     }
                 }
             }
@@ -240,7 +240,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
                         let indexPaths = ((self.profileStatuses.count)..<(self.profileStatuses.count + stat.count)).map {
-                            IndexPath(row: $0, section: 0)
+                            IndexPath(row: $0, section: 2)
                         }
                         self.profileStatuses.append(contentsOf: stat)
                         self.tableView.beginUpdates()
