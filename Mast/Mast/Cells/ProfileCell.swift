@@ -30,6 +30,8 @@ class ProfileCell: UITableViewCell {
         profile.layer.cornerRadius = 40
         profile.backgroundColor = UIColor(named: "baseWhite")
         profile.isUserInteractionEnabled = true
+        profile.layer.borderWidth = 2
+        profile.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
         contentView.addSubview(profile)
         
         username.translatesAutoresizingMaskIntoConstraints = false
@@ -78,8 +80,8 @@ class ProfileCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[usertag]-20-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[content]-20-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(100)]-(>=40)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-60-[profile(80)]-10-[username]-3-[usertag]-3-[content]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(140)]-(>=40)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-100-[profile(80)]-10-[username]-2-[usertag]-5-[content]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,7 +90,7 @@ class ProfileCell: UITableViewCell {
     
     func configure(_ acc: Account) {
         self.username.text = acc.displayName
-        self.usertag.text = acc.username
+        self.usertag.text = "@\(acc.username)"
         self.content.text = acc.note.stripHTML()
         guard let imageURL = URL(string: acc.avatar) else { return }
         DispatchQueue.global().async {
