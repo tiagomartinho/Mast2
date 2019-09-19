@@ -15,6 +15,8 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isYou = true
     var pickedCurrentUser: Account!
     var profileStatusesImages: [Status] = []
+    let segment: UISegmentedControl = UISegmentedControl(items: ["All".localized, "More".localized])
+    var profileStatuses: [Status] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -49,10 +51,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         self.fetchMedia()
+        self.fetchUserData()
         
         // Table
         self.tableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
         self.tableView.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
+        self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -94,11 +98,15 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if section == 2 {
+            return self.profileStatuses.count
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,6 +114,38 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             return UITableView.automaticDimension
         } else {
             return 160
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 2 {
+            return segment.bounds.height + 10
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 2 {
+            let vw = UIView()
+            vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: segment.bounds.height + 10)
+            vw.backgroundColor = UIColor(named: "baseWhite")
+            self.segment.frame = CGRect(x: 15, y: 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
+            self.segment.selectedSegmentIndex = 0
+            self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
+            vw.addSubview(self.segment)
+            return vw
+        } else {
+            return nil
+        }
+    }
+    
+    @objc func changeSegment(_ segment: UISegmentedControl) {
+        if segment.selectedSegmentIndex == 0 {
+            
+        }
+        if segment.selectedSegmentIndex == 1 {
+            
         }
     }
     
@@ -122,7 +162,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView
             return cell
-        } else {
+        } else if indexPath.section == 1 {
             if self.profileStatusesImages.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell", for: indexPath) as! ProfileImageCell
                 cell.backgroundColor = UIColor(named: "baseWhite")
@@ -138,6 +178,49 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 bgColorView.backgroundColor = UIColor(named: "baseWhite")
                 cell.selectedBackgroundView = bgColorView
                 return cell
+            }
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
+            if GlobalStruct.statusesHome.isEmpty {} else {
+                cell.configure(self.profileStatuses[indexPath.row])
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                cell.profile.tag = indexPath.row
+                cell.profile.addGestureRecognizer(tap)
+                if indexPath.row == self.profileStatuses.count - 10 {
+                    self.fetchUserData()
+                }
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        }
+    }
+    
+    @objc func viewProfile(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].account
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func fetchUserData() {
+        var theUser = GlobalStruct.currentUser.id
+        if self.isYou {
+            theUser = GlobalStruct.currentUser.id
+        } else {
+            theUser = self.pickedCurrentUser.id
+        }
+        let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        self.profileStatuses = self.profileStatuses + stat
+                        self.tableView.reloadSections(IndexSet([2]), with: .none)
+                    }
+                }
             }
         }
     }
