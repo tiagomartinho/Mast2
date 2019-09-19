@@ -14,6 +14,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var tableView = UITableView()
     var isYou = true
     var pickedCurrentUser: Account!
+    var profileStatusesImages: [Status] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -47,8 +48,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         }
         
+        self.fetchMedia()
+        
         // Table
         self.tableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
+        self.tableView.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -63,6 +67,24 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.reloadData()
     }
     
+    func fetchMedia() {
+        var theUser = GlobalStruct.currentUser.id
+        if self.isYou {
+            theUser = GlobalStruct.currentUser.id
+        } else {
+            theUser = self.pickedCurrentUser.id
+        }
+        let request = Accounts.statuses(id: theUser, mediaOnly: true, pinnedOnly: nil, excludeReplies: nil, excludeReblogs: true, range: .default)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.profileStatusesImages = stat
+                    self.tableView.reloadSections(IndexSet([1]), with: .none)
+                }
+            }
+        }
+    }
+    
     @objc func settingsTapped() {
         self.show(UINavigationController(rootViewController: SettingsViewController()), sender: self)
     }
@@ -72,25 +94,52 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
-        if self.isYou {
-            cell.configure(GlobalStruct.currentUser)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return UITableView.automaticDimension
         } else {
-            cell.configure(self.pickedCurrentUser)
+            return 160
         }
-        cell.backgroundColor = UIColor(named: "baseWhite")
-        let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor.clear
-        cell.selectedBackgroundView = bgColorView
-        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
+            if self.isYou {
+                cell.configure(GlobalStruct.currentUser)
+            } else {
+                cell.configure(self.pickedCurrentUser)
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        } else {
+            if self.profileStatusesImages.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell", for: indexPath) as! ProfileImageCell
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor(named: "baseWhite")
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell", for: indexPath) as! ProfileImageCell
+                cell.configure(self.profileStatusesImages)
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor(named: "baseWhite")
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

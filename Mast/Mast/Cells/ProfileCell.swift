@@ -105,7 +105,7 @@ class ProfileCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[joined]-20-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(140)]-(>=40)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-100-[profile(80)]-12-[username]-2-[usertag]-8-[content]-8-[followers]-8-[joined]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-100-[profile(80)]-12-[username]-2-[usertag]-8-[content]-8-[followers]-2-[joined]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -116,7 +116,7 @@ class ProfileCell: UITableViewCell {
         self.username.text = acc.displayName
         self.usertag.text = "@\(acc.acct)"
         self.content.text = acc.note.stripHTML()
-        self.joined.text = acc.createdAt.toString(dateStyle: .medium, timeStyle: .medium)
+        self.joined.text = "\("Created on".localized) \(acc.createdAt.toString(dateStyle: .medium, timeStyle: .medium))"
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal

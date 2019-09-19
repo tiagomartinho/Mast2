@@ -101,6 +101,9 @@
 		5379F428233271D800DC1F33 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F427233271D800DC1F33 /* Date.swift */; };
 		5379F42C2333751C00DC1F33 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42B2333751C00DC1F33 /* ThirdViewController.swift */; };
 		5379F42E2333AD6400DC1F33 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42D2333AD6400DC1F33 /* ProfileCell.swift */; };
+		5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */; };
+		5379F4322333C3F800DC1F33 /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */; };
+		5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -200,6 +203,9 @@
 		5379F427233271D800DC1F33 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		5379F42B2333751C00DC1F33 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 		5379F42D2333AD6400DC1F33 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
+		5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
+		5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,6 +360,7 @@
 				5379F4122331122100DC1F33 /* Spring.swift */,
 				5379F41423311A5700DC1F33 /* StripHTML.swift */,
 				5379F427233271D800DC1F33 /* Date.swift */,
+				5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -367,6 +374,8 @@
 				5379F42323323D3100DC1F33 /* NotificationsCell.swift */,
 				5379F42523323F8C00DC1F33 /* DirectCell.swift */,
 				5379F42D2333AD6400DC1F33 /* ProfileCell.swift */,
+				5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */,
+				5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -487,6 +496,7 @@
 				5379F428233271D800DC1F33 /* Date.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
+				5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,
 				5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */,
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,
@@ -496,6 +506,7 @@
 				53449D9E23294C1000A470E2 /* CharacterSet.swift in Sources */,
 				53449DCB23294C1000A470E2 /* Favourites.swift in Sources */,
 				53449DAB23294C1000A470E2 /* Attachment.swift in Sources */,
+				5379F4322333C3F800DC1F33 /* ProfileImageCell.swift in Sources */,
 				53449DCF23294C1000A470E2 /* Media.swift in Sources */,
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
@@ -539,6 +550,7 @@
 				53449DBE23294C1000A470E2 /* Emoji.swift in Sources */,
 				53449DD723294C1000A470E2 /* Pagination.swift in Sources */,
 				53449DBA23294C1000A470E2 /* Application.swift in Sources */,
+				5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */,
 				53449D4923293F2F00A470E2 /* FourthViewController.swift in Sources */,
 				53449DCD23294C1000A470E2 /* Notifications.swift in Sources */,
 				53449DD823294C1000A470E2 /* Client.swift in Sources */,
