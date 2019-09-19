@@ -110,10 +110,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return UITableView.automaticDimension
-        } else {
+        if indexPath.section == 1 {
             return 160
+        } else {
+            return UITableView.automaticDimension
         }
     }
     
