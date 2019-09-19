@@ -100,6 +100,7 @@
 		5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42523323F8C00DC1F33 /* DirectCell.swift */; };
 		5379F428233271D800DC1F33 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F427233271D800DC1F33 /* Date.swift */; };
 		5379F42C2333751C00DC1F33 /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42B2333751C00DC1F33 /* ThirdViewController.swift */; };
+		5379F42E2333AD6400DC1F33 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42D2333AD6400DC1F33 /* ProfileCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -198,6 +199,7 @@
 		5379F42523323F8C00DC1F33 /* DirectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectCell.swift; sourceTree = "<group>"; };
 		5379F427233271D800DC1F33 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		5379F42B2333751C00DC1F33 /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
+		5379F42D2333AD6400DC1F33 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +366,7 @@
 				5379F4212332349500DC1F33 /* DetailActionsCell.swift */,
 				5379F42323323D3100DC1F33 /* NotificationsCell.swift */,
 				5379F42523323F8C00DC1F33 /* DirectCell.swift */,
+				5379F42D2333AD6400DC1F33 /* ProfileCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 				53449DB323294C1000A470E2 /* Joke.swift in Sources */,
 				53449DDA23294C1000A470E2 /* RequestRange.swift in Sources */,
 				53449DB023294C1000A470E2 /* CardType.swift in Sources */,
+				5379F42E2333AD6400DC1F33 /* ProfileCell.swift in Sources */,
 				53449DA523294C1000A470E2 /* Report.swift in Sources */,
 				53449DA923294C1000A470E2 /* Visibility.swift in Sources */,
 				53449DDB23294C1000A470E2 /* ClientError.swift in Sources */,
