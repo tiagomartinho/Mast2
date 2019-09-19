@@ -181,13 +181,15 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if GlobalStruct.statusesHome.isEmpty {} else {
+            if GlobalStruct.statusesHome.isEmpty {
+                self.fetchUserData()
+            } else {
                 cell.configure(self.profileStatuses[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
                 if indexPath.row == self.profileStatuses.count - 10 {
-                    self.fetchUserData()
+                    self.fetchMoreUserData()
                 }
             }
             cell.backgroundColor = UIColor(named: "baseWhite")
@@ -217,8 +219,33 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        self.profileStatuses = self.profileStatuses + stat
-                        self.tableView.reloadSections(IndexSet([2]), with: .none)
+                        self.profileStatuses = stat
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+
+    func fetchMoreUserData() {
+        var theUser = GlobalStruct.currentUser.id
+        if self.isYou {
+            theUser = GlobalStruct.currentUser.id
+        } else {
+            theUser = self.pickedCurrentUser.id
+        }
+        let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = ((self.profileStatuses.count)..<(self.profileStatuses.count + stat.count)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        self.profileStatuses.append(contentsOf: stat)
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableView.endUpdates()
                     }
                 }
             }
