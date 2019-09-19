@@ -29,7 +29,7 @@ class DirectCell: UITableViewCell {
         contentView.addSubview(containerView)
         
         unread.translatesAutoresizingMaskIntoConstraints = false
-        unread.backgroundColor = UIColor.clear
+        unread.backgroundColor = GlobalStruct.baseTint
         unread.layer.cornerRadius = 5
         contentView.addSubview(unread)
         
@@ -113,9 +113,9 @@ class DirectCell: UITableViewCell {
     func configure(_ convo: Conversation) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         if convo.unread {
-            self.unread.backgroundColor = GlobalStruct.baseTint
+            self.unread.alpha = 1
         } else {
-            self.unread.backgroundColor = UIColor.clear
+            self.unread.alpha = 0
         }
         self.username.text = convo.lastStatus?.account.displayName ?? ""
         self.usertag.text = "@\(convo.lastStatus?.account.username ?? "")"

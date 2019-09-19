@@ -21,6 +21,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var textField = PaddedTextField()
     var safariVC: SFSafariViewController?
     let segment: UISegmentedControl = UISegmentedControl(items: ["Home".localized, "Local".localized, "All".localized])
+    var refreshControl = UIRefreshControl()
+    var refreshControlL = UIRefreshControl()
+    var refreshControlF = UIRefreshControl()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -102,6 +105,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
+        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        self.tableView.addSubview(self.refreshControl)
+        
         self.tableViewL.register(TootCell.self, forCellReuseIdentifier: "TootCellL")
         self.tableViewL.delegate = self
         self.tableViewL.dataSource = self
@@ -116,6 +122,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewL.alpha = 0
         self.view.addSubview(self.tableViewL)
         
+        self.refreshControlL.addTarget(self, action: #selector(refreshL(_:)), for: UIControl.Event.valueChanged)
+        self.tableViewL.addSubview(self.refreshControlL)
+        
         self.tableViewF.register(TootCell.self, forCellReuseIdentifier: "TootCellF")
         self.tableViewF.delegate = self
         self.tableViewF.dataSource = self
@@ -129,6 +138,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.tableFooterView = UIView()
         self.tableViewF.alpha = 0
         self.view.addSubview(self.tableViewF)
+        
+        self.refreshControlF.addTarget(self, action: #selector(refreshF(_:)), for: UIControl.Event.valueChanged)
+        self.tableViewF.addSubview(self.refreshControlF)
     }
     
     func initialFetches() {
@@ -179,6 +191,93 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         GlobalStruct.client.run(request5) { (statuses) in
             if let stat = (statuses.value) {
                 GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+            }
+        }
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        self.refreshControl.endRefreshing()
+        let request = Timelines.home(range: .since(id: GlobalStruct.statusesHome.first?.id ?? "", limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = (0..<stat.count).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        GlobalStruct.statusesHome = stat + GlobalStruct.statusesHome
+                        UIView.setAnimationsEnabled(false)
+                        self.tableView.beginUpdates()
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.top)
+                        var heights: CGFloat = 0
+                        let _ = indexPaths.map {
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
+                                heights += cell.bounds.height
+                            }
+                        }
+                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableView.endUpdates()
+                        UIView.setAnimationsEnabled(true)
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func refreshL(_ sender: AnyObject) {
+        self.refreshControlL.endRefreshing()
+        let request = Timelines.public(local: true, range: .since(id: GlobalStruct.statusesLocal.first?.id ?? "", limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = (0..<stat.count).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        GlobalStruct.statusesLocal = stat + GlobalStruct.statusesLocal
+                        UIView.setAnimationsEnabled(false)
+                        self.tableViewL.beginUpdates()
+                        self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.fade)
+                        var heights: CGFloat = 0
+                        let _ = indexPaths.map {
+                            if let cell = self.tableViewL.cellForRow(at: $0) as? TootCell {
+                                heights += cell.bounds.height
+                            }
+                        }
+                        self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableViewL.endUpdates()
+                        UIView.setAnimationsEnabled(true)
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func refreshF(_ sender: AnyObject) {
+        self.refreshControlF.endRefreshing()
+        let request = Timelines.public(local: false, range: .since(id: GlobalStruct.statusesFed.first?.id ?? "", limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {} else {
+                    DispatchQueue.main.async {
+                        let indexPaths = (0..<stat.count).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        GlobalStruct.statusesFed = stat + GlobalStruct.statusesFed
+                        UIView.setAnimationsEnabled(false)
+                        self.tableViewF.beginUpdates()
+                        self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.fade)
+                        var heights: CGFloat = 0
+                        let _ = indexPaths.map {
+                            if let cell = self.tableViewF.cellForRow(at: $0) as? TootCell {
+                                heights += cell.bounds.height
+                            }
+                        }
+                        self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableViewF.endUpdates()
+                        UIView.setAnimationsEnabled(true)
+                    }
+                }
             }
         }
     }
