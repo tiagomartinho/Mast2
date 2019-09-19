@@ -94,12 +94,16 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        self.refreshControl.endRefreshing()
         let request = Timelines.conversations(range: .since(id: GlobalStruct.notificationsDirect.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
+                if stat.isEmpty {
                     DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
                         self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top1.alpha = 1

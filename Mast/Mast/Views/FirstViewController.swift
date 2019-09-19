@@ -254,12 +254,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        self.refreshControl.endRefreshing()
         let request = Timelines.home(range: .since(id: GlobalStruct.statusesHome.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
+                if stat.isEmpty {
                     DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
                         self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top1.alpha = 1
@@ -289,12 +293,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refreshL(_ sender: AnyObject) {
-        self.refreshControlL.endRefreshing()
         let request = Timelines.public(local: true, range: .since(id: GlobalStruct.statusesLocal.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
+                if stat.isEmpty {
                     DispatchQueue.main.async {
+                        self.refreshControlL.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControlL.endRefreshing()
                         self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top2.alpha = 1
@@ -324,12 +332,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refreshF(_ sender: AnyObject) {
-        self.refreshControlF.endRefreshing()
         let request = Timelines.public(local: false, range: .since(id: GlobalStruct.statusesFed.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
+                if stat.isEmpty {
                     DispatchQueue.main.async {
+                        self.refreshControlF.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControlF.endRefreshing()
                         self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top3.alpha = 1
