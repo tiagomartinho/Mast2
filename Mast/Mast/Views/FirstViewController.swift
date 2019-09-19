@@ -24,6 +24,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var refreshControl = UIRefreshControl()
     var refreshControlL = UIRefreshControl()
     var refreshControlF = UIRefreshControl()
+    let top1 = UIButton()
+    let top2 = UIButton()
+    let top3 = UIButton()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -141,6 +144,61 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         self.refreshControlF.addTarget(self, action: #selector(refreshF(_:)), for: UIControl.Event.valueChanged)
         self.tableViewF.addSubview(self.refreshControlF)
+        
+        // Top buttons
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
+        
+        self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+        self.top1.backgroundColor = UIColor(named: "baseWhite")
+        self.top1.layer.cornerRadius = 19
+        self.top1.alpha = 0
+        self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
+        self.view.addSubview(self.top1)
+        
+        self.top2.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        self.top2.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+        self.top2.backgroundColor = UIColor(named: "baseWhite")
+        self.top2.layer.cornerRadius = 19
+        self.top2.alpha = 0
+        self.top2.addTarget(self, action: #selector(self.didTouchTop2), for: .touchUpInside)
+        self.view.addSubview(self.top2)
+        
+        self.top3.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        self.top3.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+        self.top3.backgroundColor = UIColor(named: "baseWhite")
+        self.top3.layer.cornerRadius = 19
+        self.top3.alpha = 0
+        self.top3.addTarget(self, action: #selector(self.didTouchTop3), for: .touchUpInside)
+        self.view.addSubview(self.top3)
+    }
+    
+    @objc func didTouchTop1() {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.top1.alpha = 0
+            self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
+        }
+    }
+    
+    @objc func didTouchTop2() {
+        self.tableViewL.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.top2.alpha = 0
+            self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
+        }
+    }
+    
+    @objc func didTouchTop3() {
+        self.tableViewF.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.top3.alpha = 0
+            self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
+        }
     }
     
     func initialFetches() {
@@ -202,19 +260,25 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
+                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top1.alpha = 1
+                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
                         GlobalStruct.statusesHome = stat + GlobalStruct.statusesHome
-                        UIView.setAnimationsEnabled(false)
                         self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.top)
+                        UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
                         let _ = indexPaths.map {
                             if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
                                 heights += cell.bounds.height
                             }
                         }
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableView.endUpdates()
                         UIView.setAnimationsEnabled(true)
@@ -231,19 +295,25 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
+                        self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top2.alpha = 1
+                            self.top2.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
                         GlobalStruct.statusesLocal = stat + GlobalStruct.statusesLocal
-                        UIView.setAnimationsEnabled(false)
                         self.tableViewL.beginUpdates()
-                        self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.fade)
+                        UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
                         let _ = indexPaths.map {
                             if let cell = self.tableViewL.cellForRow(at: $0) as? TootCell {
                                 heights += cell.bounds.height
                             }
                         }
+                        self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableViewL.endUpdates()
                         UIView.setAnimationsEnabled(true)
@@ -260,25 +330,43 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
+                        self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top3.alpha = 1
+                            self.top3.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
                         GlobalStruct.statusesFed = stat + GlobalStruct.statusesFed
-                        UIView.setAnimationsEnabled(false)
                         self.tableViewF.beginUpdates()
-                        self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.fade)
+                        UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
                         let _ = indexPaths.map {
                             if let cell = self.tableViewF.cellForRow(at: $0) as? TootCell {
                                 heights += cell.bounds.height
                             }
                         }
+                        self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableViewF.endUpdates()
                         UIView.setAnimationsEnabled(true)
                     }
                 }
             }
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.top1.alpha = 0
+            self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            self.top2.alpha = 0
+            self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            self.top3.alpha = 0
+            self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
         }
     }
     
@@ -297,6 +385,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.tableView.alpha = 0
             self.tableViewL.alpha = 0
             self.tableViewF.alpha = 1
+        }
+        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+            self.top1.alpha = 0
+            self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            self.top2.alpha = 0
+            self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            self.top3.alpha = 0
+            self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        }) { (completed: Bool) in
         }
     }
     
