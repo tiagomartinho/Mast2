@@ -111,7 +111,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 1 {
-            return 160
+            if self.profileStatusesImages.count == 0 {
+                return 0
+            } else {
+                return 160
+            }
         } else {
             return UITableView.automaticDimension
         }
@@ -222,7 +226,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        if indexPath.section == 2 {
+            let vc = DetailViewController()
+            vc.pickedStatusesHome = [self.profileStatuses[indexPath.row]]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func removeTabbarItemsText() {
