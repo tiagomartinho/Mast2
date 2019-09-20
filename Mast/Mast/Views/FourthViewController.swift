@@ -9,7 +9,17 @@
 import Foundation
 import UIKit
 
-class FourthViewController: UIViewController {
+class FourthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    var tableView = UITableView()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Table
+        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +42,23 @@ class FourthViewController: UIViewController {
         btn2.addTarget(self, action: #selector(self.settingsTapped), for: .touchUpInside)
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        
+        self.fetchLists()
+        
+        // Table
+        self.tableView.register(ListCell.self, forCellReuseIdentifier: "ListCell")
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
+        self.tableView.backgroundColor = UIColor.clear
+        self.tableView.layer.masksToBounds = true
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.tableFooterView = UIView()
+        self.view.addSubview(self.tableView)
+        self.tableView.reloadData()
     }
     
     @objc func settingsTapped() {
@@ -40,6 +67,41 @@ class FourthViewController: UIViewController {
     
     @objc func addTapped() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+    }
+    
+    func fetchLists() {
+        let request = Lists.all()
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.allLists = stat
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return GlobalStruct.allLists.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
+        if GlobalStruct.allLists.isEmpty {
+            self.fetchLists()
+        } else {
+            cell.configure(GlobalStruct.allLists[indexPath.row])
+        }
+        cell.backgroundColor = UIColor(named: "baseWhite")
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor.clear
+        cell.selectedBackgroundView = bgColorView
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
     func removeTabbarItemsText() {

@@ -104,6 +104,7 @@
 		5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */; };
 		5379F4322333C3F800DC1F33 /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */; };
 		5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */; };
+		5379F4362334CAE800DC1F33 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4352334CAE800DC1F33 /* ListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -206,6 +207,7 @@
 		5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
 		5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
+		5379F4352334CAE800DC1F33 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -376,6 +378,7 @@
 				5379F42D2333AD6400DC1F33 /* ProfileCell.swift */,
 				5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */,
 				5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */,
+				5379F4352334CAE800DC1F33 /* ListCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 				53449DD923294C1000A470E2 /* Request.swift in Sources */,
 				5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */,
 				5379F428233271D800DC1F33 /* Date.swift in Sources */,
+				5379F4362334CAE800DC1F33 /* ListCell.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
 				5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */,

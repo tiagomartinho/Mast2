@@ -30,6 +30,8 @@ class GlobalStruct {
     
     static var currentUser: Account!
     
+    static var allLists: [List] = []
+    
     static var medType = 0
     static var avaFile = "avatar"
     static var heaFile = "header"

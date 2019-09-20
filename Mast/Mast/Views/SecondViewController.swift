@@ -142,7 +142,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
                         let _ = indexPaths.map {
-                            if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
+                            if let cell = self.tableView.cellForRow(at: $0) as? NotificationsCell {
                                 heights += cell.bounds.height
                             }
                         }
