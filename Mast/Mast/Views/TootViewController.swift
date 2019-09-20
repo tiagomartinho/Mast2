@@ -9,13 +9,27 @@
 import Foundation
 import UIKit
 
-class TootViewController: UIViewController {
+class TootViewController: UIViewController, UITextViewDelegate {
+    
+    let textView = UITextView()
+    var keyHeight: CGFloat = 0
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Text view
+        let textHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "New Toot".localized
         self.removeTabbarItemsText()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -32,6 +46,23 @@ class TootViewController: UIViewController {
         btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        
+        // Text view
+        let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        self.textView.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        self.textView.textStorage.setAttributes([NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!], range: NSRange(location: 0, length: self.textView.text.count))
+        self.textView.backgroundColor = UIColor.clear
+        self.textView.showsVerticalScrollIndicator = false
+        self.textView.showsHorizontalScrollIndicator = false
+        self.textView.delegate = self
+        self.textView.adjustsFontForContentSizeCategory = true
+        self.textView.isSelectable = true
+        self.textView.alwaysBounceVertical = true
+        self.textView.isUserInteractionEnabled = true
+        self.textView.isScrollEnabled = true
+        self.textView.textContainerInset = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
+        self.view.addSubview(self.textView)
+        self.textView.becomeFirstResponder()
     }
     
     @objc func tickTapped() {
@@ -40,6 +71,18 @@ class TootViewController: UIViewController {
     
     @objc func crossTapped() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.keyHeight = CGFloat(keyboardHeight)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        self.keyHeight = CGFloat(0)
     }
     
     func removeTabbarItemsText() {
