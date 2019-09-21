@@ -55,8 +55,8 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 let z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
+                    cell.image.image = UIImage()
                     DispatchQueue.global().async {
-                        cell.image.image = UIImage()
                         guard let imageData = try? Data(contentsOf: imageURL) else { return }
                         let image = UIImage(data: imageData)
                         DispatchQueue.main.async {
