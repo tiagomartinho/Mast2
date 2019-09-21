@@ -92,7 +92,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             zCount += 1
                         }
                         let footerHe0 = self.tableView.bounds.height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 2)).height
-                        var footerHe = footerHe0 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 3)).height - zHeights
+                        var footerHe = footerHe0 - zHeights
                         if footerHe < 0 {
                             footerHe = 0
                         }
