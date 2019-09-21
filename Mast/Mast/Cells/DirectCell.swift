@@ -121,6 +121,7 @@ class DirectCell: UITableViewCell {
         self.usertag.text = "@\(convo.lastStatus?.account.username ?? "")"
         self.content.text = convo.lastStatus?.content.stripHTML() ?? ""
         self.timestamp.text = timeAgoSince(convo.lastStatus?.createdAt ?? Date())
+        self.profile.image = UIImage()
         guard let imageURL = URL(string: convo.lastStatus?.account.avatar ?? "") else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }

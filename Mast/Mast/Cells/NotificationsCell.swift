@@ -155,6 +155,7 @@ class NotificationsCell: UITableViewCell {
             self.username.text = noti.account.displayName
             self.usertag.text = "@\(noti.account.username)"
             self.content.text = "\(noti.account.followersCount) \("followers".localized), \(noti.account.followingCount) \("following".localized)"
+            self.profile.image = UIImage()
             guard let imageURL = URL(string: noti.account.avatar) else { return }
             DispatchQueue.global().async {
                 guard let imageData = try? Data(contentsOf: imageURL) else { return }
@@ -180,6 +181,7 @@ class NotificationsCell: UITableViewCell {
             self.username.text = noti.status?.account.displayName ?? ""
             self.usertag.text = "@\(noti.status?.account.username ?? "")"
             self.content.text = noti.status?.content.stripHTML() ?? ""
+            self.profile.image = UIImage()
             guard let imageURL = URL(string: noti.status?.account.avatar ?? "") else { return }
             DispatchQueue.global().async {
                 guard let imageData = try? Data(contentsOf: imageURL) else { return }
@@ -192,6 +194,7 @@ class NotificationsCell: UITableViewCell {
             if noti.type == .mention {
                 self.profile2.alpha = 0
             } else {
+                self.profile2.image = UIImage()
                 guard let imageURL2 = URL(string: noti.account.avatar) else { return }
                 DispatchQueue.global().async {
                     guard let imageData2 = try? Data(contentsOf: imageURL2) else { return }

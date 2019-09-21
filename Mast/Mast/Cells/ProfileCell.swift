@@ -147,6 +147,7 @@ class ProfileCell: UITableViewCell {
         fullString.append(attStringNewLine2)
         self.followers.setAttributedTitle(fullString, for: .normal)
         
+        self.profile.image = UIImage()
         guard let imageURL = URL(string: acc.avatar) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }

@@ -108,6 +108,7 @@ class TootCell: UITableViewCell {
         self.usertag.text = "@\(stat.account.username)"
         self.content.text = stat.content.stripHTML()
         self.timestamp.text = timeAgoSince(stat.createdAt)
+        self.profile.image = UIImage()
         guard let imageURL = URL(string: stat.account.avatar) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }

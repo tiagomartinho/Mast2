@@ -56,6 +56,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
                     DispatchQueue.global().async {
+                        cell.image.image = UIImage()
                         guard let imageData = try? Data(contentsOf: imageURL) else { return }
                         let image = UIImage(data: imageData)
                         DispatchQueue.main.async {

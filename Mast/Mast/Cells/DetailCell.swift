@@ -148,6 +148,7 @@ class DetailCell: UITableViewCell {
         fullString.append(attStringNewLine2)
         self.metrics.setAttributedTitle(fullString, for: .normal)
         
+        self.profile.image = UIImage()
         guard let imageURL = URL(string: stat.account.avatar) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
