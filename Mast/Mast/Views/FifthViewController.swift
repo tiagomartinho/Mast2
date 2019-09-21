@@ -121,6 +121,50 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 && self.profileStatusesImages.count != 0 {
+            return 30
+        } else if section == 2 {
+            return 30
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 {
+            let vw = UIView()
+            vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
+            vw.backgroundColor = UIColor(named: "baseWhite")
+            let title = UILabel()
+            title.frame = CGRect(x: 18, y: 0, width: self.view.bounds.width - 36, height: 30)
+            title.text = "Recent Media".localized
+            title.textColor = UIColor(named: "baseBlack")
+            title.font = UIFont.boldSystemFont(ofSize: 16)
+            vw.addSubview(title)
+            return vw
+        } else if section == 2 {
+            var theUser = GlobalStruct.currentUser
+            if self.isYou {
+                theUser = GlobalStruct.currentUser
+            } else {
+                theUser = self.pickedCurrentUser
+            }
+            let vw = UIView()
+            vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
+            vw.backgroundColor = UIColor(named: "baseWhite")
+            let title = UILabel()
+            title.frame = CGRect(x: 18, y: 0, width: self.view.bounds.width - 36, height: 30)
+            title.text = "\(theUser?.statusesCount ?? 0) Toots".localized
+            title.textColor = UIColor(named: "baseBlack")
+            title.font = UIFont.boldSystemFont(ofSize: 16)
+            vw.addSubview(title)
+            return vw
+        } else {
+            return nil
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell

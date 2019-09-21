@@ -660,7 +660,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.textField.frame = CGRect(x: 40, y: self.view.bounds.height/2 - 22.5, width: self.view.bounds.width - 80, height: 45)
         self.textField.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.04)
         self.textField.borderStyle = .none
-        self.textField.layer.cornerRadius = 10
+        self.textField.layer.cornerRadius = 5
         self.textField.textColor = UIColor(named: "baseBlack")
         self.textField.spellCheckingType = .no
         self.textField.returnKeyType = .done
