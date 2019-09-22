@@ -88,6 +88,7 @@
 		53449DDC23294C1000A470E2 /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D9623294C0F00A470E2 /* Payload.swift */; };
 		53449DDD23294C1000A470E2 /* MediaAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D9723294C0F00A470E2 /* MediaAttachment.swift */; };
 		53449DDF23294E4900A470E2 /* GlobalStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449DDE23294E4900A470E2 /* GlobalStruct.swift */; };
+		5344C0BA233790AC00EB3363 /* TootImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0B9233790AC00EB3363 /* TootImageCell.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -191,6 +192,7 @@
 		53449D9623294C0F00A470E2 /* Payload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		53449D9723294C0F00A470E2 /* MediaAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaAttachment.swift; sourceTree = "<group>"; };
 		53449DDE23294E4900A470E2 /* GlobalStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalStruct.swift; sourceTree = "<group>"; };
+		5344C0B9233790AC00EB3363 /* TootImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootImageCell.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 			isa = PBXGroup;
 			children = (
 				5379F4102331115B00DC1F33 /* TootCell.swift */,
+				5344C0B9233790AC00EB3363 /* TootImageCell.swift */,
 				5379F41F2332346700DC1F33 /* DetailCell.swift */,
 				5379F4212332349500DC1F33 /* DetailActionsCell.swift */,
 				5379F42323323D3100DC1F33 /* NotificationsCell.swift */,
@@ -497,6 +500,7 @@
 				53449DD923294C1000A470E2 /* Request.swift in Sources */,
 				5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */,
 				5379F428233271D800DC1F33 /* Date.swift in Sources */,
+				5344C0BA233790AC00EB3363 /* TootImageCell.swift in Sources */,
 				5379F4362334CAE800DC1F33 /* ListCell.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,

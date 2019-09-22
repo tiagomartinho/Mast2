@@ -96,6 +96,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
+        self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -112,6 +113,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.addSubview(self.refreshControl)
         
         self.tableViewL.register(TootCell.self, forCellReuseIdentifier: "TootCellL")
+        self.tableViewL.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCellL")
         self.tableViewL.delegate = self
         self.tableViewL.dataSource = self
         self.tableViewL.separatorStyle = .singleLine
@@ -129,6 +131,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewL.addSubview(self.refreshControlL)
         
         self.tableViewF.register(TootCell.self, forCellReuseIdentifier: "TootCellF")
+        self.tableViewF.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCellF")
         self.tableViewF.delegate = self
         self.tableViewF.dataSource = self
         self.tableViewF.separatorStyle = .singleLine
@@ -425,53 +428,107 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if GlobalStruct.statusesHome.isEmpty {} else {
-                cell.configure(GlobalStruct.statusesHome[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == GlobalStruct.statusesHome.count - 10 {
-                    self.fetchMoreHome()
+            if GlobalStruct.statusesHome[indexPath.row].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
+                if GlobalStruct.statusesHome.isEmpty {} else {
+                    cell.configure(GlobalStruct.statusesHome[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == GlobalStruct.statusesHome.count - 10 {
+                        self.fetchMoreHome()
+                    }
                 }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
+                if GlobalStruct.statusesHome.isEmpty {} else {
+                    cell.configure(GlobalStruct.statusesHome[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == GlobalStruct.statusesHome.count - 10 {
+                        self.fetchMoreHome()
+                    }
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         } else if tableView == self.tableViewL {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
-            if GlobalStruct.statusesLocal.isEmpty {} else {
-                cell.configure(GlobalStruct.statusesLocal[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
-                    self.fetchMoreLocal()
+            if GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
+                if GlobalStruct.statusesLocal.isEmpty {} else {
+                    cell.configure(GlobalStruct.statusesLocal[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
+                        self.fetchMoreLocal()
+                    }
                 }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCellL", for: indexPath) as! TootImageCell
+                if GlobalStruct.statusesLocal.isEmpty {} else {
+                    cell.configure(GlobalStruct.statusesLocal[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
+                        self.fetchMoreLocal()
+                    }
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellF", for: indexPath) as! TootCell
-            if GlobalStruct.statusesFed.isEmpty {} else {
-                cell.configure(GlobalStruct.statusesFed[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == GlobalStruct.statusesFed.count - 10 {
-                    self.fetchMoreFed()
+            if GlobalStruct.statusesFed[indexPath.row].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellF", for: indexPath) as! TootCell
+                if GlobalStruct.statusesFed.isEmpty {} else {
+                    cell.configure(GlobalStruct.statusesFed[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == GlobalStruct.statusesFed.count - 10 {
+                        self.fetchMoreFed()
+                    }
                 }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCellF", for: indexPath) as! TootImageCell
+                if GlobalStruct.statusesFed.isEmpty {} else {
+                    cell.configure(GlobalStruct.statusesFed[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == GlobalStruct.statusesFed.count - 10 {
+                        self.fetchMoreFed()
+                    }
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         }
     }
     
