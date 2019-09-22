@@ -138,7 +138,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
             vw.backgroundColor = UIColor(named: "baseWhite")
             let title = UILabel()
-            title.frame = CGRect(x: 18, y: 0, width: self.view.bounds.width - 36, height: 30)
+            title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
             title.text = "Recent Media".localized
             title.textColor = UIColor(named: "baseBlack")
             title.font = UIFont.boldSystemFont(ofSize: 16)
@@ -155,7 +155,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
             vw.backgroundColor = UIColor(named: "baseWhite")
             let title = UILabel()
-            title.frame = CGRect(x: 18, y: 0, width: self.view.bounds.width - 36, height: 30)
+            title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
             title.text = "\(theUser?.statusesCount ?? 0) Toots".localized
             title.textColor = UIColor(named: "baseBlack")
             title.font = UIFont.boldSystemFont(ofSize: 16)

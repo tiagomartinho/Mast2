@@ -98,7 +98,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
         vw.backgroundColor = UIColor(named: "baseWhite")
         let title = UILabel()
-        title.frame = CGRect(x: 18, y: 0, width: self.view.bounds.width - 36, height: 30)
+        title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
         title.text = "Your Lists".localized
         title.textColor = UIColor(named: "baseBlack")
         title.font = UIFont.boldSystemFont(ofSize: 16)

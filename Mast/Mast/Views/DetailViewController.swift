@@ -200,6 +200,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             }
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailActionsCell", for: indexPath) as! DetailActionsCell
+            if self.pickedStatusesHome.isEmpty {} else {
+                cell.configure(self.pickedStatusesHome[0])
+            }
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear

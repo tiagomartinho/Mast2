@@ -28,27 +28,27 @@ class DetailActionsCell: UITableViewCell {
         
         button1.translatesAutoresizingMaskIntoConstraints = false
         button1.backgroundColor = UIColor.clear
-        button1.setImage(UIImage(systemName: "arrowshape.turn.up.left", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button1.setImage(UIImage(systemName: "arrowshape.turn.up.left", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button1)
         
         button2.translatesAutoresizingMaskIntoConstraints = false
         button2.backgroundColor = UIColor.clear
-        button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button2)
         
         button3.translatesAutoresizingMaskIntoConstraints = false
         button3.backgroundColor = UIColor.clear
-        button3.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button3.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button3)
         
         button4.translatesAutoresizingMaskIntoConstraints = false
         button4.backgroundColor = UIColor.clear
-        button4.setImage(UIImage(systemName: "square.and.arrow.up", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button4.setImage(UIImage(systemName: "square.and.arrow.up", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button4)
         
         button5.translatesAutoresizingMaskIntoConstraints = false
         button5.backgroundColor = UIColor.clear
-        button5.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        button5.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal), for: .normal)
         containerView.addSubview(button5)
         
         let viewsDict = [
@@ -86,6 +86,16 @@ class DetailActionsCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(_ stat: Status) {
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        if stat.favourited ?? false {
+            button3.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        }
+        if stat.reblogged ?? false {
+            button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        }
     }
 }
 
