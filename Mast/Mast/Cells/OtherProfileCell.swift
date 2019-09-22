@@ -89,22 +89,23 @@ class OtherProfileCell: UITableViewCell {
         followsYou.translatesAutoresizingMaskIntoConstraints = false
         followsYou.setTitle("   Follows You   ".localized, for: .normal)
         followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
-        followsYou.layer.cornerRadius = 10
         followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
+        followsYou.layer.cornerRadius = 10
         followsYou.contentHorizontalAlignment = .leading
         followsYou.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         followsYou.titleLabel?.adjustsFontForContentSizeCategory = true
         followsYou.titleLabel?.numberOfLines = 1
         followsYou.titleLabel?.lineBreakMode = .byTruncatingTail
         followsYou.sizeToFit()
+        followsYou.alpha = 0
         contentView.addSubview(followsYou)
         
         following.translatesAutoresizingMaskIntoConstraints = false
         following.setTitle("   Follow   ".localized, for: .normal)
         following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
-        following.layer.cornerRadius = 13
-        following.layer.borderWidth = 1.4
         following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+        following.layer.cornerRadius = 14
+        following.layer.borderWidth = 1.8
         following.contentHorizontalAlignment = .leading
         following.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         following.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -113,7 +114,7 @@ class OtherProfileCell: UITableViewCell {
         following.sizeToFit()
         contentView.addSubview(following)
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .regular)
         more.translatesAutoresizingMaskIntoConstraints = false
         more.backgroundColor = UIColor.clear
         more.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
@@ -144,10 +145,10 @@ class OtherProfileCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[joined]-20-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-110-[followsYou]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-110-[following]", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=20)-[more(26)]-20-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=20)-[more(28)]-20-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-150-[more(26)]", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-110-[followsYou(20)]-20-[following(26)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-150-[more(28)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-110-[followsYou(20)]-20-[following(28)]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(140)]-(>=40)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-100-[profile(80)]-12-[username]-2-[usertag]-8-[content]-8-[followers]-2-[joined]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
     }
@@ -210,9 +211,33 @@ class OtherProfileCell: UITableViewCell {
                 self.header.layer.masksToBounds = true
             }
         }
+        
+        let request = Accounts.relationships(ids: [GlobalStruct.currentUser.id, acc.id])
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    if stat[1].following {
+                        self.following.setTitle("   Unfollow   ".localized, for: .normal)
+                        self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
+                        self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+                    } else {
+                        self.following.setTitle("   Follow   ".localized, for: .normal)
+                        self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
+                        self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+                    }
+                    if stat[1].followedBy {
+                        self.followsYou.setTitle("   Follows You   ".localized, for: .normal)
+                        self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                        self.followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
+                        self.followsYou.alpha = 1
+                    } else {
+                        self.followsYou.setTitle("".localized, for: .normal)
+                        self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                        self.followsYou.backgroundColor = UIColor.clear
+                        self.followsYou.alpha = 0
+                    }
+                }
+            }
+        }
     }
 }
-
-
-
-
