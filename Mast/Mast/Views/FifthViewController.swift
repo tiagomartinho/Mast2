@@ -115,7 +115,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             if self.profileStatusesImages.count == 0 {
                 return 0
             } else {
-                return 160
+                return 150
             }
         } else {
             return UITableView.automaticDimension

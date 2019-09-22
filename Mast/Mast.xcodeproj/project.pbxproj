@@ -90,6 +90,7 @@
 		53449DDF23294E4900A470E2 /* GlobalStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449DDE23294E4900A470E2 /* GlobalStruct.swift */; };
 		5344C0BA233790AC00EB3363 /* TootImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0B9233790AC00EB3363 /* TootImageCell.swift */; };
 		5344C0BC2337966F00EB3363 /* NotificationsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */; };
+		5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BD23379A4300EB3363 /* DetailImageCell.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -195,6 +196,7 @@
 		53449DDE23294E4900A470E2 /* GlobalStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalStruct.swift; sourceTree = "<group>"; };
 		5344C0B9233790AC00EB3363 /* TootImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootImageCell.swift; sourceTree = "<group>"; };
 		5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsImageCell.swift; sourceTree = "<group>"; };
+		5344C0BD23379A4300EB3363 /* DetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageCell.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				5379F4102331115B00DC1F33 /* TootCell.swift */,
 				5344C0B9233790AC00EB3363 /* TootImageCell.swift */,
 				5379F41F2332346700DC1F33 /* DetailCell.swift */,
+				5344C0BD23379A4300EB3363 /* DetailImageCell.swift */,
 				5379F4212332349500DC1F33 /* DetailActionsCell.swift */,
 				5379F42323323D3100DC1F33 /* NotificationsCell.swift */,
 				5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */,
@@ -546,6 +549,7 @@
 				53449DD623294C1000A470E2 /* Timelines.swift in Sources */,
 				53449DAA23294C1000A470E2 /* ScheduledStatus.swift in Sources */,
 				53449DA123294C1000A470E2 /* Decodable.swift in Sources */,
+				5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */,
 				5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */,
 				53449DD023294C1000A470E2 /* Accounts.swift in Sources */,
 				53449DC423294C1000A470E2 /* HTTPMethod.swift in Sources */,

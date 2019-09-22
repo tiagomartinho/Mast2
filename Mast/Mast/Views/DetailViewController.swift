@@ -42,6 +42,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Table
         self.tableView.register(DetailCell.self, forCellReuseIdentifier: "DetailCell")
+        self.tableView.register(DetailImageCell.self, forCellReuseIdentifier: "DetailImageCell")
         self.tableView.register(DetailActionsCell.self, forCellReuseIdentifier: "DetailActionsCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "PrevCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "RepliesCell")
@@ -162,15 +163,27 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.selectedBackgroundView = bgColorView
             return cell
         } else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
-            if GlobalStruct.statusesHome.isEmpty {} else {
-                cell.configure(self.pickedStatusesHome[0])
+            if self.pickedStatusesHome[0].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
+                if self.pickedStatusesHome.isEmpty {} else {
+                    cell.configure(self.pickedStatusesHome[0])
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailImageCell", for: indexPath) as! DetailImageCell
+                if self.pickedStatusesHome.isEmpty {} else {
+                    cell.configure(self.pickedStatusesHome[0])
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailActionsCell", for: indexPath) as! DetailActionsCell
             cell.backgroundColor = UIColor(named: "baseWhite")
