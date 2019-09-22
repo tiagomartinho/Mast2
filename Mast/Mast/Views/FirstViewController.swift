@@ -31,6 +31,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        self.segment.frame = CGRect(x: 15, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
+        
         // Table
         let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
@@ -60,7 +62,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         
         // Segmented control
-        self.segment.frame = CGRect(x: 15, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
         self.segment.selectedSegmentIndex = 0
         self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
         self.view.addSubview(self.segment)
