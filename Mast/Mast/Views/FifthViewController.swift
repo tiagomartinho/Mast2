@@ -54,6 +54,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         // Table
         self.tableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
+        self.tableView.register(OtherProfileCell.self, forCellReuseIdentifier: "OtherProfileCell")
         self.tableView.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCell")
@@ -168,17 +169,23 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             if self.isYou {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
                 cell.configure(GlobalStruct.currentUser)
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "OtherProfileCell", for: indexPath) as! OtherProfileCell
                 cell.configure(self.pickedCurrentUser)
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         } else if indexPath.section == 1 {
             if self.profileStatusesImages.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell", for: indexPath) as! ProfileImageCell

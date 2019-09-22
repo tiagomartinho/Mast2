@@ -91,6 +91,7 @@
 		5344C0BA233790AC00EB3363 /* TootImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0B9233790AC00EB3363 /* TootImageCell.swift */; };
 		5344C0BC2337966F00EB3363 /* NotificationsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */; };
 		5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BD23379A4300EB3363 /* DetailImageCell.swift */; };
+		5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -197,6 +198,7 @@
 		5344C0B9233790AC00EB3363 /* TootImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootImageCell.swift; sourceTree = "<group>"; };
 		5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsImageCell.swift; sourceTree = "<group>"; };
 		5344C0BD23379A4300EB3363 /* DetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageCell.swift; sourceTree = "<group>"; };
+		5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCell.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */,
 				5379F42523323F8C00DC1F33 /* DirectCell.swift */,
 				5379F42D2333AD6400DC1F33 /* ProfileCell.swift */,
+				5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */,
 				5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */,
 				5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */,
 				5379F4352334CAE800DC1F33 /* ListCell.swift */,
@@ -545,6 +548,7 @@
 				53449DC323294C1000A470E2 /* RequestError.swift in Sources */,
 				5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */,
 				5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */,
+				5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */,
 				53449DA223294C1000A470E2 /* String.swift in Sources */,
 				53449DD623294C1000A470E2 /* Timelines.swift in Sources */,
 				53449DAA23294C1000A470E2 /* ScheduledStatus.swift in Sources */,

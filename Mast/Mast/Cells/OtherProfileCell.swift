@@ -1,15 +1,15 @@
 //
-//  ProfileCell.swift
+//  OtherProfileCell.swift
 //  Mast
 //
-//  Created by Shihab Mehboob on 19/09/2019.
+//  Created by Shihab Mehboob on 22/09/2019.
 //  Copyright © 2019 Shihab Mehboob. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class ProfileCell: UITableViewCell {
+class OtherProfileCell: UITableViewCell {
     
     var header = UIImageView()
     var profile = UIImageView()
@@ -18,6 +18,8 @@ class ProfileCell: UITableViewCell {
     var content = UILabel()
     var followers = UIButton()
     var joined = UILabel()
+    var followsYou = UIButton()
+    var following = UIButton()
     var more = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -84,6 +86,33 @@ class ProfileCell: UITableViewCell {
         joined.numberOfLines = 0
         contentView.addSubview(joined)
         
+        followsYou.translatesAutoresizingMaskIntoConstraints = false
+        followsYou.setTitle("   Follows You   ".localized, for: .normal)
+        followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+        followsYou.layer.cornerRadius = 10
+        followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
+        followsYou.contentHorizontalAlignment = .leading
+        followsYou.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        followsYou.titleLabel?.adjustsFontForContentSizeCategory = true
+        followsYou.titleLabel?.numberOfLines = 1
+        followsYou.titleLabel?.lineBreakMode = .byTruncatingTail
+        followsYou.sizeToFit()
+        contentView.addSubview(followsYou)
+        
+        following.translatesAutoresizingMaskIntoConstraints = false
+        following.setTitle("   Follow   ".localized, for: .normal)
+        following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
+        following.layer.cornerRadius = 13
+        following.layer.borderWidth = 1.4
+        following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+        following.contentHorizontalAlignment = .leading
+        following.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        following.titleLabel?.adjustsFontForContentSizeCategory = true
+        following.titleLabel?.numberOfLines = 1
+        following.titleLabel?.lineBreakMode = .byTruncatingTail
+        following.sizeToFit()
+        contentView.addSubview(following)
+        
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
         more.translatesAutoresizingMaskIntoConstraints = false
         more.backgroundColor = UIColor.clear
@@ -101,6 +130,8 @@ class ProfileCell: UITableViewCell {
             "content" : content,
             "followers" : followers,
             "joined" : joined,
+            "followsYou" : followsYou,
+            "following" : following,
             "more" : more,
         ]
         
@@ -111,9 +142,12 @@ class ProfileCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[content]-20-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[followers]-20-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[joined]-20-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-110-[followsYou]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-110-[following]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=20)-[more(26)]-20-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-150-[more(26)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-110-[followsYou(20)]-20-[following(26)]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[header(140)]-(>=40)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-100-[profile(80)]-12-[username]-2-[usertag]-8-[content]-8-[followers]-2-[joined]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
     }
@@ -178,6 +212,7 @@ class ProfileCell: UITableViewCell {
         }
     }
 }
+
 
 
 
