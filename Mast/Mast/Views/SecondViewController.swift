@@ -56,6 +56,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Table
         self.tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
+        self.tableView.register(NotificationsImageCell.self, forCellReuseIdentifier: "NotificationsImageCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -201,22 +202,41 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.selectedBackgroundView = bgColorView
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
-                cell.configure(GlobalStruct.notifications[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
-                cell.profile2.tag = indexPath.row
-                cell.profile2.addGestureRecognizer(tap2)
-                if indexPath.row == GlobalStruct.notifications.count - 10 {
-                    self.fetchMoreNotifications()
+                if GlobalStruct.notifications[indexPath.row].status?.mediaAttachments.isEmpty ?? true {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
+                    cell.configure(GlobalStruct.notifications[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
+                    if indexPath.row == GlobalStruct.notifications.count - 10 {
+                        self.fetchMoreNotifications()
+                    }
+                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    let bgColorView = UIView()
+                    bgColorView.backgroundColor = UIColor.clear
+                    cell.selectedBackgroundView = bgColorView
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsImageCell", for: indexPath) as! NotificationsImageCell
+                    cell.configure(GlobalStruct.notifications[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
+                    if indexPath.row == GlobalStruct.notifications.count - 10 {
+                        self.fetchMoreNotifications()
+                    }
+                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    let bgColorView = UIView()
+                    bgColorView.backgroundColor = UIColor.clear
+                    cell.selectedBackgroundView = bgColorView
+                    return cell
                 }
-                cell.backgroundColor = UIColor(named: "baseWhite")
-                let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor.clear
-                cell.selectedBackgroundView = bgColorView
-                return cell
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell

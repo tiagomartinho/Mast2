@@ -56,6 +56,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
         self.tableView.register(ProfileImageCell.self, forCellReuseIdentifier: "ProfileImageCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
+        self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell2")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -196,23 +197,43 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 return cell
             }
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if self.profileStatuses.isEmpty {
-                self.fetchUserData()
-            } else {
-                cell.configure(self.profileStatuses[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == self.profileStatuses.count - 10 {
-                    self.fetchMoreUserData()
+            if self.profileStatuses[indexPath.row].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
+                if self.profileStatuses.isEmpty {
+                    self.fetchUserData()
+                } else {
+                    cell.configure(self.profileStatuses[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == self.profileStatuses.count - 10 {
+                        self.fetchMoreUserData()
+                    }
                 }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
+                if self.profileStatuses.isEmpty {
+                    self.fetchUserData()
+                } else {
+                    cell.configure(self.profileStatuses[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                    if indexPath.row == self.profileStatuses.count - 10 {
+                        self.fetchMoreUserData()
+                    }
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         }
     }
     
