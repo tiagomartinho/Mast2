@@ -104,6 +104,7 @@ class OtherProfileCell: UITableViewCell {
         following.setTitle("   Follow   ".localized, for: .normal)
         following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
         following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+        following.backgroundColor = UIColor.clear
         following.layer.cornerRadius = 14
         following.layer.borderWidth = 1.8
         following.contentHorizontalAlignment = .leading
@@ -217,13 +218,15 @@ class OtherProfileCell: UITableViewCell {
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     if stat[1].following {
-                        self.following.setTitle("   Unfollow   ".localized, for: .normal)
-                        self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
-                        self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+                        self.following.setTitle("   Following   ".localized, for: .normal)
+                        self.following.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                        self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
+                        self.following.backgroundColor = GlobalStruct.baseTint
                     } else {
                         self.following.setTitle("   Follow   ".localized, for: .normal)
                         self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
                         self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+                        self.following.backgroundColor = UIColor.clear
                     }
                     if stat[1].followedBy {
                         self.followsYou.setTitle("   Follows You   ".localized, for: .normal)
