@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import GSImageViewerController
 
 class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -123,8 +124,8 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-6-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-6-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -183,6 +184,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     var images: [Attachment] = []
+    var images2: [UIImage] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.images.count
     }
@@ -201,6 +203,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                     DispatchQueue.main.async {
                         cell.image.image = image
                         cell.image.layer.masksToBounds = true
+                        self.images2.append(image ?? UIImage())
                     }
                 }
                 cell.image.backgroundColor = UIColor(named: "baseWhite")
@@ -218,6 +221,14 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         }
         cell.backgroundColor = UIColor.clear
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let imageInfo = GSImageInfo(image: self.images2[indexPath.item], imageMode: .aspectFit, imageHD: nil)
+        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        let win = UIApplication.shared.keyWindow?.rootViewController
+        win?.present(imageViewer, animated: true, completion: nil)
     }
     
     func highlightCell() {

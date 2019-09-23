@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import GSImageViewerController
 
 class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -143,6 +144,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     var images: [Attachment] = []
+    var images2: [UIImage] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.images.count
     }
@@ -161,6 +163,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                     DispatchQueue.main.async {
                         cell.image.image = image
                         cell.image.layer.masksToBounds = true
+                        self.images2.append(image ?? UIImage())
                     }
                 }
                 cell.image.backgroundColor = UIColor(named: "baseWhite")
@@ -178,6 +181,14 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         }
         cell.backgroundColor = UIColor.clear
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let imageInfo = GSImageInfo(image: self.images2[indexPath.item], imageMode: .aspectFit, imageHD: nil)
+        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        let win = UIApplication.shared.keyWindow?.rootViewController
+        win?.present(imageViewer, animated: true, completion: nil)
     }
     
     func highlightCell() {

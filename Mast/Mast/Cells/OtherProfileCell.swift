@@ -8,11 +8,12 @@
 
 import Foundation
 import UIKit
+import GSImageViewerController
 
 class OtherProfileCell: UITableViewCell {
     
-    var header = UIImageView()
-    var profile = UIImageView()
+    var header = UIButton()
+    var profile = UIButton()
     var username = UILabel()
     var usertag = UILabel()
     var content = UILabel()
@@ -29,6 +30,7 @@ class OtherProfileCell: UITableViewCell {
         header.backgroundColor = GlobalStruct.baseTint
         header.isUserInteractionEnabled = true
         header.contentMode = .scaleAspectFill
+        header.addTarget(self, action: #selector(self.headerTap), for: .touchUpInside)
         contentView.addSubview(header)
         
         profile.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +39,7 @@ class OtherProfileCell: UITableViewCell {
         profile.isUserInteractionEnabled = true
         profile.layer.borderWidth = 2
         profile.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
+        profile.addTarget(self, action: #selector(self.profileTap), for: .touchUpInside)
         contentView.addSubview(profile)
         
         username.translatesAutoresizingMaskIntoConstraints = false
@@ -158,6 +161,24 @@ class OtherProfileCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func headerTap() {
+        let imageInfo = GSImageInfo(image: self.image2 ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+        let transitionInfo = GSTransitionInfo(fromView: self.header)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        let win = UIApplication.shared.keyWindow?.rootViewController
+        win?.present(imageViewer, animated: true, completion: nil)
+    }
+    
+    @objc func profileTap() {
+        let imageInfo = GSImageInfo(image: self.image1 ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+        let transitionInfo = GSTransitionInfo(fromView: self.profile)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        let win = UIApplication.shared.keyWindow?.rootViewController
+        win?.present(imageViewer, animated: true, completion: nil)
+    }
+    
+    var image1: UIImage? = nil
+    var image2: UIImage? = nil
     func configure(_ acc: Account) {
         self.username.text = acc.displayName
         self.usertag.text = "@\(acc.acct)"
@@ -193,14 +214,15 @@ class OtherProfileCell: UITableViewCell {
         fullString.append(attStringNewLine2)
         self.followers.setAttributedTitle(fullString, for: .normal)
         
-        self.profile.image = UIImage()
+        self.profile.setImage(UIImage(), for: .normal)
         guard let imageURL = URL(string: acc.avatar) else { return }
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
             let image = UIImage(data: imageData)
             DispatchQueue.main.async {
-                self.profile.image = image
+                self.profile.setImage(image, for: .normal)
                 self.profile.layer.masksToBounds = true
+                self.image1 = image
             }
         }
         guard let imageURL2 = URL(string: acc.header) else { return }
@@ -208,8 +230,9 @@ class OtherProfileCell: UITableViewCell {
             guard let imageData2 = try? Data(contentsOf: imageURL2) else { return }
             let image = UIImage(data: imageData2)
             DispatchQueue.main.async {
-                self.header.image = image
+                self.header.setImage(image, for: .normal)
                 self.header.layer.masksToBounds = true
+                self.image2 = image
             }
         }
         
