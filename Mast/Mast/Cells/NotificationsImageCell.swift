@@ -231,6 +231,10 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 self.profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
             }
         }
+        
+        let _ = self.images.map {_ in
+            self.images2.append(UIImage())
+        }
     }
     
     var images: [Attachment] = []
@@ -253,7 +257,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                     DispatchQueue.main.async {
                         cell.image.image = image
                         cell.image.layer.masksToBounds = true
-                        self.images2.append(image ?? UIImage())
+                        self.images2[indexPath.row] = image ?? UIImage()
                     }
                 }
                 cell.image.backgroundColor = UIColor(named: "baseWhite")
@@ -263,10 +267,10 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 cell.image.frame.size.width = 160
                 cell.image.frame.size.height = 120
                 cell.bgImage.layer.masksToBounds = false
-                cell.bgImage.layer.shadowColor = UIColor.black.cgColor
-                cell.bgImage.layer.shadowRadius = 5
-                cell.bgImage.layer.shadowOpacity = 0.05
-                cell.bgImage.layer.shadowOffset = CGSize(width: 0, height: 6)
+//                cell.bgImage.layer.shadowColor = UIColor.black.cgColor
+//                cell.bgImage.layer.shadowRadius = 5
+//                cell.bgImage.layer.shadowOpacity = 0.05
+//                cell.bgImage.layer.shadowOffset = CGSize(width: 0, height: 6)
             }
         }
         cell.backgroundColor = UIColor.clear
