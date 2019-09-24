@@ -202,6 +202,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
             let keyboardY2 = self.view.bounds.height - keyboardY02
             collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
+
+            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 60)
         }
     }
     
@@ -220,6 +222,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
+        
+        self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 60)
     }
     
     func removeTabbarItemsText() {
