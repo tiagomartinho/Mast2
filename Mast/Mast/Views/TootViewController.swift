@@ -127,7 +127,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let range = NSRange(location: 0, length: 100 != 0 ? rangeLength: 100)
         let indexes = NSIndexSet(indexesIn: range)
         imagesAndVideos.enumerateObjects(at: indexes as IndexSet, options: []) { asset, index, stop in
-            guard let asset = asset as? PHAsset else { return }
             self.images.append(asset)
         }
     }
