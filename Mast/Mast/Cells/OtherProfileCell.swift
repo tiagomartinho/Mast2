@@ -31,6 +31,7 @@ class OtherProfileCell: UITableViewCell {
         header.backgroundColor = GlobalStruct.baseTint
         header.isUserInteractionEnabled = true
         header.contentMode = .scaleAspectFill
+        header.imageView?.contentMode = .scaleAspectFill
         header.addTarget(self, action: #selector(self.headerTap), for: .touchUpInside)
         contentView.addSubview(header)
         
@@ -41,6 +42,7 @@ class OtherProfileCell: UITableViewCell {
         profile.layer.borderWidth = 2
         profile.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
         profile.addTarget(self, action: #selector(self.profileTap), for: .touchUpInside)
+        profile.imageView?.contentMode = .scaleAspectFill
         contentView.addSubview(profile)
         
         username.translatesAutoresizingMaskIntoConstraints = false
@@ -219,10 +221,12 @@ class OtherProfileCell: UITableViewCell {
         guard let imageURL = URL(string: acc.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, for: .normal, completed: nil)
         self.profile.layer.masksToBounds = true
+        self.profile.imageView?.contentMode = .scaleAspectFill
         self.image1?.sd_setImage(with: imageURL, completed: nil)
         guard let imageURL2 = URL(string: acc.header) else { return }
         self.header.sd_setImage(with: imageURL2, for: .normal, completed: nil)
         self.header.layer.masksToBounds = true
+        self.header.imageView?.contentMode = .scaleAspectFill
         self.image2?.sd_setImage(with: imageURL2, completed: nil)
         
         let request = Accounts.relationships(ids: [GlobalStruct.currentUser.id, acc.id])
