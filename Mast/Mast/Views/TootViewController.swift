@@ -36,7 +36,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             keyboardY02 = self.keyHeight + 57
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50))
+        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
     }
     
     override func viewDidLoad() {
@@ -106,7 +106,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             keyboardY02 = self.keyHeight + 57
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50)), collectionViewLayout: layout)
+        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50)), collectionViewLayout: layout)
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self
@@ -201,7 +201,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 keyboardY02 = self.keyHeight + 57
             }
             let keyboardY2 = self.view.bounds.height - keyboardY02
-            collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50))
+            collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         }
     }
     
@@ -219,7 +219,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             keyboardY02 = self.keyHeight + 57
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50))
+        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
     }
     
     func removeTabbarItemsText() {
