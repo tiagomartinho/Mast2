@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import GSImageViewerController
+import SDWebImage
 
 class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -133,22 +134,16 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         self.timestamp.text = timeAgoSince(stat.createdAt)
         self.profile.image = UIImage()
         guard let imageURL = URL(string: stat.account.avatar) else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            let image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self.profile.image = image
-                self.profile.layer.masksToBounds = true
-            }
-        }
+        self.profile.sd_setImage(with: imageURL, completed: nil)
+        self.profile.layer.masksToBounds = true
         
         let _ = self.images.map {_ in
-            self.images2.append(UIImage())
+            self.images2.append(UIImageView())
         }
     }
     
     var images: [Attachment] = []
-    var images2: [UIImage] = []
+    var images2: [UIImageView] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.images.count
     }
@@ -160,16 +155,9 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             let z = self.images[indexPath.item].previewURL
             cell.image.contentMode = .scaleAspectFill
             if let imageURL = URL(string: z) {
-                cell.image.image = UIImage()
-                DispatchQueue.global().async {
-                    guard let imageData = try? Data(contentsOf: imageURL) else { return }
-                    let image = UIImage(data: imageData)
-                    DispatchQueue.main.async {
-                        cell.image.image = image
-                        cell.image.layer.masksToBounds = true
-                        self.images2[indexPath.row] = image ?? UIImage()
-                    }
-                }
+                cell.image.sd_setImage(with: imageURL, completed: nil)
+                cell.image.layer.masksToBounds = true
+                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = UIColor(named: "baseWhite")
                 cell.image.layer.cornerRadius = 5
                 cell.image.layer.masksToBounds = true
@@ -177,10 +165,6 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 cell.image.frame.size.width = 160
                 cell.image.frame.size.height = 120
                 cell.bgImage.layer.masksToBounds = false
-//                cell.bgImage.layer.shadowColor = UIColor.black.cgColor
-//                cell.bgImage.layer.shadowRadius = 5
-//                cell.bgImage.layer.shadowOpacity = 0.05
-//                cell.bgImage.layer.shadowOffset = CGSize(width: 0, height: 6)
             }
         }
         cell.backgroundColor = UIColor.clear
@@ -188,7 +172,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images2[indexPath.item], imageMode: .aspectFit, imageHD: nil)
+        let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
         let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         let win = UIApplication.shared.keyWindow?.rootViewController

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import GSImageViewerController
+import SDWebImage
 
 class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -48,7 +49,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         return self.profileStatusesImages.count
     }
     
-    var images2: [UIImage] = []
+    var images2: [UIImageView] = []
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
         if self.profileStatusesImages.isEmpty {} else {
@@ -57,16 +58,9 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 let z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
-                    cell.image.image = UIImage()
-                    DispatchQueue.global().async {
-                        guard let imageData = try? Data(contentsOf: imageURL) else { return }
-                        let image = UIImage(data: imageData)
-                        DispatchQueue.main.async {
-                            cell.image.image = image
-                            cell.image.layer.masksToBounds = true
-                            self.images2.append(image ?? UIImage())
-                        }
-                    }
+                    cell.image.sd_setImage(with: imageURL, completed: nil)
+                    cell.image.layer.masksToBounds = true
+                    self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                     cell.image.backgroundColor = UIColor(named: "baseWhite")
                     cell.image.layer.cornerRadius = 5
                     cell.image.layer.masksToBounds = true
@@ -86,7 +80,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images2[indexPath.item], imageMode: .aspectFit, imageHD: nil)
+        let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
         let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         let win = UIApplication.shared.keyWindow?.rootViewController

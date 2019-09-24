@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import GSImageViewerController
+import SDWebImage
 
 class OtherProfileCell: UITableViewCell {
     
@@ -162,7 +163,7 @@ class OtherProfileCell: UITableViewCell {
     }
     
     @objc func headerTap() {
-        let imageInfo = GSImageInfo(image: self.image2 ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+        let imageInfo = GSImageInfo(image: self.image2?.image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
         let transitionInfo = GSTransitionInfo(fromView: self.header)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         let win = UIApplication.shared.keyWindow?.rootViewController
@@ -170,15 +171,15 @@ class OtherProfileCell: UITableViewCell {
     }
     
     @objc func profileTap() {
-        let imageInfo = GSImageInfo(image: self.image1 ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+        let imageInfo = GSImageInfo(image: self.image1?.image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
         let transitionInfo = GSTransitionInfo(fromView: self.profile)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         let win = UIApplication.shared.keyWindow?.rootViewController
         win?.present(imageViewer, animated: true, completion: nil)
     }
     
-    var image1: UIImage? = nil
-    var image2: UIImage? = nil
+    var image1: UIImageView? = nil
+    var image2: UIImageView? = nil
     func configure(_ acc: Account) {
         self.username.text = acc.displayName
         self.usertag.text = "@\(acc.acct)"
@@ -216,25 +217,13 @@ class OtherProfileCell: UITableViewCell {
         
         self.profile.setImage(UIImage(), for: .normal)
         guard let imageURL = URL(string: acc.avatar) else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            let image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self.profile.setImage(image, for: .normal)
-                self.profile.layer.masksToBounds = true
-                self.image1 = image
-            }
-        }
+        self.profile.sd_setImage(with: imageURL, for: .normal, completed: nil)
+        self.profile.layer.masksToBounds = true
+        self.image1?.sd_setImage(with: imageURL, completed: nil)
         guard let imageURL2 = URL(string: acc.header) else { return }
-        DispatchQueue.global().async {
-            guard let imageData2 = try? Data(contentsOf: imageURL2) else { return }
-            let image = UIImage(data: imageData2)
-            DispatchQueue.main.async {
-                self.header.setImage(image, for: .normal)
-                self.header.layer.masksToBounds = true
-                self.image2 = image
-            }
-        }
+        self.header.sd_setImage(with: imageURL2, for: .normal, completed: nil)
+        self.header.layer.masksToBounds = true
+        self.image2?.sd_setImage(with: imageURL2, completed: nil)
         
         let request = Accounts.relationships(ids: [GlobalStruct.currentUser.id, acc.id])
         GlobalStruct.client.run(request) { (statuses) in

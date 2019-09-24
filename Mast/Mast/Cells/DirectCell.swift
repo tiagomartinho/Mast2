@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class DirectCell: UITableViewCell {
     
@@ -123,14 +124,8 @@ class DirectCell: UITableViewCell {
         self.timestamp.text = timeAgoSince(convo.lastStatus?.createdAt ?? Date())
         self.profile.image = UIImage()
         guard let imageURL = URL(string: convo.lastStatus?.account.avatar ?? "") else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            let image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self.profile.image = image
-                self.profile.layer.masksToBounds = true
-            }
-        }
+        self.profile.sd_setImage(with: imageURL, completed: nil)
+        self.profile.layer.masksToBounds = true
     }
     
     func highlightCell() {

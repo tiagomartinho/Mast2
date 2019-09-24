@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class NotificationsCell: UITableViewCell {
     
@@ -157,14 +158,8 @@ class NotificationsCell: UITableViewCell {
             self.content.text = "\(noti.account.followersCount) \("followers".localized), \(noti.account.followingCount) \("following".localized)"
             self.profile.image = UIImage()
             guard let imageURL = URL(string: noti.account.avatar) else { return }
-            DispatchQueue.global().async {
-                guard let imageData = try? Data(contentsOf: imageURL) else { return }
-                let image = UIImage(data: imageData)
-                DispatchQueue.main.async {
-                    self.profile.image = image
-                    self.profile.layer.masksToBounds = true
-                }
-            }
+            self.profile.sd_setImage(with: imageURL, completed: nil)
+            self.profile.layer.masksToBounds = true
             self.profile2.alpha = 0
         } else {
             if noti.type == .mention {
@@ -183,50 +178,17 @@ class NotificationsCell: UITableViewCell {
             self.content.text = noti.status?.content.stripHTML() ?? ""
             self.profile.image = UIImage()
             guard let imageURL = URL(string: noti.status?.account.avatar ?? "") else { return }
-            DispatchQueue.global().async {
-                guard let imageData = try? Data(contentsOf: imageURL) else { return }
-                let image = UIImage(data: imageData)
-                DispatchQueue.main.async {
-                    self.profile.image = image
-                    self.profile.layer.masksToBounds = true
-                }
-            }
+            self.profile.sd_setImage(with: imageURL, completed: nil)
+            self.profile.layer.masksToBounds = true
             if noti.type == .mention {
                 self.profile2.alpha = 0
             } else {
                 self.profile2.image = UIImage()
                 guard let imageURL2 = URL(string: noti.account.avatar) else { return }
-                DispatchQueue.global().async {
-                    guard let imageData2 = try? Data(contentsOf: imageURL2) else { return }
-                    let image = UIImage(data: imageData2)
-                    DispatchQueue.main.async {
-                        self.profile2.image = image
-                        self.profile2.layer.masksToBounds = true
-                    }
-                }
+                self.profile2.sd_setImage(with: imageURL2, completed: nil)
+                self.profile2.layer.masksToBounds = true
                 self.profile2.alpha = 1
                 self.profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
-            }
-        }
-        if (noti.status?.mediaAttachments.count ?? 0) > 0 {
-            if noti.type == .mention || noti.type == .reblog || noti.type == .favourite {
-//                if noti.status?.mediaAttachments.count == 1 {
-//                    let firstImage = noti.status?.mediaAttachments[0].url
-//                } else if noti.status?.mediaAttachments.count == 2 {
-//                    let firstImage = noti.status?.mediaAttachments[0].url
-//                    let secondImage = noti.status?.mediaAttachments[1].url
-//                } else if noti.status?.mediaAttachments.count == 3 {
-//                    let firstImage = noti.status?.mediaAttachments[0].url
-//                    let secondImage = noti.status?.mediaAttachments[1].url
-//                    let thirdImage = noti.status?.mediaAttachments[2].url
-//                } else {
-//                    let firstImage = noti.status?.mediaAttachments[0].url
-//                    let secondImage = noti.status?.mediaAttachments[1].url
-//                    let thirdImage = noti.status?.mediaAttachments[2].url
-//                    let fourthImage = noti.status?.mediaAttachments[3].url
-//                }
-            } else {
-                
             }
         }
     }

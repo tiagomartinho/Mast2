@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class DetailCell: UITableViewCell {
     
@@ -150,14 +151,8 @@ class DetailCell: UITableViewCell {
         
         self.profile.image = UIImage()
         guard let imageURL = URL(string: stat.account.avatar) else { return }
-        DispatchQueue.global().async {
-            guard let imageData = try? Data(contentsOf: imageURL) else { return }
-            let image = UIImage(data: imageData)
-            DispatchQueue.main.async {
-                self.profile.image = image
-                self.profile.layer.masksToBounds = true
-            }
-        }
+        self.profile.sd_setImage(with: imageURL, completed: nil)
+        self.profile.layer.masksToBounds = true
     }
     
     func highlightCell() {

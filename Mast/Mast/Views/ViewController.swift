@@ -253,5 +253,4 @@ public func timeAgoSince(_ date: Date) -> String {
     }
     
     return "Just now"
-    
 }
