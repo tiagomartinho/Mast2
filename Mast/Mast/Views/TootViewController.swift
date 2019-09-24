@@ -25,7 +25,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if self.keyHeight > 0 {
             self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
         } else {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 72)
+            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
         }
         
         var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
@@ -209,7 +209,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             if self.keyHeight > 0 {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
             } else {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 72)
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
             }
         }
     }
@@ -233,7 +233,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if self.keyHeight > 0 {
             self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
         } else {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 72)
+            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
         }
     }
     
