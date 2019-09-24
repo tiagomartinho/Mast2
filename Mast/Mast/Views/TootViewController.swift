@@ -174,14 +174,24 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
         if self.images.isEmpty {} else {
             cell.configure()
-            let _ = self.images[indexPath.item].getURL { (test) in
+            if indexPath.item == 0 {
                 DispatchQueue.main.async {
-                    cell.image.sd_setImage(with: test, completed: nil)
                     cell.image.layer.masksToBounds = true
-                    cell.image.backgroundColor = UIColor(named: "baseWhite")
+                    cell.image.backgroundColor = GlobalStruct.baseTint
                     cell.image.layer.masksToBounds = true
                     cell.image.layer.borderColor = UIColor.black.cgColor
                     cell.image.contentMode = .scaleAspectFill
+                }
+            } else {
+                let _ = self.images[indexPath.item - 1].getURL { (link) in
+                    DispatchQueue.main.async {
+                        cell.image.sd_setImage(with: link, completed: nil)
+                        cell.image.layer.masksToBounds = true
+                        cell.image.backgroundColor = GlobalStruct.baseTint
+                        cell.image.layer.masksToBounds = true
+                        cell.image.layer.borderColor = UIColor.black.cgColor
+                        cell.image.contentMode = .scaleAspectFill
+                    }
                 }
             }
         }
