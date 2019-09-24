@@ -176,7 +176,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.configure()
             if indexPath.item == 0 {
                 DispatchQueue.main.async {
-                    cell.image = UIImage()
+                    cell.image.image = UIImage()
                     cell.image.layer.masksToBounds = true
                     cell.image.backgroundColor = GlobalStruct.baseTint
                     cell.image.layer.masksToBounds = true
@@ -188,7 +188,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                     DispatchQueue.main.async {
                         cell.image.sd_setImage(with: link, completed: nil)
                         cell.image.layer.masksToBounds = true
-                        cell.image.backgroundColor = GlobalStruct.baseTint
+                        cell.image.backgroundColor = UIColor(named: "baseWhite")
                         cell.image.layer.masksToBounds = true
                         cell.image.layer.borderColor = UIColor.black.cgColor
                         cell.image.contentMode = .scaleAspectFill
