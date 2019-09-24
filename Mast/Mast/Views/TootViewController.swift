@@ -8,12 +8,15 @@
 
 import Foundation
 import UIKit
+import Photos
 
-class TootViewController: UIViewController, UITextViewDelegate {
+class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     let textView = UITextView()
     var keyHeight: CGFloat = 0
     var moreButton = UIButton()
+    var collectionView1: UICollectionView!
+    var images: [PHAsset] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -21,12 +24,19 @@ class TootViewController: UIViewController, UITextViewDelegate {
         // Text view
         self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
         
-        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 40
+        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
         if self.keyHeight > 0 {
-            keyboardY0 = self.keyHeight + 42
+            keyboardY0 = self.keyHeight + 47
         }
         let keyboardY = self.view.bounds.height - keyboardY0
         self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
+        
+        var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+        if self.keyHeight > 0 {
+            keyboardY02 = self.keyHeight + 57
+        }
+        let keyboardY2 = self.view.bounds.height - keyboardY02
+        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50))
     }
     
     override func viewDidLoad() {
@@ -81,6 +91,58 @@ class TootViewController: UIViewController, UITextViewDelegate {
         self.moreButton.accessibilityTraits = .button
         self.moreButton.accessibilityLabel = "More".localized
         self.view.addSubview(self.moreButton)
+        
+        self.checkAuthorizationForPhotoLibraryAndGet()
+        
+        let layout = ColumnFlowLayout2(
+            cellsPerRow: 10,
+            minimumInteritemSpacing: 15,
+            minimumLineSpacing: 15,
+            sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        )
+        layout.scrollDirection = .horizontal
+        var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+        if self.keyHeight > 0 {
+            keyboardY02 = self.keyHeight + 57
+        }
+        let keyboardY2 = self.view.bounds.height - keyboardY02
+        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50)), collectionViewLayout: layout)
+        collectionView1.backgroundColor = UIColor.clear
+        collectionView1.delegate = self
+        collectionView1.dataSource = self
+        collectionView1.showsHorizontalScrollIndicator = false
+        collectionView1.register(ComposeImageCell.self, forCellWithReuseIdentifier: "ComposeImageCell")
+        self.view.addSubview(collectionView1)
+        
+        self.collectionView1.reloadData()
+    }
+    
+    private func getPhotosAndVideos() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.predicate = NSPredicate(format: "mediaType = %d || mediaType = %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue)
+        fetchOptions.fetchLimit = 100
+        let imagesAndVideos = PHAsset.fetchAssets(with: fetchOptions)
+        let rangeLength = min(imagesAndVideos.count, 100)
+        let range = NSRange(location: 0, length: 100 != 0 ? rangeLength: 100)
+        let indexes = NSIndexSet(indexesIn: range)
+        imagesAndVideos.enumerateObjects(at: indexes as IndexSet, options: []) { asset, index, stop in
+            guard let asset = asset as? PHAsset else { return }
+            self.images.append(asset)
+        }
+    }
+
+    private func checkAuthorizationForPhotoLibraryAndGet() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        if (status == PHAuthorizationStatus.authorized) {
+            self.getPhotosAndVideos()
+        } else {
+            PHPhotoLibrary.requestAuthorization({ (newStatus) in
+                if (newStatus == PHAuthorizationStatus.authorized) {
+                    self.getPhotosAndVideos()
+                }
+            })
+        }
     }
     
     @objc func viewMore() {
@@ -95,28 +157,69 @@ class TootViewController: UIViewController, UITextViewDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
+        if self.images.isEmpty {} else {
+            cell.configure()
+            let _ = self.images[indexPath.item].getURL { (test) in
+                DispatchQueue.main.async {
+                    cell.image.sd_setImage(with: test, completed: nil)
+                    cell.image.layer.masksToBounds = true
+                    cell.image.backgroundColor = UIColor(named: "baseWhite")
+                    cell.image.layer.masksToBounds = true
+                    cell.image.layer.borderColor = UIColor.black.cgColor
+                    cell.image.contentMode = .scaleAspectFill
+                }
+            }
+        }
+        cell.backgroundColor = UIColor.clear
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+    
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
-            var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 40
+            var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
             if self.keyHeight > 0 {
-                keyboardY0 = self.keyHeight + 42
+                keyboardY0 = self.keyHeight + 47
             }
             let keyboardY = self.view.bounds.height - keyboardY0
             self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
+            
+            var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+            if self.keyHeight > 0 {
+                keyboardY02 = self.keyHeight + 57
+            }
+            let keyboardY2 = self.view.bounds.height - keyboardY02
+            collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50))
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
         self.keyHeight = CGFloat(0)
-        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 40
+        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
         if self.keyHeight > 0 {
-            keyboardY0 = self.keyHeight + 42
+            keyboardY0 = self.keyHeight + 47
         }
         let keyboardY = self.view.bounds.height - keyboardY0
         self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
+        
+        var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+        if self.keyHeight > 0 {
+            keyboardY02 = self.keyHeight + 57
+        }
+        let keyboardY2 = self.view.bounds.height - keyboardY02
+        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 60), height: CGFloat(50))
     }
     
     func removeTabbarItemsText() {
@@ -124,6 +227,31 @@ class TootViewController: UIViewController, UITextViewDelegate {
             for item in items {
                 item.title = ""
             }
+        }
+    }
+}
+
+extension PHAsset {
+    func getURL(completionHandler : @escaping ((_ responseURL : URL?) -> Void)){
+        if self.mediaType == .image {
+            let options: PHContentEditingInputRequestOptions = PHContentEditingInputRequestOptions()
+            options.canHandleAdjustmentData = {(adjustmeta: PHAdjustmentData) -> Bool in
+                return true
+            }
+            self.requestContentEditingInput(with: options, completionHandler: {(contentEditingInput: PHContentEditingInput?, info: [AnyHashable : Any]) -> Void in
+                completionHandler(contentEditingInput!.fullSizeImageURL as URL?)
+            })
+        } else if self.mediaType == .video {
+            let options: PHVideoRequestOptions = PHVideoRequestOptions()
+            options.version = .original
+            PHImageManager.default().requestAVAsset(forVideo: self, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
+                if let urlAsset = asset as? AVURLAsset {
+                    let localVideoUrl: URL = urlAsset.url as URL
+                    completionHandler(localVideoUrl)
+                } else {
+                    completionHandler(nil)
+                }
+            })
         }
     }
 }

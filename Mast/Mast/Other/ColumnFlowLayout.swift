@@ -39,4 +39,34 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
     
 }
 
+class ColumnFlowLayout2: UICollectionViewFlowLayout {
+    
+    let cellsPerRow: Int
+    
+    init(cellsPerRow: Int, minimumInteritemSpacing: CGFloat = 0, minimumLineSpacing: CGFloat = 0, sectionInset: UIEdgeInsets = .zero) {
+        self.cellsPerRow = cellsPerRow
+        super.init()
+        
+        self.minimumInteritemSpacing = minimumInteritemSpacing
+        self.minimumLineSpacing = minimumLineSpacing
+        self.sectionInset = sectionInset
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepare() {
+        super.prepare()
+        itemSize = CGSize(width: 40, height: 40)
+    }
+    
+    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+        let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
+        context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
+        return context
+    }
+    
+}
+
 

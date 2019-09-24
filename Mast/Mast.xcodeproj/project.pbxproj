@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		532DF3BC233A555600AA14E8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 532DF3BB233A555600AA14E8 /* SDWebImage */; };
 		532DF3BE233A555600AA14E8 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 532DF3BD233A555600AA14E8 /* SDWebImageMapKit */; };
+		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
 		53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3023293E3600A470E2 /* AppDelegate.swift */; };
 		53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3223293E3600A470E2 /* SceneDelegate.swift */; };
 		53449D3523293E3600A470E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3423293E3600A470E2 /* ViewController.swift */; };
@@ -115,6 +116,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
 		53449D2D23293E3600A470E2 /* Mast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53449D3023293E3600A470E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53449D3223293E3600A470E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */,
 				5379F4312333C3F800DC1F33 /* ProfileImageCell.swift */,
 				5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */,
+				532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */,
 				5379F4352334CAE800DC1F33 /* ListCell.swift */,
 			);
 			path = Cells;
@@ -599,6 +602,7 @@
 				53449D9E23294C1000A470E2 /* CharacterSet.swift in Sources */,
 				53449DCB23294C1000A470E2 /* Favourites.swift in Sources */,
 				53449DAB23294C1000A470E2 /* Attachment.swift in Sources */,
+				532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */,
 				5379F4322333C3F800DC1F33 /* ProfileImageCell.swift in Sources */,
 				53449DCF23294C1000A470E2 /* Media.swift in Sources */,
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
