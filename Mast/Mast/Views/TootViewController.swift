@@ -120,7 +120,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     private func getPhotosAndVideos() {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.predicate = NSPredicate(format: "mediaType = %d || mediaType = %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue)
+        fetchOptions.predicate = NSPredicate(format: "mediaType = %d || mediaType = %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.image.rawValue)
         fetchOptions.fetchLimit = 100
         let imagesAndVideos = PHAsset.fetchAssets(with: fetchOptions)
         let rangeLength = min(imagesAndVideos.count, 100)
