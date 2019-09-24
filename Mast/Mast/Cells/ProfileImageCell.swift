@@ -43,6 +43,10 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     func configure(_ status: [Status]) {
         self.profileStatusesImages = status
         self.collectionView.reloadData()
+        
+        let _ = self.profileStatusesImages.map {_ in
+            self.images2.append(UIImageView())
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -163,7 +163,7 @@ class OtherProfileCell: UITableViewCell {
     }
     
     @objc func headerTap() {
-        let imageInfo = GSImageInfo(image: self.image2?.image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+        let imageInfo = GSImageInfo(image: self.header.image(for: .normal) ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
         let transitionInfo = GSTransitionInfo(fromView: self.header)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         let win = UIApplication.shared.keyWindow?.rootViewController
@@ -171,7 +171,7 @@ class OtherProfileCell: UITableViewCell {
     }
     
     @objc func profileTap() {
-        let imageInfo = GSImageInfo(image: self.image1?.image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+        let imageInfo = GSImageInfo(image: self.profile.image(for: .normal) ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
         let transitionInfo = GSTransitionInfo(fromView: self.profile)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         let win = UIApplication.shared.keyWindow?.rootViewController
