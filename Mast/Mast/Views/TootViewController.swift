@@ -13,13 +13,20 @@ class TootViewController: UIViewController, UITextViewDelegate {
     
     let textView = UITextView()
     var keyHeight: CGFloat = 0
+    var moreButton = UIButton()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         // Text view
-        let textHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
         self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
+        
+        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 40
+        if self.keyHeight > 0 {
+            keyboardY0 = self.keyHeight + 42
+        }
+        let keyboardY = self.view.bounds.height - keyboardY0
+        self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
     }
     
     override func viewDidLoad() {
@@ -63,6 +70,21 @@ class TootViewController: UIViewController, UITextViewDelegate {
         self.textView.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
         self.view.addSubview(self.textView)
         self.textView.becomeFirstResponder()
+        
+        self.moreButton.backgroundColor = UIColor.clear
+        let downImage = UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)
+        let tintedDownImage = downImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.6), renderingMode: .alwaysOriginal)
+        self.moreButton.setImage(tintedDownImage, for: .normal)
+        self.moreButton.addTarget(self, action: #selector(self.viewMore), for: .touchUpInside)
+        self.moreButton.adjustsImageWhenHighlighted = false
+        self.moreButton.isAccessibilityElement = true
+        self.moreButton.accessibilityTraits = .button
+        self.moreButton.accessibilityLabel = "More".localized
+        self.view.addSubview(self.moreButton)
+    }
+    
+    @objc func viewMore() {
+        
     }
     
     @objc func tickTapped() {
@@ -78,11 +100,23 @@ class TootViewController: UIViewController, UITextViewDelegate {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
+            var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 40
+            if self.keyHeight > 0 {
+                keyboardY0 = self.keyHeight + 42
+            }
+            let keyboardY = self.view.bounds.height - keyboardY0
+            self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
         self.keyHeight = CGFloat(0)
+        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 40
+        if self.keyHeight > 0 {
+            keyboardY0 = self.keyHeight + 42
+        }
+        let keyboardY = self.view.bounds.height - keyboardY0
+        self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
     }
     
     func removeTabbarItemsText() {
