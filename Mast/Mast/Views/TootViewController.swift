@@ -43,7 +43,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let keyboardY2 = self.view.bounds.height - keyboardY02
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         
-        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.7))
+        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
     }
     
     override func viewDidLoad() {
@@ -99,7 +99,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.moreButton.accessibilityLabel = "More".localized
         self.view.addSubview(self.moreButton)
         
-        self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.12)
+        self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
         self.view.addSubview(self.divider)
         
         self.checkAuthorizationForPhotoLibraryAndGet()
@@ -176,9 +176,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.configure()
             if indexPath.item == 0 {
                 DispatchQueue.main.async {
-                    cell.image.image = UIImage()
+                    let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+                    cell.image.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
                     cell.image.layer.masksToBounds = true
-                    cell.image.backgroundColor = GlobalStruct.baseTint
+                    cell.image.backgroundColor = UIColor(named: "baseWhite")
                     cell.image.layer.masksToBounds = true
                     cell.image.layer.borderColor = UIColor.black.cgColor
                     cell.image.contentMode = .scaleAspectFill
@@ -223,7 +224,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             let keyboardY2 = self.view.bounds.height - keyboardY02
             collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
             
-            self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.7))
+            self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
 
             if self.keyHeight > 0 {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
@@ -249,7 +250,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let keyboardY2 = self.view.bounds.height - keyboardY02
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         
-        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.7))
+        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
         
         if self.keyHeight > 0 {
             self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
