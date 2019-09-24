@@ -17,6 +17,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var moreButton = UIButton()
     var collectionView1: UICollectionView!
     var images: [PHAsset] = []
+    var divider = UIView()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -41,6 +42,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
+        
+        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(1))
     }
     
     override func viewDidLoad() {
@@ -95,6 +98,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.moreButton.accessibilityTraits = .button
         self.moreButton.accessibilityLabel = "More".localized
         self.view.addSubview(self.moreButton)
+        
+        self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
+        self.view.addSubview(self.divider)
         
         self.checkAuthorizationForPhotoLibraryAndGet()
         
@@ -205,6 +211,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
             let keyboardY2 = self.view.bounds.height - keyboardY02
             collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
+            
+            self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(1))
 
             if self.keyHeight > 0 {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
@@ -229,6 +237,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
+        
+        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(1))
         
         if self.keyHeight > 0 {
             self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
