@@ -9,8 +9,13 @@
 import Foundation
 import UIKit
 import Photos
+import AVKit
+import AVFoundation
+import MobileCoreServices
+import Vision
+import VisionKit
 
-class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate {
     
     let textView = UITextView()
     var keyHeight: CGFloat = 0
@@ -22,6 +27,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var replyStatus: [Status] = []
     var replyText = UITextView()
     var divider2 = UIView()
+    let photoPickerView = UIImagePickerController()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -157,7 +163,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         } else {
             self.replyText.alpha = 1
             self.divider2.alpha = 1
-
+            
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: 12)
             
             let upImage = UIImage(systemName: "arrow.turn.down.right", withConfiguration: symbolConfig)
@@ -232,7 +238,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             self.images.append(asset)
         }
     }
-
+    
     private func checkAuthorizationForPhotoLibraryAndGet() {
         let status = PHPhotoLibrary.authorizationStatus()
         if (status == PHAuthorizationStatus.authorized) {
@@ -337,9 +343,228 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         return cell
     }
     
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        let fileURL = urls.first!
+        if let theData = NSData(contentsOf: fileURL) {
+            //                    let attachment = NSTextAttachment()
+            //                    attachment.image = UIImage(data: theData as Data)
+            //                    let imWidth = attachment.image!.size.width
+            //                    let imHeight = attachment.image!.size.height
+            //                    let ratio = imWidth/imHeight
+            //                    attachment.bounds = CGRect(x: 5, y: 5, width: self.textView.frame.size.width - 15, height: ((self.textView.frame.size.width - 15)/ratio) - 10)
+            //
+            //                    let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            //                    let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+            //                    let attString = NSAttributedString(attachment: attachment)
+            //
+            //                    guard let selectedRange = self.textView.selectedTextRange else {
+            //                        return
+            //                    }
+            //                    let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
+            //                    self.textView.textStorage.insert(attString, at: cursorIndex)
+            //                    if self.textView.text.isEmpty {} else {
+            //                        self.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
+            //                    }
+            //                    self.textView.textStorage.append(attStringNewLine)
+            //                    self.hapticPatternType3()
+            //                    self.fromScan = true
+        }
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.photoPickerView.dismiss(animated: true, completion: {
+            self.textView.becomeFirstResponder()
+        })
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let _ = info[UIImagePickerController.InfoKey.mediaType] as? String {
+            //                    let photoNew = info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()
+            //                    let attachment = NSTextAttachment()
+            //                    attachment.image = photoNew
+            //                    let imWidth = attachment.image!.size.width
+            //                    let imHeight = attachment.image!.size.height
+            //                    let ratio = imWidth/imHeight
+            //                    attachment.bounds = CGRect(x: 5, y: 5, width: self.textView.frame.size.width - 15, height: ((self.textView.frame.size.width - 15)/ratio) - 10)
+            //
+            //                    let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            //                    let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+            //                    let attString = NSAttributedString(attachment: attachment)
+            //
+            //                    guard let selectedRange = self.textView.selectedTextRange else {
+            //                        return
+            //                    }
+            //                    let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
+            //                    self.textView.textStorage.insert(attString, at: cursorIndex)
+            //                    if self.textView.text.isEmpty {} else {
+            //                        self.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
+            //                    }
+            //                    self.textView.textStorage.append(attStringNewLine)
+            //
+            //                    self.hapticPatternType3()
+            //
+            //                    self.fromScan = true
+        }
+        self.photoPickerView.dismiss(animated: true, completion: nil)
+    }
+    
+    func textFromImage(_ image1: UIImage) {
+        let request = VNRecognizeTextRequest { request, error in
+            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                return
+            }
+            for observation in observations {
+                guard let bestCandidate = observation.topCandidates(1).first else {
+                    continue
+                }
+                var bestString = " \(bestCandidate.string)"
+                if self.textView.text.isEmpty {
+                    bestString = bestCandidate.string
+                }
+                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+                self.textView.textStorage.append(attStringVision)
+                let newPosition = self.textView.endOfDocument
+                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
+            }
+        }
+        request.recognitionLevel = .accurate
+        let requests = [request]
+        guard let img = image1.cgImage else {
+            return
+        }
+        let handler = VNImageRequestHandler(cgImage: img, options: [:])
+        try? handler.perform(requests)
+    }
+    
+    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
+        print(error)
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        let request = VNRecognizeTextRequest { request, error in
+            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                return
+            }
+            for observation in observations {
+                guard let bestCandidate = observation.topCandidates(1).first else {
+                    continue
+                }
+                var bestString = " \(bestCandidate.string)"
+                if self.textView.text.isEmpty {
+                    bestString = bestCandidate.string
+                }
+                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+                self.textView.textStorage.append(attStringVision)
+                let newPosition = self.textView.endOfDocument
+                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
+            }
+        }
+        if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 0 {
+            request.recognitionLevel = .accurate
+        } else if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 1 {
+            request.recognitionLevel = .fast
+        }
+        let requests = [request]
+        for i in 0 ..< scan.pageCount {
+            let image1 = scan.imageOfPage(at: i)
+            guard let img = image1.cgImage else {
+                return
+            }
+            let handler = VNImageRequestHandler(cgImage: img, options: [:])
+            try? handler.perform(requests)
+        }
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func cameraVisionText() {
+        let visionPickerView = VNDocumentCameraViewController()
+        visionPickerView.delegate = self
+        self.present(visionPickerView, animated: true)
+    }
+    
+    func cameraPicker() {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            self.textView.resignFirstResponder()
+        }
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                if response {
+                    if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+                        DispatchQueue.main.async {
+                            self.photoPickerView.delegate = self
+                            self.photoPickerView.sourceType = .camera
+                            self.photoPickerView.mediaTypes = [kUTTypeImage as String]
+                            self.photoPickerView.allowsEditing = false
+                            self.present(self.photoPickerView, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+        })
+        camA.setValue(UIImage(systemName: "camera")!, forKey: "image")
+        camA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(camA)
+        let galA = UIAlertAction(title: "Image Gallery".localized, style: .default , handler:{ (UIAlertAction) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                if response {
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        DispatchQueue.main.async {
+                            self.photoPickerView.delegate = self
+                            self.photoPickerView.sourceType = .photoLibrary
+                            self.photoPickerView.mediaTypes = [kUTTypeImage as String]
+                            self.present(self.photoPickerView, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+        })
+        galA.setValue(UIImage(systemName: "photo")!, forKey: "image")
+        galA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(galA)
+        let galA2 = UIAlertAction(title: " \("Image from Documents".localized)", style: .default , handler:{ (UIAlertAction) in
+            let types: [String] = [kUTTypePNG as String, kUTTypeJPEG as String]
+            let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+            documentPicker.delegate = self
+            self.present(documentPicker, animated: true, completion: nil)
+        })
+        galA2.setValue(UIImage(systemName: "doc.text.magnifyingglass")!, forKey: "image")
+        galA2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(galA2)
+        let scanA = UIAlertAction(title: " \("Scan Documents".localized)", style: .default , handler:{ (UIAlertAction) in
+            self.cameraVisionText()
+        })
+        scanA.setValue(UIImage(systemName: "doc.text.viewfinder")!, forKey: "image")
+        scanA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(scanA)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            self.textView.becomeFirstResponder()
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {
+                presenter.sourceView = cell
+                presenter.sourceRect = cell.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.item == 0 {
-            
+            self.cameraPicker()
         } else {
             if self.selectedImages.contains(indexPath.item - 1) {
                 self.selectedImages = self.selectedImages.filter {$0 != indexPath.item - 1}
@@ -371,7 +596,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
             
             self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-
+            
             if self.replyStatus.isEmpty {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
             } else {
