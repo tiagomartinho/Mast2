@@ -163,18 +163,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     @objc func tickTapped() {
         self.dismiss(animated: true, completion: nil)
         
-        var theText = self.textView.text
-        var replyID: String? = nil
-        var visib = Visibility.public
+        var theText = self.textView.text ?? ""
+        var theReplyID: String? = nil
+        var theSensitive = false
+        var theSpoiler: String? = nil
+        var theVisibility = Visibility.public
         if self.replyStatus.isEmpty {
             
         } else {
-            theText = "@\(self.replyStatus.first?.account.username ?? "") \(self.textView.text)"
-            replyID = self.replyStatus.first?.id ?? nil
-            visib = self.replyStatus.first?.visibility ?? Visibility.public
+            theText = "@\(self.replyStatus.first?.account.username ?? "") \(self.textView.text ?? "")"
+            theReplyID = self.replyStatus.first?.id ?? nil
+            theSensitive = self.replyStatus.first?.sensitive ?? false
+            theSpoiler = self.replyStatus.first?.spoilerText ?? nil
+            theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
         }
         
-        let request = Statuses.create(status: theText, replyToID: replyID, mediaIDs: [], sensitive: nil, spoilerText: nil, scheduledAt: nil, poll: nil, visibility: visib)
+        let request = Statuses.create(status: theText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
         GlobalStruct.client.run(request) { (statuses) in
             if let _ = (statuses.value) {
                 DispatchQueue.main.async {
