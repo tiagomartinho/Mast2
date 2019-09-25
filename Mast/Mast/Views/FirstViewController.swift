@@ -657,35 +657,35 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func makeContextMenu(_ status: [Status], indexPath: IndexPath) -> UIMenu {
-        let repl = UIAction(__title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
+        let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
             
         }
-        let boos = UIAction(__title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
+        let boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             
         }
-        let like = UIAction(__title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
+        let like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             
         }
-        let shar = UIAction(__title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+        let shar = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
             
         }
         
-        let tran = UIAction(__title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
+        let tran = UIAction(title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
             
         }
-        let mute = UIAction(__title: "Mute".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
+        let mute = UIAction(title: "Mute".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
             
         }
-        let bloc = UIAction(__title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
+        let bloc = UIAction(title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
             
         }
-        let dupl = UIAction(__title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+        let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             
         }
-        let repo = UIAction(__title: "Report".localized, image: UIImage(systemName: "xmark.octagon"), identifier: nil) { action in
+        let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "xmark.octagon"), identifier: nil) { action in
             
         }
-        let delete = UIAction(__title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
+        let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
             
         }
         delete.attributes = .destructive
