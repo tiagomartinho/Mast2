@@ -59,7 +59,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
         
-        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(60))
+        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(70))
     }
     
     override func viewDidLoad() {
@@ -145,7 +145,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
         self.view.addSubview(self.divider2)
         
-        self.replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize, weight: .regular)
+        self.replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
         self.replyText.backgroundColor = UIColor.clear
         self.replyText.showsVerticalScrollIndicator = false
         self.replyText.showsHorizontalScrollIndicator = false
@@ -163,6 +163,18 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             self.divider2.alpha = 1
         }
         self.view.addSubview(self.replyText)
+        
+        if self.replyStatus.isEmpty {
+            
+        } else {
+            if self.replyStatus.first?.mentions.isEmpty ?? true {
+                self.textView.text = "@\(self.replyStatus.first?.account.username ?? "") "
+            } else {
+                let _ = self.replyStatus.first?.mentions.map {
+                    self.textView.text = "\(self.textView.text ?? "") @\($0.username) "
+                }
+            }
+        }
     }
     
     private func getPhotosAndVideos() {
@@ -199,7 +211,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     @objc func tickTapped() {
         self.dismiss(animated: true, completion: nil)
         
-        var theText = self.textView.text ?? ""
         var theReplyID: String? = nil
         var theSensitive = false
         var theSpoiler: String? = nil
@@ -207,14 +218,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if self.replyStatus.isEmpty {
             
         } else {
-            theText = "@\(self.replyStatus.first?.account.username ?? "") \(self.textView.text ?? "")"
             theReplyID = self.replyStatus.first?.id ?? nil
             theSensitive = self.replyStatus.first?.sensitive ?? false
             theSpoiler = self.replyStatus.first?.spoilerText ?? nil
             theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
         }
         
-        let request = Statuses.create(status: theText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
+        let request = Statuses.create(status: self.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
         GlobalStruct.client.run(request) { (statuses) in
             if let _ = (statuses.value) {
                 DispatchQueue.main.async {
@@ -328,7 +338,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             
             self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
             
-            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(60))
+            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(70))
         }
     }
     
@@ -358,7 +368,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
         
-        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(60))
+        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(70))
     }
     
     func removeTabbarItemsText() {
