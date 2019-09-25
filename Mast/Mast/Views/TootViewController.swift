@@ -28,6 +28,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var replyText = UITextView()
     var divider2 = UIView()
     let photoPickerView = UIImagePickerController()
+    var charCount = 500
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -71,7 +72,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "New Toot".localized
+        self.title = "\(self.charCount)"
         self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -228,6 +229,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.collectionView1.reloadData()
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        self.charCount = 500 - (self.textView.text?.count ?? 0)
+        self.title = "\(self.charCount)"
+    }
+    
     private func getPhotosAndVideos() {
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -299,7 +305,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
-            let op2 = UIAlertAction(title: "Discard".localized, style: .default , handler:{ (UIAlertAction) in
+            let op2 = UIAlertAction(title: "Discard".localized, style: .destructive , handler:{ (UIAlertAction) in
                 self.dismiss(animated: true, completion: nil)
             })
             op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
