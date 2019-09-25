@@ -70,7 +70,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
 
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-            // Enable or disable features based on authorization.
             DispatchQueue.main.async {
                 UIApplication.shared.registerForRemoteNotifications()
             }
