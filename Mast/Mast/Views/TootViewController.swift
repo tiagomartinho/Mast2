@@ -19,6 +19,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var images: [PHAsset] = []
     var divider = UIView()
     var selectedImages: [Int] = []
+    var replyStatus: [Status] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -161,7 +162,19 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func tickTapped() {
         self.dismiss(animated: true, completion: nil)
-        let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: nil, spoilerText: nil, scheduledAt: nil, poll: nil, visibility: .public)
+        
+        var theText = self.textView.text
+        var replyID: String? = nil
+        var visib = Visibility.public
+        if self.replyStatus.isEmpty {
+            
+        } else {
+            theText = "@\(self.replyStatus.first?.account.username ?? "") \(self.textView.text)"
+            replyID = self.replyStatus.first?.id ?? nil
+            visib = self.replyStatus.first?.visibility ?? Visibility.public
+        }
+        
+        let request = Statuses.create(status: theText, replyToID: replyID, mediaIDs: [], sensitive: nil, spoilerText: nil, scheduledAt: nil, poll: nil, visibility: visib)
         GlobalStruct.client.run(request) { (statuses) in
             if let _ = (statuses.value) {
                 DispatchQueue.main.async {

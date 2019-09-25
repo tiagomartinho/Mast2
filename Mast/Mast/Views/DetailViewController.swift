@@ -209,6 +209,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             if self.pickedStatusesHome.isEmpty {} else {
                 cell.configure(self.pickedStatusesHome[0])
             }
+            cell.button1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
@@ -237,6 +238,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
         }
+    }
+    
+    @objc func replyTapped() {
+        let vc = TootViewController()
+        vc.replyStatus = self.pickedStatusesHome
+        self.show(UINavigationController(rootViewController: vc), sender: self)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
