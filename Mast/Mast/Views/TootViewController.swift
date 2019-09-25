@@ -18,6 +18,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var collectionView1: UICollectionView!
     var images: [PHAsset] = []
     var divider = UIView()
+    var selectedImages: [Int] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -167,12 +168,26 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.images.count
+        if self.images.count == 0 {
+            return 1
+        } else {
+            return self.images.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
-        if self.images.isEmpty {} else {
+        if self.images.isEmpty {
+            DispatchQueue.main.async {
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+                cell.image.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+                cell.image.layer.masksToBounds = true
+                cell.image.backgroundColor = UIColor(named: "baseWhite")
+                cell.image.layer.masksToBounds = true
+                cell.image.layer.borderColor = UIColor.black.cgColor
+                cell.image.contentMode = .scaleAspectFill
+            }
+        } else {
             cell.configure()
             if indexPath.item == 0 {
                 DispatchQueue.main.async {
@@ -193,6 +208,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                         cell.image.layer.masksToBounds = true
                         cell.image.layer.borderColor = UIColor.black.cgColor
                         cell.image.contentMode = .scaleAspectFill
+                        if self.selectedImages.contains(indexPath.item - 1) {
+                            cell.layer.borderColor = GlobalStruct.baseTint.cgColor
+                            cell.layer.cornerRadius = 5
+                            cell.layer.borderWidth = 3
+                            cell.layer.masksToBounds = true
+                        } else {
+                            cell.layer.borderWidth = 0
+                        }
                     }
                 }
             }
@@ -202,7 +225,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if indexPath.item == 0 {
+            
+        } else {
+            if self.selectedImages.contains(indexPath.item - 1) {
+                self.selectedImages = self.selectedImages.filter {$0 != indexPath.item - 1}
+                self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
+            } else {
+                self.selectedImages.append(indexPath.item - 1)
+                self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
+            }
+        }
     }
     
     @objc func keyboardWillShow(notification: Notification) {
@@ -276,7 +309,7 @@ extension PHAsset {
                 return true
             }
             self.requestContentEditingInput(with: options, completionHandler: {(contentEditingInput: PHContentEditingInput?, info: [AnyHashable : Any]) -> Void in
-                completionHandler(contentEditingInput!.fullSizeImageURL as URL?)
+                completionHandler(contentEditingInput?.fullSizeImageURL as URL?)
             })
         } else if self.mediaType == .video {
             let options: PHVideoRequestOptions = PHVideoRequestOptions()
