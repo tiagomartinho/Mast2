@@ -20,15 +20,25 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var divider = UIView()
     var selectedImages: [Int] = []
     var replyStatus: [Status] = []
+    var replyText = UITextView()
+    var divider2 = UIView()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         // Text view
         if self.keyHeight > 0 {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
+            if self.replyStatus.isEmpty {
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
+            } else {
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 132)
+            }
         } else {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
+            if self.replyStatus.isEmpty {
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
+            } else {
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 165)
+            }
         }
         
         var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
@@ -46,6 +56,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         
         self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+        
+        self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+        
+        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(60))
     }
     
     override func viewDidLoad() {
@@ -127,6 +141,28 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.view.addSubview(collectionView1)
         
         self.collectionView1.reloadData()
+        
+        self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
+        self.view.addSubview(self.divider2)
+        
+        self.replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize, weight: .regular)
+        self.replyText.backgroundColor = UIColor.clear
+        self.replyText.showsVerticalScrollIndicator = false
+        self.replyText.showsHorizontalScrollIndicator = false
+        self.replyText.alwaysBounceVertical = true
+        self.replyText.isScrollEnabled = true
+        self.replyText.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
+        self.replyText.isEditable = false
+        self.replyText.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.5)
+        if self.replyStatus.isEmpty {
+            self.replyText.alpha = 0
+            self.divider2.alpha = 0
+        } else {
+            self.replyText.text = "@\(self.replyStatus.first?.account.username ?? ""): \(self.replyStatus.first?.content.stripHTML() ?? "")"
+            self.replyText.alpha = 1
+            self.divider2.alpha = 1
+        }
+        self.view.addSubview(self.replyText)
     }
     
     private func getPhotosAndVideos() {
@@ -284,11 +320,15 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             
             self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
 
-            if self.keyHeight > 0 {
+            if self.replyStatus.isEmpty {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
             } else {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 132)
             }
+            
+            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+            
+            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(60))
         }
     }
     
@@ -310,11 +350,15 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
         
-        if self.keyHeight > 0 {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
-        } else {
+        if self.replyStatus.isEmpty {
             self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
+        } else {
+            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 165)
         }
+        
+        self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+        
+        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(60))
     }
     
     func removeTabbarItemsText() {
