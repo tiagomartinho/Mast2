@@ -317,7 +317,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                     DispatchQueue.main.async {
                         cell.image.sd_setImage(with: link, completed: nil)
                         cell.image.layer.masksToBounds = true
-                        cell.image.backgroundColor = UIColor(named: "baseWhite")
+                        cell.image.backgroundColor = UIColor(named: "lighterBaseWhite")
                         cell.image.layer.masksToBounds = true
                         cell.image.layer.borderColor = UIColor.black.cgColor
                         cell.image.contentMode = .scaleAspectFill
