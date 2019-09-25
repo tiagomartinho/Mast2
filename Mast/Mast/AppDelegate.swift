@@ -34,34 +34,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+    }
+    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
-        print("Device Token: \(token)")
-        
         var state: PushNotificationState!
         let receiver = try! PushNotificationReceiver()
         let subscription = PushNotificationSubscription(endpoint: URL(string:"https://pushrelay1.your.org/relay-to/production/\(token)")!, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
         let deviceToken = PushNotificationDeviceToken(deviceToken: deviceToken)
         state = PushNotificationState(receiver: receiver, subscription: subscription, deviceToken: deviceToken)
         PushNotificationReceiver.setState(state: state)
-        
         #if DEBUG
         let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1-dev.your.org/relay-to/development/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
         #else
         let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1.your.org/relay-to/production/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
         #endif
-        
-        //create the url with URL
-        let url = URL(string: "https://\(GlobalStruct.returnedText)/api/v1/push/subscription")! //change the url
-        
-        //create the session object
+        let url = URL(string: "https://\(GlobalStruct.returnedText)/api/v1/push/subscription")!
         let session = URLSession.shared
-        
-        //now create the URLRequest object using the url object
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"// "POST" //set http method as POST
-        
+        request.httpMethod = "POST"
         let jsonEncoder = JSONEncoder()
         do {
             let jsonData = try jsonEncoder.encode(requestParams)
@@ -73,8 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         request.setValue("Bearer \(GlobalStruct.accessToken)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        //create dataTask using the session object to send data to the server
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
                 return
@@ -91,7 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         task.resume()
-        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
