@@ -232,6 +232,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     func textViewDidChange(_ textView: UITextView) {
         self.charCount = 500 - (self.textView.text?.count ?? 0)
         self.title = "\(self.charCount)"
+        if self.charCount < 1 {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+        } else if self.charCount < 20 {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
+        } else {
+            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
+        }
     }
     
     private func getPhotosAndVideos() {
