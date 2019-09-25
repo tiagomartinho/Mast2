@@ -210,7 +210,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.configure(self.pickedStatusesHome[0])
             }
             cell.button1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = UIColor(named: "lighterBaseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView

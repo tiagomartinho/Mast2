@@ -115,7 +115,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.moreButton.accessibilityLabel = "More".localized
         self.view.addSubview(self.moreButton)
         
-        self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
+        self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider)
         
         self.checkAuthorizationForPhotoLibraryAndGet()
@@ -155,9 +155,46 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             self.replyText.alpha = 0
             self.divider2.alpha = 0
         } else {
-            self.replyText.text = "@\(self.replyStatus.first?.account.username ?? ""):\n\(self.replyStatus.first?.content.stripHTML() ?? "")"
             self.replyText.alpha = 1
             self.divider2.alpha = 1
+
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 12)
+            
+            let upImage = UIImage(systemName: "arrow.turn.down.right", withConfiguration: symbolConfig)
+            let tintedUpImage = upImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
+            let attachment = NSTextAttachment()
+            attachment.image = tintedUpImage
+            let attString = NSAttributedString(attachment: attachment)
+            
+            let upImage2 = UIImage(systemName: "heart", withConfiguration: symbolConfig)
+            let tintedUpImage2 = upImage2?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
+            let attachment2 = NSTextAttachment()
+            attachment2.image = tintedUpImage2
+            let attString2 = NSAttributedString(attachment: attachment2)
+            
+            let upImage3 = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)
+            let tintedUpImage3 = upImage3?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
+            let attachment3 = NSTextAttachment()
+            attachment3.image = tintedUpImage3
+            let attString3 = NSAttributedString(attachment: attachment3)
+            
+            let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize)
+            let attStringNewLine = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            let attStringNewLine2 = NSMutableAttributedString(string: " @\(self.replyStatus.first?.account.username ?? ""):  ", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            
+            let attStringNewLine3 = NSMutableAttributedString(string: " \(self.replyStatus.first?.favouritesCount ?? 0) ", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            let attStringNewLine4 = NSMutableAttributedString(string: " \(self.replyStatus.first?.reblogsCount ?? 0)", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            
+            let attStringNewLine5 = NSMutableAttributedString(string: "\n\(self.replyStatus.first?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.7)])
+            
+            attStringNewLine.append(attString)
+            attStringNewLine.append(attStringNewLine2)
+            attStringNewLine.append(attString2)
+            attStringNewLine.append(attStringNewLine3)
+            attStringNewLine.append(attString3)
+            attStringNewLine.append(attStringNewLine4)
+            attStringNewLine.append(attStringNewLine5)
+            self.replyText.attributedText = attStringNewLine
         }
         self.view.addSubview(self.replyText)
         
@@ -178,7 +215,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
         }
         
-        self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
+        self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider2)
     }
     
