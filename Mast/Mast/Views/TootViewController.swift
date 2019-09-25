@@ -286,7 +286,34 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func crossTapped() {
-        self.dismiss(animated: true, completion: nil)
+        if self.textView.text.isEmpty {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                self.textView.resignFirstResponder()
+            }
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
+                self.dismiss(animated: true, completion: nil)
+            })
+            op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+            let op2 = UIAlertAction(title: "Discard".localized, style: .default , handler:{ (UIAlertAction) in
+                self.dismiss(animated: true, completion: nil)
+            })
+            op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op2)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                self.textView.becomeFirstResponder()
+            }))
+            if let presenter = alert.popoverPresentationController {
+                presenter.sourceView = self.view
+                presenter.sourceRect = self.view.bounds
+            }
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -501,7 +528,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if UIDevice.current.userInterfaceIdiom == .phone {
             self.textView.resignFirstResponder()
         }
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
