@@ -170,15 +170,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             if self.replyStatus.first?.mentions.isEmpty ?? true {
                 self.textView.text = "@\(self.replyStatus.first?.account.username ?? "") "
             } else {
+                self.textView.text = "@\(self.replyStatus.first?.account.username ?? "") "
                 let _ = self.replyStatus.first?.mentions.map {
                     if $0.username == GlobalStruct.currentUser.username {
                         
                     } else {
-                        if self.textView.text == "" {
-                            self.textView.text = "@\($0.username) "
-                        } else {
-                            self.textView.text = "\(self.textView.text ?? "")@\($0.username) "
-                        }
+                        self.textView.text = "\(self.textView.text ?? "")@\($0.username) "
                     }
                 }
             }
