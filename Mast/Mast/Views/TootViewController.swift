@@ -124,8 +124,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider)
         
-        self.checkAuthorizationForPhotoLibraryAndGet()
-        
         let layout = ColumnFlowLayout2(
             cellsPerRow: 10,
             minimumInteritemSpacing: 15,
@@ -145,8 +143,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         collectionView1.showsHorizontalScrollIndicator = false
         collectionView1.register(ComposeImageCell.self, forCellWithReuseIdentifier: "ComposeImageCell")
         self.view.addSubview(collectionView1)
-        
-        self.collectionView1.reloadData()
         
         self.replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
         self.replyText.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -223,6 +219,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider2)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        self.checkAuthorizationForPhotoLibraryAndGet()
+        self.collectionView1.reloadData()
     }
     
     private func getPhotosAndVideos() {

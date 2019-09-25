@@ -663,7 +663,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func makeContextMenu(_ status: [Status], indexPath: IndexPath) -> UIMenu {
         let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
-            
+            let vc = TootViewController()
+            vc.replyStatus = [status[indexPath.row]]
+            self.show(UINavigationController(rootViewController: vc), sender: self)
         }
         let boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             
