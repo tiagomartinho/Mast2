@@ -161,6 +161,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func tickTapped() {
         self.dismiss(animated: true, completion: nil)
+        let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: nil, spoilerText: nil, scheduledAt: nil, poll: nil, visibility: .public)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let _ = (statuses.value) {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                }
+            }
+        }
     }
     
     @objc func crossTapped() {
