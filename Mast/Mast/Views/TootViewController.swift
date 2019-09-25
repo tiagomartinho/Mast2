@@ -142,23 +142,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.collectionView1.reloadData()
         
-        self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
-        self.view.addSubview(self.divider2)
-        
         self.replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
-        self.replyText.backgroundColor = UIColor.clear
+        self.replyText.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.replyText.showsVerticalScrollIndicator = false
         self.replyText.showsHorizontalScrollIndicator = false
         self.replyText.alwaysBounceVertical = true
         self.replyText.isScrollEnabled = true
         self.replyText.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
         self.replyText.isEditable = false
-        self.replyText.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.5)
+        self.replyText.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.6)
         if self.replyStatus.isEmpty {
             self.replyText.alpha = 0
             self.divider2.alpha = 0
         } else {
-            self.replyText.text = "@\(self.replyStatus.first?.account.username ?? ""): \(self.replyStatus.first?.content.stripHTML() ?? "")"
+            self.replyText.text = "@\(self.replyStatus.first?.account.username ?? ""):\n\(self.replyStatus.first?.content.stripHTML() ?? "")"
             self.replyText.alpha = 1
             self.divider2.alpha = 1
         }
@@ -180,6 +177,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 }
             }
         }
+        
+        self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.18)
+        self.view.addSubview(self.divider2)
     }
     
     private func getPhotosAndVideos() {
