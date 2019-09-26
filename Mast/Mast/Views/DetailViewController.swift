@@ -210,6 +210,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.configure(self.pickedStatusesHome[0])
             }
             cell.button1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
+            cell.button4.addTarget(self, action: #selector(self.shareTapped), for: .touchUpInside)
             cell.backgroundColor = UIColor(named: "lighterBaseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
@@ -244,6 +245,44 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let vc = TootViewController()
         vc.replyStatus = self.pickedStatusesHome
         self.show(UINavigationController(rootViewController: vc), sender: self)
+    }
+    
+    @objc func shareTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Share Content".localized, style: .default , handler:{ (UIAlertAction) in
+            let textToShare = [self.pickedStatusesHome.first?.content.stripHTML() ?? ""]
+            let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                activityViewController.popoverPresentationController?.sourceView = cell.button4
+                activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        })
+        op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Share Link".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let textToShare = [self.pickedStatusesHome.first?.url?.absoluteString ?? ""]
+            let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                activityViewController.popoverPresentationController?.sourceView = cell.button4
+                activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        })
+        op2.setValue(UIImage(systemName: "link")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                presenter.sourceView = cell.button4
+                presenter.sourceRect = cell.button4.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
