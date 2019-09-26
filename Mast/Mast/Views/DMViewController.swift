@@ -72,19 +72,19 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         messageInputBar.backgroundView.backgroundColor = UIColor(named: "baseWhite")
         messageInputBar.contentView.backgroundColor = UIColor(named: "baseWhite")
         messageInputBar.inputTextView.backgroundColor = UIColor(named: "baseWhite")
-        messageInputBar.inputTextView.placeholderLabel.text = "Direct Message"
+        messageInputBar.inputTextView.placeholderLabel.text = "  Message..."
         messageInputBar.inputTextView.placeholderTextColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
         messageInputBar.inputTextView.textColor = UIColor(named: "baseBlack")!
         messageInputBar.inputTextView.layer.borderColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2).cgColor
-        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 7, left: 16, bottom: 4, right: 16)
-        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 5, left: 9, bottom: 5, right: 9)
+        messageInputBar.inputTextView.layer.cornerRadius = 0
+        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 11, left: 10, bottom: 4, right: 10)
+        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 9, left: 2, bottom: 5, right: 5)
         messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
-        messageInputBar.setLeftStackViewWidthConstant(to: 119, animated: false)
+        messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
         messageInputBar.sendButton.imageView?.backgroundColor = UIColor.clear
         messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        messageInputBar.sendButton.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+        messageInputBar.sendButton.image = UIImage(systemName: "paperplane", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal)
         messageInputBar.sendButton.title = nil
         messageInputBar.sendButton.imageView?.layer.cornerRadius = 0
         messageInputBar.sendButton.addTarget(self, action: #selector(self.didTouchSend), for: .touchUpInside)
@@ -95,7 +95,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
                 })
             }.onDisabled { item in
                 UIView.animate(withDuration: 0.3, animations: {
-                    self.messageInputBar.sendButton.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
+                    self.messageInputBar.sendButton.image = UIImage(systemName: "paperplane", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
                 })
         }
         let allButton = InputBarButtonItem()
