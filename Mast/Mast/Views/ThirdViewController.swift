@@ -26,7 +26,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "Direct Messages".localized
+        self.title = "Messages".localized
         self.removeTabbarItemsText()
 
         // Add button
@@ -204,7 +204,10 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
+        let controller = DMViewController()
+        controller.mainStatus.append(GlobalStruct.notificationsDirect[indexPath.row].lastStatus!)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func removeTabbarItemsText() {

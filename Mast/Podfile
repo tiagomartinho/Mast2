@@ -7,5 +7,6 @@ target 'Mast' do
 
   # Pods for Mast
 pod "GSImageViewerController"
+pod 'MessageKit'
 
 end
