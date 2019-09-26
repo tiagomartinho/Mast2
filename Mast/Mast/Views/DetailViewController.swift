@@ -261,7 +261,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op2 = UIAlertAction(title: "Share Link".localized, style: .destructive , handler:{ (UIAlertAction) in
+        let op2 = UIAlertAction(title: "Share Link".localized, style: .default , handler:{ (UIAlertAction) in
             let textToShare = [self.pickedStatusesHome.first?.url?.absoluteString ?? ""]
             let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
