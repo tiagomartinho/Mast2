@@ -266,12 +266,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func boostTapped() {
         if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                cell.toggleBoostOff()
+                cell.toggleBoostOff(self.pickedStatusesHome[0])
                 self.isBoosted = false
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                cell.toggleBoostOn()
+                cell.toggleBoostOn(self.pickedStatusesHome[0])
                 self.isBoosted = true
             }
         }
@@ -280,12 +280,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func likeTapped() {
         if self.pickedStatusesHome.first?.favourited ?? false || self.isLiked {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                cell.toggleLikeOff()
+                cell.toggleLikeOff(self.pickedStatusesHome[0])
                 self.isLiked = false
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                cell.toggleLikeOn()
+                cell.toggleLikeOn(self.pickedStatusesHome[0])
                 self.isLiked = true
             }
         }
