@@ -15,7 +15,7 @@ import MobileCoreServices
 import Vision
 import VisionKit
 
-class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate {
+class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
     
     let textView = UITextView()
     var keyHeight: CGFloat = 0
@@ -30,21 +30,34 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     let photoPickerView = UIImagePickerController()
     var charCount = 500
     
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        self.saveToDrafts()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
         
         // Text view
         if self.keyHeight > 0 {
             if self.replyStatus.isEmpty {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
             } else {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 132)
+                if numLines < 3 {
+                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 117)
+                } else {
+                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 142)
+                }
             }
         } else {
             if self.replyStatus.isEmpty {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
             } else {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 165)
+                if numLines < 3 {
+                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 150)
+                } else {
+                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 175)
+                }
             }
         }
         
@@ -63,10 +76,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         
         self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-        
-        self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-        
-        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(70))
+
+        if numLines < 3 {
+            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(55))
+        } else {
+            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(80))
+        }
     }
     
     override func viewDidLoad() {
@@ -74,6 +91,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "\(self.charCount)"
         self.removeTabbarItemsText()
+        
+        self.navigationController?.presentationController?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -109,7 +128,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.textView.isScrollEnabled = true
         self.textView.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
         self.view.addSubview(self.textView)
-        self.textView.becomeFirstResponder()
         
         self.moreButton.backgroundColor = UIColor.clear
         let downImage = UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)
@@ -220,6 +238,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider2)
+        
+        self.textView.becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -227,6 +247,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.checkAuthorizationForPhotoLibraryAndGet()
         self.collectionView1.reloadData()
+        
+        if textView.text.isEmpty {
+            self.isModalInPresentation = false
+        } else {
+            self.isModalInPresentation = true
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -238,6 +264,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
         } else {
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
+        }
+        
+        if textView.text.isEmpty {
+            self.isModalInPresentation = false
+        } else {
+            self.isModalInPresentation = true
         }
     }
     
@@ -299,6 +331,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func crossTapped() {
+        self.saveToDrafts()
+    }
+    
+    func saveToDrafts() {
         if self.textView.text.isEmpty {
             self.dismiss(animated: true, completion: nil)
         } else {
@@ -620,6 +656,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
@@ -642,16 +679,25 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             if self.replyStatus.isEmpty {
                 self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
             } else {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 132)
+                if numLines < 3 {
+                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 117)
+                } else {
+                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 142)
+                }
             }
-            
-            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            
-            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(70))
+
+            if numLines < 3 {
+                self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+                self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(55))
+            } else {
+                self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+                self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(80))
+            }
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
+        let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
         self.keyHeight = CGFloat(0)
         var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
         if self.keyHeight > 0 {
@@ -672,12 +718,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if self.replyStatus.isEmpty {
             self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
         } else {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 165)
+            if numLines < 3 {
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 150)
+            } else {
+                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 175)
+            }
         }
-        
-        self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-        
-        self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 76), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(70))
+
+        if numLines < 3 {
+            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(55))
+        } else {
+            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
+            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(80))
+        }
     }
     
     func removeTabbarItemsText() {
