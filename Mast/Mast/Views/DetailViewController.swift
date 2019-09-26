@@ -226,6 +226,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.button2.addTarget(self, action: #selector(self.boostTapped), for: .touchUpInside)
             cell.button3.addTarget(self, action: #selector(self.likeTapped), for: .touchUpInside)
             cell.button4.addTarget(self, action: #selector(self.shareTapped), for: .touchUpInside)
+            cell.button5.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
             cell.backgroundColor = UIColor(named: "lighterBaseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
@@ -323,6 +324,50 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                 presenter.sourceView = cell.button4
                 presenter.sourceRect = cell.button4.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc func moreTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Translate".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Mute".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op2.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Block".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op3.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        let op4 = UIAlertAction(title: "Duplicate".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op4.setValue(UIImage(systemName: "doc.on.doc")!, forKey: "image")
+        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op4)
+        let op5 = UIAlertAction(title: "Report".localized, style: .destructive , handler:{ (UIAlertAction) in
+            
+        })
+        op5.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op5)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                presenter.sourceView = cell.button5
+                presenter.sourceRect = cell.button5.bounds
             }
         }
         self.present(alert, animated: true, completion: nil)
