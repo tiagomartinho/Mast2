@@ -24,6 +24,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     var thirdView = ThirdViewController()
     var fourthView = FourthViewController()
     var fifthView = FifthViewController()
+    var statusBarView = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,10 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.startHaptics), name: NSNotification.Name(rawValue: "startHaptics"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
+        
+        statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+        statusBarView.backgroundColor = UIColor(named: "baseWhite")
+        view.addSubview(statusBarView)
         
         self.createTabBar()
         self.tabBar.barTintColor = UIColor(named: "baseWhite")
