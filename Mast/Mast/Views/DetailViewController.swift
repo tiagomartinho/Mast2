@@ -331,7 +331,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func moreTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "Translate".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: " Translate".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
@@ -343,19 +343,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op2.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
-        let op3 = UIAlertAction(title: "Block".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: " Block".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op3.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: "Duplicate".localized, style: .default , handler:{ (UIAlertAction) in
+        let op4 = UIAlertAction(title: " Duplicate".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op4.setValue(UIImage(systemName: "doc.on.doc")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
-        let op5 = UIAlertAction(title: "Report".localized, style: .destructive , handler:{ (UIAlertAction) in
+        let op5 = UIAlertAction(title: " Report".localized, style: .destructive , handler:{ (UIAlertAction) in
             
         })
         op5.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
