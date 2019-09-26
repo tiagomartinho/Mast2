@@ -16,6 +16,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var allPrevious: [Status] = []
     var allReplies: [Status] = []
     let detailPrev = UIButton()
+    var isLiked = false
+    var isBoosted = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -75,6 +77,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.detailPrev.alpha = 0
         self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)
         self.view.addSubview(self.detailPrev)
+        
+        if self.pickedStatusesHome.first?.reblogged ?? false {
+            self.isBoosted = true
+        } else {
+            self.isBoosted = false
+        }
+        if self.pickedStatusesHome.first?.favourited ?? false {
+            self.isLiked = true
+        } else {
+            self.isLiked = false
+        }
         
         self.fetchReplies()
     }
@@ -210,6 +223,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.configure(self.pickedStatusesHome[0])
             }
             cell.button1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
+            cell.button2.addTarget(self, action: #selector(self.boostTapped), for: .touchUpInside)
+            cell.button3.addTarget(self, action: #selector(self.likeTapped), for: .touchUpInside)
             cell.button4.addTarget(self, action: #selector(self.shareTapped), for: .touchUpInside)
             cell.backgroundColor = UIColor(named: "lighterBaseWhite")
             let bgColorView = UIView()
@@ -247,11 +262,39 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.show(UINavigationController(rootViewController: vc), sender: self)
     }
     
+    @objc func boostTapped() {
+        if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                cell.toggleBoostOff()
+                self.isBoosted = false
+            }
+        } else {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                cell.toggleBoostOn()
+                self.isBoosted = true
+            }
+        }
+    }
+    
+    @objc func likeTapped() {
+        if self.pickedStatusesHome.first?.favourited ?? false || self.isLiked {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                cell.toggleLikeOff()
+                self.isLiked = false
+            }
+        } else {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                cell.toggleLikeOn()
+                self.isLiked = true
+            }
+        }
+    }
+    
     @objc func shareTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Share Content".localized, style: .default , handler:{ (UIAlertAction) in
             let textToShare = [self.pickedStatusesHome.first?.content.stripHTML() ?? ""]
-            let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                 activityViewController.popoverPresentationController?.sourceView = cell.button4
                 activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds

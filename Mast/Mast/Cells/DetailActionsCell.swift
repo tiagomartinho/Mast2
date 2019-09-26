@@ -97,5 +97,25 @@ class DetailActionsCell: UITableViewCell {
             button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         }
     }
+    
+    func toggleLikeOn() {
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        button3.setImage(UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+    }
+    
+    func toggleLikeOff() {
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        button3.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.5), renderingMode: .alwaysOriginal), for: .normal)
+    }
+    
+    func toggleBoostOn() {
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+    }
+    
+    func toggleBoostOff() {
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.5), renderingMode: .alwaysOriginal), for: .normal)
+    }
 }
 
