@@ -729,14 +729,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.toggleLikeOn(status)
         }
         if status.first?.favourited ?? false {
-            like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
+            like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
                 self.toggleLikeOff(status)
             }
         }
         let shar = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
             self.shareThis(status)
         }
-        
         let tran = UIAction(title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
             self.translateThis(status)
         }

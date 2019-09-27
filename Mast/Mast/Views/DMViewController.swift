@@ -199,7 +199,12 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     }
     
     func didTapAvatar(in cell: MessageCollectionViewCell) {
-        print("Avatar tapped")
+        let pos: CGPoint = cell.convert(CGPoint.zero, to: messagesCollectionView)
+        let indexPath = messagesCollectionView.indexPathForItem(at: pos)
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.allPosts[indexPath?.section ?? 0].account
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
