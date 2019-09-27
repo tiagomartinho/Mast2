@@ -28,11 +28,27 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView2.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
     }
     
+    @objc func scrollTop2() {
+        if self.tableView.alpha == 1 {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+        if self.tableView2.alpha == 1 {
+            self.tableView2.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        GlobalStruct.currentTab = 2
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Notifications".localized
         self.removeTabbarItemsText()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop2), name: NSNotification.Name(rawValue: "scrollTop2"), object: nil)
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0

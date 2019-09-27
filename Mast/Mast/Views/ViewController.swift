@@ -46,6 +46,25 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         self.tabBar.isTranslucent = false
     }
     
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        self.hapticPatternType1()
+        if item.tag == 1 && GlobalStruct.currentTab == 1 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTop1"), object: nil)
+        }
+        if item.tag == 2 && GlobalStruct.currentTab == 2 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTop2"), object: nil)
+        }
+        if item.tag == 3 && GlobalStruct.currentTab == 3 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTop3"), object: nil)
+        }
+        if item.tag == 4 && GlobalStruct.currentTab == 4 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTop4"), object: nil)
+        }
+        if item.tag == 5 && GlobalStruct.currentTab == 5 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTop5"), object: nil)
+        }
+    }
+    
     @objc func startHaptics() {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         do {
@@ -137,10 +156,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             self.viewControllers = [self.tabOne, self.tabTwo, self.tabThree, self.tabFour, self.tabFive]
         }
-    }
-    
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        self.hapticPatternType1()
     }
     
     //MARK: Haptic patterns

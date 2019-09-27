@@ -93,7 +93,7 @@ class ProfileCell: UITableViewCell {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 28, weight: .regular)
         more.translatesAutoresizingMaskIntoConstraints = false
         more.backgroundColor = UIColor.clear
-        more.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        more.setImage(UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         contentView.addSubview(more)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

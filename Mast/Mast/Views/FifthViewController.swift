@@ -29,12 +29,24 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("toot toot")
     }
     
+    @objc func scrollTop5() {
+        if self.tableView.alpha == 1 {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        GlobalStruct.currentTab = 5
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Profile".localized
         self.removeTabbarItemsText()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop5), name: NSNotification.Name(rawValue: "scrollTop5"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
 
         // Add button

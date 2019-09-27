@@ -21,11 +21,24 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
     }
     
+    @objc func scrollTop4() {
+        if self.tableView.alpha == 1 {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        GlobalStruct.currentTab = 4
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Explore".localized
         self.removeTabbarItemsText()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop4), name: NSNotification.Name(rawValue: "scrollTop4"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

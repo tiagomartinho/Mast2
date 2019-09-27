@@ -44,6 +44,23 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         print("toot toot")
     }
     
+    @objc func scrollTop1() {
+        if self.tableView.alpha == 1 {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+        if self.tableViewL.alpha == 1 {
+            self.tableViewL.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+        if self.tableViewF.alpha == 1 {
+            self.tableViewF.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        GlobalStruct.currentTab = 1
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -52,6 +69,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
         
         if UserDefaults.standard.object(forKey: "clientID") == nil {} else {
             GlobalStruct.clientID = UserDefaults.standard.object(forKey: "clientID") as! String
