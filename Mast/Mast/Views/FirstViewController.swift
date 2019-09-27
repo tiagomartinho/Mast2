@@ -437,7 +437,39 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func sortTapped() {
-        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        op1.setValue(UIImage(systemName: "dot.circle")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Boosted".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Not Boosted".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        let op4 = UIAlertAction(title: "Contains Media".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op4.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op4)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -193,7 +193,57 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func sortTapped() {
-        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        op1.setValue(UIImage(systemName: "dot.circle")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Mentions".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Likes".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        let op4 = UIAlertAction(title: "Boosts".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op4.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op4)
+        let op5 = UIAlertAction(title: "Messages".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op5.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op5)
+        let op6 = UIAlertAction(title: "Follows".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op6.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op6)
+        let op7 = UIAlertAction(title: "Polls".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op7.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op7)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func addTapped() {
