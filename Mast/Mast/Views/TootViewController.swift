@@ -302,58 +302,70 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func viewMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op01 = UIAlertAction(title: "Visibility".localized, style: .default , handler:{ (UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        op01.setValue(UIImage(systemName: "eye")!, forKey: "image")
+        op01.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op01)
+        let op02 = UIAlertAction(title: "Spoiler Text".localized, style: .default , handler:{ (UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        op02.setValue(UIImage(systemName: "exclamationmark.bubble")!, forKey: "image")
+        op02.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op02)
         let op1 = UIAlertAction(title: "Text Styles".localized, style: .default , handler:{ (UIAlertAction) in
             self.dismiss(animated: true, completion: nil)
         })
-        op1.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op1.setValue(UIImage(systemName: "textformat.alt")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "Add Poll".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op2.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
         let op4 = UIAlertAction(title: "Add Now Playing".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op4.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
         let op5 = UIAlertAction(title: "Instance Emoticons".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op5.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op5.setValue(UIImage(systemName: "smiley")!, forKey: "image")
         op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op5)
-        let op6 = UIAlertAction(title: "Sentiment Analysus".localized, style: .default , handler:{ (UIAlertAction) in
+        let op6 = UIAlertAction(title: "Sentiment Analysis".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op6.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op6.setValue(UIImage(systemName: "quote.bubble")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op6)
-        let op7 = UIAlertAction(title: "Schedule Toots".localized, style: .default , handler:{ (UIAlertAction) in
+        let op7 = UIAlertAction(title: "Schedule Toot".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op7.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op7.setValue(UIImage(systemName: "timer")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op7)
         let op8 = UIAlertAction(title: "Drafts".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op8.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op8.setValue(UIImage(systemName: "doc.text")!, forKey: "image")
         op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op8)
         let op9 = UIAlertAction(title: "Clear All".localized, style: .destructive , handler:{ (UIAlertAction) in
             
         })
-        op9.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
         op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op9)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in

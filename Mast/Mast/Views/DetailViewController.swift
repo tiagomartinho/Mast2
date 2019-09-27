@@ -158,6 +158,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = self.view
             presenter.sourceRect = self.view.bounds
