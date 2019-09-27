@@ -308,7 +308,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op01.setValue(UIImage(systemName: "eye")!, forKey: "image")
         op01.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op01)
-        let op02 = UIAlertAction(title: "Spoiler Text".localized, style: .default , handler:{ (UIAlertAction) in
+        let op02 = UIAlertAction(title: "Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op02.setValue(UIImage(systemName: "exclamationmark.bubble")!, forKey: "image")

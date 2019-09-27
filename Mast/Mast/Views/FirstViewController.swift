@@ -740,7 +740,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
         }
         let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "xmark.octagon"), identifier: nil) { action in
-            
+            self.reportThis(status)
         }
         let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
             
@@ -749,6 +749,47 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, repo, delete])
         
         return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+    }
+    
+    func reportThis(_ stat: [Status]) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Harassment".localized, style: .default , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Harassment")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op1.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "No Content Warning")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op2.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Spam")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op3.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                presenter.sourceView = cell.button5
+                presenter.sourceRect = cell.button5.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func addTapped() {

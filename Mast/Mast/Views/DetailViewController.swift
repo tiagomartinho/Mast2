@@ -376,11 +376,52 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
         let op5 = UIAlertAction(title: " Report".localized, style: .destructive , handler:{ (UIAlertAction) in
-            
+            self.reportThis()
         })
         op5.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
         op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op5)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                presenter.sourceView = cell.button5
+                presenter.sourceRect = cell.button5.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func reportThis() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Harassment".localized, style: .default , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "Harassment")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op1.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "No Content Warning")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op2.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "Spam")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op3.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
             
         }))
