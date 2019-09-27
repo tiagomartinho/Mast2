@@ -145,7 +145,24 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func sortTapped() {
-        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Newest First".localized, style: .default , handler:{ (UIAlertAction) in
+            self.dismiss(animated: true, completion: nil)
+        })
+        op1.setValue(UIImage(systemName: "dot.circle")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Oldest First".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func removeTabbarItemsText() {
