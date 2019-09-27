@@ -393,6 +393,51 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.present(alert, animated: true, completion: nil)
     }
     
+    func translateThis() {
+        let unreserved = "-._~/?"
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: unreserved)
+        let bodyText = self.pickedStatusesHome.first?.content.stripHTML() ?? ""
+        let unreservedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+        let unreservedCharset = NSCharacterSet(charactersIn: unreservedChars)
+        var trans = bodyText.addingPercentEncoding(withAllowedCharacters: unreservedCharset as CharacterSet)
+        trans = trans!.replacingOccurrences(of: "\n\n", with: "%20")
+        let langStr = Locale.current.languageCode
+        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=\(langStr ?? "en")&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
+        guard let requestUrl = URL(string:urlString) else {
+            return
+        }
+        let request = URLRequest(url:requestUrl)
+        let task = URLSession.shared.dataTask(with: request) {
+            (data, response, error) in
+            if error == nil, let usableData = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
+                    var translatedText = ""
+                    for i in (json[0] as! [Any]) {
+                        translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                    }
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: nil, message: translatedText as? String ?? "Could not translate tweet", preferredStyle: .actionSheet)
+                        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                            
+                        }))
+                        if let presenter = alert.popoverPresentationController {
+                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                                presenter.sourceView = self.view
+                                presenter.sourceRect = self.view.bounds
+                            }
+                        }
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+        }
+        task.resume()
+    }
+    
     func reportThis() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Harassment".localized, style: .default , handler:{ (UIAlertAction) in
