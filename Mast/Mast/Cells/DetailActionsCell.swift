@@ -24,7 +24,7 @@ class DetailActionsCell: UITableViewCell {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(containerView)
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         
         button1.translatesAutoresizingMaskIntoConstraints = false
         button1.backgroundColor = UIColor.clear
@@ -89,7 +89,7 @@ class DetailActionsCell: UITableViewCell {
     }
     
     func configure(_ stat: Status) {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if stat.favourited ?? false {
             button3.setImage(UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         }
@@ -99,7 +99,7 @@ class DetailActionsCell: UITableViewCell {
     }
     
     func toggleLikeOn(_ stat: Status) {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         button3.setImage(UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
 
         let request = Statuses.favourite(id: stat.id)
@@ -109,7 +109,7 @@ class DetailActionsCell: UITableViewCell {
     }
     
     func toggleLikeOff(_ stat: Status) {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         button3.setImage(UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.5), renderingMode: .alwaysOriginal), for: .normal)
 
         let request = Statuses.unfavourite(id: stat.id)
@@ -119,7 +119,7 @@ class DetailActionsCell: UITableViewCell {
     }
     
     func toggleBoostOn(_ stat: Status) {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
 
         let request = Statuses.reblog(id: stat.id)
@@ -129,7 +129,7 @@ class DetailActionsCell: UITableViewCell {
     }
     
     func toggleBoostOff(_ stat: Status) {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .semibold)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.5), renderingMode: .alwaysOriginal), for: .normal)
 
         let request = Statuses.unreblog(id: stat.id)
