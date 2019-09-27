@@ -20,6 +20,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().tintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
+        
+//        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+//        switch (deviceIdiom) {
+//        case .pad:
+//            let rootController = ColumnViewController()
+//            let nav0 = UINavigationController(rootViewController: VerticalTabBarController())
+//            let nav1 = ScrollMainViewController()
+//
+//            let nav01 = UINavigationController(rootViewController: FirstViewController())
+//            let nav02 = UINavigationController(rootViewController: SecondViewController())
+//            let nav03 = UINavigationController(rootViewController: DMViewController())
+//            let nav04 = UINavigationController(rootViewController: ThirdViewController())
+//            let nav05 = UINavigationController(rootViewController: PadListsViewController())
+//            let nav06 = UINavigationController(rootViewController: MainSettingsViewController())
+//            nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05, nav06]
+//
+//            rootController.viewControllers = [nav0, nav1]
+//            self.window?.rootViewController = rootController
+//            self.window!.makeKeyAndVisible()
+//        default:
+//            print("nil")
+//        }
+        
         return true
     }
     
