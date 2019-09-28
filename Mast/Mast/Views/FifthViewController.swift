@@ -49,6 +49,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func refreshTable() {
         DispatchQueue.main.async {
             if UIDevice.current.userInterfaceIdiom == .pad {
+                self.tableView.reloadData()
                 self.fetchMedia()
                 self.fetchUserData()
             } else {
