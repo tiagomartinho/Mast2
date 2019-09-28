@@ -108,7 +108,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     if self.allPrevious.count == 0 {} else {
                         self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-                            self.detailPrev.alpha = 1
+                            if self.fromContextMenu {
+                                self.detailPrev.alpha = 0
+                            } else {
+                                self.detailPrev.alpha = 1
+                            }
                             self.detailPrev.transform = CGAffineTransform(scaleX: 1, y: 1)
                         }) { (completed: Bool) in
                         }

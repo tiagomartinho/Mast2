@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import GSImageViewerController
 import SDWebImage
+import AVKit
+import AVFoundation
 
 class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -21,6 +23,8 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     var timestamp = UILabel()
     var content = UILabel()
     var collectionView1: UICollectionView!
+    let playerViewController = AVPlayerViewController()
+    var player = AVPlayer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -196,6 +200,11 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             cell.image.contentMode = .scaleAspectFill
             if let imageURL = URL(string: z) {
                 cell.image.sd_setImage(with: imageURL, completed: nil)
+                if self.images[indexPath.row].type == .video {
+                    cell.videoOverlay.alpha = 1
+                } else {
+                    cell.videoOverlay.alpha = 0
+                }
                 cell.image.layer.masksToBounds = true
                 self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = UIColor(named: "baseWhite")
@@ -212,11 +221,22 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
-        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        let win = UIApplication.shared.keyWindow?.rootViewController
-        win?.present(imageViewer, animated: true, completion: nil)
+        if images[indexPath.row].type == .video {
+            if let ur = URL(string: images[indexPath.row].url) {
+                self.player = AVPlayer(url: ur)
+                self.playerViewController.player = self.player
+                let win = UIApplication.shared.keyWindow?.rootViewController
+                win?.present(playerViewController, animated: true) {
+                    self.playerViewController.player!.play()
+                }
+            }
+        } else {
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            let win = UIApplication.shared.keyWindow?.rootViewController
+            win?.present(imageViewer, animated: true, completion: nil)
+        }
     }
     
     func highlightCell() {
