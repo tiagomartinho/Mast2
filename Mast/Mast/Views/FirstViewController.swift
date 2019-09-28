@@ -60,11 +60,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 1
-
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
     }
     
-    @objc func refreshTable() {
+    @objc func refreshTable1() {
         self.tableView.reloadData()
     }
     
@@ -77,7 +75,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         
         if UserDefaults.standard.object(forKey: "clientID") == nil {} else {
             GlobalStruct.clientID = UserDefaults.standard.object(forKey: "clientID") as! String
@@ -279,12 +277,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         GlobalStruct.client.run(request4) { (statuses) in
             if let stat = (statuses.value) {
                 GlobalStruct.notifications = stat
+
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
             }
         }
         let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
         GlobalStruct.client.run(request5) { (statuses) in
             if let stat = (statuses.value) {
                 GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
             }
         }
     }

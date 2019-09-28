@@ -35,7 +35,9 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func refreshTable() {
-        self.tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidLoad() {
