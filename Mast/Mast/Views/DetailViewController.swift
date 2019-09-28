@@ -277,6 +277,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+//                    if self.allReplies[indexPath.row].inReplyToID == self.pickedStatusesHome[0].id {
+//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+//                    } else {
+//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 20)
+//                    }
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -290,6 +295,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+//                    if self.allReplies[indexPath.row].inReplyToID == self.pickedStatusesHome[0].id {
+//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+//                    } else {
+//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 20)
+//                    }
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
