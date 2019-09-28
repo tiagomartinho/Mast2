@@ -203,6 +203,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PrevCell", for: indexPath) as! TootCell
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfilePrevious(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -213,6 +216,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PrevImageCell", for: indexPath) as! TootImageCell
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfilePrevious(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -225,6 +231,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
                 if self.pickedStatusesHome.isEmpty {} else {
                     cell.configure(self.pickedStatusesHome[0])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -235,6 +244,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DetailImageCell", for: indexPath) as! DetailImageCell
                 if self.pickedStatusesHome.isEmpty {} else {
                     cell.configure(self.pickedStatusesHome[0])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -262,6 +274,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesCell", for: indexPath) as! TootCell
                 if self.allReplies.isEmpty {} else {
                     cell.configure(self.allReplies[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -272,6 +287,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesImageCell", for: indexPath) as! TootImageCell
                 if self.allReplies.isEmpty {} else {
                     cell.configure(self.allReplies[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -280,6 +298,27 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
         }
+    }
+    
+    @objc func viewProfilePrevious(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.allPrevious[gesture.view!.tag].account
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func viewProfile(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.pickedStatusesHome[0].account
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func viewProfileReply(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.allReplies[gesture.view!.tag].account
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func replyTapped() {
