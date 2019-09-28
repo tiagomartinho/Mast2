@@ -40,7 +40,11 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func refreshTable() {
         DispatchQueue.main.async {
-            self.fetchLists()
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.fetchLists()
+            } else {
+                self.tableView.reloadData()
+            }
         }
     }
     

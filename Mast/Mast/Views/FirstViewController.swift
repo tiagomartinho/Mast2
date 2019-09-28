@@ -252,6 +252,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 DispatchQueue.main.async {
                     GlobalStruct.currentUser = stat
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
+
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    }
                 }
             }
         }
@@ -288,7 +292,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 GlobalStruct.notifications = stat
 
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                }
             }
         }
         let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
@@ -296,7 +302,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
 
-                NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                }
             }
         }
     }

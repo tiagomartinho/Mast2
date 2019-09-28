@@ -29,8 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let nav02 = UINavigationController(rootViewController: SecondViewController())
             let nav03 = UINavigationController(rootViewController: ThirdViewController())
             let nav04 = UINavigationController(rootViewController: FourthViewController())
-//            let nav05 = UINavigationController(rootViewController: FifthViewController())
-            nav1.viewControllers = [nav01, nav02, nav03, nav04]
+            let nav05 = UINavigationController(rootViewController: FifthViewController())
+            nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
 
             rootController.viewControllers = [nav0, nav1]
             self.window?.rootViewController = rootController

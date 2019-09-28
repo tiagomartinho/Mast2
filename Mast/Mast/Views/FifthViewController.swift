@@ -48,7 +48,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc func refreshTable() {
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.fetchMedia()
+                self.fetchUserData()
+            } else {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -105,18 +110,20 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func fetchMedia() {
-        var theUser = GlobalStruct.currentUser.id
-        if self.isYou {
-            theUser = GlobalStruct.currentUser.id
-        } else {
-            theUser = self.pickedCurrentUser.id
-        }
-        let request = Accounts.statuses(id: theUser, mediaOnly: true, pinnedOnly: nil, excludeReplies: nil, excludeReblogs: true, range: .default)
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                DispatchQueue.main.async {
-                    self.profileStatusesImages = stat
-                    self.tableView.reloadSections(IndexSet([1]), with: .none)
+        if GlobalStruct.currentUser == nil {} else {
+            var theUser = GlobalStruct.currentUser.id
+            if self.isYou {
+                theUser = GlobalStruct.currentUser.id
+            } else {
+                theUser = self.pickedCurrentUser.id
+            }
+            let request = Accounts.statuses(id: theUser, mediaOnly: true, pinnedOnly: nil, excludeReplies: nil, excludeReblogs: true, range: .default)
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        self.profileStatusesImages = stat
+                        self.tableView.reloadSections(IndexSet([1]), with: .none)
+                    }
                 }
             }
         }
@@ -202,7 +209,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         if indexPath.section == 0 {
             if self.isYou {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
-                cell.configure(GlobalStruct.currentUser)
+                if GlobalStruct.currentUser == nil {} else {
+                    cell.configure(GlobalStruct.currentUser)
+                }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -283,19 +292,21 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func fetchUserData() {
-        var theUser = GlobalStruct.currentUser.id
-        if self.isYou {
-            theUser = GlobalStruct.currentUser.id
-        } else {
-            theUser = self.pickedCurrentUser.id
-        }
-        let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
-                    DispatchQueue.main.async {
-                        self.profileStatuses = stat
-                        self.tableView.reloadSections(IndexSet([2]), with: .none)
+        if GlobalStruct.currentUser == nil {} else {
+            var theUser = GlobalStruct.currentUser.id
+            if self.isYou {
+                theUser = GlobalStruct.currentUser.id
+            } else {
+                theUser = self.pickedCurrentUser.id
+            }
+            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    if stat.isEmpty {} else {
+                        DispatchQueue.main.async {
+                            self.profileStatuses = stat
+                            self.tableView.reloadSections(IndexSet([2]), with: .none)
+                        }
                     }
                 }
             }
@@ -303,24 +314,26 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func fetchMoreUserData() {
-        var theUser = GlobalStruct.currentUser.id
-        if self.isYou {
-            theUser = GlobalStruct.currentUser.id
-        } else {
-            theUser = self.pickedCurrentUser.id
-        }
-        let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
-                    DispatchQueue.main.async {
-                        let indexPaths = ((self.profileStatuses.count)..<(self.profileStatuses.count + stat.count)).map {
-                            IndexPath(row: $0, section: 2)
+        if GlobalStruct.currentUser == nil {} else {
+            var theUser = GlobalStruct.currentUser.id
+            if self.isYou {
+                theUser = GlobalStruct.currentUser.id
+            } else {
+                theUser = self.pickedCurrentUser.id
+            }
+            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    if stat.isEmpty {} else {
+                        DispatchQueue.main.async {
+                            let indexPaths = ((self.profileStatuses.count)..<(self.profileStatuses.count + stat.count)).map {
+                                IndexPath(row: $0, section: 2)
+                            }
+                            self.profileStatuses.append(contentsOf: stat)
+                            self.tableView.beginUpdates()
+                            self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                            self.tableView.endUpdates()
                         }
-                        self.profileStatuses.append(contentsOf: stat)
-                        self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.endUpdates()
                     }
                 }
             }
