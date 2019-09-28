@@ -10,6 +10,7 @@
 		532DF3BC233A555600AA14E8 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 532DF3BB233A555600AA14E8 /* SDWebImage */; };
 		532DF3BE233A555600AA14E8 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 532DF3BD233A555600AA14E8 /* SDWebImageMapKit */; };
 		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
+		5339C600233FC74000770651 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C5FF233FC74000770651 /* ImageViewController.swift */; };
 		53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3023293E3600A470E2 /* AppDelegate.swift */; };
 		53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3223293E3600A470E2 /* SceneDelegate.swift */; };
 		53449D3523293E3600A470E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3423293E3600A470E2 /* ViewController.swift */; };
@@ -157,6 +158,7 @@
 
 /* Begin PBXFileReference section */
 		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
+		5339C5FF233FC74000770651 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		53449D2D23293E3600A470E2 /* Mast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53449D3023293E3600A470E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53449D3223293E3600A470E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 				53B5F1FB233CED000099B170 /* DMViewController.swift */,
+				5339C5FF233FC74000770651 /* ImageViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				5379F4132331122100DC1F33 /* Spring.swift in Sources */,
 				53449D9E23294C1000A470E2 /* CharacterSet.swift in Sources */,
 				53B5F1EF233BC5600099B170 /* PushNotificationReceiver.swift in Sources */,
+				5339C600233FC74000770651 /* ImageViewController.swift in Sources */,
 				53449DCB23294C1000A470E2 /* Favourites.swift in Sources */,
 				53449DAB23294C1000A470E2 /* Attachment.swift in Sources */,
 				532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */,

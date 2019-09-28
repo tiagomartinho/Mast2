@@ -312,6 +312,28 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             self.containerView.alpha = 0
         })
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
+            let vc = ImageViewController()
+            vc.image = self.images2[indexPath.item].image ?? UIImage()
+            return vc
+        }, actionProvider: { suggestedActions in
+            return self.makeContextMenu(indexPath)
+        })
+    }
+    
+    func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
+        let share = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            
+        }
+        let save = UIAction(title: "Save".localized, image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            
+        }
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [share, save])
+    }
 }
 
 
