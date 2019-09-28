@@ -186,7 +186,7 @@ class OtherProfileCell: UITableViewCell {
         self.username.text = acc.displayName
         self.usertag.text = "@\(acc.acct)"
         self.content.text = acc.note.stripHTML()
-        self.joined.text = "\("Created on".localized) \(acc.createdAt.toString(dateStyle: .medium, timeStyle: .medium))"
+        self.joined.text = "\("Joined on".localized) \(acc.createdAt.toString(dateStyle: .medium, timeStyle: .medium))"
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
