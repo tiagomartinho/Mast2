@@ -173,7 +173,11 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         self.timestamp.text = timeAgoSince(noti.createdAt)
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 14, weight: .bold)
         if noti.type == .mention {
-            self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
+            if noti.status?.visibility == .direct {
+                self.typeOf.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal)
+            } else {
+                self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
+            }
         } else if noti.type == .favourite {
             self.typeOf.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         } else if noti.type == .reblog {
@@ -197,7 +201,11 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             self.profile2.alpha = 0
         } else {
             if noti.type == .mention {
-                self.title.text = "\(noti.account.displayName) \("mentioned you".localized)"
+                if noti.status?.visibility == .direct {
+                    self.title.text = "\(noti.account.displayName) \("direct messaged you".localized)"
+                } else {
+                    self.title.text = "\(noti.account.displayName) \("mentioned you".localized)"
+                }
             } else if noti.type == .favourite {
                 self.title.text = "\(noti.account.displayName) \("liked your toot".localized)"
             } else if noti.type == .reblog {
