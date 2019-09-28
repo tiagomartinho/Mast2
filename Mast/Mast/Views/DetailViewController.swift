@@ -383,7 +383,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let op5 = UIAlertAction(title: " Report".localized, style: .destructive , handler:{ (UIAlertAction) in
             self.reportThis()
         })
-        op5.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op5.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op5)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
@@ -451,7 +451,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
         })
-        op1.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op1.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
@@ -460,7 +460,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
         })
-        op2.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op2.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
@@ -469,7 +469,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 
             }
         })
-        op3.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op3.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in

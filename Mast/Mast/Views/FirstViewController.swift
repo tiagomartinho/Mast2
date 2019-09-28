@@ -807,7 +807,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             
         }
-        let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "xmark.octagon"), identifier: nil) { action in
+        let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
             self.reportThis(status)
         }
         let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
@@ -938,7 +938,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 
             }
         })
-        op1.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op1.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
@@ -947,7 +947,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 
             }
         })
-        op2.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op2.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
@@ -956,7 +956,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 
             }
         })
-        op3.setValue(UIImage(systemName: "xmark.octagon")!, forKey: "image")
+        op3.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
