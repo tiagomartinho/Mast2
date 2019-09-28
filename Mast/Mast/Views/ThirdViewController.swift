@@ -34,6 +34,10 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         GlobalStruct.currentTab = 3
     }
     
+    @objc func refreshTable() {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -41,6 +45,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop3), name: NSNotification.Name(rawValue: "scrollTop3"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

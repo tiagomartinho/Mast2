@@ -23,7 +23,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.segment.frame = CGRect(x: 15, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
         
         // Table
-        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         self.tableView2.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
     }
@@ -42,6 +43,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         GlobalStruct.currentTab = 2
     }
     
+    @objc func refreshTable() {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -49,6 +54,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop2), name: NSNotification.Name(rawValue: "scrollTop2"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0
@@ -106,7 +112,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView2.reloadData()
         
         // Top buttons
-        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         
         self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)

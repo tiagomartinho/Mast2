@@ -34,7 +34,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.segment.frame = CGRect(x: 15, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
         
         // Table
-        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         self.tableViewL.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         self.tableViewF.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
@@ -59,6 +60,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 1
+
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+    }
+    
+    @objc func refreshTable() {
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -70,6 +77,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
         
         if UserDefaults.standard.object(forKey: "clientID") == nil {} else {
             GlobalStruct.clientID = UserDefaults.standard.object(forKey: "clientID") as! String
@@ -173,7 +181,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.addSubview(self.refreshControlF)
         
         // Top buttons
-        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         
         self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)

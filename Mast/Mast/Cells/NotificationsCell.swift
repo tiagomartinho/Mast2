@@ -21,6 +21,7 @@ class NotificationsCell: UITableViewCell {
     var usertag = UILabel()
     var timestamp = UILabel()
     var content = UILabel()
+    var heart = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -97,6 +98,14 @@ class NotificationsCell: UITableViewCell {
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
         contentView.addSubview(content)
+
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        heart.translatesAutoresizingMaskIntoConstraints = false
+        heart.backgroundColor = UIColor(named: "baseWhite")
+        heart.contentMode = .scaleAspectFit
+        heart.alpha = 0
+        contentView.addSubview(heart)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -112,12 +121,13 @@ class NotificationsCell: UITableViewCell {
             "usertag" : usertag,
             "timestamp" : timestamp,
             "content" : content,
+            "heart" : heart,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=5)-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=5)-[heart(20)]-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-66-[profile2(28)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[title]-18-|", options: [], metrics: nil, views: viewsDict))
@@ -125,6 +135,7 @@ class NotificationsCell: UITableViewCell {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[typeOf(20)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-33-[profile2(28)]-(>=5)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[username]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[usertag]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[timestamp]-2-[content]-15-|", options: [], metrics: nil, views: viewsDict))
@@ -190,6 +201,11 @@ class NotificationsCell: UITableViewCell {
                 self.profile2.alpha = 1
                 self.profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
             }
+        }
+        if noti.status?.favourited ?? false {
+            self.heart.alpha = 1
+        } else {
+            self.heart.alpha = 0
         }
     }
     

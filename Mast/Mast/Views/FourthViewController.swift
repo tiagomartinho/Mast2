@@ -32,6 +32,10 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         GlobalStruct.currentTab = 4
     }
     
+    @objc func refreshTable() {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -39,6 +43,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop4), name: NSNotification.Name(rawValue: "scrollTop4"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

@@ -17,7 +17,7 @@ class ScrollMainViewController: UIViewController, UIGestureRecognizerDelegate {
             for viewController in viewControllers {
                 self.addChild(viewController)
                 let vcv = viewController.view
-                vcv!.layer.cornerRadius = 20
+                vcv!.layer.cornerRadius = 8
                 vcv!.layer.masksToBounds = true
                 self.scrollView.addSubview(vcv!)
                 viewController.didMove(toParent: self)
@@ -57,9 +57,9 @@ class ScrollMainViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let width: CGFloat = 380
         
-        var spacer: CGFloat = 25
+        var spacer: CGFloat = 15
         if UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH <= 1024.0 {
-            spacer = 15
+            spacer = 5
         }
         
         self.scrollView.contentSize = CGSize(width: (CGFloat(width * CGFloat(viewControllers.count))) + (CGFloat(spacer * CGFloat(viewControllers.count))), height: CGFloat(self.view.bounds.height))

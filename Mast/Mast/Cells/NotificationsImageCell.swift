@@ -23,6 +23,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     var timestamp = UILabel()
     var content = UILabel()
     var collectionView1: UICollectionView!
+    var heart = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -99,6 +100,14 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
         contentView.addSubview(content)
+
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        heart.translatesAutoresizingMaskIntoConstraints = false
+        heart.backgroundColor = UIColor(named: "baseWhite")
+        heart.contentMode = .scaleAspectFit
+        heart.alpha = 0
+        contentView.addSubview(heart)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -131,12 +140,13 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             "timestamp" : timestamp,
             "content" : content,
             "collectionView" : collectionView1,
+            "heart" : heart,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=5)-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[typeOf(20)]-10-[profile(40)]-10-[username]-5-[usertag]-(>=5)-[heart(20)]-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-66-[profile2(28)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-98-[title]-18-|", options: [], metrics: nil, views: viewsDict))
@@ -145,6 +155,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[typeOf(20)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-33-[profile2(28)]-(>=5)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[username]-2-[content]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[usertag]-2-[content]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[timestamp]-2-[content]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
@@ -217,6 +228,11 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         
         let _ = self.images.map {_ in
             self.images2.append(UIImageView())
+        }
+        if noti.status?.favourited ?? false {
+            self.heart.alpha = 1
+        } else {
+            self.heart.alpha = 0
         }
     }
     
