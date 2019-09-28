@@ -262,6 +262,11 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             cell.image.contentMode = .scaleAspectFill
             if let imageURL = URL(string: z) {
                 cell.image.sd_setImage(with: imageURL, completed: nil)
+                if self.images[indexPath.row].type == .video {
+                    cell.videoOverlay.alpha = 1
+                } else {
+                    cell.videoOverlay.alpha = 0
+                }
                 cell.image.layer.masksToBounds = true
                 self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = UIColor(named: "baseWhite")

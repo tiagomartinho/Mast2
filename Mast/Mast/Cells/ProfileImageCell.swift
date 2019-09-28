@@ -67,6 +67,11 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
                     cell.image.sd_setImage(with: imageURL, completed: nil)
+                    if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video {
+                        cell.videoOverlay.alpha = 1
+                    } else {
+                        cell.videoOverlay.alpha = 0
+                    }
                     cell.image.layer.masksToBounds = true
                     self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                     cell.image.backgroundColor = UIColor(named: "baseWhite")
@@ -75,11 +80,6 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                     cell.image.layer.borderColor = UIColor.black.cgColor
                     cell.image.frame.size.width = 160
                     cell.image.frame.size.height = 120
-//                    cell.bgImage.layer.masksToBounds = false
-//                    cell.bgImage.layer.shadowColor = UIColor.black.cgColor
-//                    cell.bgImage.layer.shadowRadius = 5
-//                    cell.bgImage.layer.shadowOpacity = 0.05
-//                    cell.bgImage.layer.shadowOffset = CGSize(width: 0, height: 6)
                 }
             }
         }
