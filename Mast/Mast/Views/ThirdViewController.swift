@@ -14,13 +14,30 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     var tableView = UITableView()
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    return !x.frame.equalTo(x.screen.bounds)
+                }
+            }
+        }
+        return false
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        // Table
-        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
-        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            // Table
+            let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
+            self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        } else {
+            // Table
+            let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+            self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        }
     }
     
     @objc func scrollTop3() {
