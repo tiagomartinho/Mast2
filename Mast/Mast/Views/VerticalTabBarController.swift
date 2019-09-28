@@ -49,7 +49,8 @@ class VerticalTabBarController: UIViewController {
     }
     
     @objc func settings() {
-        
+        let vc = SettingsViewController()
+        self.show(UINavigationController(rootViewController: vc), sender: self)
     }
     
     @objc func search() {
@@ -57,6 +58,7 @@ class VerticalTabBarController: UIViewController {
     }
     
     @objc func compose() {
-        
+        let vc = TootViewController()
+        self.show(UINavigationController(rootViewController: vc), sender: self)
     }
 }

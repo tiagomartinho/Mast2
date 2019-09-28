@@ -68,7 +68,14 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         layout?.setMessageOutgoingAvatarSize(.zero)
         
         messageInputBar.backgroundColor = UIColor(named: "baseWhite")
-        messageInputBar.separatorLine.isHidden = true
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            messageInputBar.separatorLine.isHidden = false
+        } else {
+            messageInputBar.separatorLine.isHidden = true
+        }
+        messageInputBar.separatorLine.height = 2
+        messageInputBar.separatorLine.backgroundColor = UIColor(named: "lighterBaseWhite")
+        messageInputBar.separatorLine.tintColor = UIColor(named: "lighterBaseWhite")
         messageInputBar.backgroundView.backgroundColor = UIColor(named: "baseWhite")
         messageInputBar.contentView.backgroundColor = UIColor(named: "baseWhite")
         messageInputBar.inputTextView.backgroundColor = UIColor(named: "baseWhite")
@@ -125,9 +132,9 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
                             
                             let theText = NSMutableAttributedString(string: $0.content.stripHTML())
                             if $0.account.acct == GlobalStruct.currentUser.acct {
-                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!, NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
+                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
                             } else {
-                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseWhite")!, NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
+                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!, NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
                             }
                             let sender = Sender(id: theType, displayName: "\($0.account.acct)")
                             let x = MockMessage.init(attributedText: theText, sender: sender, messageId: $0.id, date: $0.createdAt)
@@ -232,7 +239,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     }
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? GlobalStruct.baseTint : UIColor(named: "baseBlack")!
+        return isFromCurrentSender(message: message) ? GlobalStruct.baseTint : UIColor(named: "lighterBaseWhite")!
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {

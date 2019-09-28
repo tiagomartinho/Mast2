@@ -238,8 +238,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider2)
-        
-        self.textView.becomeFirstResponder()
+
+        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+            self.textView.becomeFirstResponder()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
