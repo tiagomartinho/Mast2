@@ -234,6 +234,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -247,6 +248,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -258,6 +260,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailActionsCell", for: indexPath) as! DetailActionsCell
             if self.pickedStatusesHome.isEmpty {} else {
                 cell.configure(self.pickedStatusesHome[0])
+                cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             }
             cell.button1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
             cell.button2.addTarget(self, action: #selector(self.boostTapped), for: .touchUpInside)

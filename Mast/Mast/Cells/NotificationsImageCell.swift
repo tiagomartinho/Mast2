@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import GSImageViewerController
 import SDWebImage
+import AVKit
+import AVFoundation
 
 class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -24,6 +26,8 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     var content = UILabel()
     var collectionView1: UICollectionView!
     var heart = UIImageView()
+    let playerViewController = AVPlayerViewController()
+    var player = AVPlayer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -166,6 +170,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     }
     
     func configure(_ noti: Notificationt) {
+        self.noti = noti
         self.images = noti.status?.mediaAttachments ?? []
         self.collectionView1.reloadData()
         
@@ -244,6 +249,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         }
     }
     
+    var noti: Notificationt!
     var images: [Attachment] = []
     var images2: [UIImageView] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -274,11 +280,22 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
-        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        let win = UIApplication.shared.keyWindow?.rootViewController
-        win?.present(imageViewer, animated: true, completion: nil)
+        if noti.status?.mediaAttachments[indexPath.row].type ?? AttachmentType.image == .video {
+            if let ur = URL(string: self.noti.status?.mediaAttachments[indexPath.row].url ?? "www.google.com") {
+                self.player = AVPlayer(url: ur)
+                self.playerViewController.player = self.player
+                let win = UIApplication.shared.keyWindow?.rootViewController
+                win?.present(playerViewController, animated: true) {
+                    self.playerViewController.player!.play()
+                }
+            }
+        } else {
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            let win = UIApplication.shared.keyWindow?.rootViewController
+            win?.present(imageViewer, animated: true, completion: nil)
+        }
     }
     
     func highlightCell() {

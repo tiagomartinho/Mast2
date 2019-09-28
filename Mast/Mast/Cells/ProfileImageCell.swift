@@ -10,11 +10,15 @@ import Foundation
 import UIKit
 import GSImageViewerController
 import SDWebImage
+import AVKit
+import AVFoundation
 
 class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var collectionView: UICollectionView!
     var profileStatusesImages: [Status] = []
+    let playerViewController = AVPlayerViewController()
+    var player = AVPlayer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -84,10 +88,21 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
-        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        let win = UIApplication.shared.keyWindow?.rootViewController
-        win?.present(imageViewer, animated: true, completion: nil)
+        if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type ?? AttachmentType.image == .video {
+            if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].url ?? "www.google.com") {
+                self.player = AVPlayer(url: ur)
+                self.playerViewController.player = self.player
+                let win = UIApplication.shared.keyWindow?.rootViewController
+                win?.present(playerViewController, animated: true) {
+                    self.playerViewController.player!.play()
+                }
+            }
+        } else {
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            let win = UIApplication.shared.keyWindow?.rootViewController
+            win?.present(imageViewer, animated: true, completion: nil)
+        }
     }
 }

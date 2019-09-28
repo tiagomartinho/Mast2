@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import GSImageViewerController
 import SDWebImage
+import AVKit
+import AVFoundation
 
 class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -21,6 +23,8 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     var content = UILabel()
     var collectionView1: UICollectionView!
     var heart = UIImageView()
+    let playerViewController = AVPlayerViewController()
+    var player = AVPlayer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -135,6 +139,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func configure(_ stat: Status) {
+        self.stat = stat
         self.images = stat.mediaAttachments
         self.collectionView1.reloadData()
         
@@ -158,6 +163,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         }
     }
     
+    var stat: Status!
     var images: [Attachment] = []
     var images2: [UIImageView] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -188,11 +194,22 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
-        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        let win = UIApplication.shared.keyWindow?.rootViewController
-        win?.present(imageViewer, animated: true, completion: nil)
+        if stat.mediaAttachments[indexPath.row].type == .video {
+            if let ur = URL(string: self.stat.mediaAttachments[indexPath.row].url) {
+                self.player = AVPlayer(url: ur)
+                self.playerViewController.player = self.player
+                let win = UIApplication.shared.keyWindow?.rootViewController
+                win?.present(playerViewController, animated: true) {
+                    self.playerViewController.player!.play()
+                }
+            }
+        } else {
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            let win = UIApplication.shared.keyWindow?.rootViewController
+            win?.present(imageViewer, animated: true, completion: nil)
+        }
     }
     
     func highlightCell() {
