@@ -12,22 +12,11 @@ import UIKit
 class FourthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()
-    public var isSplitOrSlideOver: Bool {
-        let windows = UIApplication.shared.windows
-        for x in windows {
-            if let z = self.view.window {
-                if x == z {
-                    return !x.frame.equalTo(x.screen.bounds)
-                }
-            }
-        }
-        return false
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             // Table
             let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
             self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)

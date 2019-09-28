@@ -27,22 +27,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let top1 = UIButton()
     let top2 = UIButton()
     let top3 = UIButton()
-    public var isSplitOrSlideOver: Bool {
-        let windows = UIApplication.shared.windows
-        for x in windows {
-            if let z = self.view.window {
-                if x == z {
-                    return !x.frame.equalTo(x.screen.bounds)
-                }
-            }
-        }
-        return false
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
             // Table
