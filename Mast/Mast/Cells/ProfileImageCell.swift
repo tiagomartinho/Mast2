@@ -88,8 +88,8 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type ?? AttachmentType.image == .video {
-            if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].url ?? "www.google.com") {
+        if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video {
+            if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
                 let win = UIApplication.shared.keyWindow?.rootViewController

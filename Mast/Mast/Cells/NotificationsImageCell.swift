@@ -170,7 +170,6 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     }
     
     func configure(_ noti: Notificationt) {
-        self.noti = noti
         self.images = noti.status?.mediaAttachments ?? []
         self.collectionView1.reloadData()
         
@@ -249,7 +248,6 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         }
     }
     
-    var noti: Notificationt!
     var images: [Attachment] = []
     var images2: [UIImageView] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -280,8 +278,8 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if noti.status?.mediaAttachments[indexPath.row].type ?? AttachmentType.image == .video {
-            if let ur = URL(string: self.noti.status?.mediaAttachments[indexPath.row].url ?? "www.google.com") {
+        if images[indexPath.row].type == .video {
+            if let ur = URL(string: images[indexPath.row].url) {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
                 let win = UIApplication.shared.keyWindow?.rootViewController

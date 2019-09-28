@@ -139,7 +139,6 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func configure(_ stat: Status) {
-        self.stat = stat
         self.images = stat.mediaAttachments
         self.collectionView1.reloadData()
         
@@ -163,7 +162,6 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         }
     }
     
-    var stat: Status!
     var images: [Attachment] = []
     var images2: [UIImageView] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -194,8 +192,8 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if stat.mediaAttachments[indexPath.row].type == .video {
-            if let ur = URL(string: self.stat.mediaAttachments[indexPath.row].url) {
+        if images[indexPath.row].type == .video {
+            if let ur = URL(string: images[indexPath.row].url) {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
                 let win = UIApplication.shared.keyWindow?.rootViewController
