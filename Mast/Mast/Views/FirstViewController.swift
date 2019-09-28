@@ -27,6 +27,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let top1 = UIButton()
     let top2 = UIButton()
     let top3 = UIButton()
+    let btn2 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -116,7 +117,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
         
-        let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
@@ -497,8 +497,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
         }))
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.view
-            presenter.sourceRect = self.view.bounds
+            presenter.sourceView = self.btn2
+            presenter.sourceRect = self.btn2.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }

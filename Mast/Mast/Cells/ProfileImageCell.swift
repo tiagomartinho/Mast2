@@ -71,11 +71,11 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                     cell.image.layer.borderColor = UIColor.black.cgColor
                     cell.image.frame.size.width = 160
                     cell.image.frame.size.height = 120
-                    cell.bgImage.layer.masksToBounds = false
-                    cell.bgImage.layer.shadowColor = UIColor.black.cgColor
-                    cell.bgImage.layer.shadowRadius = 5
-                    cell.bgImage.layer.shadowOpacity = 0.05
-                    cell.bgImage.layer.shadowOffset = CGSize(width: 0, height: 6)
+//                    cell.bgImage.layer.masksToBounds = false
+//                    cell.bgImage.layer.shadowColor = UIColor.black.cgColor
+//                    cell.bgImage.layer.shadowRadius = 5
+//                    cell.bgImage.layer.shadowOpacity = 0.05
+//                    cell.bgImage.layer.shadowOffset = CGSize(width: 0, height: 6)
                 }
             }
         }

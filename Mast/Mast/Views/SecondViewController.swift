@@ -16,6 +16,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     let segment: UISegmentedControl = UISegmentedControl(items: ["Activity".localized, "Metrics".localized])
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
+    let btn2 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -83,7 +84,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
         
-        let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
@@ -260,8 +260,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             
         }))
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.view
-            presenter.sourceRect = self.view.bounds
+            presenter.sourceView = self.btn2
+            presenter.sourceRect = self.btn2.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }

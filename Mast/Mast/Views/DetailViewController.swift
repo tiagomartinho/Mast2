@@ -18,6 +18,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     let detailPrev = UIButton()
     var isLiked = false
     var isBoosted = false
+    let btn1 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -41,7 +42,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        let btn1 = UIButton(type: .custom)
         btn1.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
@@ -162,8 +162,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             
         }))
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.view
-            presenter.sourceRect = self.view.bounds
+            presenter.sourceView = self.btn1
+            presenter.sourceRect = self.btn1.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }
