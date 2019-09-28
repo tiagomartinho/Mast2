@@ -720,17 +720,45 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
-    func tableView(_ tableView: UITableView, willCommitMenuWithAnimator animator: UIContextMenuInteractionCommitAnimating) {
+    func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
         animator.addCompletion {
-            
+            guard let indexPath = configuration.identifier as? IndexPath else { return }
+            if tableView == self.tableView {
+                let vc = DetailViewController()
+                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if tableView == self.tableViewL {
+                let vc = DetailViewController()
+                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row]]
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = DetailViewController()
+                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row]]
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: {
-            nil
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
+            if tableView == self.tableView {
+                let vc = DetailViewController()
+                vc.fromContextMenu = true
+                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+                return vc
+            } else if tableView == self.tableViewL {
+                let vc = DetailViewController()
+                vc.fromContextMenu = true
+                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row]]
+                return vc
+            } else {
+                let vc = DetailViewController()
+                vc.fromContextMenu = true
+                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row]]
+                return vc
+            }
         }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
                 return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)

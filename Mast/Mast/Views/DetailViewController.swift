@@ -19,13 +19,18 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var isLiked = false
     var isBoosted = false
     let btn1 = UIButton(type: .custom)
+    var fromContextMenu = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         // Table
-        let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
-        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        if self.fromContextMenu || UIDevice.current.userInterfaceIdiom == .pad {
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height))
+        } else {
+            let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+            self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        }
     }
     
     @objc func updatePosted() {
