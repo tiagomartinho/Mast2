@@ -61,14 +61,21 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
         }
         
-        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
+        var safeBottom = self.view.safeAreaInsets.bottom
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            safeBottom = 0
+        } else {
+            safeBottom = self.view.safeAreaInsets.bottom
+        }
+        
+        var keyboardY0 = self.keyHeight + safeBottom + 45
         if self.keyHeight > 0 {
             keyboardY0 = self.keyHeight + 47
         }
         let keyboardY = self.view.bounds.height - keyboardY0
         self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
         
-        var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+        var keyboardY02 = self.keyHeight + safeBottom + 55
         if self.keyHeight > 0 {
             keyboardY02 = self.keyHeight + 57
         }
@@ -725,19 +732,25 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func keyboardWillShow(notification: Notification) {
+        var safeBottom = self.view.safeAreaInsets.bottom
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            safeBottom = -20
+        } else {
+            safeBottom = self.view.safeAreaInsets.bottom
+        }
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
-            var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
+            var keyboardY0 = self.keyHeight + safeBottom + 45
             if self.keyHeight > 0 {
                 keyboardY0 = self.keyHeight + 47
             }
             let keyboardY = self.view.bounds.height - keyboardY0
             self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
             
-            var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+            var keyboardY02 = self.keyHeight + safeBottom + 55
             if self.keyHeight > 0 {
                 keyboardY02 = self.keyHeight + 57
             }
@@ -767,16 +780,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func keyboardWillHide(notification: Notification) {
+        var safeBottom = self.view.safeAreaInsets.bottom
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            safeBottom = 0
+        } else {
+            safeBottom = self.view.safeAreaInsets.bottom
+        }
         let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
         self.keyHeight = CGFloat(0)
-        var keyboardY0 = self.keyHeight + self.view.safeAreaInsets.bottom + 45
+        var keyboardY0 = self.keyHeight + safeBottom + 45
         if self.keyHeight > 0 {
             keyboardY0 = self.keyHeight + 47
         }
         let keyboardY = self.view.bounds.height - keyboardY0
         self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
         
-        var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
+        var keyboardY02 = self.keyHeight + safeBottom + 55
         if self.keyHeight > 0 {
             keyboardY02 = self.keyHeight + 57
         }
