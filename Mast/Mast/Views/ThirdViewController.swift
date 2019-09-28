@@ -62,14 +62,18 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         let addButton = UIBarButtonItem(customView: btn1)
-        self.navigationItem.setRightBarButton(addButton, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+            self.navigationItem.setRightBarButton(addButton, animated: true)
+        }
         
         let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(systemName: "gear", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.settingsTapped), for: .touchUpInside)
         let settingsButton = UIBarButtonItem(customView: btn2)
-        self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+            self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        }
         
         // Table
         self.tableView.register(DirectCell.self, forCellReuseIdentifier: "DirectCell")
