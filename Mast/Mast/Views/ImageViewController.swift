@@ -18,7 +18,7 @@ class ImageViewController: UIViewController {
         super.viewDidLayoutSubviews()
         self.imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         self.imageView.sizeToFit()
-        self.preferredContentSize = CGSize(width: self.imageView.bounds.width, height: self.imageView.bounds.height)
+        self.preferredContentSize = CGSize(width: self.imageView.frame.width, height: self.imageView.frame.height)
     }
     
     override func viewDidLoad() {
@@ -28,7 +28,7 @@ class ImageViewController: UIViewController {
         self.imageView.image = self.image
         self.imageView.contentMode = .scaleAspectFit
         self.imageView.sizeToFit()
-        self.preferredContentSize = CGSize(width: self.imageView.bounds.width, height: self.imageView.bounds.height)
+        self.preferredContentSize = CGSize(width: self.imageView.frame.width, height: self.imageView.frame.height)
         self.view.addSubview(self.imageView)
     }
     
