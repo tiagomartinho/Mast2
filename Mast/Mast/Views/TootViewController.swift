@@ -18,7 +18,6 @@ import VisionKit
 class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     var tableView = UITableView()
-//    let textView = UITextView()
     var keyHeight: CGFloat = 0
     var moreButton = UIButton()
     var collectionView1: UICollectionView!
@@ -107,7 +106,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.tableView.layer.masksToBounds = true
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.showsVerticalScrollIndicator = false
+        self.tableView.showsVerticalScrollIndicator = true
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
@@ -166,11 +165,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                             footerHe = 0
                         }
                         let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
-                        self.tableView.tableFooterView = customViewFooter
+//                        self.tableView.tableFooterView = customViewFooter
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
-                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                            cell.textView.becomeFirstResponder()
-                        }
+//                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+//                            cell.textView.becomeFirstResponder()
+//                        }
                     }
                 }
             }
@@ -236,7 +235,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if indexPath.section == 0 {
             return UITableView.automaticDimension
         } else {
-            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 95
+            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 178
             if he < 0 {
                 he = 0
             }
