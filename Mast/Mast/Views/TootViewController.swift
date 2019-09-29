@@ -97,7 +97,6 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         // Table
         self.tableView.register(ComposeCell.self, forCellReuseIdentifier: "ComposeCell")
-        self.tableView.register(ComposeReplyCell.self, forCellReuseIdentifier: "ComposeReplyCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "PrevCell")
         self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "PrevImageCell")
         self.tableView.delegate = self
@@ -108,7 +107,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.tableView.layer.masksToBounds = true
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.showsVerticalScrollIndicator = false
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
@@ -162,12 +161,12 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     self.allPrevious.append(self.replyStatus[0])
                     self.tableView.reloadData()
                     if self.allPrevious.count == 0 {} else {
-                        var footerHe = (self.view.bounds.height) - self.keyHeight - 62 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 0)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 2)).height
+                        var footerHe = (self.view.bounds.height) - self.keyHeight - 62
                         if footerHe < 0 {
                             footerHe = 0
                         }
                         let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
-//                        self.tableView.tableFooterView = customViewFooter
+                        self.tableView.tableFooterView = customViewFooter
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                     }
                 }
@@ -175,8 +174,51 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 1 && (!replyStatus.isEmpty) {
+            return 30
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 && (!replyStatus.isEmpty) {
+            let vw = UIView()
+            vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
+            vw.backgroundColor = UIColor(named: "lighterBaseWhite")
+            let replyText = UITextView()
+            replyText.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
+            replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
+            replyText.backgroundColor = UIColor(named: "lighterBaseWhite")
+            replyText.showsVerticalScrollIndicator = false
+            replyText.showsHorizontalScrollIndicator = false
+            replyText.alwaysBounceVertical = true
+            replyText.isScrollEnabled = true
+            replyText.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
+            replyText.isEditable = false
+            replyText.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.6)
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 13)
+            let upImage = UIImage(systemName: "arrow.turn.down.right", withConfiguration: symbolConfig)
+            let tintedUpImage = upImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
+            let attachment = NSTextAttachment()
+            attachment.image = tintedUpImage
+            let attString = NSAttributedString(attachment: attachment)
+            let normalFont = UIFont.systemFont(ofSize: 14)
+            let attStringNewLine = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            let attStringNewLine2 = NSMutableAttributedString(string: " \("Replying to".localized) @\(replyStatus.first?.account.username ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            attStringNewLine.append(attString)
+            attStringNewLine.append(attStringNewLine2)
+            replyText.attributedText = attStringNewLine
+            vw.addSubview(replyText)
+            return vw
+        } else {
+            return nil
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -190,14 +232,8 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return UITableView.automaticDimension
-        } else if indexPath.section == 1 {
-            if self.replyStatus.isEmpty {
-                return 0
-            } else {
-                return 30
-            }
         } else {
-            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 62 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height
+            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 95
             if he < 0 {
                 he = 0
             }
@@ -228,14 +264,6 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 cell.selectedBackgroundView = bgColorView
                 return cell
             }
-        } else if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeReplyCell", for: indexPath) as! ComposeReplyCell
-            cell.configure(self.replyStatus)
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeCell", for: indexPath) as! ComposeCell
             cell.backgroundColor = UIColor(named: "baseWhite")
@@ -253,7 +281,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.checkAuthorizationForPhotoLibraryAndGet()
         self.collectionView1.reloadData()
         
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
             } else {
@@ -263,7 +291,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             self.charCount = 500 - (cell.textView.text?.count ?? 0)
             self.title = "\(self.charCount)"
             if self.charCount < 1 {
@@ -283,7 +311,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             cell.textView.resignFirstResponder()
         }
     }
@@ -403,7 +431,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
             theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
         }
         
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             let request = Statuses.create(status: cell.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
                 if let _ = (statuses.value) {
@@ -420,7 +448,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func saveToDrafts() {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             if cell.textView.text.isEmpty {
                 self.dismiss(animated: true, completion: nil)
             } else {
@@ -512,7 +540,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let fileURL = urls.first!
         if let theData = NSData(contentsOf: fileURL) {
-//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
 //                let attachment = NSTextAttachment()
 //                attachment.image = UIImage(data: theData as Data)
 //                let imWidth = attachment.image!.size.width
@@ -552,7 +580,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let _ = info[UIImagePickerController.InfoKey.mediaType] as? String {
-//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
 //                let photoNew = info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()
 //                let attachment = NSTextAttachment()
 //                attachment.image = photoNew
@@ -584,7 +612,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func textFromImage(_ image1: UIImage) {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             let request = VNRecognizeTextRequest { request, error in
                 guard let observations = request.results as? [VNRecognizedTextObservation] else {
                     return
@@ -668,7 +696,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func cameraPicker() {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 cell.textView.resignFirstResponder()
             }
         }
@@ -724,7 +752,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         scanA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(scanA)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 cell.textView.becomeFirstResponder()
             }
         }))
