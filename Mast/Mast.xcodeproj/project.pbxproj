@@ -12,7 +12,6 @@
 		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
 		5339C600233FC74000770651 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C5FF233FC74000770651 /* ImageViewController.swift */; };
 		5339C6022340BFF200770651 /* ComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6012340BFF200770651 /* ComposeCell.swift */; };
-		5339C6052340C76600770651 /* ComposeReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6042340C76600770651 /* ComposeReplyCell.swift */; };
 		53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3023293E3600A470E2 /* AppDelegate.swift */; };
 		53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3223293E3600A470E2 /* SceneDelegate.swift */; };
 		53449D3523293E3600A470E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3423293E3600A470E2 /* ViewController.swift */; };
@@ -162,7 +161,6 @@
 		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
 		5339C5FF233FC74000770651 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		5339C6012340BFF200770651 /* ComposeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeCell.swift; sourceTree = "<group>"; };
-		5339C6042340C76600770651 /* ComposeReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeReplyCell.swift; sourceTree = "<group>"; };
 		53449D2D23293E3600A470E2 /* Mast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53449D3023293E3600A470E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53449D3223293E3600A470E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -490,7 +488,6 @@
 				532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */,
 				5379F4352334CAE800DC1F33 /* ListCell.swift */,
 				5339C6012340BFF200770651 /* ComposeCell.swift */,
-				5339C6042340C76600770651 /* ComposeReplyCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -709,7 +706,6 @@
 				53449DA823294C1000A470E2 /* Conversation.swift in Sources */,
 				53449DB123294C1000A470E2 /* LoginSettings.swift in Sources */,
 				53449DAE23294C1000A470E2 /* ClientApplication.swift in Sources */,
-				5339C6052340C76600770651 /* ComposeReplyCell.swift in Sources */,
 				53449D9823294C1000A470E2 /* PaginationItem.swift in Sources */,
 				53449DA723294C1000A470E2 /* AttachmentType.swift in Sources */,
 				53449DD223294C1000A470E2 /* Reports.swift in Sources */,

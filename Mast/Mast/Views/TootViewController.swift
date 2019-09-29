@@ -15,7 +15,7 @@ import MobileCoreServices
 import Vision
 import VisionKit
 
-class TootViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     var tableView = UITableView()
 //    let textView = UITextView()
@@ -161,13 +161,17 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
                     self.allPrevious.append(self.replyStatus[0])
                     self.tableView.reloadData()
                     if self.allPrevious.count == 0 {} else {
-                        var footerHe = (self.view.bounds.height) - self.keyHeight - 62
+                        var footerHe = (self.view.bounds.height) - self.keyHeight - 62 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 0)).height
                         if footerHe < 0 {
                             footerHe = 0
                         }
                         let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
                         self.tableView.tableFooterView = customViewFooter
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
+
+                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                            cell.textView.becomeFirstResponder()
+                        }
                     }
                 }
             }
@@ -267,12 +271,16 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeCell", for: indexPath) as! ComposeCell
             cell.backgroundColor = UIColor(named: "baseWhite")
-//            cell.textView.becomeFirstResponder()
+            cell.textView.delegate = self
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView
             return cell
         }
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
