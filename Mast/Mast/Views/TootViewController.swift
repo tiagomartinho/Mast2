@@ -15,9 +15,10 @@ import MobileCoreServices
 import Vision
 import VisionKit
 
-class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
+class TootViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
     
-    let textView = UITextView()
+    var tableView = UITableView()
+//    let textView = UITextView()
     var keyHeight: CGFloat = 0
     var moreButton = UIButton()
     var collectionView1: UICollectionView!
@@ -25,10 +26,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var divider = UIView()
     var selectedImages: [Int] = []
     var replyStatus: [Status] = []
-    var replyText = UITextView()
-    var divider2 = UIView()
     let photoPickerView = UIImagePickerController()
     var charCount = 500
+    var allPrevious: [Status] = []
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -36,29 +36,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
         
         // Text view
         if self.keyHeight > 0 {
-            if self.replyStatus.isEmpty {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
-            } else {
-                if numLines < 3 {
-                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 117)
-                } else {
-                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 142)
-                }
-            }
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
         } else {
-            if self.replyStatus.isEmpty {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
-            } else {
-                if numLines < 3 {
-                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 150)
-                } else {
-                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 175)
-                }
-            }
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
         }
         
         var safeBottom = self.view.safeAreaInsets.bottom
@@ -83,14 +66,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         
         self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-
-        if numLines < 3 {
-            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(55))
-        } else {
-            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(80))
-        }
     }
     
     override func viewDidLoad() {
@@ -120,21 +95,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
-        // Text view
-        let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-        self.textView.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-        self.textView.textStorage.setAttributes([NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!], range: NSRange(location: 0, length: self.textView.text.count))
-        self.textView.backgroundColor = UIColor.clear
-        self.textView.showsVerticalScrollIndicator = false
-        self.textView.showsHorizontalScrollIndicator = false
-        self.textView.delegate = self
-        self.textView.adjustsFontForContentSizeCategory = true
-        self.textView.isSelectable = true
-        self.textView.alwaysBounceVertical = true
-        self.textView.isUserInteractionEnabled = true
-        self.textView.isScrollEnabled = true
-        self.textView.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
-        self.view.addSubview(self.textView)
+        // Table
+        self.tableView.register(ComposeCell.self, forCellReuseIdentifier: "ComposeCell")
+        self.tableView.register(ComposeReplyCell.self, forCellReuseIdentifier: "ComposeReplyCell")
+        self.tableView.register(TootCell.self, forCellReuseIdentifier: "PrevCell")
+        self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "PrevImageCell")
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
+        self.tableView.backgroundColor = UIColor.clear
+        self.tableView.layer.masksToBounds = true
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.tableFooterView = UIView()
+        self.view.addSubview(self.tableView)
         
         self.moreButton.backgroundColor = UIColor.clear
         let downImage = UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)
@@ -170,84 +146,103 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         collectionView1.register(ComposeImageCell.self, forCellWithReuseIdentifier: "ComposeImageCell")
         self.view.addSubview(collectionView1)
         
-        self.replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
-        self.replyText.backgroundColor = UIColor(named: "lighterBaseWhite")
-        self.replyText.showsVerticalScrollIndicator = false
-        self.replyText.showsHorizontalScrollIndicator = false
-        self.replyText.alwaysBounceVertical = true
-        self.replyText.isScrollEnabled = true
-        self.replyText.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
-        self.replyText.isEditable = false
-        self.replyText.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.6)
         if self.replyStatus.isEmpty {
-            self.replyText.alpha = 0
-            self.divider2.alpha = 0
+
         } else {
-            self.replyText.alpha = 1
-            self.divider2.alpha = 1
-            
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 12)
-            
-            let upImage = UIImage(systemName: "arrow.turn.down.right", withConfiguration: symbolConfig)
-            let tintedUpImage = upImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
-            let attachment = NSTextAttachment()
-            attachment.image = tintedUpImage
-            let attString = NSAttributedString(attachment: attachment)
-            
-            let upImage2 = UIImage(systemName: "heart", withConfiguration: symbolConfig)
-            let tintedUpImage2 = upImage2?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
-            let attachment2 = NSTextAttachment()
-            attachment2.image = tintedUpImage2
-            let attString2 = NSAttributedString(attachment: attachment2)
-            
-            let upImage3 = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)
-            let tintedUpImage3 = upImage3?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
-            let attachment3 = NSTextAttachment()
-            attachment3.image = tintedUpImage3
-            let attString3 = NSAttributedString(attachment: attachment3)
-            
-            let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize)
-            let attStringNewLine = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
-            let attStringNewLine2 = NSMutableAttributedString(string: " @\(self.replyStatus.first?.account.username ?? ""):  ", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
-            
-            let attStringNewLine3 = NSMutableAttributedString(string: " \(self.replyStatus.first?.favouritesCount ?? 0) ", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
-            let attStringNewLine4 = NSMutableAttributedString(string: " \(self.replyStatus.first?.reblogsCount ?? 0)", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
-            
-            let attStringNewLine5 = NSMutableAttributedString(string: "\n\(self.replyStatus.first?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.7)])
-            
-            attStringNewLine.append(attString)
-            attStringNewLine.append(attStringNewLine2)
-            attStringNewLine.append(attString2)
-            attStringNewLine.append(attStringNewLine3)
-            attStringNewLine.append(attString3)
-            attStringNewLine.append(attStringNewLine4)
-            attStringNewLine.append(attStringNewLine5)
-            self.replyText.attributedText = attStringNewLine
+            self.fetchReplies()
         }
-        self.view.addSubview(self.replyText)
-        
-        if self.replyStatus.isEmpty {
-            
-        } else {
-            if self.replyStatus.first?.mentions.isEmpty ?? true {
-                self.textView.text = "@\(self.replyStatus.first?.account.username ?? "") "
-            } else {
-                self.textView.text = "@\(self.replyStatus.first?.account.username ?? "") "
-                let _ = self.replyStatus.first?.mentions.map {
-                    if $0.username == GlobalStruct.currentUser.username {
-                        
-                    } else {
-                        self.textView.text = "\(self.textView.text ?? "")@\($0.username) "
+
+        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+//            self.textView.becomeFirstResponder()
+        }
+    }
+    
+    func fetchReplies() {
+        let request = Statuses.context(id: self.replyStatus[0].id)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.allPrevious = (stat.ancestors)
+                    self.tableView.reloadData()
+                    if self.allPrevious.count == 0 {} else {
+                        var footerHe = self.tableView.bounds.height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 0)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height
+                        if footerHe < 0 {
+                            footerHe = 0
+                        }
+                        let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
+                        self.tableView.tableFooterView = customViewFooter
+                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                     }
                 }
             }
         }
-        
-        self.divider2.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
-        self.view.addSubview(self.divider2)
-
-        if UIDevice.current.userInterfaceIdiom == .pad {} else {
-            self.textView.becomeFirstResponder()
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return self.allPrevious.count
+        } else {
+            return 1
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return UITableView.automaticDimension
+        } else if indexPath.section == 1 {
+            if self.replyStatus.isEmpty {
+                return 0
+            } else {
+                return 30
+            }
+        } else {
+            return self.tableView.bounds.height
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 0 {
+            if self.allPrevious[indexPath.row].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PrevCell", for: indexPath) as! TootCell
+                if self.allPrevious.isEmpty {} else {
+                    cell.configure(self.allPrevious[indexPath.row])
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PrevImageCell", for: indexPath) as! TootImageCell
+                if self.allPrevious.isEmpty {} else {
+                    cell.configure(self.allPrevious[indexPath.row])
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            }
+        } else if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeReplyCell", for: indexPath) as! ComposeReplyCell
+            cell.configure(self.replyStatus)
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeCell", for: indexPath) as! ComposeCell
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.textView.becomeFirstResponder()
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         }
     }
     
@@ -257,29 +252,29 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.checkAuthorizationForPhotoLibraryAndGet()
         self.collectionView1.reloadData()
         
-        if textView.text.isEmpty {
-            self.isModalInPresentation = false
-        } else {
-            self.isModalInPresentation = true
-        }
+//        if textView.text.isEmpty {
+//            self.isModalInPresentation = false
+//        } else {
+//            self.isModalInPresentation = true
+//        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.charCount = 500 - (self.textView.text?.count ?? 0)
-        self.title = "\(self.charCount)"
-        if self.charCount < 1 {
-            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
-        } else if self.charCount < 20 {
-            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
-        } else {
-            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
-        }
-        
-        if textView.text.isEmpty {
-            self.isModalInPresentation = false
-        } else {
-            self.isModalInPresentation = true
-        }
+//        self.charCount = 500 - (self.textView.text?.count ?? 0)
+//        self.title = "\(self.charCount)"
+//        if self.charCount < 1 {
+//            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+//        } else if self.charCount < 20 {
+//            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
+//        } else {
+//            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
+//        }
+//
+//        if textView.text.isEmpty {
+//            self.isModalInPresentation = false
+//        } else {
+//            self.isModalInPresentation = true
+//        }
     }
     
     private func getPhotosAndVideos() {
@@ -397,14 +392,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
         }
         
-        let request = Statuses.create(status: self.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
-        GlobalStruct.client.run(request) { (statuses) in
-            if let _ = (statuses.value) {
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
-                }
-            }
-        }
+//        let request = Statuses.create(status: self.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
+//        GlobalStruct.client.run(request) { (statuses) in
+//            if let _ = (statuses.value) {
+//                DispatchQueue.main.async {
+//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+//                }
+//            }
+//        }
     }
     
     @objc func crossTapped() {
@@ -412,34 +407,35 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func saveToDrafts() {
-        if self.textView.text.isEmpty {
-            self.dismiss(animated: true, completion: nil)
-        } else {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                self.textView.resignFirstResponder()
-            }
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
-                self.dismiss(animated: true, completion: nil)
-            })
-            op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
-            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op1)
-            let op2 = UIAlertAction(title: "Discard".localized, style: .destructive , handler:{ (UIAlertAction) in
-                self.dismiss(animated: true, completion: nil)
-            })
-            op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
-            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op2)
-            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-                self.textView.becomeFirstResponder()
-            }))
-            if let presenter = alert.popoverPresentationController {
-                presenter.sourceView = self.view
-                presenter.sourceRect = self.view.bounds
-            }
-            self.present(alert, animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
+//        if self.textView.text.isEmpty {
+//            self.dismiss(animated: true, completion: nil)
+//        } else {
+//            if UIDevice.current.userInterfaceIdiom == .phone {
+//                self.textView.resignFirstResponder()
+//            }
+//            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//            let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
+//                self.dismiss(animated: true, completion: nil)
+//            })
+//            op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
+//            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+//            alert.addAction(op1)
+//            let op2 = UIAlertAction(title: "Discard".localized, style: .destructive , handler:{ (UIAlertAction) in
+//                self.dismiss(animated: true, completion: nil)
+//            })
+//            op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+//            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+//            alert.addAction(op2)
+//            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+//                self.textView.becomeFirstResponder()
+//            }))
+//            if let presenter = alert.popoverPresentationController {
+//                presenter.sourceView = self.view
+//                presenter.sourceRect = self.view.bounds
+//            }
+//            self.present(alert, animated: true, completion: nil)
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -534,7 +530,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.photoPickerView.dismiss(animated: true, completion: {
-            self.textView.becomeFirstResponder()
+//            self.textView.becomeFirstResponder()
         })
     }
     
@@ -570,32 +566,32 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func textFromImage(_ image1: UIImage) {
-        let request = VNRecognizeTextRequest { request, error in
-            guard let observations = request.results as? [VNRecognizedTextObservation] else {
-                return
-            }
-            for observation in observations {
-                guard let bestCandidate = observation.topCandidates(1).first else {
-                    continue
-                }
-                var bestString = " \(bestCandidate.string)"
-                if self.textView.text.isEmpty {
-                    bestString = bestCandidate.string
-                }
-                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-                self.textView.textStorage.append(attStringVision)
-                let newPosition = self.textView.endOfDocument
-                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
-            }
-        }
-        request.recognitionLevel = .accurate
-        let requests = [request]
-        guard let img = image1.cgImage else {
-            return
-        }
-        let handler = VNImageRequestHandler(cgImage: img, options: [:])
-        try? handler.perform(requests)
+//        let request = VNRecognizeTextRequest { request, error in
+//            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+//                return
+//            }
+//            for observation in observations {
+//                guard let bestCandidate = observation.topCandidates(1).first else {
+//                    continue
+//                }
+//                var bestString = " \(bestCandidate.string)"
+//                if self.textView.text.isEmpty {
+//                    bestString = bestCandidate.string
+//                }
+//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+//                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+//                self.textView.textStorage.append(attStringVision)
+//                let newPosition = self.textView.endOfDocument
+//                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
+//            }
+//        }
+//        request.recognitionLevel = .accurate
+//        let requests = [request]
+//        guard let img = image1.cgImage else {
+//            return
+//        }
+//        let handler = VNImageRequestHandler(cgImage: img, options: [:])
+//        try? handler.perform(requests)
     }
     
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
@@ -608,40 +604,40 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        let request = VNRecognizeTextRequest { request, error in
-            guard let observations = request.results as? [VNRecognizedTextObservation] else {
-                return
-            }
-            for observation in observations {
-                guard let bestCandidate = observation.topCandidates(1).first else {
-                    continue
-                }
-                var bestString = " \(bestCandidate.string)"
-                if self.textView.text.isEmpty {
-                    bestString = bestCandidate.string
-                }
-                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-                self.textView.textStorage.append(attStringVision)
-                let newPosition = self.textView.endOfDocument
-                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
-            }
-        }
-        if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 0 {
-            request.recognitionLevel = .accurate
-        } else if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 1 {
-            request.recognitionLevel = .fast
-        }
-        let requests = [request]
-        for i in 0 ..< scan.pageCount {
-            let image1 = scan.imageOfPage(at: i)
-            guard let img = image1.cgImage else {
-                return
-            }
-            let handler = VNImageRequestHandler(cgImage: img, options: [:])
-            try? handler.perform(requests)
-        }
-        controller.dismiss(animated: true, completion: nil)
+//        let request = VNRecognizeTextRequest { request, error in
+//            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+//                return
+//            }
+//            for observation in observations {
+//                guard let bestCandidate = observation.topCandidates(1).first else {
+//                    continue
+//                }
+//                var bestString = " \(bestCandidate.string)"
+//                if self.textView.text.isEmpty {
+//                    bestString = bestCandidate.string
+//                }
+//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+//                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+//                self.textView.textStorage.append(attStringVision)
+//                let newPosition = self.textView.endOfDocument
+//                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
+//            }
+//        }
+//        if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 0 {
+//            request.recognitionLevel = .accurate
+//        } else if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 1 {
+//            request.recognitionLevel = .fast
+//        }
+//        let requests = [request]
+//        for i in 0 ..< scan.pageCount {
+//            let image1 = scan.imageOfPage(at: i)
+//            guard let img = image1.cgImage else {
+//                return
+//            }
+//            let handler = VNImageRequestHandler(cgImage: img, options: [:])
+//            try? handler.perform(requests)
+//        }
+//        controller.dismiss(animated: true, completion: nil)
     }
     
     func cameraVisionText() {
@@ -651,9 +647,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func cameraPicker() {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            self.textView.resignFirstResponder()
-        }
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            self.textView.resignFirstResponder()
+//        }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
@@ -706,7 +702,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         scanA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(scanA)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            self.textView.becomeFirstResponder()
+//            self.textView.becomeFirstResponder()
         }))
         if let presenter = alert.popoverPresentationController {
             if let cell = self.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {
@@ -739,7 +735,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             safeBottom = self.view.safeAreaInsets.bottom
         }
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
@@ -756,26 +751,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
             let keyboardY2 = self.view.bounds.height - keyboardY02
             collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
-            
             self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            
-            if self.replyStatus.isEmpty {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
-            } else {
-                if numLines < 3 {
-                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 117)
-                } else {
-                    self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 142)
-                }
-            }
-
-            if numLines < 3 {
-                self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-                self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(55))
-            } else {
-                self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-                self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(80))
-            }
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
         }
     }
     
@@ -786,7 +763,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         } else {
             safeBottom = self.view.safeAreaInsets.bottom
         }
-        let numLines = Int((CGFloat(self.replyText.contentSize.height) / CGFloat(self.replyText.font?.lineHeight ?? CGFloat(0))))
         self.keyHeight = CGFloat(0)
         var keyboardY0 = self.keyHeight + safeBottom + 45
         if self.keyHeight > 0 {
@@ -801,26 +777,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
-        
         self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-        
-        if self.replyStatus.isEmpty {
-            self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
-        } else {
-            if numLines < 3 {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 150)
-            } else {
-                self.textView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 175)
-            }
-        }
-
-        if numLines < 3 {
-            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 61), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(55))
-        } else {
-            self.divider2.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            self.replyText.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 86), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(80))
-        }
+        self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
     }
     
     func removeTabbarItemsText() {

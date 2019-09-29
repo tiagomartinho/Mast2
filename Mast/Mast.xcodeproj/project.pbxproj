@@ -11,6 +11,8 @@
 		532DF3BE233A555600AA14E8 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 532DF3BD233A555600AA14E8 /* SDWebImageMapKit */; };
 		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
 		5339C600233FC74000770651 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C5FF233FC74000770651 /* ImageViewController.swift */; };
+		5339C6022340BFF200770651 /* ComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6012340BFF200770651 /* ComposeCell.swift */; };
+		5339C6052340C76600770651 /* ComposeReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6042340C76600770651 /* ComposeReplyCell.swift */; };
 		53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3023293E3600A470E2 /* AppDelegate.swift */; };
 		53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3223293E3600A470E2 /* SceneDelegate.swift */; };
 		53449D3523293E3600A470E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3423293E3600A470E2 /* ViewController.swift */; };
@@ -159,6 +161,8 @@
 /* Begin PBXFileReference section */
 		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
 		5339C5FF233FC74000770651 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		5339C6012340BFF200770651 /* ComposeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeCell.swift; sourceTree = "<group>"; };
+		5339C6042340C76600770651 /* ComposeReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeReplyCell.swift; sourceTree = "<group>"; };
 		53449D2D23293E3600A470E2 /* Mast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53449D3023293E3600A470E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53449D3223293E3600A470E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -305,6 +309,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5339C6032340C06400770651 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				53B5F203233E63C80099B170 /* ColumnViewController.swift */,
+				53B5F201233E63540099B170 /* VerticalTabBarController.swift */,
+				53B5F1FF233E63360099B170 /* ScrollMainViewController.swift */,
+			);
+			path = iPad;
+			sourceTree = "<group>";
+		};
 		53449D2423293E3600A470E2 = {
 			isa = PBXGroup;
 			children = (
@@ -475,6 +489,8 @@
 				5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */,
 				532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */,
 				5379F4352334CAE800DC1F33 /* ListCell.swift */,
+				5339C6012340BFF200770651 /* ComposeCell.swift */,
+				5339C6042340C76600770651 /* ComposeReplyCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -483,9 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				53449D3423293E3600A470E2 /* ViewController.swift */,
-				53B5F203233E63C80099B170 /* ColumnViewController.swift */,
-				53B5F201233E63540099B170 /* VerticalTabBarController.swift */,
-				53B5F1FF233E63360099B170 /* ScrollMainViewController.swift */,
+				5339C6032340C06400770651 /* iPad */,
 				53449D4423293EF900A470E2 /* FirstViewController.swift */,
 				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
 				5379F42B2333751C00DC1F33 /* ThirdViewController.swift */,
@@ -695,6 +709,7 @@
 				53449DA823294C1000A470E2 /* Conversation.swift in Sources */,
 				53449DB123294C1000A470E2 /* LoginSettings.swift in Sources */,
 				53449DAE23294C1000A470E2 /* ClientApplication.swift in Sources */,
+				5339C6052340C76600770651 /* ComposeReplyCell.swift in Sources */,
 				53449D9823294C1000A470E2 /* PaginationItem.swift in Sources */,
 				53449DA723294C1000A470E2 /* AttachmentType.swift in Sources */,
 				53449DD223294C1000A470E2 /* Reports.swift in Sources */,
@@ -763,6 +778,7 @@
 				53449D4B23293F4100A470E2 /* FifthViewController.swift in Sources */,
 				53449DC323294C1000A470E2 /* RequestError.swift in Sources */,
 				5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */,
+				5339C6022340BFF200770651 /* ComposeCell.swift in Sources */,
 				5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */,
 				5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */,
 				53449DA223294C1000A470E2 /* String.swift in Sources */,
