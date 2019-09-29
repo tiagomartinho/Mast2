@@ -15,7 +15,7 @@ import MobileCoreServices
 import Vision
 import VisionKit
 
-class TootViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+class TootViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     var tableView = UITableView()
 //    let textView = UITextView()
@@ -239,7 +239,7 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeCell", for: indexPath) as! ComposeCell
             cell.backgroundColor = UIColor(named: "baseWhite")
-            cell.textView.becomeFirstResponder()
+//            cell.textView.becomeFirstResponder()
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView
@@ -279,6 +279,12 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
             } else {
                 self.isModalInPresentation = true
             }
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            cell.textView.resignFirstResponder()
         }
     }
     
