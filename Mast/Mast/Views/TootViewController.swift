@@ -29,6 +29,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     let photoPickerView = UIImagePickerController()
     var charCount = 500
     var allPrevious: [Status] = []
+    let btn1 = UIButton(type: .custom)
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -81,7 +82,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        let btn1 = UIButton(type: .custom)
         btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.tickTapped), for: .touchUpInside)
@@ -168,7 +168,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                         let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
                         self.tableView.tableFooterView = customViewFooter
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
-
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                             cell.textView.becomeFirstResponder()
                         }
@@ -280,7 +279,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
+        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: true)
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.becomeFirstResponder()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -299,19 +301,24 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             self.charCount = 500 - (cell.textView.text?.count ?? 0)
             self.title = "\(self.charCount)"
             if self.charCount < 1 {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             } else if self.charCount < 20 {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
+                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             } else {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
+                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             }
             
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
+                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             } else {
                 self.isModalInPresentation = true
             }
@@ -500,8 +507,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
         if self.images.isEmpty {
             DispatchQueue.main.async {
-                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
-                cell.image.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
+                cell.image.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
                 cell.image.layer.masksToBounds = true
                 cell.image.backgroundColor = UIColor(named: "baseWhite")
                 cell.image.layer.masksToBounds = true
@@ -512,8 +519,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.configure()
             if indexPath.item == 0 {
                 DispatchQueue.main.async {
-                    let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
-                    cell.image.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+                    let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
+                    cell.image.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
                     cell.image.layer.masksToBounds = true
                     cell.image.backgroundColor = UIColor(named: "baseWhite")
                     cell.image.layer.masksToBounds = true
