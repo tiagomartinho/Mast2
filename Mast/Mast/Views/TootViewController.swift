@@ -160,16 +160,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                     self.allPrevious.append(self.replyStatus[0])
                     self.tableView.reloadData()
                     if self.allPrevious.count == 0 {} else {
-                        var footerHe = (self.view.bounds.height) - self.keyHeight - 62 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 0)).height
-                        if footerHe < 0 {
-                            footerHe = 0
-                        }
-                        let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
-//                        self.tableView.tableFooterView = customViewFooter
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
-//                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-//                            cell.textView.becomeFirstResponder()
-//                        }
+                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                            cell.textView.becomeFirstResponder()
+                        }
                     }
                 }
             }
@@ -235,7 +229,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if indexPath.section == 0 {
             return UITableView.automaticDimension
         } else {
-            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 178
+            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 145
             if he < 0 {
                 he = 0
             }
@@ -325,9 +319,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            cell.textView.resignFirstResponder()
-        }
+//        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+//            cell.textView.resignFirstResponder()
+//        }
     }
     
     private func getPhotosAndVideos() {
