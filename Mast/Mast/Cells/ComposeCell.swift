@@ -28,7 +28,7 @@ class ComposeCell: UITableViewCell {
         self.textView.alwaysBounceVertical = true
         self.textView.isUserInteractionEnabled = true
         self.textView.isScrollEnabled = true
-        self.textView.textContainerInset = UIEdgeInsets(top: 5, left: 18, bottom: 5, right: 18)
+        self.textView.textContainerInset = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
         contentView.addSubview(self.textView)
         
         let viewsDict = [

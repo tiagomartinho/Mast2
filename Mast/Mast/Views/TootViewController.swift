@@ -151,10 +151,6 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         } else {
             self.fetchReplies()
         }
-
-        if UIDevice.current.userInterfaceIdiom == .pad {} else {
-//            self.textView.becomeFirstResponder()
-        }
     }
     
     func fetchReplies() {
@@ -163,14 +159,15 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     self.allPrevious = (stat.ancestors)
+                    self.allPrevious.append(self.replyStatus[0])
                     self.tableView.reloadData()
                     if self.allPrevious.count == 0 {} else {
-                        var footerHe = self.tableView.bounds.height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 0)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height
+                        var footerHe = (self.view.bounds.height) - self.keyHeight - 62 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 0)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 2)).height
                         if footerHe < 0 {
                             footerHe = 0
                         }
                         let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
-                        self.tableView.tableFooterView = customViewFooter
+//                        self.tableView.tableFooterView = customViewFooter
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                     }
                 }
@@ -200,7 +197,11 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 return 30
             }
         } else {
-            return self.tableView.bounds.height
+            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 62 - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height
+            if he < 0 {
+                he = 0
+            }
+            return he
         }
     }
     
@@ -252,29 +253,33 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.checkAuthorizationForPhotoLibraryAndGet()
         self.collectionView1.reloadData()
         
-//        if textView.text.isEmpty {
-//            self.isModalInPresentation = false
-//        } else {
-//            self.isModalInPresentation = true
-//        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            if cell.textView.text.isEmpty {
+                self.isModalInPresentation = false
+            } else {
+                self.isModalInPresentation = true
+            }
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
-//        self.charCount = 500 - (self.textView.text?.count ?? 0)
-//        self.title = "\(self.charCount)"
-//        if self.charCount < 1 {
-//            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
-//        } else if self.charCount < 20 {
-//            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
-//        } else {
-//            self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
-//        }
-//
-//        if textView.text.isEmpty {
-//            self.isModalInPresentation = false
-//        } else {
-//            self.isModalInPresentation = true
-//        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            self.charCount = 500 - (cell.textView.text?.count ?? 0)
+            self.title = "\(self.charCount)"
+            if self.charCount < 1 {
+                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+            } else if self.charCount < 20 {
+                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
+            } else {
+                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
+            }
+            
+            if cell.textView.text.isEmpty {
+                self.isModalInPresentation = false
+            } else {
+                self.isModalInPresentation = true
+            }
+        }
     }
     
     private func getPhotosAndVideos() {
@@ -392,14 +397,16 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
             theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
         }
         
-//        let request = Statuses.create(status: self.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
-//        GlobalStruct.client.run(request) { (statuses) in
-//            if let _ = (statuses.value) {
-//                DispatchQueue.main.async {
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
-//                }
-//            }
-//        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            let request = Statuses.create(status: cell.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
+            GlobalStruct.client.run(request) { (statuses) in
+                if let _ = (statuses.value) {
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                    }
+                }
+            }
+        }
     }
     
     @objc func crossTapped() {
@@ -407,35 +414,36 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func saveToDrafts() {
-        self.dismiss(animated: true, completion: nil)
-//        if self.textView.text.isEmpty {
-//            self.dismiss(animated: true, completion: nil)
-//        } else {
-//            if UIDevice.current.userInterfaceIdiom == .phone {
-//                self.textView.resignFirstResponder()
-//            }
-//            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//            let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
-//                self.dismiss(animated: true, completion: nil)
-//            })
-//            op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
-//            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-//            alert.addAction(op1)
-//            let op2 = UIAlertAction(title: "Discard".localized, style: .destructive , handler:{ (UIAlertAction) in
-//                self.dismiss(animated: true, completion: nil)
-//            })
-//            op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
-//            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-//            alert.addAction(op2)
-//            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-//                self.textView.becomeFirstResponder()
-//            }))
-//            if let presenter = alert.popoverPresentationController {
-//                presenter.sourceView = self.view
-//                presenter.sourceRect = self.view.bounds
-//            }
-//            self.present(alert, animated: true, completion: nil)
-//        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            if cell.textView.text.isEmpty {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                if UIDevice.current.userInterfaceIdiom == .phone {
+                    cell.textView.resignFirstResponder()
+                }
+                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
+                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op1)
+                let op2 = UIAlertAction(title: "Discard".localized, style: .destructive , handler:{ (UIAlertAction) in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+                op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op2)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                    cell.textView.becomeFirstResponder()
+                }))
+                if let presenter = alert.popoverPresentationController {
+                    presenter.sourceView = self.view
+                    presenter.sourceRect = self.view.bounds
+                }
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -498,28 +506,30 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let fileURL = urls.first!
         if let theData = NSData(contentsOf: fileURL) {
-            //                    let attachment = NSTextAttachment()
-            //                    attachment.image = UIImage(data: theData as Data)
-            //                    let imWidth = attachment.image!.size.width
-            //                    let imHeight = attachment.image!.size.height
-            //                    let ratio = imWidth/imHeight
-            //                    attachment.bounds = CGRect(x: 5, y: 5, width: self.textView.frame.size.width - 15, height: ((self.textView.frame.size.width - 15)/ratio) - 10)
-            //
-            //                    let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-            //                    let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-            //                    let attString = NSAttributedString(attachment: attachment)
-            //
-            //                    guard let selectedRange = self.textView.selectedTextRange else {
-            //                        return
-            //                    }
-            //                    let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
-            //                    self.textView.textStorage.insert(attString, at: cursorIndex)
-            //                    if self.textView.text.isEmpty {} else {
-            //                        self.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
-            //                    }
-            //                    self.textView.textStorage.append(attStringNewLine)
-            //                    self.hapticPatternType3()
-            //                    self.fromScan = true
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+//                let attachment = NSTextAttachment()
+//                attachment.image = UIImage(data: theData as Data)
+//                let imWidth = attachment.image!.size.width
+//                let imHeight = attachment.image!.size.height
+//                let ratio = imWidth/imHeight
+//                attachment.bounds = CGRect(x: 5, y: 5, width: cell.textView.frame.size.width - 15, height: ((cell.textView.frame.size.width - 15)/ratio) - 10)
+//
+//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+//                let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+//                let attString = NSAttributedString(attachment: attachment)
+//
+//                guard let selectedRange = cell.textView.selectedTextRange else {
+//                    return
+//                }
+//                let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
+//                cell.textView.textStorage.insert(attString, at: cursorIndex)
+//                if cell.textView.text.isEmpty {} else {
+//                    cell.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
+//                }
+//                cell.textView.textStorage.append(attStringNewLine)
+//                self.hapticPatternType3()
+//                self.fromScan = true
+//            }
         }
         controller.dismiss(animated: true, completion: nil)
     }
@@ -536,62 +546,66 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let _ = info[UIImagePickerController.InfoKey.mediaType] as? String {
-            //                    let photoNew = info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()
-            //                    let attachment = NSTextAttachment()
-            //                    attachment.image = photoNew
-            //                    let imWidth = attachment.image!.size.width
-            //                    let imHeight = attachment.image!.size.height
-            //                    let ratio = imWidth/imHeight
-            //                    attachment.bounds = CGRect(x: 5, y: 5, width: self.textView.frame.size.width - 15, height: ((self.textView.frame.size.width - 15)/ratio) - 10)
-            //
-            //                    let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-            //                    let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-            //                    let attString = NSAttributedString(attachment: attachment)
-            //
-            //                    guard let selectedRange = self.textView.selectedTextRange else {
-            //                        return
-            //                    }
-            //                    let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
-            //                    self.textView.textStorage.insert(attString, at: cursorIndex)
-            //                    if self.textView.text.isEmpty {} else {
-            //                        self.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
-            //                    }
-            //                    self.textView.textStorage.append(attStringNewLine)
-            //
-            //                    self.hapticPatternType3()
-            //
-            //                    self.fromScan = true
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+//                let photoNew = info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()
+//                let attachment = NSTextAttachment()
+//                attachment.image = photoNew
+//                let imWidth = attachment.image!.size.width
+//                let imHeight = attachment.image!.size.height
+//                let ratio = imWidth/imHeight
+//                attachment.bounds = CGRect(x: 5, y: 5, width: self.textView.frame.size.width - 15, height: ((self.textView.frame.size.width - 15)/ratio) - 10)
+//
+//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+//                let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+//                let attString = NSAttributedString(attachment: attachment)
+//
+//                guard let selectedRange = self.textView.selectedTextRange else {
+//                    return
+//                }
+//                let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
+//                self.textView.textStorage.insert(attString, at: cursorIndex)
+//                if cell.textView.text.isEmpty {} else {
+//                    cell.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
+//                }
+//                cell.textView.textStorage.append(attStringNewLine)
+//
+//                self.hapticPatternType3()
+//
+//                self.fromScan = true
+//            }
         }
         self.photoPickerView.dismiss(animated: true, completion: nil)
     }
     
     func textFromImage(_ image1: UIImage) {
-//        let request = VNRecognizeTextRequest { request, error in
-//            guard let observations = request.results as? [VNRecognizedTextObservation] else {
-//                return
-//            }
-//            for observation in observations {
-//                guard let bestCandidate = observation.topCandidates(1).first else {
-//                    continue
-//                }
-//                var bestString = " \(bestCandidate.string)"
-//                if self.textView.text.isEmpty {
-//                    bestString = bestCandidate.string
-//                }
-//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-//                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-//                self.textView.textStorage.append(attStringVision)
-//                let newPosition = self.textView.endOfDocument
-//                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
-//            }
-//        }
-//        request.recognitionLevel = .accurate
-//        let requests = [request]
-//        guard let img = image1.cgImage else {
-//            return
-//        }
-//        let handler = VNImageRequestHandler(cgImage: img, options: [:])
-//        try? handler.perform(requests)
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+            let request = VNRecognizeTextRequest { request, error in
+                guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                    return
+                }
+                for observation in observations {
+                    guard let bestCandidate = observation.topCandidates(1).first else {
+                        continue
+                    }
+                    var bestString = " \(bestCandidate.string)"
+                    if cell.textView.text.isEmpty {
+                        bestString = bestCandidate.string
+                    }
+                    let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                    let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+                    cell.textView.textStorage.append(attStringVision)
+                    let newPosition = cell.textView.endOfDocument
+                    cell.textView.selectedTextRange = cell.textView.textRange(from: newPosition, to: newPosition)
+                }
+            }
+            request.recognitionLevel = .accurate
+            let requests = [request]
+            guard let img = image1.cgImage else {
+                return
+            }
+            let handler = VNImageRequestHandler(cgImage: img, options: [:])
+            try? handler.perform(requests)
+        }
     }
     
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
@@ -647,9 +661,11 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func cameraPicker() {
-//        if UIDevice.current.userInterfaceIdiom == .phone {
-//            self.textView.resignFirstResponder()
-//        }
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+                cell.textView.resignFirstResponder()
+            }
+        }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
@@ -702,7 +718,9 @@ class TootViewController: UIViewController, UICollectionViewDelegate, UICollecti
         scanA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(scanA)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-//            self.textView.becomeFirstResponder()
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? ComposeCell {
+                cell.textView.becomeFirstResponder()
+            }
         }))
         if let presenter = alert.popoverPresentationController {
             if let cell = self.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {

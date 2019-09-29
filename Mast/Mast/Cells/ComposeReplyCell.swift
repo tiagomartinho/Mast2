@@ -46,7 +46,7 @@ class ComposeReplyCell: UITableViewCell {
         } else {
             self.replyText.alpha = 1
             
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 12)
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 13)
             
             let upImage = UIImage(systemName: "arrow.turn.down.right", withConfiguration: symbolConfig)
             let tintedUpImage = upImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.36), renderingMode: .alwaysOriginal)
