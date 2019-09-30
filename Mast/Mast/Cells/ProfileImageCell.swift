@@ -92,8 +92,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
             if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
-                let win = UIApplication.shared.keyWindow?.rootViewController
-                win?.present(playerViewController, animated: true) {
+                getTopMostViewController()?.present(playerViewController, animated: true) {
                     self.playerViewController.player!.play()
                 }
             }
@@ -101,9 +100,16 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
             let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-            let win = UIApplication.shared.keyWindow?.rootViewController
-            win?.present(imageViewer, animated: true, completion: nil)
+            getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
         }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     func collectionView(_ collectionView: UICollectionView,

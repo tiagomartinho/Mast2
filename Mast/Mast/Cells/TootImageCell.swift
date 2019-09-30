@@ -201,11 +201,6 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             if let ur = URL(string: images[indexPath.row].url) {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
-//                let win = UIApplication.shared.keyWindow?.rootViewController
-//                win?.present(playerViewController, animated: true) {
-//                    self.playerViewController.player!.play()
-//                }
-
                 getTopMostViewController()?.present(playerViewController, animated: true) {
                     self.playerViewController.player!.play()
                 }
@@ -214,9 +209,6 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-//            let win = UIApplication.shared.keyWindow?.rootViewController
-//            win?.present(imageViewer, animated: true, completion: nil)
-
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
         }
     }
