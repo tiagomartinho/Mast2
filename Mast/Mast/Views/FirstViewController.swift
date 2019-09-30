@@ -203,6 +203,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.top1.layer.cornerRadius = 19
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
+        self.top1.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top1)
         
         self.top2.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
@@ -211,6 +212,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.top2.layer.cornerRadius = 19
         self.top2.alpha = 0
         self.top2.addTarget(self, action: #selector(self.didTouchTop2), for: .touchUpInside)
+        self.top2.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top2)
         
         self.top3.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
@@ -219,6 +221,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.top3.layer.cornerRadius = 19
         self.top3.alpha = 0
         self.top3.addTarget(self, action: #selector(self.didTouchTop3), for: .touchUpInside)
+        self.top3.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top3)
     }
     

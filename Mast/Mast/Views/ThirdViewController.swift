@@ -105,6 +105,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.top1.layer.cornerRadius = 19
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
+        self.top1.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top1)
     }
     

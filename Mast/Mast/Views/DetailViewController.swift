@@ -268,10 +268,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             }
             cell.button1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
+            cell.button1.accessibilityLabel = "Reply".localized
             cell.button2.addTarget(self, action: #selector(self.boostTapped), for: .touchUpInside)
+            cell.button2.accessibilityLabel = "Boost".localized
             cell.button3.addTarget(self, action: #selector(self.likeTapped), for: .touchUpInside)
+            cell.button3.accessibilityLabel = "Like".localized
             cell.button4.addTarget(self, action: #selector(self.shareTapped), for: .touchUpInside)
+            cell.button4.accessibilityLabel = "Share".localized
             cell.button5.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
+            cell.button5.accessibilityLabel = "More".localized
             cell.backgroundColor = UIColor(named: "lighterBaseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
