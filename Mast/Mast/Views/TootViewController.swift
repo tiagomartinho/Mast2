@@ -92,6 +92,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.tickTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "Post".localized
         let addButton = UIBarButtonItem(customView: btn1)
         self.navigationItem.setRightBarButton(addButton, animated: true)
         
@@ -99,6 +100,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         btn2.setImage(UIImage(systemName: "xmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
+        btn2.accessibilityLabel = "Dismiss".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         

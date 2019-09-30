@@ -25,6 +25,7 @@ class VerticalTabBarController: UIViewController {
         self.button1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         self.button1.adjustsImageWhenHighlighted = false
         self.button1.addTarget(self, action: #selector(self.compose), for: .touchUpInside)
+        self.button1.accessibilityLabel = "Create".localized
         self.view.addSubview(self.button1)
         
         self.button2.frame = CGRect(x: 10, y: self.view.bounds.height - 160, width: 60, height: 60)
@@ -32,6 +33,7 @@ class VerticalTabBarController: UIViewController {
         self.button2.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         self.button2.adjustsImageWhenHighlighted = false
         self.button2.addTarget(self, action: #selector(self.search), for: .touchUpInside)
+        self.button2.accessibilityLabel = "Search".localized
         self.view.addSubview(self.button2)
         
         self.button3.frame = CGRect(x: 10, y: self.view.bounds.height - 230, width: 60, height: 60)
@@ -39,6 +41,7 @@ class VerticalTabBarController: UIViewController {
         self.button3.setImage(UIImage(systemName: "gear", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         self.button3.adjustsImageWhenHighlighted = false
         self.button3.addTarget(self, action: #selector(self.settings), for: .touchUpInside)
+        self.button3.accessibilityLabel = "Settings".localized
         self.view.addSubview(self.button3)
     }
     

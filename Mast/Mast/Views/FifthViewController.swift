@@ -74,6 +74,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "Create".localized
         let addButton = UIBarButtonItem(customView: btn1)
         if UIDevice.current.userInterfaceIdiom == .pad {} else {
             self.navigationItem.setRightBarButton(addButton, animated: true)
@@ -83,6 +84,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         btn2.setImage(UIImage(systemName: "gear", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.settingsTapped), for: .touchUpInside)
+        btn2.accessibilityLabel = "Settings".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
         if self.isYou {
             if UIDevice.current.userInterfaceIdiom == .pad {} else {

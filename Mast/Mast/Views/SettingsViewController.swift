@@ -23,6 +23,7 @@ class SettingsViewController: UIViewController {
         btn1.setImage(UIImage(systemName: "square.and.arrow.up", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.otherTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "Share".localized
         let addButton = UIBarButtonItem(customView: btn1)
         self.navigationItem.setRightBarButton(addButton, animated: true)
         
@@ -30,6 +31,7 @@ class SettingsViewController: UIViewController {
         btn2.setImage(UIImage(systemName: "xmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
+        btn2.accessibilityLabel = "Dismiss".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
     }
