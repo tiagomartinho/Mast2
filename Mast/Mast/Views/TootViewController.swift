@@ -40,8 +40,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         // Text view
         if self.keyHeight > 0 {
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
+
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+            }
         } else {
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
+
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+            }
         }
         
         var safeBottom = self.view.safeAreaInsets.bottom
@@ -106,7 +114,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.tableView.layer.masksToBounds = true
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = UITableView.automaticDimension
-        self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.showsVerticalScrollIndicator = false
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
@@ -229,6 +237,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if indexPath.section == 0 {
             return UITableView.automaticDimension
         } else {
+//            return UITableView.automaticDimension
             var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 145
             if he < 0 {
                 he = 0
@@ -316,6 +325,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 self.isModalInPresentation = true
             }
         }
+
+        UIView.setAnimationsEnabled(false)
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        UIView.setAnimationsEnabled(true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -813,6 +827,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
             self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
+
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+            }
         }
     }
     
@@ -839,6 +857,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50))
         self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
+
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+        }
     }
     
     func removeTabbarItemsText() {
