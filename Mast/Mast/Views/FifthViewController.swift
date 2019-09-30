@@ -294,70 +294,70 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func moreTapped() {
         if self.isYou {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            let op1 = UIAlertAction(title: "Pinned".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op1 = UIAlertAction(title: "Pinned".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op1.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
-            let op2 = UIAlertAction(title: "Liked".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op2 = UIAlertAction(title: "Liked".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op2.setValue(UIImage(systemName: "heart")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
-            let op3 = UIAlertAction(title: "Muted".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op3 = UIAlertAction(title: "Muted".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op3.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op3)
-            let op4 = UIAlertAction(title: "Blocked".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op4 = UIAlertAction(title: "Blocked".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op4.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
             op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op4)
-            let op5 = UIAlertAction(title: "Scheduled".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op5 = UIAlertAction(title: "Scheduled".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op5.setValue(UIImage(systemName: "timer")!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op5)
-            let op6 = UIAlertAction(title: "Followers".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op6 = UIAlertAction(title: "Followers".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op6.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
             op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op6)
-            let op7 = UIAlertAction(title: "Follow Suggestions".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op7 = UIAlertAction(title: "Follow Suggestions".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op7.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
             op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op7)
-            let op8 = UIAlertAction(title: "Endorsed".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op8 = UIAlertAction(title: "Endorsed".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op8.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op8.setValue(UIImage(systemName: "star")!, forKey: "image")
             op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op8)
-            let op9 = UIAlertAction(title: "Instance Details".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op9 = UIAlertAction(title: "Instance Details".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op9.setValue(UIImage(systemName: "eyeglasses")!, forKey: "image")
             op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op9)
-            let op10 = UIAlertAction(title: "Edit Account".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op10 = UIAlertAction(title: "Edit Account".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op10.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op10.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
             op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op10)
-            let op11 = UIAlertAction(title: "Share Account".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op11 = UIAlertAction(title: "Share Account".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op11.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op11.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
             op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op11)
             alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
