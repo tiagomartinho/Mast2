@@ -799,13 +799,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.translateThis(status)
         }
         let mute = UIAction(title: "Mute".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
-            
+            self.muteThis(status)
         }
         let bloc = UIAction(title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
-            
+            self.blockThis(status)
         }
         let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
-            
+            self.duplicateThis(status)
         }
         let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
             self.reportThis(status)
@@ -928,6 +928,18 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         task.resume()
+    }
+    
+    func muteThis(_ stat: [Status]) {
+        
+    }
+    
+    func blockThis(_ stat: [Status]) {
+        
+    }
+    
+    func duplicateThis(_ stat: [Status]) {
+        
     }
     
     func reportThis(_ stat: [Status]) {
