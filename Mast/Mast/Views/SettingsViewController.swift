@@ -223,10 +223,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 //                self.navigationController?.pushViewController(vc, animated: true)
 //            }
         } else if indexPath.section == 1 {
-//            if indexPath.row == 0 {
-//                let vc = IconSettingsViewController()
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
+            if indexPath.row == 1 {
+                let vc = TintSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if indexPath.section == 2 {
 //            if indexPath.row == 0 {
 //                let vc = MarkdownSettingsViewController()

@@ -44,6 +44,15 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         self.tabBar.barTintColor = UIColor(named: "baseWhite")
 //        self.tabBar.backgroundColor = UIColor(named: "baseWhite")
         self.tabBar.isTranslucent = true
+        
+        if UserDefaults.standard.value(forKey: "sync-startTint") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-startTint")
+            GlobalStruct.baseTint = GlobalStruct.arrayCols[0]
+        } else {
+            if let x = UserDefaults.standard.value(forKey: "sync-startTint") as? Int {
+                GlobalStruct.baseTint = GlobalStruct.arrayCols[x]
+            }
+        }
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
