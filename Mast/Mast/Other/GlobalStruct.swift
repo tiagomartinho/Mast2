@@ -20,7 +20,7 @@ class GlobalStruct {
     
     static var baseTint = UIColor.systemIndigo
     static var arrayCols: [UIColor] = [UIColor.systemIndigo, UIColor.systemPurple, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemYellow, UIColor.systemOrange, UIColor.systemRed, UIColor.systemPink, UIColor.brown, UIColor.systemGray]
-    static var colNames: [String] = ["Whaly Purple", "Electric Purple", "Calm Blue", "Lush Green", "Banana Yellow", "Sunset Orange", "Berry Red", "Bubblegum Pink", "Island Brown", "Ash Gray"]
+    static var colNames: [String] = ["Wild Indigo", "Electric Purple", "Calm Blue", "Lush Green", "Banana Yellow", "Sunset Orange", "Berry Red", "Bubblegum Pink", "Island Brown", "Ash Gray"]
     
     static var statusesHome: [Status] = []
     static var statusesLocal: [Status] = []
