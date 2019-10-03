@@ -42,8 +42,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         
         self.createTabBar()
         self.tabBar.barTintColor = UIColor(named: "baseWhite")
-        self.tabBar.backgroundColor = UIColor(named: "baseWhite")
-        self.tabBar.isTranslucent = false
+//        self.tabBar.backgroundColor = UIColor(named: "baseWhite")
+        self.tabBar.isTranslucent = true
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
@@ -121,7 +121,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab one
             self.tabOne = UINavigationController(rootViewController: self.firstView)
-            self.tabOne.tabBarItem = UITabBarItem(title: "".localized, image: im1, selectedImage: im1b)
+            self.tabOne.tabBarItem = UITabBarItem(title: "Feed".localized, image: im1, selectedImage: im1b)
             self.tabOne.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabOne.navigationBar.barTintColor = UIColor(named: "baseWhite")
             self.tabOne.accessibilityLabel = "Feed".localized
@@ -129,7 +129,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab two
             self.tabTwo = UINavigationController(rootViewController: self.secondView)
-            self.tabTwo.tabBarItem = UITabBarItem(title: "".localized, image: im2, selectedImage: im2b)
+            self.tabTwo.tabBarItem = UITabBarItem(title: "Notifications".localized, image: im2, selectedImage: im2b)
             self.tabTwo.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabTwo.navigationBar.barTintColor = UIColor(named: "baseWhite")
             self.tabTwo.accessibilityLabel = "Notifications".localized
@@ -137,7 +137,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab three
             self.tabThree = UINavigationController(rootViewController: self.thirdView)
-            self.tabThree.tabBarItem = UITabBarItem(title: "".localized, image: im3, selectedImage: im3b)
+            self.tabThree.tabBarItem = UITabBarItem(title: "Messages".localized, image: im3, selectedImage: im3b)
             self.tabThree.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabThree.navigationBar.barTintColor = UIColor(named: "baseWhite")
             self.tabThree.accessibilityLabel = "Messages".localized
@@ -145,7 +145,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab four
             self.tabFour = UINavigationController(rootViewController: self.fourthView)
-            self.tabFour.tabBarItem = UITabBarItem(title: "".localized, image: im4, selectedImage: im4b)
+            self.tabFour.tabBarItem = UITabBarItem(title: "Explore".localized, image: im4, selectedImage: im4b)
             self.tabFour.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabFour.navigationBar.barTintColor = UIColor(named: "baseWhite")
             self.tabFour.accessibilityLabel = "Explore".localized
@@ -153,7 +153,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             
             // Create Tab five
             self.tabFive = UINavigationController(rootViewController: self.fifthView)
-            self.tabFive.tabBarItem = UITabBarItem(title: "".localized, image: im5, selectedImage: im5b)
+            self.tabFive.tabBarItem = UITabBarItem(title: "Profile".localized, image: im5, selectedImage: im5b)
             self.tabFive.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabFive.navigationBar.barTintColor = UIColor(named: "baseWhite")
             self.tabFive.accessibilityLabel = "Profile".localized

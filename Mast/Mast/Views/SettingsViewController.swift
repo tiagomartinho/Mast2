@@ -26,7 +26,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "Settings".localized
-        self.removeTabbarItemsText()
+//        self.removeTabbarItemsText()
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

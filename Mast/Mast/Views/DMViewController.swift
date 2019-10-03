@@ -53,7 +53,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "500"
-        self.removeTabbarItemsText()
+//        self.removeTabbarItemsText()
         
         GlobalStruct.medType = 0
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular)

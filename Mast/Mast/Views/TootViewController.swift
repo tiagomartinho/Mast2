@@ -80,7 +80,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "\(self.charCount)"
-        self.removeTabbarItemsText()
+//        self.removeTabbarItemsText()
         
         self.navigationController?.presentationController?.delegate = self
         
