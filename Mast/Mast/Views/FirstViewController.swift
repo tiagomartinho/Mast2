@@ -1042,7 +1042,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     if application.value == nil {
                         DispatchQueue.main.async {
                             let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
-                            let op1 = UIAlertAction(title: "Find out more".localized, style: .destructive , handler:{ (UIAlertAction) in
+                            let op1 = UIAlertAction(title: "Find out more".localized, style: .default , handler:{ (UIAlertAction) in
                                 let queryURL = URL(string: "https://joinmastodon.org")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
@@ -1050,7 +1050,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                                     }
                                 }
                             })
-                            op1.setValue(UIImage(systemName: "trash")!, forKey: "image")
+                            op1.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
                             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
                             alert.addAction(op1)
                             alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
