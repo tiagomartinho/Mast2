@@ -118,8 +118,8 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         DispatchQueue.main.async {
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .regular)
             
-            let im1 = UIImage(systemName: "bubble.middle.bottom", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
-            let im1b = UIImage(systemName: "bubble.middle.bottom.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
+            let im1 = UIImage(systemName: "text.bubble", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            let im1b = UIImage(systemName: "text.bubble.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
             
             let im2 = UIImage(systemName: "bell", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
             let im2b = UIImage(systemName: "bell.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal)
