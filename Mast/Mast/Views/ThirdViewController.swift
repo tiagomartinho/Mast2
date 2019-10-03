@@ -46,6 +46,10 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    @objc func notifChangeTint() {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -54,6 +58,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop3), name: NSNotification.Name(rawValue: "scrollTop3"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

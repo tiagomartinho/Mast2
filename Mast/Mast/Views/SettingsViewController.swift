@@ -22,6 +22,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height)
     }
     
+    @objc func notifChangeTint() {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -40,6 +44,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell1")

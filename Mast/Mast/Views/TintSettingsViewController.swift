@@ -92,16 +92,7 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
                 x.tintColor = GlobalStruct.baseTint
             }
             NotificationCenter.default.post(name: Notification.Name(rawValue: "notifChangeTint"), object: self)
-            
-            if UserDefaults.standard.value(forKey: "sync-cols") as? Int != nil {
-                if UserDefaults.standard.value(forKey: "sync-cols") as? Int == 0 {
-                    self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "lighterGray")!.withAlphaComponent(0.7)]
-                } else {
-                    self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
-                }
-            } else {
-                self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "lighterGray")!.withAlphaComponent(0.7)]
-            }
+            self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
         }
     }
 }

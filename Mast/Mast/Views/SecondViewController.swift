@@ -59,6 +59,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    @objc func notifChangeTint() {
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -67,6 +71,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop2), name: NSNotification.Name(rawValue: "scrollTop2"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0
