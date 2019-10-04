@@ -280,11 +280,38 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeCell", for: indexPath) as! ComposeCell
             cell.backgroundColor = UIColor(named: "baseWhite")
             cell.textView.delegate = self
+
+            let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+            let formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50))
+            formatToolbar.tintColor = UIColor(named: "baseBlack")!
+            formatToolbar.barStyle = UIBarStyle.default
+            formatToolbar.isTranslucent = true
+            formatToolbar.items = [
+                UIBarButtonItem(image: UIImage(systemName: "eye", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap)),
+                UIBarButtonItem(image: UIImage(systemName: "exclamationmark.bubble", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap)),
+                UIBarButtonItem(image: UIImage(systemName: "chart.bar", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.pollTap)),
+                UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
+                UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))]
+            formatToolbar.sizeToFit()
+            cell.textView.inputAccessoryView = formatToolbar
+            
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView
             return cell
         }
+    }
+    
+    @objc func visibilityTap() {
+        
+    }
+    
+    @objc func contentTap() {
+        
+    }
+    
+    @objc func pollTap() {
+        
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -374,24 +401,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func viewMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op01 = UIAlertAction(title: "Visibility".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op01.setValue(UIImage(systemName: "eye")!, forKey: "image")
-        op01.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op01)
-        let op02 = UIAlertAction(title: "Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op02.setValue(UIImage(systemName: "exclamationmark.bubble")!, forKey: "image")
-        op02.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op02)
-        let op2 = UIAlertAction(title: "Add Poll".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op2.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
-        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op2)
         let op3 = UIAlertAction(title: "Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
