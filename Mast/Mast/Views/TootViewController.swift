@@ -295,8 +295,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 fixedS,
                 UIBarButtonItem(image: UIImage(systemName: "exclamationmark.bubble", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap)),
                 fixedS,
-                UIBarButtonItem(image: UIImage(systemName: "chart.bar", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.pollTap)),
-                fixedS,
                 UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap)),
                 fixedS,
                 UIBarButtonItem(image: UIImage(systemName: "timer", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap)),
@@ -419,6 +417,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func viewMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Add Poll".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
         let op3 = UIAlertAction(title: "Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
