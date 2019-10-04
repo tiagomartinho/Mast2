@@ -718,7 +718,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.present(visionPickerView, animated: true)
     }
     
-    func cameraPicker() {
+    @objc func cameraPicker() {
         if UIDevice.current.userInterfaceIdiom == .phone {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 cell.textView.resignFirstResponder()
