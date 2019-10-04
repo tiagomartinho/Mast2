@@ -289,6 +289,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
             fixedS.width = 5
             formatToolbar.items = [
+                UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker)),
+                fixedS,
                 UIBarButtonItem(image: UIImage(systemName: "eye", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap)),
                 fixedS,
                 UIBarButtonItem(image: UIImage(systemName: "exclamationmark.bubble", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap)),
@@ -533,44 +535,24 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
         if self.images.isEmpty {
-            DispatchQueue.main.async {
-                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
-                cell.image.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
-                cell.image.layer.masksToBounds = true
-                cell.image.backgroundColor = UIColor(named: "baseWhite")
-                cell.image.layer.masksToBounds = true
-                cell.image.layer.borderColor = UIColor.black.cgColor
-                cell.image.contentMode = .scaleAspectFill
-            }
+            
         } else {
             cell.configure()
-            if indexPath.item == 0 {
+            let _ = self.images[indexPath.item].getURL { (link) in
                 DispatchQueue.main.async {
-                    let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .light)
-                    cell.image.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+                    cell.image.sd_setImage(with: link, completed: nil)
                     cell.image.layer.masksToBounds = true
-                    cell.image.backgroundColor = UIColor(named: "baseWhite")
+                    cell.image.backgroundColor = UIColor(named: "lighterBaseWhite")
                     cell.image.layer.masksToBounds = true
                     cell.image.layer.borderColor = UIColor.black.cgColor
                     cell.image.contentMode = .scaleAspectFill
-                }
-            } else {
-                let _ = self.images[indexPath.item - 1].getURL { (link) in
-                    DispatchQueue.main.async {
-                        cell.image.sd_setImage(with: link, completed: nil)
-                        cell.image.layer.masksToBounds = true
-                        cell.image.backgroundColor = UIColor(named: "lighterBaseWhite")
-                        cell.image.layer.masksToBounds = true
-                        cell.image.layer.borderColor = UIColor.black.cgColor
-                        cell.image.contentMode = .scaleAspectFill
-                        if self.selectedImages.contains(indexPath.item - 1) {
-                            cell.layer.borderColor = GlobalStruct.baseTint.cgColor
-                            cell.layer.cornerRadius = 5
-                            cell.layer.borderWidth = 3
-                            cell.layer.masksToBounds = true
-                        } else {
-                            cell.layer.borderWidth = 0
-                        }
+                    if self.selectedImages.contains(indexPath.item) {
+                        cell.layer.borderColor = GlobalStruct.baseTint.cgColor
+                        cell.layer.cornerRadius = 5
+                        cell.layer.borderWidth = 3
+                        cell.layer.masksToBounds = true
+                    } else {
+                        cell.layer.borderWidth = 0
                     }
                 }
             }
@@ -808,16 +790,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.item == 0 {
-            self.cameraPicker()
+        if self.selectedImages.contains(indexPath.item) {
+            self.selectedImages = self.selectedImages.filter {$0 != indexPath.item}
+            self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
         } else {
-            if self.selectedImages.contains(indexPath.item - 1) {
-                self.selectedImages = self.selectedImages.filter {$0 != indexPath.item - 1}
-                self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
-            } else {
-                self.selectedImages.append(indexPath.item - 1)
-                self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
-            }
+            self.selectedImages.append(indexPath.item)
+            self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
         }
     }
     
