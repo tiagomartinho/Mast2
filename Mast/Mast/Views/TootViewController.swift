@@ -311,7 +311,39 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func visibilityTap() {
-        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Public".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op3 = UIAlertAction(title: "Unlisted".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op3.setValue(UIImage(systemName: "lock.open")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        let op4 = UIAlertAction(title: " Followers".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op4.setValue(UIImage(systemName: "lock")!, forKey: "image")
+        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op4)
+        let op6 = UIAlertAction(title: "Direct".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op6.setValue(UIImage(systemName: "paperplane")!, forKey: "image")
+        op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op6)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func contentTap() {
@@ -423,13 +455,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op3 = UIAlertAction(title: " Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: "  Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: " Add Now Playing".localized, style: .default , handler:{ (UIAlertAction) in
+        let op4 = UIAlertAction(title: "  Add Now Playing".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
