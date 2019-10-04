@@ -120,16 +120,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        self.moreButton.backgroundColor = UIColor.clear
-        let downImage = UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)
-        let tintedDownImage = downImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.6), renderingMode: .alwaysOriginal)
-        self.moreButton.setImage(tintedDownImage, for: .normal)
-        self.moreButton.addTarget(self, action: #selector(self.viewMore), for: .touchUpInside)
-        self.moreButton.adjustsImageWhenHighlighted = false
-        self.moreButton.isAccessibilityElement = true
-        self.moreButton.accessibilityTraits = .button
-        self.moreButton.accessibilityLabel = "More".localized
-        self.view.addSubview(self.moreButton)
+//        self.moreButton.backgroundColor = UIColor.clear
+//        let downImage = UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)
+//        let tintedDownImage = downImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.6), renderingMode: .alwaysOriginal)
+//        self.moreButton.setImage(tintedDownImage, for: .normal)
+//        self.moreButton.addTarget(self, action: #selector(self.viewMore), for: .touchUpInside)
+//        self.moreButton.adjustsImageWhenHighlighted = false
+//        self.moreButton.isAccessibilityElement = true
+//        self.moreButton.accessibilityTraits = .button
+//        self.moreButton.accessibilityLabel = "More".localized
+//        self.view.addSubview(self.moreButton)
         
         self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider)
@@ -146,7 +146,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             keyboardY02 = self.keyHeight + 57
         }
         let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width - 65), height: CGFloat(50)), collectionViewLayout: layout)
+        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(50)), collectionViewLayout: layout)
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self
