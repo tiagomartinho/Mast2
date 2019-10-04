@@ -328,7 +328,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let op5 = UIAlertAction(title: "Scheduled".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op5.setValue(UIImage(systemName: "timer")!, forKey: "image")
+            op5.setValue(UIImage(systemName: "clock")!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op5)
             let op6 = UIAlertAction(title: "Followers".localized, style: .default , handler:{ (UIAlertAction) in

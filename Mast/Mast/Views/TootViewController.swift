@@ -291,13 +291,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             formatToolbar.items = [
                 UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker)),
                 fixedS,
-                UIBarButtonItem(image: UIImage(systemName: "eye", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap)),
+                UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap)),
                 fixedS,
-                UIBarButtonItem(image: UIImage(systemName: "exclamationmark.bubble", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap)),
+                UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap)),
                 fixedS,
                 UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap)),
                 fixedS,
-                UIBarButtonItem(image: UIImage(systemName: "timer", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap)),
+                UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))]
             formatToolbar.sizeToFit()
@@ -423,13 +423,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op3 = UIAlertAction(title: "Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: " Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: "Add Now Playing".localized, style: .default , handler:{ (UIAlertAction) in
+        let op4 = UIAlertAction(title: " Add Now Playing".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
@@ -441,7 +441,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op6.setValue(UIImage(systemName: "quote.bubble")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op6)
-        let op8 = UIAlertAction(title: "Drafts".localized, style: .default , handler:{ (UIAlertAction) in
+        let op8 = UIAlertAction(title: " Drafts".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op8.setValue(UIImage(systemName: "doc.text")!, forKey: "image")
