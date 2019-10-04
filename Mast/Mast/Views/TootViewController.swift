@@ -290,6 +290,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 UIBarButtonItem(image: UIImage(systemName: "eye", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap)),
                 UIBarButtonItem(image: UIImage(systemName: "exclamationmark.bubble", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap)),
                 UIBarButtonItem(image: UIImage(systemName: "chart.bar", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.pollTap)),
+                UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap)),
+                UIBarButtonItem(image: UIImage(systemName: "timer", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap)),
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
                 UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))]
             formatToolbar.sizeToFit()
@@ -311,6 +313,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func pollTap() {
+        
+    }
+    
+    @objc func smileyTap() {
+        
+    }
+    
+    @objc func scheduleTap() {
         
     }
     
@@ -413,18 +423,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
-        let op5 = UIAlertAction(title: "Instance Emoticons".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op5.setValue(UIImage(systemName: "smiley")!, forKey: "image")
-        op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op5)
-        let op7 = UIAlertAction(title: "Schedule Toot".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op7.setValue(UIImage(systemName: "timer")!, forKey: "image")
-        op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op7)
         let op6 = UIAlertAction(title: "Sentiment Analysis".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
