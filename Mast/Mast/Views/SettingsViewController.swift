@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.navigationItem.setRightBarButton(settingsButton, animated: true)
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         

@@ -22,7 +22,7 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "App Tint".localized
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell")
