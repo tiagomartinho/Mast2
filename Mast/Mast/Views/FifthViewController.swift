@@ -302,7 +302,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         if self.isYou {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let op1 = UIAlertAction(title: "Pinned".localized, style: .default , handler:{ (UIAlertAction) in
-                
+                let vc = PinnedViewController()
+                vc.userId = GlobalStruct.currentUser.id
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -378,7 +380,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         } else {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let op1 = UIAlertAction(title: "Pinned".localized, style: .default , handler:{ (UIAlertAction) in
-                
+                let vc = PinnedViewController()
+                vc.userId = self.profileStatuses.first?.account.id ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

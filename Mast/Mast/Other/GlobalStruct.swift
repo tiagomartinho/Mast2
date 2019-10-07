@@ -26,6 +26,8 @@ class GlobalStruct {
     static var statusesLocal: [Status] = []
     static var statusesFed: [Status] = []
     
+    static var statusesPinned: [Status] = []
+    
     static var notifications: [Notificationt] = []
     static var notificationsMentions: [Notificationt] = []
     static var notificationsDirect: [Conversation] = []
