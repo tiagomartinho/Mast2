@@ -132,6 +132,7 @@
 		53B5F202233E63540099B170 /* VerticalTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F201233E63540099B170 /* VerticalTabBarController.swift */; };
 		53B5F204233E63C80099B170 /* ColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F203233E63C80099B170 /* ColumnViewController.swift */; };
 		53DED14C234B59C90017534F /* PinnedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14B234B59C90017534F /* PinnedViewController.swift */; };
+		53DED14E234B71280017534F /* LikedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14D234B71280017534F /* LikedViewController.swift */; };
 		6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */; };
 /* End PBXBuildFile section */
 
@@ -285,6 +286,7 @@
 		53B5F201233E63540099B170 /* VerticalTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabBarController.swift; sourceTree = "<group>"; };
 		53B5F203233E63C80099B170 /* ColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnViewController.swift; sourceTree = "<group>"; };
 		53DED14B234B59C90017534F /* PinnedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewController.swift; sourceTree = "<group>"; };
+		53DED14D234B71280017534F /* LikedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedViewController.swift; sourceTree = "<group>"; };
 		550A06FB5FDD759C102FAE53 /* Pods-Mast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mast.debug.xcconfig"; path = "Target Support Files/Pods-Mast/Pods-Mast.debug.xcconfig"; sourceTree = "<group>"; };
 		5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		867069C523A7C06EBBAB0C75 /* Pods-Mast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mast.release.xcconfig"; path = "Target Support Files/Pods-Mast/Pods-Mast.release.xcconfig"; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 				53449D4A23293F4100A470E2 /* FifthViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
 				53DED14B234B59C90017534F /* PinnedViewController.swift */,
+				53DED14D234B71280017534F /* LikedViewController.swift */,
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
@@ -803,6 +806,7 @@
 				53449DA623294C1000A470E2 /* Mention.swift in Sources */,
 				53449DAC23294C1000A470E2 /* Poll.swift in Sources */,
 				53449DBE23294C1000A470E2 /* Emoji.swift in Sources */,
+				53DED14E234B71280017534F /* LikedViewController.swift in Sources */,
 				53449DD723294C1000A470E2 /* Pagination.swift in Sources */,
 				53449DBA23294C1000A470E2 /* Application.swift in Sources */,
 				5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */,

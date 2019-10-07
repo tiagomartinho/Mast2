@@ -1,5 +1,5 @@
 //
-//  PinnedViewController.swift
+//  LikedViewController.swift
 //  Mast
 //
 //  Created by Shihab Mehboob on 07/10/2019.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
+class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()
     var loginBG = UIView()
@@ -17,7 +17,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
     var userId = GlobalStruct.currentUser.id
-    var statusesPinned: [Status] = []
+    var statusesLiked: [Status] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -98,7 +98,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         self.tableView.addSubview(self.refreshControl)
         
-        self.statusesPinned = []
+        self.statusesLiked = []
         self.initialFetches()
         
         // Top buttons
@@ -126,11 +126,11 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     }
     
     func initialFetches() {
-        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .max(id: "", limit: nil))
+        let request = Favourites.all()
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    self.statusesPinned = stat
+                    self.statusesLiked = stat
                     self.tableView.reloadData()
                 }
             }
@@ -138,7 +138,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .since(id: self.statusesPinned.first?.id ?? "", limit: nil))
+        let request = Favourites.all(range: .since(id: self.statusesLiked.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -157,7 +157,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        self.statusesPinned = stat + self.statusesPinned
+                        self.statusesLiked = stat + self.statusesLiked
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -185,18 +185,18 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.statusesPinned.count
+        return self.statusesLiked.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.statusesPinned[indexPath.row].mediaAttachments.isEmpty {
+        if self.statusesLiked[indexPath.row].mediaAttachments.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if self.statusesPinned.isEmpty {} else {
-                cell.configure(self.statusesPinned[indexPath.row])
+            if self.statusesLiked.isEmpty {} else {
+                cell.configure(self.statusesLiked[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == self.statusesPinned.count - 10 {
+                if indexPath.row == self.statusesLiked.count - 10 {
                     self.fetchMoreHome()
                 }
             }
@@ -207,12 +207,12 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
-            if self.statusesPinned.isEmpty {} else {
-                cell.configure(self.statusesPinned[indexPath.row])
+            if self.statusesLiked.isEmpty {} else {
+                cell.configure(self.statusesLiked[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == self.statusesPinned.count - 10 {
+                if indexPath.row == self.statusesLiked.count - 10 {
                     self.fetchMoreHome()
                 }
             }
@@ -227,20 +227,20 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         vc.isYou = false
-        vc.pickedCurrentUser = self.statusesPinned[gesture.view!.tag].account
+        vc.pickedCurrentUser = self.statusesLiked[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func fetchMoreHome() {
-        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .max(id: self.statusesPinned.last?.id ?? "", limit: nil))
+        let request = Favourites.all(range: .max(id: self.statusesLiked.last?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((self.statusesPinned.count)..<(self.statusesPinned.count + stat.count)).map {
+                        let indexPaths = ((self.statusesLiked.count)..<(self.statusesLiked.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        self.statusesPinned.append(contentsOf: stat)
+                        self.statusesLiked.append(contentsOf: stat)
                         self.tableView.beginUpdates()
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.endUpdates()
@@ -253,7 +253,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = DetailViewController()
-        vc.pickedStatusesHome = [self.statusesPinned[indexPath.row]]
+        vc.pickedStatusesHome = [self.statusesLiked[indexPath.row]]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -273,7 +273,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         animator.addCompletion {
             guard let indexPath = configuration.identifier as? IndexPath else { return }
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [self.statusesPinned[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesLiked[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -284,10 +284,10 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
             let vc = DetailViewController()
             vc.fromContextMenu = true
-            vc.pickedStatusesHome = [self.statusesPinned[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesLiked[indexPath.row]]
             return vc
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu([self.statusesPinned[indexPath.row]], indexPath: indexPath)
+            return self.makeContextMenu([self.statusesLiked[indexPath.row]], indexPath: indexPath)
         })
     }
     
@@ -516,4 +516,5 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         }
     }
 }
+
 

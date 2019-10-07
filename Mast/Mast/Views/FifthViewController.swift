@@ -310,7 +310,8 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
             let op2 = UIAlertAction(title: "Liked".localized, style: .default , handler:{ (UIAlertAction) in
-                
+                let vc = LikedViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             op2.setValue(UIImage(systemName: "heart")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
