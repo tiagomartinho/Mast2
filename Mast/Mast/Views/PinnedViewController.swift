@@ -17,6 +17,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
     var userId = GlobalStruct.currentUser.id
+    var statusesPinned: [Status] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -97,7 +98,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         self.tableView.addSubview(self.refreshControl)
         
-        GlobalStruct.statusesPinned = []
+        self.statusesPinned = []
         self.initialFetches()
         
         // Top buttons
@@ -129,7 +130,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.statusesPinned = stat
+                    self.statusesPinned = stat
                     self.tableView.reloadData()
                 }
             }
@@ -137,7 +138,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .max(id: GlobalStruct.statusesPinned.first?.id ?? "", limit: nil))
+        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .max(id: self.statusesPinned.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -156,7 +157,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesPinned = stat + GlobalStruct.statusesPinned
+                        self.statusesPinned = stat + self.statusesPinned
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -184,18 +185,18 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalStruct.statusesPinned.count
+        return self.statusesPinned.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if GlobalStruct.statusesPinned[indexPath.row].mediaAttachments.isEmpty {
+        if self.statusesPinned[indexPath.row].mediaAttachments.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if GlobalStruct.statusesPinned.isEmpty {} else {
-                cell.configure(GlobalStruct.statusesPinned[indexPath.row])
+            if self.statusesPinned.isEmpty {} else {
+                cell.configure(self.statusesPinned[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == GlobalStruct.statusesPinned.count - 10 {
+                if indexPath.row == self.statusesPinned.count - 10 {
                     self.fetchMoreHome()
                 }
             }
@@ -206,12 +207,12 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
-            if GlobalStruct.statusesPinned.isEmpty {} else {
-                cell.configure(GlobalStruct.statusesPinned[indexPath.row])
+            if self.statusesPinned.isEmpty {} else {
+                cell.configure(self.statusesPinned[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == GlobalStruct.statusesPinned.count - 10 {
+                if indexPath.row == self.statusesPinned.count - 10 {
                     self.fetchMoreHome()
                 }
             }
@@ -226,20 +227,20 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         vc.isYou = false
-        vc.pickedCurrentUser = GlobalStruct.statusesPinned[gesture.view!.tag].account
+        vc.pickedCurrentUser = self.statusesPinned[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func fetchMoreHome() {
-        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .max(id: GlobalStruct.statusesPinned.last?.id ?? "", limit: nil))
+        let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .max(id: self.statusesPinned.last?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.statusesPinned.count)..<(GlobalStruct.statusesPinned.count + stat.count)).map {
+                        let indexPaths = ((self.statusesPinned.count)..<(self.statusesPinned.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesPinned.append(contentsOf: stat)
+                        self.statusesPinned.append(contentsOf: stat)
                         self.tableView.beginUpdates()
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.endUpdates()
@@ -252,7 +253,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = DetailViewController()
-        vc.pickedStatusesHome = [GlobalStruct.statusesPinned[indexPath.row]]
+        vc.pickedStatusesHome = [self.statusesPinned[indexPath.row]]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -272,7 +273,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         animator.addCompletion {
             guard let indexPath = configuration.identifier as? IndexPath else { return }
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesPinned[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesPinned[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -283,10 +284,10 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
             let vc = DetailViewController()
             vc.fromContextMenu = true
-            vc.pickedStatusesHome = [GlobalStruct.statusesPinned[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesPinned[indexPath.row]]
             return vc
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu([GlobalStruct.statusesPinned[indexPath.row]], indexPath: indexPath)
+            return self.makeContextMenu([self.statusesPinned[indexPath.row]], indexPath: indexPath)
         })
     }
     
