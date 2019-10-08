@@ -60,7 +60,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "Pinned".localized
+        self.title = "Liked".localized
 //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
