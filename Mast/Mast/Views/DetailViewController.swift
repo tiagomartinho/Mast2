@@ -424,7 +424,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func moreTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: " Translate".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.translateThis()
         })
         op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
