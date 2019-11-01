@@ -191,7 +191,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         } else if noti.type == .poll {
             self.typeOf.image = UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemTeal, renderingMode: .alwaysOriginal)
         } else if noti.type == .follow {
-            self.typeOf.image = UIImage(systemName: "person.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPurple, renderingMode: .alwaysOriginal)
+            self.typeOf.image = UIImage(systemName: "person.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemOrange, renderingMode: .alwaysOriginal)
         }
         if noti.type == .follow {
             self.title.text = "New follower".localized
