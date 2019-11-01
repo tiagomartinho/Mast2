@@ -10,26 +10,27 @@ import Foundation
 import UIKit
 
 class ImageViewController: UIViewController {
-    
     var image = UIImage()
-    var imageView = UIImageView()
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        self.imageView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
-        self.imageView.sizeToFit()
-        self.preferredContentSize = CGSize(width: self.imageView.frame.width, height: self.imageView.frame.height)
-    }
-    
+    let imageView = UIImageView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.clear
         
-        self.imageView.image = self.image
-        self.imageView.contentMode = .scaleAspectFit
-        self.imageView.sizeToFit()
-        self.preferredContentSize = CGSize(width: self.imageView.frame.width, height: self.imageView.frame.height)
-        self.view.addSubview(self.imageView)
+        imageView.image = self.image
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+
+        NSLayoutConstraint.activate([
+            imageView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            imageView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+
+        let width = view.bounds.width
+        let height = self.image.size.height * (width / self.image.size.width)
+        preferredContentSize = CGSize(width: width, height: height)
     }
-    
 }

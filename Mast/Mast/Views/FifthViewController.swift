@@ -219,7 +219,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             vw.backgroundColor = UIColor(named: "baseWhite")
             let title = UILabel()
             title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
-            title.text = "\(theUser?.statusesCount ?? 0) Toots".localized
+
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = NumberFormatter.Style.decimal
+            let formattedNumber = numberFormatter.string(from: NSNumber(value: theUser?.statusesCount ?? 0))
+            
+            title.text = "\(formattedNumber ?? "0") Toots".localized
             title.textColor = UIColor(named: "baseBlack")
             title.font = UIFont.boldSystemFont(ofSize: 16)
             vw.addSubview(title)
