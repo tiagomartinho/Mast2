@@ -57,9 +57,9 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         contentView.addSubview(profile2)
         
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.textColor = UIColor(named: "baseBlack")
+        title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
         title.textAlignment = .natural
-        title.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+        title.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
         title.isUserInteractionEnabled = false
         title.adjustsFontForContentSizeCategory = true
         title.numberOfLines = 0
