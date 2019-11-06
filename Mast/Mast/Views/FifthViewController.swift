@@ -241,6 +241,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if GlobalStruct.currentUser == nil {} else {
                     cell.configure(GlobalStruct.currentUser)
                     cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
+                    cell.followers.addTarget(self, action: #selector(self.followersTapped), for: .touchUpInside)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -251,6 +252,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OtherProfileCell", for: indexPath) as! OtherProfileCell
                 cell.configure(self.pickedCurrentUser)
                 cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
+                cell.followers.addTarget(self, action: #selector(self.followersTapped2), for: .touchUpInside)
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -315,6 +317,17 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    @objc func followersTapped() {
+        let vc = FollowersViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func followersTapped2() {
+        let vc = FollowersViewController()
+        vc.userId = self.profileStatuses.first?.account.id ?? ""
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc func moreTapped() {
         if self.isYou {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -333,8 +346,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op2.setValue(UIImage(systemName: "heart")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
-            let op6 = UIAlertAction(title: "Followers".localized, style: .default , handler:{ (UIAlertAction) in
-                
+            let op6 = UIAlertAction(title: "Friends".localized, style: .default , handler:{ (UIAlertAction) in
+                let vc = FollowersViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             op6.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
             op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -389,8 +403,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op5.setValue(UIImage(systemName: "arrow.upright.circle")!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op5)
-            let op4 = UIAlertAction(title: "Followers".localized, style: .default , handler:{ (UIAlertAction) in
-                
+            let op4 = UIAlertAction(title: "Friends".localized, style: .default , handler:{ (UIAlertAction) in
+                let vc = FollowersViewController()
+                vc.userId = self.profileStatuses.first?.account.id ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
             })
             op4.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
             op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

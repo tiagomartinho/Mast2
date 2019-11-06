@@ -119,6 +119,7 @@
 		5395A7562372D824002253A8 /* MuteBlockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7552372D824002253A8 /* MuteBlockCell.swift */; };
 		5395A7582372DE7E002253A8 /* BlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7572372DE7E002253A8 /* BlockedViewController.swift */; };
 		5395A75A2372E18C002253A8 /* FollowersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7592372E18C002253A8 /* FollowersCell.swift */; };
+		5395A75E2372E850002253A8 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75D2372E850002253A8 /* FollowersViewController.swift */; };
 		53B5F1DE233BC4BA0099B170 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1DD233BC4BA0099B170 /* NotificationService.swift */; };
 		53B5F1E2233BC4BA0099B170 /* Mast Push.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53B5F1DB233BC4BA0099B170 /* Mast Push.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53B5F1ED233BC5600099B170 /* SwiftGCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1E8233BC5600099B170 /* SwiftGCM.swift */; };
@@ -277,6 +278,7 @@
 		5395A7552372D824002253A8 /* MuteBlockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteBlockCell.swift; sourceTree = "<group>"; };
 		5395A7572372DE7E002253A8 /* BlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedViewController.swift; sourceTree = "<group>"; };
 		5395A7592372E18C002253A8 /* FollowersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersCell.swift; sourceTree = "<group>"; };
+		5395A75D2372E850002253A8 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		53B5F1DB233BC4BA0099B170 /* Mast Push.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mast Push.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B5F1DD233BC4BA0099B170 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		53B5F1DF233BC4BA0099B170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -523,6 +525,7 @@
 				53DED14D234B71280017534F /* LikedViewController.swift */,
 				5395A7532372D63C002253A8 /* MutedViewController.swift */,
 				5395A7572372DE7E002253A8 /* BlockedViewController.swift */,
+				5395A75D2372E850002253A8 /* FollowersViewController.swift */,
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
@@ -817,6 +820,7 @@
 				53449DC523294C1000A470E2 /* Mutes.swift in Sources */,
 				5379F42423323D3100DC1F33 /* NotificationsCell.swift in Sources */,
 				53449DDC23294C1000A470E2 /* Payload.swift in Sources */,
+				5395A75E2372E850002253A8 /* FollowersViewController.swift in Sources */,
 				53449DA623294C1000A470E2 /* Mention.swift in Sources */,
 				53449DAC23294C1000A470E2 /* Poll.swift in Sources */,
 				53449DBE23294C1000A470E2 /* Emoji.swift in Sources */,
