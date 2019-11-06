@@ -25,12 +25,17 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLayoutSubviews()
         
         // Table
+        #if targetEnvironment(macCatalyst)
+        let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        #elseif !targetEnvironment(macCatalyst)
         if self.fromContextMenu || UIDevice.current.userInterfaceIdiom == .pad {
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height))
         } else {
             let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
             self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         }
+        #endif
     }
     
     @objc func updatePosted() {

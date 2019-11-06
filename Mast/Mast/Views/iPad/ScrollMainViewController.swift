@@ -62,7 +62,7 @@ class ScrollMainViewController: UIViewController, UIGestureRecognizerDelegate {
             spacer = 5
         }
         
-        self.scrollView.contentSize = CGSize(width: (CGFloat(width * CGFloat(viewControllers.count))) + (CGFloat(spacer * CGFloat(viewControllers.count))), height: CGFloat(self.view.bounds.height))
+        self.scrollView.contentSize = CGSize(width: (CGFloat(width * CGFloat(viewControllers.count))) + (CGFloat(spacer * CGFloat(viewControllers.count + 1))), height: CGFloat(self.view.bounds.height))
         
         var idx: Int = 0
         var widthOffset: CGFloat = 0
