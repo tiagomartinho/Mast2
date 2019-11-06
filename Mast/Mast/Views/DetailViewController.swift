@@ -225,6 +225,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
@@ -239,6 +240,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
@@ -307,6 +309,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
         }
+    }
+    
+    @objc func metricsTapped() {
+        let vc = LikedBoostedViewController()
+        vc.theStatus = self.pickedStatusesHome
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfilePrevious(_ gesture: UIGestureRecognizer) {
