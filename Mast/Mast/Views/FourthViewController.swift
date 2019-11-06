@@ -12,6 +12,7 @@ import UIKit
 class FourthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()
+    var statusesSuggested: [Account] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -97,9 +98,11 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         self.fetchLists()
+        self.initialFetches()
         
         // Table
         self.tableView.register(ListCell.self, forCellReuseIdentifier: "ListCell")
+        self.tableView.register(FollowersCell.self, forCellReuseIdentifier: "FollowersCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -112,6 +115,18 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
+    }
+    
+    func initialFetches() {
+        let request = Accounts.followSuggestions()
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.statusesSuggested = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     @objc func settingsTapped() {
@@ -134,8 +149,16 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalStruct.allLists.count
+        if section == 0 {
+            return GlobalStruct.allLists.count
+        } else {
+            return self.statusesSuggested.count
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -152,7 +175,11 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         vw.backgroundColor = UIColor(named: "baseWhite")
         let title = UILabel()
         title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
-        title.text = "Your Lists".localized
+        if section == 0 {
+            title.text = "Your Lists".localized
+        } else {
+            title.text = "Follow Suggestions".localized
+        }
         title.textColor = UIColor(named: "baseBlack")
         title.font = UIFont.boldSystemFont(ofSize: 16)
         vw.addSubview(title)
@@ -160,22 +187,76 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
-        if GlobalStruct.allLists.isEmpty {
-            self.fetchLists()
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
+            if GlobalStruct.allLists.isEmpty {
+                self.fetchLists()
+            } else {
+                cell.configure(GlobalStruct.allLists[indexPath.row])
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         } else {
-            cell.configure(GlobalStruct.allLists[indexPath.row])
+            let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersCell", for: indexPath) as! FollowersCell
+            if self.statusesSuggested.isEmpty {} else {
+                cell.configure(self.statusesSuggested[indexPath.row])
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                cell.profile.tag = indexPath.row
+                cell.profile.addGestureRecognizer(tap)
+            }
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         }
-        cell.backgroundColor = UIColor(named: "baseWhite")
-        let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor.clear
-        cell.selectedBackgroundView = bgColorView
-        return cell
+    }
+    
+    @objc func viewProfile(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.statusesSuggested[gesture.view!.tag]
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
+            if indexPath.section == 0 {
+                return nil
+            } else {
+                return self.makeContextMenu([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
+            }
+        })
+    }
+    
+    func makeContextMenu(_ status: [Account], indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Follow".localized, image: UIImage(systemName: "arrow.upright.circle"), identifier: nil) { action in
+            let request = Accounts.follow(id: status.first?.id ?? "", reblogs: true)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.statusesSuggested.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+        if indexPath.section == 0 {
+            
+        } else {
+            let vc = FifthViewController()
+            vc.isYou = false
+            vc.pickedCurrentUser = self.statusesSuggested[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func removeTabbarItemsText() {

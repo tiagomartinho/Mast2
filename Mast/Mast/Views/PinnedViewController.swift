@@ -22,16 +22,9 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            // Table
-            let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
-            self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
-        } else {
-            // Table
-            let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + 10
-            let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
-            self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
-        }
+        // Table
+        let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
     }
     
     @objc func updatePosted() {
@@ -46,7 +39,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        GlobalStruct.currentTab = 1
+        GlobalStruct.currentTab = 999
     }
     
     @objc func refreshTable1() {

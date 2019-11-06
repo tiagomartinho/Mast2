@@ -52,10 +52,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        btn1.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.setImage(UIImage(systemName: "arrowshape.turn.up.left", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn1.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
-        btn1.accessibilityLabel = "Sort".localized
+        btn1.addTarget(self, action: #selector(self.replyTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "Reply".localized
         let addButton = UIBarButtonItem(customView: btn1)
         self.navigationItem.setRightBarButton(addButton, animated: true)
         
@@ -157,30 +157,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             self.detailPrev.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
         }) { (completed: Bool) in
         }
-    }
-    
-    @objc func sortTapped() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "Newest First".localized, style: .default , handler:{ (UIAlertAction) in
-            self.dismiss(animated: true, completion: nil)
-        })
-        op1.setValue(UIImage(systemName: "dot.circle")!, forKey: "image")
-        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op1)
-        let op2 = UIAlertAction(title: "Oldest First".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
-        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op2)
-        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            
-        }))
-        if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.btn1
-            presenter.sourceRect = self.btn1.bounds
-        }
-        self.present(alert, animated: true, completion: nil)
     }
     
     func removeTabbarItemsText() {
