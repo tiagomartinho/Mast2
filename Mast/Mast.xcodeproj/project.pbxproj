@@ -120,6 +120,7 @@
 		5395A7582372DE7E002253A8 /* BlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7572372DE7E002253A8 /* BlockedViewController.swift */; };
 		5395A75A2372E18C002253A8 /* FollowersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7592372E18C002253A8 /* FollowersCell.swift */; };
 		5395A75E2372E850002253A8 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75D2372E850002253A8 /* FollowersViewController.swift */; };
+		5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */; };
 		53B5F1DE233BC4BA0099B170 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1DD233BC4BA0099B170 /* NotificationService.swift */; };
 		53B5F1E2233BC4BA0099B170 /* Mast Push.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53B5F1DB233BC4BA0099B170 /* Mast Push.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53B5F1ED233BC5600099B170 /* SwiftGCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1E8233BC5600099B170 /* SwiftGCM.swift */; };
@@ -279,6 +280,7 @@
 		5395A7572372DE7E002253A8 /* BlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedViewController.swift; sourceTree = "<group>"; };
 		5395A7592372E18C002253A8 /* FollowersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersCell.swift; sourceTree = "<group>"; };
 		5395A75D2372E850002253A8 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
+		5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndorsedViewController.swift; sourceTree = "<group>"; };
 		53B5F1DB233BC4BA0099B170 /* Mast Push.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mast Push.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B5F1DD233BC4BA0099B170 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		53B5F1DF233BC4BA0099B170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				5395A7532372D63C002253A8 /* MutedViewController.swift */,
 				5395A7572372DE7E002253A8 /* BlockedViewController.swift */,
 				5395A75D2372E850002253A8 /* FollowersViewController.swift */,
+				5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */,
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
@@ -777,6 +780,7 @@
 				532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */,
 				5379F4322333C3F800DC1F33 /* ProfileImageCell.swift in Sources */,
 				53449DCF23294C1000A470E2 /* Media.swift in Sources */,
+				5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */,
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
 				53449D9D23294C1000A470E2 /* URLComponents.swift in Sources */,

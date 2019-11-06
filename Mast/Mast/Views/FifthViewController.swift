@@ -386,10 +386,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.present(alert, animated: true, completion: nil)
         } else {
             var friendText = "Follow".localized
+            var friendImage = "arrow.upright.circle"
             if self.isFollowing {
                 friendText = "Unfollow".localized
+                friendImage = "xmark"
             } else {
                 friendText = "Follow".localized
+                friendImage = "arrow.upright.circle"
             }
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -418,7 +421,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 }
             })
-            op5.setValue(UIImage(systemName: "arrow.upright.circle")!, forKey: "image")
+            op5.setValue(UIImage(systemName: friendImage)!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op5)
             let op4 = UIAlertAction(title: "Friends".localized, style: .default , handler:{ (UIAlertAction) in
@@ -469,7 +472,8 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     func moreOwnProfile() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op7 = UIAlertAction(title: " \("Endorsed".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+            let vc = EndorsedViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         })
         op7.setValue(UIImage(systemName: "star")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -521,7 +525,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op6 = UIAlertAction(title: "Endorse".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            let request = Accounts.endorse(id: self.profileStatuses.first?.account.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                print("endorsed")
+            }
         })
         op6.setValue(UIImage(systemName: "star")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

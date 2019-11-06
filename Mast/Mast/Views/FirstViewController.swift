@@ -969,7 +969,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func reportThis(_ stat: [Status]) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "Harassment".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: "Harassment".localized, style: .destructive , handler:{ (UIAlertAction) in
             let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Harassment")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -978,7 +978,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         op1.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
+        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .destructive , handler:{ (UIAlertAction) in
             let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "No Content Warning")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -987,7 +987,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         op2.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
-        let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: "Spam".localized, style: .destructive , handler:{ (UIAlertAction) in
             let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Spam")
             GlobalStruct.client.run(request) { (statuses) in
                 

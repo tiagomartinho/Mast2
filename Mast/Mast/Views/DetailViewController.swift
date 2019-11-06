@@ -399,7 +399,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func moreTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: " Translate".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: " \("Translate".localized)", style: .default , handler:{ (UIAlertAction) in
             self.translateThis()
         })
         op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
@@ -411,19 +411,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op2.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
-        let op3 = UIAlertAction(title: " Block".localized, style: .default , handler:{ (UIAlertAction) in
-            
+        let op3 = UIAlertAction(title: " \("Block".localized)", style: .default , handler:{ (UIAlertAction) in
+            let request = Accounts.block(id: self.pickedStatusesHome.first?.account.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                print("blocked")
+            }
         })
         op3.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: " Duplicate".localized, style: .default , handler:{ (UIAlertAction) in
+        let op4 = UIAlertAction(title: " \("Duplicate".localized)", style: .default , handler:{ (UIAlertAction) in
             
         })
         op4.setValue(UIImage(systemName: "doc.on.doc")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
-        let op5 = UIAlertAction(title: " Report".localized, style: .destructive , handler:{ (UIAlertAction) in
+        let op5 = UIAlertAction(title: " \("Report".localized)", style: .destructive , handler:{ (UIAlertAction) in
             self.reportThis()
         })
         op5.setValue(UIImage(systemName: "flag")!, forKey: "image")
@@ -498,7 +501,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     func reportThis() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "Harassment".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: "Harassment".localized, style: .destructive , handler:{ (UIAlertAction) in
             let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "Harassment")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -507,7 +510,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op1.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
+        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .destructive , handler:{ (UIAlertAction) in
             let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "No Content Warning")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -516,7 +519,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op2.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
-        let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: "Spam".localized, style: .destructive , handler:{ (UIAlertAction) in
             let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "Spam")
             GlobalStruct.client.run(request) { (statuses) in
                 
