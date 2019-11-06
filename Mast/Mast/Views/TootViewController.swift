@@ -287,7 +287,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             formatToolbar.barStyle = UIBarStyle.default
             formatToolbar.isTranslucent = true
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
-            fixedS.width = 5
+            fixedS.width = 8
             formatToolbar.items = [
                 UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker)),
                 fixedS,

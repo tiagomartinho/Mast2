@@ -318,7 +318,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func moreTapped() {
         if self.isYou {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            let op1 = UIAlertAction(title: "Pinned".localized, style: .default , handler:{ (UIAlertAction) in
+            let op1 = UIAlertAction(title: " \("Pinned".localized)", style: .default , handler:{ (UIAlertAction) in
                 let vc = PinnedViewController()
                 vc.userId = GlobalStruct.currentUser.id
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -326,7 +326,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
-            let op2 = UIAlertAction(title: "Liked".localized, style: .default , handler:{ (UIAlertAction) in
+            let op2 = UIAlertAction(title: " \("Liked".localized)", style: .default , handler:{ (UIAlertAction) in
                 let vc = LikedViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             })
@@ -339,13 +339,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op3.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op3)
-            let op4 = UIAlertAction(title: "Blocked".localized, style: .default , handler:{ (UIAlertAction) in
+            let op4 = UIAlertAction(title: " \("Blocked".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
             op4.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
             op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op4)
-            let op5 = UIAlertAction(title: "Scheduled".localized, style: .default , handler:{ (UIAlertAction) in
+            let op5 = UIAlertAction(title: " \("Scheduled".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
             op5.setValue(UIImage(systemName: "clock")!, forKey: "image")
@@ -357,47 +357,25 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op6.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
             op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op6)
-            let op7 = UIAlertAction(title: "Follow Suggestions".localized, style: .default , handler:{ (UIAlertAction) in
-                
+            let op7 = UIAlertAction(title: " \("More".localized)", style: .default , handler:{ (UIAlertAction) in
+                self.moreOwnProfile()
             })
-            op7.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
+            op7.setValue(UIImage(systemName: "ellipsis")!, forKey: "image")
             op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op7)
-            let op8 = UIAlertAction(title: "Endorsed".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op8.setValue(UIImage(systemName: "star")!, forKey: "image")
-            op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op8)
-            let op9 = UIAlertAction(title: "Instance Details".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op9.setValue(UIImage(systemName: "eyeglasses")!, forKey: "image")
-            op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op9)
-            let op10 = UIAlertAction(title: "Edit Account".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op10.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
-            op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op10)
-            let op11 = UIAlertAction(title: "Share Account".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op11.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
-            op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op11)
             alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {
-                presenter.sourceView = self.view
-                presenter.sourceRect = self.view.bounds
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                    presenter.sourceView = cell.more
+                    presenter.sourceRect = cell.more.bounds
+                }
             }
             self.present(alert, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            let op1 = UIAlertAction(title: "Pinned".localized, style: .default , handler:{ (UIAlertAction) in
+            let op1 = UIAlertAction(title: " \("Pinned".localized)", style: .default , handler:{ (UIAlertAction) in
                 let vc = PinnedViewController()
                 vc.userId = self.profileStatuses.first?.account.id ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -405,75 +383,141 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
-            let op2 = UIAlertAction(title: "Mention".localized, style: .default , handler:{ (UIAlertAction) in
+            let op2 = UIAlertAction(title: " \("Mention".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
             op2.setValue(UIImage(systemName: "arrowshape.turn.up.left")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
-            let op3 = UIAlertAction(title: "Message".localized, style: .default , handler:{ (UIAlertAction) in
+            let op3 = UIAlertAction(title: " \("Message".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
             op3.setValue(UIImage(systemName: "paperplane")!, forKey: "image")
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op3)
-            let op4 = UIAlertAction(title: "Followers".localized, style: .default , handler:{ (UIAlertAction) in
+            let op5 = UIAlertAction(title: " \("Follow".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op4.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
-            op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op4)
-            let op5 = UIAlertAction(title: "Follow".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op5.setValue(UIImage(systemName: "arrowshape.turn.up.left")!, forKey: "image")
+            op5.setValue(UIImage(systemName: "arrow.upright.circle")!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op5)
-            let op6 = UIAlertAction(title: "Endorse".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op6.setValue(UIImage(systemName: "star")!, forKey: "image")
-            op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op6)
-            let op7 = UIAlertAction(title: "Add to List".localized, style: .default , handler:{ (UIAlertAction) in
-                
-            })
-            op7.setValue(UIImage(systemName: "arrowshape.turn.up.left")!, forKey: "image")
-            op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op7)
             let op8 = UIAlertAction(title: "Mute".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
             op8.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
             op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op8)
-            let op9 = UIAlertAction(title: "Block".localized, style: .default , handler:{ (UIAlertAction) in
+            let op9 = UIAlertAction(title: " \("Block".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
             op9.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
             op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op9)
-            let op10 = UIAlertAction(title: "Disable Boosts".localized, style: .default , handler:{ (UIAlertAction) in
+            let op4 = UIAlertAction(title: "Followers".localized, style: .default , handler:{ (UIAlertAction) in
                 
             })
-            op10.setValue(UIImage(systemName: "xmark")!, forKey: "image")
-            op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op10)
-            let op11 = UIAlertAction(title: "Share Account".localized, style: .default , handler:{ (UIAlertAction) in
-                
+            op4.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
+            op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op4)
+            let op7 = UIAlertAction(title: " \("More".localized)", style: .default , handler:{ (UIAlertAction) in
+                self.moreOtherProfile()
             })
-            op11.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
-            op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op11)
+            op7.setValue(UIImage(systemName: "ellipsis")!, forKey: "image")
+            op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op7)
             alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {
-                presenter.sourceView = self.view
-                presenter.sourceRect = self.view.bounds
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                    presenter.sourceView = cell.more
+                    presenter.sourceRect = cell.more.bounds
+                }
             }
             self.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    func moreOwnProfile() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op7 = UIAlertAction(title: " \("Endorsed".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op7.setValue(UIImage(systemName: "star")!, forKey: "image")
+        op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op7)
+        let op8 = UIAlertAction(title: "Follow Suggestions".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op8.setValue(UIImage(systemName: "person.and.person")!, forKey: "image")
+        op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op8)
+        let op9 = UIAlertAction(title: "Instance Details".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op9.setValue(UIImage(systemName: "eyeglasses")!, forKey: "image")
+        op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op9)
+        let op10 = UIAlertAction(title: " \("Edit Account".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op10.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
+        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op10)
+        let op11 = UIAlertAction(title: " \("Share Account".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op11.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
+        op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op11)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func moreOtherProfile() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op6 = UIAlertAction(title: "Endorse".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op6.setValue(UIImage(systemName: "star")!, forKey: "image")
+        op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op6)
+        let op7 = UIAlertAction(title: "Add to List".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op7.setValue(UIImage(systemName: "text.badge.plus")!, forKey: "image")
+        op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op7)
+        let op10 = UIAlertAction(title: "Disable Boosts".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op10.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op10)
+        let op11 = UIAlertAction(title: "Share Account".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op11.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
+        op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op11)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {

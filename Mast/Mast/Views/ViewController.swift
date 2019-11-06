@@ -30,6 +30,11 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         self.createTabBar()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,7 +46,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         
-        statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
         statusBarView.backgroundColor = UIColor(named: "baseWhite")
         view.addSubview(statusBarView)
         
