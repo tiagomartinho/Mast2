@@ -98,7 +98,7 @@ class OtherProfileCell: UITableViewCell {
         followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
         followsYou.layer.cornerRadius = 10
         followsYou.contentHorizontalAlignment = .leading
-        followsYou.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        followsYou.titleLabel?.font = UIFont.systemFont(ofSize: 11)
         followsYou.titleLabel?.adjustsFontForContentSizeCategory = true
         followsYou.titleLabel?.numberOfLines = 1
         followsYou.titleLabel?.lineBreakMode = .byTruncatingTail
@@ -112,9 +112,9 @@ class OtherProfileCell: UITableViewCell {
         following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
         following.backgroundColor = UIColor.clear
         following.layer.cornerRadius = 14
-        following.layer.borderWidth = 1.8
+        following.layer.borderWidth = 1.2
         following.contentHorizontalAlignment = .leading
-        following.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        following.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         following.titleLabel?.adjustsFontForContentSizeCategory = true
         following.titleLabel?.numberOfLines = 1
         following.titleLabel?.lineBreakMode = .byTruncatingTail

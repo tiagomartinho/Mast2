@@ -16,6 +16,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var pickedCurrentUser: Account!
     var profileStatusesImages: [Status] = []
     var profileStatuses: [Status] = []
+    var isFollowing = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -384,6 +385,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             self.present(alert, animated: true, completion: nil)
         } else {
+            var friendText = "Follow".localized
+            if self.isFollowing {
+                friendText = "Unfollow".localized
+            } else {
+                friendText = "Follow".localized
+            }
+            
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let op2 = UIAlertAction(title: " \("Mention".localized)", style: .default , handler:{ (UIAlertAction) in
                 
@@ -397,8 +405,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op3.setValue(UIImage(systemName: "paperplane")!, forKey: "image")
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op3)
-            let op5 = UIAlertAction(title: " \("Follow".localized)", style: .default , handler:{ (UIAlertAction) in
-                
+            let op5 = UIAlertAction(title: " \(friendText)", style: .default , handler:{ (UIAlertAction) in
+                if self.isFollowing {
+                    let request = Accounts.unfollow(id: self.profileStatuses.first?.account.id ?? "")
+                    GlobalStruct.client.run(request) { (statuses) in
+                        
+                    }
+                } else {
+                    let request = Accounts.follow(id: self.profileStatuses.first?.account.id ?? "", reblogs: true)
+                    GlobalStruct.client.run(request) { (statuses) in
+                        
+                    }
+                }
             })
             op5.setValue(UIImage(systemName: "arrow.upright.circle")!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -560,6 +578,19 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         DispatchQueue.main.async {
                             self.profileStatuses = stat
                             self.tableView.reloadSections(IndexSet([2]), with: .none)
+                            
+                            let request2 = Accounts.relationships(ids: [GlobalStruct.currentUser.id, self.profileStatuses.first?.account.id ?? ""])
+                            GlobalStruct.client.run(request2) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    DispatchQueue.main.async {
+                                        if stat[1].following {
+                                            self.isFollowing = true
+                                        } else {
+                                            self.isFollowing = false
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
