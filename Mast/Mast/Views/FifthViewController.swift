@@ -458,6 +458,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op11.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
         op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op11)
+        let op12 = UIAlertAction(title: " \("Log Out".localized)", style: .destructive , handler:{ (UIAlertAction) in
+            
+        })
+        op12.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+        op12.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op12)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
             
         }))
