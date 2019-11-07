@@ -290,7 +290,10 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
-            
+            let vc = ListViewController()
+            vc.theListID = GlobalStruct.allLists[indexPath.row].id
+            vc.theList = GlobalStruct.allLists[indexPath.row].title
+            self.navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = FifthViewController()
             vc.isYou = false

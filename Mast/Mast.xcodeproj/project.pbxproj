@@ -120,6 +120,7 @@
 		5395A75E2372E850002253A8 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75D2372E850002253A8 /* FollowersViewController.swift */; };
 		5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */; };
 		5395A7622372FEB1002253A8 /* LikedBoostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */; };
+		53AF450423742F05001A3574 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450323742F05001A3574 /* ListViewController.swift */; };
 		53B5F1DE233BC4BA0099B170 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1DD233BC4BA0099B170 /* NotificationService.swift */; };
 		53B5F1E2233BC4BA0099B170 /* Mast Push.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53B5F1DB233BC4BA0099B170 /* Mast Push.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53B5F1ED233BC5600099B170 /* SwiftGCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1E8233BC5600099B170 /* SwiftGCM.swift */; };
@@ -281,6 +282,7 @@
 		5395A75D2372E850002253A8 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndorsedViewController.swift; sourceTree = "<group>"; };
 		5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedBoostedViewController.swift; sourceTree = "<group>"; };
+		53AF450323742F05001A3574 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		53B5F1DB233BC4BA0099B170 /* Mast Push.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mast Push.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B5F1DD233BC4BA0099B170 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		53B5F1DF233BC4BA0099B170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				53449D4823293F2F00A470E2 /* FourthViewController.swift */,
 				53449D4A23293F4100A470E2 /* FifthViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
+				53AF450323742F05001A3574 /* ListViewController.swift */,
 				53DED14B234B59C90017534F /* PinnedViewController.swift */,
 				53DED14D234B71280017534F /* LikedViewController.swift */,
 				5395A7532372D63C002253A8 /* MutedViewController.swift */,
@@ -764,6 +767,7 @@
 				5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,
 				5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */,
+				53AF450423742F05001A3574 /* ListViewController.swift in Sources */,
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,
 				53449DB823294C1000A470E2 /* Relationship.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
