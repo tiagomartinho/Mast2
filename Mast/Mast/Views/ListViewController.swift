@@ -520,7 +520,9 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     @objc func moreTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "View List Members".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            let vc = ListMembersViewController()
+            vc.listID = self.theListID
+            self.navigationController?.pushViewController(vc, animated: true)
         })
         op1.setValue(UIImage(systemName: "person.2.square.stack")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

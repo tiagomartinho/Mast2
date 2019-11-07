@@ -276,7 +276,9 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     func makeContextMenu(_ status: [Account], indexPath: IndexPath) -> UIMenu {
         let op1 = UIAction(title: "View List Members".localized, image: UIImage(systemName: "person.2.square.stack"), identifier: nil) { action in
-            
+            let vc = ListMembersViewController()
+            vc.listID = GlobalStruct.allLists[indexPath.row].id
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         let op2 = UIAction(title: "Edit List Name".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
             
