@@ -191,6 +191,26 @@ open class GSImageViewerController: UIViewController {
         imageView.image = imageInfo.image
         imageView.contentMode = .scaleAspectFit
         scrollView.addSubview(imageView)
+        
+        let detailView = UIButton()
+        detailView.layer.cornerRadius = 8
+        if #available(iOS 13.0, *) {
+            detailView.frame = CGRect(x: 20, y: self.view.bounds.height - 60 - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0), width: self.view.bounds.width - 40, height: 50)
+            detailView.backgroundColor = UIColor(named: "darkGray")!
+            detailView.layer.cornerCurve = .continuous
+        }
+        detailView.setTitle("Example image preview text will go here, maybe part of the actual toot or just the assisting captions that accompany the image and its details.", for: .normal)
+        detailView.setTitleColor(UIColor.white, for: .normal)
+        detailView.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        detailView.titleLabel?.textAlignment = .left
+        detailView.contentHorizontalAlignment = .left
+        detailView.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+        detailView.sizeToFit()
+        detailView.frame.size.width = self.view.bounds.width - 40
+        if #available(iOS 13.0, *) {
+            detailView.frame.origin.y = self.view.bounds.height - detailView.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
+        }
+        self.view.addSubview(detailView)
     }
     
     fileprivate func setupGesture() {
