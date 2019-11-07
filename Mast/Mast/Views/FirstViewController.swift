@@ -12,6 +12,21 @@ import SafariServices
 
 class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var tableViewL = UITableView()
     var tableViewF = UITableView()
@@ -32,7 +47,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
             // Table
@@ -71,6 +86,27 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 1
+
+        // Add button
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+            let btn1 = UIButton(type: .custom)
+            btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
+            btn1.accessibilityLabel = "New Window".localized
+            let addButton = UIBarButtonItem(customView: btn1)
+            self.navigationItem.setRightBarButton(addButton, animated: true)
+        } else {
+            let btn1 = UIButton(type: .custom)
+            btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
+            btn1.accessibilityLabel = "Create".localized
+            let addButton = UIBarButtonItem(customView: btn1)
+            self.navigationItem.setRightBarButton(addButton, animated: true)
+        }
     }
     
     @objc func refreshTable1() {
@@ -125,28 +161,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.segment.selectedSegmentIndex = 0
         self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
         self.view.addSubview(self.segment)
-
-        // Add button
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-            let btn1 = UIButton(type: .custom)
-            btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
-            btn1.accessibilityLabel = "New Window".localized
-            let addButton = UIBarButtonItem(customView: btn1)
-            self.navigationItem.setRightBarButton(addButton, animated: true)
-        } else {
-            let btn1 = UIButton(type: .custom)
-            btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
-            btn1.accessibilityLabel = "Create".localized
-            let addButton = UIBarButtonItem(customView: btn1)
-            self.navigationItem.setRightBarButton(addButton, animated: true)
-        }
         
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
@@ -289,7 +305,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     GlobalStruct.currentUser = stat
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
 
-                    if UIDevice.current.userInterfaceIdiom == .pad {
+                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     }
                 }
@@ -326,20 +342,22 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let request4 = Notifications.all(range: .default)
         GlobalStruct.client.run(request4) { (statuses) in
             if let stat = (statuses.value) {
-                GlobalStruct.notifications = stat
-
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                DispatchQueue.main.async {
+                    GlobalStruct.notifications = stat
+                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    }
                 }
             }
         }
         let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
         GlobalStruct.client.run(request5) { (statuses) in
             if let stat = (statuses.value) {
-                GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
-
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                DispatchQueue.main.async {
+                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    }
                 }
             }
         }

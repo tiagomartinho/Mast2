@@ -18,6 +18,21 @@ import InputBarAccessoryView
 
 class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, MessageCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var statusBarView = UIView()
     var messages: [MessageType] = []
     var mainStatus: [Status] = []
@@ -68,7 +83,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         layout?.setMessageOutgoingAvatarSize(.zero)
         
         messageInputBar.backgroundColor = UIColor(named: "baseWhite")
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             messageInputBar.separatorLine.isHidden = false
         } else {
             messageInputBar.separatorLine.isHidden = true

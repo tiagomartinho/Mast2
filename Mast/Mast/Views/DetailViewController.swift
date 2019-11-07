@@ -11,6 +11,21 @@ import UIKit
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var pickedStatusesHome: [Status] = []
     var allPrevious: [Status] = []
@@ -29,7 +44,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         #elseif !targetEnvironment(macCatalyst)
-        if self.fromContextMenu || UIDevice.current.userInterfaceIdiom == .pad {
+        if self.fromContextMenu || UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height))
         } else {
             let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
@@ -498,8 +513,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         alert.setValue(messageText, forKey: "attributedMessage")
                         if let presenter = alert.popoverPresentationController {
                             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                                presenter.sourceView = self.view
-                                presenter.sourceRect = self.view.bounds
+                                presenter.sourceView = cell.button5
+                                presenter.sourceRect = cell.button5.bounds
                             }
                         }
                         self.present(alert, animated: true, completion: nil)

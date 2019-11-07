@@ -11,6 +11,21 @@ import UIKit
 
 class SecondViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var tableView2 = UITableView()
     let segment: UISegmentedControl = UISegmentedControl(items: ["Activity".localized, "Metrics".localized])
@@ -21,7 +36,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
             // Table
@@ -51,6 +66,25 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 2
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            let btn1 = UIButton(type: .custom)
+            btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
+            btn1.accessibilityLabel = "New Window".localized
+            let addButton = UIBarButtonItem(customView: btn1)
+            self.navigationItem.setRightBarButton(addButton, animated: true)
+        } else {
+            let btn1 = UIButton(type: .custom)
+            btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
+            btn1.accessibilityLabel = "Create".localized
+            let addButton = UIBarButtonItem(customView: btn1)
+            self.navigationItem.setRightBarButton(addButton, animated: true)
+        }
     }
     
     @objc func refreshTable() {
@@ -84,24 +118,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let btn1 = UIButton(type: .custom)
-            btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
-            btn1.accessibilityLabel = "New Window".localized
-            let addButton = UIBarButtonItem(customView: btn1)
-            self.navigationItem.setRightBarButton(addButton, animated: true)
-        } else {
-            let btn1 = UIButton(type: .custom)
-            btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
-            btn1.accessibilityLabel = "Create".localized
-            let addButton = UIBarButtonItem(customView: btn1)
-            self.navigationItem.setRightBarButton(addButton, animated: true)
-        }
-        
         btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)

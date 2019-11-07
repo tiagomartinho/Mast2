@@ -17,6 +17,21 @@ import VisionKit
 
 class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var keyHeight: CGFloat = 0
     var moreButton = UIButton()
@@ -53,7 +68,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         
         var safeBottom = self.view.safeAreaInsets.bottom
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             safeBottom = 0
         } else {
             safeBottom = self.view.safeAreaInsets.bottom
@@ -837,7 +852,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func keyboardWillShow(notification: Notification) {
         var safeBottom = self.view.safeAreaInsets.bottom
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             safeBottom = -20
         } else {
             safeBottom = self.view.safeAreaInsets.bottom
@@ -870,7 +885,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func keyboardWillHide(notification: Notification) {
         var safeBottom = self.view.safeAreaInsets.bottom
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             safeBottom = 0
         } else {
             safeBottom = self.view.safeAreaInsets.bottom

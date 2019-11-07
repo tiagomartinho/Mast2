@@ -11,6 +11,21 @@ import UIKit
 
 class TintSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     
     override func viewDidLayoutSubviews() {

@@ -11,6 +11,21 @@ import UIKit
 
 class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var tableView2 = UITableView()
     var loginBG = UIView()
@@ -26,7 +41,7 @@ class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITable
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
             // Table
@@ -94,7 +109,7 @@ class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITable
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         btn1.accessibilityLabel = "Create".localized
         let addButton = UIBarButtonItem(customView: btn1)
-        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
         

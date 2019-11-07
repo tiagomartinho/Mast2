@@ -11,6 +11,21 @@ import UIKit
 
 class FollowersViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var tableView2 = UITableView()
     var loginBG = UIView()
@@ -25,7 +40,7 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
             // Table
@@ -93,7 +108,7 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         btn1.accessibilityLabel = "Create".localized
         let addButton = UIBarButtonItem(customView: btn1)
-        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
         
@@ -302,21 +317,14 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
-                return self.makeContextMenu([self.statusesFollowers[indexPath.row]], indexPath: indexPath)
+                return nil
             } else {
-                return self.makeContextMenu2([self.statusesFollowing[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesFollowing[indexPath.row]], indexPath: indexPath)
             }
         })
     }
     
     func makeContextMenu(_ status: [Account], indexPath: IndexPath) -> UIMenu {
-        let remove = UIAction(title: "Unfollow".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-            
-        }
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
-    }
-    
-    func makeContextMenu2(_ status: [Account], indexPath: IndexPath) -> UIMenu {
         let remove = UIAction(title: "Unfollow".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
             
         }

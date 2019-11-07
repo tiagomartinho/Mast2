@@ -11,6 +11,21 @@ import UIKit
 
 class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     var loginBG = UIView()
     var refreshControl = UIRefreshControl()
@@ -69,7 +84,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         btn1.accessibilityLabel = "Create".localized
         let addButton = UIBarButtonItem(customView: btn1)
-        if UIDevice.current.userInterfaceIdiom == .pad {} else {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
         

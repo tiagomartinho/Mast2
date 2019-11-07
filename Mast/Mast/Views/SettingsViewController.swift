@@ -11,6 +11,21 @@ import UIKit
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized]
@@ -90,7 +105,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         if section == 0 {
             return 0
         } else if section == 1 {
-            if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                 return self.firstSectionPad.count
             } else {
                 return self.firstSection.count
@@ -123,7 +138,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
         var firstSectionToUse = self.firstSection
-        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             firstSectionToUse = self.firstSectionPad
         }
 //        if indexPath.section == 0 {

@@ -23,10 +23,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             windowScene.titlebar?.titleVisibility = .hidden
         }
         #endif
-        
-        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
-        switch (deviceIdiom) {
-        case .pad:
+
+        var isSplitOrSlideOver: Bool {
+            let windows = UIApplication.shared.windows
+            for x in windows {
+                if let z = self.window {
+                    if x == z {
+                        if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                            return false
+                        } else {
+                            return true
+                        }
+                    }
+                }
+            }
+            return false
+        }
+
+        if UIDevice.current.userInterfaceIdiom == .pad && isSplitOrSlideOver == false {
             let rootController = ColumnViewController()
             let nav0 = UINavigationController(rootViewController: VerticalTabBarController())
             let nav1 = ScrollMainViewController()
@@ -41,8 +55,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             rootController.viewControllers = [nav0, nav1]
             self.window?.rootViewController = rootController
             self.window!.makeKeyAndVisible()
-        default:
-            print("nil")
         }
     }
     
