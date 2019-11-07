@@ -9,5 +9,6 @@ target 'Mast' do
 pod "GSImageViewerController"
 pod 'MessageKit'
 pod 'SDWebImage'
+pod 'ActiveLabel'
 
 end

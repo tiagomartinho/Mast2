@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import ActiveLabel
 
 class FollowersCell: UITableViewCell {
     
@@ -16,7 +17,7 @@ class FollowersCell: UITableViewCell {
     var profile = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
-    var content = UILabel()
+    var content = ActiveLabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -60,6 +61,10 @@ class FollowersCell: UITableViewCell {
         content.isUserInteractionEnabled = false
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
+        content.enabledTypes = [.mention, .hashtag, .url]
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

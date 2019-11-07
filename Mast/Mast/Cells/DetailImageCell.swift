@@ -12,6 +12,7 @@ import GSImageViewerController
 import SDWebImage
 import AVKit
 import AVFoundation
+import ActiveLabel
 
 class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -21,7 +22,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     var usertag = UILabel()
     var metrics = UIButton()
     var timestamp = UILabel()
-    var content = UILabel()
+    var content = ActiveLabel()
     var collectionView1: UICollectionView!
     let playerViewController = AVPlayerViewController()
     var player = AVPlayer()
@@ -85,6 +86,10 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         content.isUserInteractionEnabled = false
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
+        content.enabledTypes = [.mention, .hashtag, .url]
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

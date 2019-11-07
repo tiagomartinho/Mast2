@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import GSImageViewerController
 import SDWebImage
+import ActiveLabel
 
 class OtherProfileCell: UITableViewCell {
     
@@ -17,7 +18,7 @@ class OtherProfileCell: UITableViewCell {
     var profile = UIButton()
     var username = UILabel()
     var usertag = UILabel()
-    var content = UILabel()
+    var content = ActiveLabel()
     var followers = UIButton()
     var joined = UILabel()
     var followsYou = UIButton()
@@ -72,6 +73,10 @@ class OtherProfileCell: UITableViewCell {
         content.isUserInteractionEnabled = false
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
+        content.enabledTypes = [.mention, .hashtag, .url]
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
         
         followers.translatesAutoresizingMaskIntoConstraints = false

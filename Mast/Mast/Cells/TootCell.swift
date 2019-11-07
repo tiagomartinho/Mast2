@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import ActiveLabel
 
 class TootCell: UITableViewCell {
     
@@ -17,7 +18,7 @@ class TootCell: UITableViewCell {
     var username = UILabel()
     var usertag = UILabel()
     var timestamp = UILabel()
-    var content = UILabel()
+    var content = ActiveLabel()
     var heart = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -72,6 +73,10 @@ class TootCell: UITableViewCell {
         content.isUserInteractionEnabled = false
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
+        content.enabledTypes = [.mention, .hashtag, .url]
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
 
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)

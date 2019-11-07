@@ -12,6 +12,7 @@ import GSImageViewerController
 import SDWebImage
 import AVKit
 import AVFoundation
+import ActiveLabel
 
 class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -20,7 +21,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     var username = UILabel()
     var usertag = UILabel()
     var timestamp = UILabel()
-    var content = UILabel()
+    var content = ActiveLabel()
     var collectionView1: UICollectionView!
     var heart = UIImageView()
     let playerViewController = AVPlayerViewController()
@@ -78,6 +79,10 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         content.isUserInteractionEnabled = false
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
+        content.enabledTypes = [.mention, .hashtag, .url]
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
 
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
