@@ -171,6 +171,10 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
                 vc.theHashtag = string
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+            cell.content.handleURLTap { (string) in
+                GlobalStruct.tappedURL = string
+                ViewController().openLink()
+            }
             
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()
@@ -190,6 +194,10 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
                 let vc = HashtagViewController()
                 vc.theHashtag = string
                 self.navigationController?.pushViewController(vc, animated: true)
+            }
+            cell.content.handleURLTap { (string) in
+                GlobalStruct.tappedURL = string
+                ViewController().openLink()
             }
             
             cell.backgroundColor = UIColor(named: "baseWhite")

@@ -38,6 +38,8 @@ class GlobalStruct {
     static var medType = 0
     static var avaFile = "avatar"
     static var heaFile = "header"
+    
+    static var tappedURL = URL(string: "www.google.com")
 }
 
 class PaddedTextField: UITextField {

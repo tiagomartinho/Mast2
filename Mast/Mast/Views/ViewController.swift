@@ -35,6 +35,10 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
     }
     
+    func openLink() {
+        UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
