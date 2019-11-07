@@ -706,7 +706,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             } else {
                 theUser = self.pickedCurrentUser.id
             }
-            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
+            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: false, excludeReblogs: false, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {
                     if stat.isEmpty {} else {
@@ -741,7 +741,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             } else {
                 theUser = self.pickedCurrentUser.id
             }
-            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: true, excludeReblogs: true, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
+            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: false, excludeReblogs: false, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {
                     if stat.isEmpty {} else {
