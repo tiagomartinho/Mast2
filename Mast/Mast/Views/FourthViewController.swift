@@ -284,7 +284,13 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             
         }
         let op3 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-            
+            let request = Lists.delete(id: GlobalStruct.allLists[indexPath.row].id)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    GlobalStruct.allLists.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
         }
         op3.attributes = .destructive
         return UIMenu(__title: "", image: nil, identifier: nil, children: [op1, op2, op3])

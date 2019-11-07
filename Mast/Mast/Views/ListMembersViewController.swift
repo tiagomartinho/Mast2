@@ -186,7 +186,13 @@ class ListMembersViewController: UIViewController, UITextFieldDelegate, UITableV
     
     func makeContextMenu(_ status: [Account], indexPath: IndexPath) -> UIMenu {
         let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-            
+            let request = Lists.remove(accountIDs: [self.statusesMembers[indexPath.row].id], fromList: self.listID)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.statusesMembers.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
         }
         remove.attributes = .destructive
         return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
