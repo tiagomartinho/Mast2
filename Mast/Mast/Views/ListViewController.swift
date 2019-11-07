@@ -86,9 +86,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         btn1.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
         btn1.accessibilityLabel = "More".localized
         let addButton = UIBarButtonItem(customView: btn1)
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
-            self.navigationItem.setRightBarButton(addButton, animated: true)
-        }
+        self.navigationItem.setRightBarButton(addButton, animated: true)
         
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import ActiveLabel
 
 class DirectCell: UITableViewCell {
     
@@ -17,7 +18,7 @@ class DirectCell: UITableViewCell {
     var username = UILabel()
     var usertag = UILabel()
     var timestamp = UILabel()
-    var content = UILabel()
+    var content = ActiveLabel()
     var unread = UIView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -77,6 +78,10 @@ class DirectCell: UITableViewCell {
         content.isUserInteractionEnabled = false
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
+        content.enabledTypes = [.mention, .hashtag, .url]
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)

@@ -513,21 +513,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     @objc func tickTapped() {
         self.dismiss(animated: true, completion: nil)
         
-        var theReplyID: String? = nil
-        var theSensitive = false
-        var theSpoiler: String? = nil
-        var theVisibility = Visibility.public
-        if self.replyStatus.isEmpty {
-            
-        } else {
-            theReplyID = self.replyStatus.first?.id ?? nil
-            theSensitive = self.replyStatus.first?.sensitive ?? false
-            theSpoiler = self.replyStatus.first?.spoilerText ?? nil
-            theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
-        }
-        
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            let request = Statuses.create(status: cell.textView.text ?? "", replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
+            var theReplyID: String? = nil
+            var theSensitive = false
+            var theSpoiler: String? = nil
+            var theVisibility = Visibility.public
+            var theMainText = cell.textView.text ?? ""
+            if self.replyStatus.isEmpty {
+                
+            } else {
+                theReplyID = self.replyStatus.first?.id ?? nil
+                theSensitive = self.replyStatus.first?.sensitive ?? false
+                theSpoiler = self.replyStatus.first?.spoilerText ?? nil
+                theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
+                theMainText = "@\(self.replyStatus.first?.account.username ?? "") \(theMainText)"
+            }
+            let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
                 if let _ = (statuses.value) {
                     DispatchQueue.main.async {
