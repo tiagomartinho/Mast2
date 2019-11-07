@@ -36,6 +36,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        #if targetEnvironment(macCatalyst)
+        // Table
+        let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             // Table
             let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
@@ -45,6 +50,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
             self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         }
+        #endif
     }
     
     @objc func updatePosted() {
@@ -62,6 +68,15 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         GlobalStruct.currentTab = 5
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        #if targetEnvironment(macCatalyst)
+        let btn1 = UIButton(type: .custom)
+        btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
+        btn1.accessibilityLabel = "New Window".localized
+        let addButton = UIBarButtonItem(customView: btn1)
+        self.navigationItem.setRightBarButton(addButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             let btn1 = UIButton(type: .custom)
             btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
@@ -79,6 +94,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let addButton = UIBarButtonItem(customView: btn1)
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
+        #endif
     }
     
     @objc func refreshTable() {

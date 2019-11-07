@@ -1,24 +1,30 @@
 PODS:
-  - GSImageViewerController (1.6.1)
+  - GSImageViewerController (1.6.2)
   - InputBarAccessoryView (4.2.2)
   - MessageKit (3.0.0):
     - InputBarAccessoryView (~> 4.2.2)
+  - SDWebImage (5.3.0):
+    - SDWebImage/Core (= 5.3.0)
+  - SDWebImage/Core (5.3.0)
 
 DEPENDENCIES:
   - GSImageViewerController
   - MessageKit
+  - SDWebImage
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - GSImageViewerController
     - InputBarAccessoryView
     - MessageKit
+    - SDWebImage
 
 SPEC CHECKSUMS:
-  GSImageViewerController: 9ae6567e21faed2aef04dd94ac00741744f1a214
+  GSImageViewerController: 3b8fb7d2ab7596152329d7910eeb1905b2284cb9
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
   MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
+  SDWebImage: f1afa74b86587c2c63f4e80dfd39b21e3c17b45b
 
-PODFILE CHECKSUM: 737a9cfa396380855c03a8337147a79ef37a84fd
+PODFILE CHECKSUM: c076a810a3070fec116a3b08e389b299eb192a40
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

@@ -8,5 +8,6 @@ target 'Mast' do
   # Pods for Mast
 pod "GSImageViewerController"
 pod 'MessageKit'
+pod 'SDWebImage'
 
 end

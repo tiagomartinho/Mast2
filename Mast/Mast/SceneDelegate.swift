@@ -39,7 +39,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             return false
         }
+        
+        #if targetEnvironment(macCatalyst)
+        let rootController = ColumnViewController()
+        let nav0 = UINavigationController(rootViewController: VerticalTabBarController())
+        let nav1 = ScrollMainViewController()
 
+        let nav01 = UINavigationController(rootViewController: FirstViewController())
+        let nav02 = UINavigationController(rootViewController: SecondViewController())
+        let nav03 = UINavigationController(rootViewController: ThirdViewController())
+        let nav04 = UINavigationController(rootViewController: FourthViewController())
+        let nav05 = UINavigationController(rootViewController: FifthViewController())
+        nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+
+        rootController.viewControllers = [nav0, nav1]
+        self.window?.rootViewController = rootController
+        self.window!.makeKeyAndVisible()
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && isSplitOrSlideOver == false {
             let rootController = ColumnViewController()
             let nav0 = UINavigationController(rootViewController: VerticalTabBarController())
@@ -56,6 +72,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = rootController
             self.window!.makeKeyAndVisible()
         }
+        #endif
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

@@ -20,7 +20,16 @@ class VerticalTabBarController: UIViewController {
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         
+        #if targetEnvironment(macCatalyst)
+        self.button1.frame = CGRect(x: 10, y: 30, width: 60, height: 60)
+        self.button2.frame = CGRect(x: 10, y: 100, width: 60, height: 60)
+        self.button3.frame = CGRect(x: 10, y: 170, width: 60, height: 60)
+        #elseif !targetEnvironment(macCatalyst)
         self.button1.frame = CGRect(x: 10, y: self.view.bounds.height - 90, width: 60, height: 60)
+        self.button2.frame = CGRect(x: 10, y: self.view.bounds.height - 160, width: 60, height: 60)
+        self.button3.frame = CGRect(x: 10, y: self.view.bounds.height - 230, width: 60, height: 60)
+        #endif
+        
         self.button1.backgroundColor = .clear
         self.button1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         self.button1.adjustsImageWhenHighlighted = false
@@ -28,7 +37,6 @@ class VerticalTabBarController: UIViewController {
         self.button1.accessibilityLabel = "Create".localized
         self.view.addSubview(self.button1)
         
-        self.button2.frame = CGRect(x: 10, y: self.view.bounds.height - 160, width: 60, height: 60)
         self.button2.backgroundColor = .clear
         self.button2.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         self.button2.adjustsImageWhenHighlighted = false
@@ -36,7 +44,6 @@ class VerticalTabBarController: UIViewController {
         self.button2.accessibilityLabel = "Search".localized
         self.view.addSubview(self.button2)
         
-        self.button3.frame = CGRect(x: 10, y: self.view.bounds.height - 230, width: 60, height: 60)
         self.button3.backgroundColor = .clear
         self.button3.setImage(UIImage(systemName: "gear", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         self.button3.adjustsImageWhenHighlighted = false

@@ -36,6 +36,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        #if targetEnvironment(macCatalyst)
+        self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
+        
+        // Table
+        let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        self.tableView2.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
@@ -52,6 +60,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
             self.tableView2.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         }
+        #endif
     }
     
     @objc func scrollTop2() {
@@ -68,6 +77,15 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         GlobalStruct.currentTab = 2
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        #if targetEnvironment(macCatalyst)
+        let btn1 = UIButton(type: .custom)
+        btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
+        btn1.accessibilityLabel = "New Window".localized
+        let addButton = UIBarButtonItem(customView: btn1)
+        self.navigationItem.setRightBarButton(addButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             let btn1 = UIButton(type: .custom)
             btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
@@ -85,6 +103,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             let addButton = UIBarButtonItem(customView: btn1)
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
+        #endif
     }
     
     @objc func refreshTable() {

@@ -47,6 +47,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        #if targetEnvironment(macCatalyst)
+        self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
+        
+        // Table
+        let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        self.tableViewL.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        self.tableViewF.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
             
@@ -65,6 +74,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.tableViewL.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
             self.tableViewF.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
         }
+        #endif
     }
     
     @objc func updatePosted() {
@@ -89,6 +99,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        #if targetEnvironment(macCatalyst)
+        let btn1 = UIButton(type: .custom)
+        btn1.setImage(UIImage(systemName: "square.on.square", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
+        btn1.accessibilityLabel = "New Window".localized
+        let addButton = UIBarButtonItem(customView: btn1)
+        self.navigationItem.setRightBarButton(addButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
             let btn1 = UIButton(type: .custom)
@@ -107,6 +126,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             let addButton = UIBarButtonItem(customView: btn1)
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
+        #endif
     }
     
     @objc func refreshTable1() {
@@ -305,9 +325,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     GlobalStruct.currentUser = stat
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
 
+                    #if targetEnvironment(macCatalyst)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    #elseif !targetEnvironment(macCatalyst)
                     if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     }
+                    #endif
                 }
             }
         }
@@ -344,9 +368,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.notifications = stat
+                    #if targetEnvironment(macCatalyst)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    #elseif !targetEnvironment(macCatalyst)
                     if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     }
+                    #endif
                 }
             }
         }
@@ -355,9 +383,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    #if targetEnvironment(macCatalyst)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    #elseif !targetEnvironment(macCatalyst)
                     if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     }
+                    #endif
                 }
             }
         }

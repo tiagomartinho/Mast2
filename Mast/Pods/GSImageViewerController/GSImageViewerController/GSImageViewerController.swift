@@ -64,7 +64,7 @@ public struct GSImageInfo {
 
 open class GSTransitionInfo {
     
-    open var duration: TimeInterval = 0.24
+    open var duration: TimeInterval = 0.35
     open var canSwipe: Bool         = true
     
     public init(fromView: UIView) {
@@ -130,7 +130,7 @@ open class GSImageViewerController: UIViewController {
         
         if transitionInfo.convertedRect != nil {
             self.transitioningDelegate = self
-            self.modalPresentationStyle = .custom
+            self.modalPresentationStyle = .overFullScreen
         }
     }
     
@@ -287,7 +287,7 @@ open class GSImageViewerController: UIViewController {
             
         default:
             
-            UIView.animate(withDuration: 0.21,
+            UIView.animate(withDuration: 0.3,
                 animations: {
                     self.scrollView.center = self.panViewOrigin!
                     self.view.backgroundColor = self.backgroundColor
