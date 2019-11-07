@@ -114,6 +114,7 @@
 		5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */; };
 		5379F4362334CAE800DC1F33 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4352334CAE800DC1F33 /* ListCell.swift */; };
 		53955D7723746F0400522101 /* HashtagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53955D7623746F0400522101 /* HashtagViewController.swift */; };
+		53955D792374887700522101 /* BrowserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53955D782374887700522101 /* BrowserSettingsViewController.swift */; };
 		5395A7542372D63C002253A8 /* MutedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7532372D63C002253A8 /* MutedViewController.swift */; };
 		5395A7562372D824002253A8 /* MuteBlockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7552372D824002253A8 /* MuteBlockCell.swift */; };
 		5395A7582372DE7E002253A8 /* BlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7572372DE7E002253A8 /* BlockedViewController.swift */; };
@@ -278,6 +279,7 @@
 		5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
 		5379F4352334CAE800DC1F33 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		53955D7623746F0400522101 /* HashtagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagViewController.swift; sourceTree = "<group>"; };
+		53955D782374887700522101 /* BrowserSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSettingsViewController.swift; sourceTree = "<group>"; };
 		5395A7532372D63C002253A8 /* MutedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutedViewController.swift; sourceTree = "<group>"; };
 		5395A7552372D824002253A8 /* MuteBlockCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteBlockCell.swift; sourceTree = "<group>"; };
 		5395A7572372DE7E002253A8 /* BlockedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedViewController.swift; sourceTree = "<group>"; };
@@ -539,6 +541,7 @@
 				5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */,
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
+				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 				53B5F1FB233CED000099B170 /* DMViewController.swift */,
 				5339C5FF233FC74000770651 /* ImageViewController.swift */,
@@ -839,6 +842,7 @@
 				53449DD723294C1000A470E2 /* Pagination.swift in Sources */,
 				53449DBA23294C1000A470E2 /* Application.swift in Sources */,
 				5395A7582372DE7E002253A8 /* BlockedViewController.swift in Sources */,
+				53955D792374887700522101 /* BrowserSettingsViewController.swift in Sources */,
 				5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */,
 				53449D4923293F2F00A470E2 /* FourthViewController.swift in Sources */,
 				53449DCD23294C1000A470E2 /* Notifications.swift in Sources */,

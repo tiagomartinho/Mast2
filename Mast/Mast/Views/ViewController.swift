@@ -36,7 +36,49 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func openLink() {
-        UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 0 {
+            UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+        }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 1 {
+            let newLink = String(String(GlobalStruct.tappedURL?.absoluteString.replacingOccurrences(of: "https://", with: "googlechrome://") ?? "").replacingOccurrences(of: "http://", with: "googlechrome://"))
+            if UIApplication.shared.canOpenURL(URL(string: newLink)!) {
+                UIApplication.shared.openURL(URL(string: newLink)!)
+            } else {
+                UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+            }
+        }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 2 {
+            let newLink = String(String(GlobalStruct.tappedURL?.absoluteString.replacingOccurrences(of: "https://", with: "firefox://open-url?url=https://") ?? "").replacingOccurrences(of: "http://", with: "firefox://open-url?url=http://"))
+            if UIApplication.shared.canOpenURL(URL(string: newLink)!) {
+                UIApplication.shared.openURL(URL(string: newLink)!)
+            } else {
+                UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+            }
+        }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 3 {
+            let newLink = String(String(GlobalStruct.tappedURL?.absoluteString.replacingOccurrences(of: "https://", with: "opera://open-url?url=https://") ?? "").replacingOccurrences(of: "http://", with: "opera://open-url?url=http://"))
+            if UIApplication.shared.canOpenURL(URL(string: newLink)!) {
+                UIApplication.shared.openURL(URL(string: newLink)!)
+            } else {
+                UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+            }
+        }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 4 {
+            let newLink = String(String(GlobalStruct.tappedURL?.absoluteString.replacingOccurrences(of: "https://", with: "dolphin://") ?? "").replacingOccurrences(of: "http://", with: "dolphin://"))
+            if UIApplication.shared.canOpenURL(URL(string: newLink)!) {
+                UIApplication.shared.openURL(URL(string: newLink)!)
+            } else {
+                UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+            }
+        }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 5 {
+            let newLink = String(String(GlobalStruct.tappedURL?.absoluteString.replacingOccurrences(of: "https://", with: "brave://open-url?url=https://") ?? "").replacingOccurrences(of: "http://", with: "brave://open-url?url=http://"))
+            if UIApplication.shared.canOpenURL(URL(string: newLink)!) {
+                UIApplication.shared.openURL(URL(string: newLink)!)
+            } else {
+                UIApplication.shared.openURL(GlobalStruct.tappedURL!)
+            }
+        }
     }
     
     override func viewDidLoad() {

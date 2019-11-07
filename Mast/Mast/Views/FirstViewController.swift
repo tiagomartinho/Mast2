@@ -176,6 +176,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 GlobalStruct.baseTint = GlobalStruct.arrayCols[x]
             }
         }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
+        }
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0
