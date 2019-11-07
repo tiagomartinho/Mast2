@@ -50,6 +50,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         
         let _ = self.profileStatusesImages.map {_ in
             self.images2.append(UIImageView())
+            self.images3.append("")
         }
     }
     
@@ -58,9 +59,14 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     var images2: [UIImageView] = []
+    var images3: [String] = []
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
         if self.profileStatusesImages.isEmpty {} else {
+            
+            let z2 = self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url
+            self.images3[indexPath.row] = z2
+            
             cell.configure()
             if self.profileStatusesImages[indexPath.item].mediaAttachments.isEmpty {} else {
                 let z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
@@ -97,7 +103,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 }
             }
         } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]))
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)

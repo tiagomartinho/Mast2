@@ -109,13 +109,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         } catch {
             print("There was an error creating the engine: \(error.localizedDescription)")
         }
-
-        let center = UNUserNotificationCenter.current()
-        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-            DispatchQueue.main.async {
-                UIApplication.shared.registerForRemoteNotifications()
-            }
-        }
     }
     
     func createTabBar() {

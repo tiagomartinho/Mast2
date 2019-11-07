@@ -35,6 +35,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     var statusesListed: [Status] = []
     var theListID: String = ""
     var theList: String = ""
+    let btn1 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -80,11 +81,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        let btn1 = UIButton(type: .custom)
-        btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.setImage(UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
-        btn1.accessibilityLabel = "Create".localized
+        btn1.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "More".localized
         let addButton = UIBarButtonItem(customView: btn1)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
             self.navigationItem.setRightBarButton(addButton, animated: true)
@@ -517,8 +517,28 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func addTapped() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+    @objc func moreTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "View List Members".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op1.setValue(UIImage(systemName: "person.2.square.stack")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Edit List Name".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op2.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.btn1
+            presenter.sourceRect = self.btn1.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func removeTabbarItemsText() {

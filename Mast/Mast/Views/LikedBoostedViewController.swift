@@ -300,6 +300,7 @@ class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITable
         let remove = UIAction(title: "Unfollow".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
             
         }
+        remove.attributes = .destructive
         return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
     }
     
@@ -307,6 +308,7 @@ class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITable
         let remove = UIAction(title: "Unfollow".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
             
         }
+        remove.attributes = .destructive
         return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
     }
     

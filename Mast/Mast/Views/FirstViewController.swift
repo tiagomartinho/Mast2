@@ -1212,6 +1212,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     UserDefaults.standard.set(GlobalStruct.returnedText, forKey: "returnedText")
                     
                     self.initialFetches()
+
+                    let center = UNUserNotificationCenter.current()
+                    center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                        DispatchQueue.main.async {
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
+                    }
                 }
             } catch let error {
                 print(error.localizedDescription)

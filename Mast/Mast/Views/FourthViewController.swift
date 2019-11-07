@@ -267,14 +267,28 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
             if indexPath.section == 0 {
-                return nil
-            } else {
                 return self.makeContextMenu([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
+            } else {
+                return self.makeContextMenu2([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
             }
         })
     }
     
     func makeContextMenu(_ status: [Account], indexPath: IndexPath) -> UIMenu {
+        let op1 = UIAction(title: "View List Members".localized, image: UIImage(systemName: "person.2.square.stack"), identifier: nil) { action in
+            
+        }
+        let op2 = UIAction(title: "Edit List Name".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
+            
+        }
+        let op3 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            
+        }
+        op3.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [op1, op2, op3])
+    }
+    
+    func makeContextMenu2(_ status: [Account], indexPath: IndexPath) -> UIMenu {
         let remove = UIAction(title: "Follow".localized, image: UIImage(systemName: "arrow.upright.circle"), identifier: nil) { action in
             let request = Accounts.follow(id: status.first?.id ?? "", reblogs: true)
             GlobalStruct.client.run(request) { (statuses) in

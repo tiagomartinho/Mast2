@@ -257,6 +257,7 @@ class MutedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 }
             }
         }
+        remove.attributes = .destructive
         return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
     }
     
