@@ -112,6 +112,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             GlobalStruct.returnedText = UserDefaults.standard.object(forKey: "returnedText") as! String
         }
         
+        if UserDefaults.standard.value(forKey: "sync-startTint") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-startTint")
+            GlobalStruct.baseTint = GlobalStruct.arrayCols[0]
+        } else {
+            if let x = UserDefaults.standard.value(forKey: "sync-startTint") as? Int {
+                GlobalStruct.baseTint = GlobalStruct.arrayCols[x]
+            }
+        }
+        
         // Segmented control
         self.segment.selectedSegmentIndex = 0
         self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
@@ -832,14 +841,35 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             self.duplicateThis(status)
         }
-        let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
-            self.reportThis(status)
-        }
         let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
             
         }
         delete.attributes = .destructive
-        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, repo])
+        
+        let repo1 = UIAction(title: "Harassment".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Harassment")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        repo1.attributes = .destructive
+        let repo2 = UIAction(title: "No Content Warning".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "No Content Warning")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        repo2.attributes = .destructive
+        let repo3 = UIAction(title: "Spam".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Spam")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        repo3.attributes = .destructive
+        
+        let rep = UIMenu(__title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil, options: [.destructive], children: [repo1, repo2, repo3])
+        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, rep])
         
         return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
     }
