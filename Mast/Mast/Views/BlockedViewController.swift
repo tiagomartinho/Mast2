@@ -63,6 +63,8 @@ class BlockedViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     @objc func notifChangeTint() {
         self.tableView.reloadData()
+        
+        self.tableView.reloadInputViews()
     }
     
     override func viewDidLoad() {

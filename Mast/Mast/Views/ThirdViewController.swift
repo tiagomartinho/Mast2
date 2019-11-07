@@ -98,6 +98,8 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc func notifChangeTint() {
         self.tableView.reloadData()
+        
+        self.tableView.reloadInputViews()
     }
     
     @objc func newWindow() {

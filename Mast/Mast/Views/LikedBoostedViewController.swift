@@ -92,6 +92,8 @@ class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITable
     
     @objc func notifChangeTint() {
         self.tableView.reloadData()
+        
+        self.tableView.reloadInputViews()
     }
     
     override func viewDidLoad() {

@@ -137,6 +137,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.reloadData()
         self.tableViewL.reloadData()
         self.tableViewF.reloadData()
+        
+        self.tableView.reloadInputViews()
+        self.tableViewL.reloadInputViews()
+        self.tableViewF.reloadInputViews()
     }
     
     @objc func newWindow() {

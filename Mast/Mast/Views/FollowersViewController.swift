@@ -91,6 +91,8 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
     
     @objc func notifChangeTint() {
         self.tableView.reloadData()
+        
+        self.tableView.reloadInputViews()
     }
     
     override func viewDidLoad() {

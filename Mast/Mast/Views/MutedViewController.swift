@@ -63,6 +63,8 @@ class MutedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func notifChangeTint() {
         self.tableView.reloadData()
+        
+        self.tableView.reloadInputViews()
     }
     
     override func viewDidLoad() {

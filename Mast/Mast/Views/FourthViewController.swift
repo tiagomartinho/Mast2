@@ -103,6 +103,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func notifChangeTint() {
         self.tableView.reloadData()
+        
+        self.tableView.reloadInputViews()
     }
     
     @objc func newWindow() {
