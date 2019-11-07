@@ -16,6 +16,10 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow Mast to access your camera roll.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Allow Mast to access your camera roll.</string>
     <key>LSApplicationQueriesSchemes</key>
     <array>
         <string>googlechrome</string>

@@ -102,10 +102,6 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
             GlobalStruct.baseTint = GlobalStruct.arrayCols[indexPath.row]
             UserDefaults.standard.set(indexPath.row, forKey: "sync-startTint")
             self.tableView.reloadData()
-            UIWindow().tintColor = GlobalStruct.baseTint
-            for x in UIApplication.shared.windows {
-                x.tintColor = GlobalStruct.baseTint
-            }
             NotificationCenter.default.post(name: Notification.Name(rawValue: "notifChangeTint"), object: self)
             self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
         }

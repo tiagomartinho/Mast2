@@ -279,7 +279,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             
         }
         let save = UIAction(title: "Save".localized, image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
-            
+            UIImageWriteToSavedPhotosAlbum(self.images2[indexPath.item].image ?? UIImage(), nil, nil, nil)
         }
         return UIMenu(__title: "", image: nil, identifier: nil, children: [share, save])
     }

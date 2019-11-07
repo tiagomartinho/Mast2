@@ -54,7 +54,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func updatePosted() {
-        print("toot toot")
+        self.fetchReplies()
     }
     
     @objc func notifChangeTint() {
