@@ -16,6 +16,14 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>googlechrome</string>
+        <string>firefox</string>
+        <string>opera</string>
+        <string>dolphin</string>
+        <string>brave</string>
+    </array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

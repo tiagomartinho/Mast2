@@ -27,7 +27,7 @@ class BrowserSettingsViewController: UIViewController, UITableViewDataSource, UI
         return false
     }
     var tableView = UITableView()
-    var allBrowsers: [String] = ["Safari", "Chrome", "Firefox", "Opera Mini", "Dolphin", "Brave"]
+    var allBrowsers: [String] = ["Safari", "Chrome", "Firefox", "Opera", "Dolphin", "Brave"]
     
     override func viewDidLayoutSubviews() {
         self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height)
