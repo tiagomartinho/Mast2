@@ -159,11 +159,13 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         
         let _ = self.images.map {_ in
             self.images2.append(UIImageView())
+            self.images3.append("")
         }
     }
     
     var images: [Attachment] = []
     var images2: [UIImageView] = []
+    var images3: [String] = []
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.images.count
     }
@@ -171,6 +173,10 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
         if self.images.isEmpty {} else {
+            
+            let z2 = self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].url
+            self.images3[indexPath.row] = z2
+            
             cell.configure()
             let z = self.images[indexPath.item].previewURL
             cell.image.contentMode = .scaleAspectFill
@@ -206,7 +212,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 }
             }
         } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: nil)
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]))
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
