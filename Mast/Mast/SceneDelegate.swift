@@ -42,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         #if targetEnvironment(macCatalyst)
         let rootController = ColumnViewController()
-        let nav0 = UINavigationController(rootViewController: VerticalTabBarController())
+        let nav0 = VerticalTabBarController()
         let nav1 = ScrollMainViewController()
 
         let nav01 = UINavigationController(rootViewController: FirstViewController())
@@ -58,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && isSplitOrSlideOver == false {
             let rootController = ColumnViewController()
-            let nav0 = UINavigationController(rootViewController: VerticalTabBarController())
+            let nav0 = VerticalTabBarController()
             let nav1 = ScrollMainViewController()
 
             let nav01 = UINavigationController(rootViewController: FirstViewController())
