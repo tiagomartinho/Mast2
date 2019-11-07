@@ -246,7 +246,14 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string

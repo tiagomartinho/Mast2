@@ -32,6 +32,8 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var profileStatusesImages: [Status] = []
     var profileStatuses: [Status] = []
     var isFollowing = false
+    var isTapped: Bool = false
+    var userID = ""
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -142,8 +144,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-        self.fetchMedia()
-        self.fetchUserData()
+        if self.isTapped {
+            self.initialLoad()
+        } else {
+            self.fetchMedia()
+            self.fetchUserData()
+        }
         
         // Table
         self.tableView.register(ProfileCell.self, forCellReuseIdentifier: "ProfileCell")
@@ -164,6 +170,20 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
+    }
+    
+    func initialLoad() {
+        let request = Accounts.search(query: self.userID)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.pickedCurrentUser = stat.first!
+                    self.tableView.reloadSections(IndexSet([0]), with: .none)
+                    self.fetchMedia()
+                    self.fetchUserData()
+                }
+            }
+        }
     }
     
     func fetchMedia() {
@@ -276,7 +296,14 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
                     cell.followers.addTarget(self, action: #selector(self.followersTapped), for: .touchUpInside)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -294,10 +321,19 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OtherProfileCell", for: indexPath) as! OtherProfileCell
-                cell.configure(self.pickedCurrentUser)
+                if let x = self.pickedCurrentUser {
+                    cell.configure(x)
+                }
                 cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
                 cell.followers.addTarget(self, action: #selector(self.followersTapped2), for: .touchUpInside)
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -345,7 +381,14 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.fetchMoreUserData()
                     }
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -374,7 +417,14 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.fetchMoreUserData()
                     }
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string

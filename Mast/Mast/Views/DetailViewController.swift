@@ -213,7 +213,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -237,7 +244,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -265,7 +279,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -291,7 +312,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -338,7 +366,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string
@@ -362,7 +397,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                 }
-
+                
+                cell.content.handleMentionTap { (string) in
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
                 cell.content.handleHashtagTap { (string) in
                     let vc = HashtagViewController()
                     vc.theHashtag = string

@@ -209,6 +209,13 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                 }
             }
 
+            cell.content.handleMentionTap { (string) in
+                let vc = FifthViewController()
+                vc.isYou = false
+                vc.isTapped = true
+                vc.userID = string
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             cell.content.handleHashtagTap { (string) in
                 let vc = HashtagViewController()
                 vc.theHashtag = string
@@ -236,6 +243,13 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                 }
             }
 
+            cell.content.handleMentionTap { (string) in
+                let vc = FifthViewController()
+                vc.isYou = false
+                vc.isTapped = true
+                vc.userID = string
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             cell.content.handleHashtagTap { (string) in
                 let vc = HashtagViewController()
                 vc.theHashtag = string
