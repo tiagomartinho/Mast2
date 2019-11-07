@@ -356,6 +356,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     if indexPath.row == GlobalStruct.notifications.count - 10 {
                         self.fetchMoreNotifications()
                     }
+
+                    cell.content.handleHashtagTap { (string) in
+                        let vc = HashtagViewController()
+                        vc.theHashtag = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    
                     cell.backgroundColor = UIColor(named: "baseWhite")
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = UIColor.clear
@@ -373,6 +380,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     if indexPath.row == GlobalStruct.notifications.count - 10 {
                         self.fetchMoreNotifications()
                     }
+
+                    cell.content.handleHashtagTap { (string) in
+                        let vc = HashtagViewController()
+                        vc.theHashtag = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    
                     cell.backgroundColor = UIColor(named: "baseWhite")
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = UIColor.clear

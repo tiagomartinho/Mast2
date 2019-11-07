@@ -208,6 +208,13 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                     self.fetchMoreHome()
                 }
             }
+
+            cell.content.handleHashtagTap { (string) in
+                let vc = HashtagViewController()
+                vc.theHashtag = string
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
@@ -224,6 +231,13 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                     self.fetchMoreHome()
                 }
             }
+
+            cell.content.handleHashtagTap { (string) in
+                let vc = HashtagViewController()
+                vc.theHashtag = string
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
             cell.backgroundColor = UIColor(named: "baseWhite")
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear

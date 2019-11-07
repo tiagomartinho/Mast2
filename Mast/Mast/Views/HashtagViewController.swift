@@ -1,15 +1,15 @@
 //
-//  LikedViewController.swift
+//  HashtagViewController.swift
 //  Mast
 //
-//  Created by Shihab Mehboob on 07/10/2019.
+//  Created by Shihab Mehboob on 07/11/2019.
 //  Copyright © 2019 Shihab Mehboob. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
+class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -32,7 +32,10 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
     var userId = GlobalStruct.currentUser.id
-    var statusesLiked: [Status] = []
+    var statusesHashtags: [Status] = []
+    var theHashtagID: String = ""
+    var theHashtag: String = ""
+    let btn1 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -68,7 +71,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "Liked".localized
+        self.title = "#\(self.theHashtag)"
 //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
@@ -78,7 +81,6 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        let btn1 = UIButton(type: .custom)
         btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
@@ -103,10 +105,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        self.tableView.addSubview(self.refreshControl)
-        
-        self.statusesLiked = []
+        self.statusesHashtags = []
         self.initialFetches()
         
         // Top buttons
@@ -134,51 +133,12 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func initialFetches() {
-        let request = Favourites.all()
+        let request = Timelines.tag(self.theHashtag, local: false)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    self.statusesLiked = stat
+                    self.statusesHashtags = stat
                     self.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    @objc func refresh(_ sender: AnyObject) {
-        let request = Favourites.all(range: .since(id: self.statusesLiked.first?.id ?? "", limit: nil))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {
-                    DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
-                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-                            self.top1.alpha = 1
-                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
-                        }) { (completed: Bool) in
-                        }
-                        let indexPaths = (0..<stat.count).map {
-                            IndexPath(row: $0, section: 0)
-                        }
-                        self.statusesLiked = stat + self.statusesLiked
-                        self.tableView.beginUpdates()
-                        UIView.setAnimationsEnabled(false)
-                        var heights: CGFloat = 0
-                        let _ = indexPaths.map {
-                            if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
-                                heights += cell.bounds.height
-                            }
-                        }
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
-                        self.tableView.endUpdates()
-                        UIView.setAnimationsEnabled(true)
-                    }
                 }
             }
         }
@@ -193,20 +153,17 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.statusesLiked.count
+        return self.statusesHashtags.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.statusesLiked[indexPath.row].mediaAttachments.isEmpty {
+        if self.statusesHashtags[indexPath.row].mediaAttachments.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if self.statusesLiked.isEmpty {} else {
-                cell.configure(self.statusesLiked[indexPath.row])
+            if self.statusesHashtags.isEmpty {} else {
+                cell.configure(self.statusesHashtags[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == self.statusesLiked.count - 10 {
-                    self.fetchMoreHome()
-                }
             }
 
             cell.content.handleHashtagTap { (string) in
@@ -222,14 +179,11 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
-            if self.statusesLiked.isEmpty {} else {
-                cell.configure(self.statusesLiked[indexPath.row])
+            if self.statusesHashtags.isEmpty {} else {
+                cell.configure(self.statusesHashtags[indexPath.row])
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
-                if indexPath.row == self.statusesLiked.count - 10 {
-                    self.fetchMoreHome()
-                }
             }
 
             cell.content.handleHashtagTap { (string) in
@@ -249,33 +203,14 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         vc.isYou = false
-        vc.pickedCurrentUser = self.statusesLiked[gesture.view!.tag].account
+        vc.pickedCurrentUser = self.statusesHashtags[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func fetchMoreHome() {
-        let request = Favourites.all(range: .max(id: self.statusesLiked.last?.id ?? "", limit: nil))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {} else {
-                    DispatchQueue.main.async {
-                        let indexPaths = ((self.statusesLiked.count)..<(self.statusesLiked.count + stat.count)).map {
-                            IndexPath(row: $0, section: 0)
-                        }
-                        self.statusesLiked.append(contentsOf: stat)
-                        self.tableView.beginUpdates()
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.endUpdates()
-                    }
-                }
-            }
-        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = DetailViewController()
-        vc.pickedStatusesHome = [self.statusesLiked[indexPath.row]]
+        vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -295,7 +230,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         animator.addCompletion {
             guard let indexPath = configuration.identifier as? IndexPath else { return }
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [self.statusesLiked[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -306,10 +241,10 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
             let vc = DetailViewController()
             vc.fromContextMenu = true
-            vc.pickedStatusesHome = [self.statusesLiked[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
             return vc
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu([self.statusesLiked[indexPath.row]], indexPath: indexPath)
+            return self.makeContextMenu([self.statusesHashtags[indexPath.row]], indexPath: indexPath)
         })
     }
     

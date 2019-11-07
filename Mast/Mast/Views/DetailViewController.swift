@@ -213,6 +213,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -226,6 +233,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -243,6 +257,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -258,6 +279,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
                     cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -293,12 +321,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
-//                    if self.allReplies[indexPath.row].inReplyToID == self.pickedStatusesHome[0].id {
-//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-//                    } else {
-//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 20)
-//                    }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -311,12 +341,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
-//                    if self.allReplies[indexPath.row].inReplyToID == self.pickedStatusesHome[0].id {
-//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-//                    } else {
-//                        cell.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 20)
-//                    }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear

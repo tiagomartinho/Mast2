@@ -276,6 +276,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
                     cell.followers.addTarget(self, action: #selector(self.followersTapped), for: .touchUpInside)
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -286,6 +293,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 cell.configure(self.pickedCurrentUser)
                 cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
                 cell.followers.addTarget(self, action: #selector(self.followersTapped2), for: .touchUpInside)
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -323,6 +337,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.fetchMoreUserData()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -341,6 +362,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         self.fetchMoreUserData()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear

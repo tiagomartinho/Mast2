@@ -68,7 +68,7 @@ class ProfileCell: UITableViewCell {
         content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
         content.textAlignment = .natural
         content.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-        content.isUserInteractionEnabled = false
+        content.isUserInteractionEnabled = true
         content.adjustsFontForContentSizeCategory = true
         content.numberOfLines = 0
         content.enabledTypes = [.mention, .hashtag, .url]

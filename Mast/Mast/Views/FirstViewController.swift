@@ -610,6 +610,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.fetchMoreHome()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -626,6 +633,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.fetchMoreHome()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -644,6 +658,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.fetchMoreLocal()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -660,6 +681,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.fetchMoreLocal()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -678,6 +706,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.fetchMoreFed()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -694,6 +729,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.fetchMoreFed()
                     }
                 }
+
+                cell.content.handleHashtagTap { (string) in
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
