@@ -201,11 +201,13 @@ open class GSImageViewerController: UIViewController {
         }
         detailView.setTitle("Example image preview text will go here, maybe part of the actual toot or just the assisting captions that accompany the image and its details.", for: .normal)
         detailView.setTitleColor(UIColor.white, for: .normal)
+        detailView.titleLabel?.numberOfLines = 0
         detailView.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         detailView.titleLabel?.textAlignment = .left
         detailView.contentHorizontalAlignment = .left
         detailView.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-        detailView.sizeToFit()
+//        detailView.sizeToFit()
+        detailView.frame.size = detailView.sizeThatFits(CGSize.zero)
         detailView.frame.size.width = self.view.bounds.width - 40
         if #available(iOS 13.0, *) {
             detailView.frame.origin.y = self.view.bounds.height - detailView.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
