@@ -94,6 +94,8 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
             let curr = InstanceData.getCurrentInstance()
             if curr?.clientID == instances[indexPath.item].clientID {
                 cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
             }
         }
     }
@@ -118,6 +120,8 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
             let curr = InstanceData.getCurrentInstance()
             if curr?.clientID == instances[indexPath.item].clientID {
                 cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
             }
         }
         
@@ -127,8 +131,24 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         DispatchQueue.main.async {
-            // set the account
-            self.tableView.reloadData()
+
+            let instances = InstanceData.getAllInstances()
+            if instances.isEmpty || Account.getAccounts().isEmpty {
+                
+            } else {
+                let curr = InstanceData.getCurrentInstance()
+                if curr?.clientID == instances[indexPath.item].clientID {
+                    
+                } else {
+                    InstanceData.setCurrentInstance(instance: instances[indexPath.item])
+                    GlobalStruct.client = Client(
+                        baseURL: "https://\(instances[indexPath.item].returnedText)",
+                        accessToken: instances[indexPath.item].accessToken
+                    )
+                    self.tableView.reloadData()
+                }
+            }
+            
         }
     }
 }
