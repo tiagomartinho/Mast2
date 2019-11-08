@@ -64,7 +64,12 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     }
     
     @objc func addTapped() {
-        
+        DispatchQueue.main.async {
+            let vc = AddInstanceViewController()
+            self.present(vc, animated: true, completion: {
+//                vc.textField.becomeFirstResponder()
+            })
+        }
     }
     
     //MARK: TableView

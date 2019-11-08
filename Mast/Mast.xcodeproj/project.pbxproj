@@ -128,6 +128,9 @@
 		53AF450A2375A73E001A3574 /* AccountsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */; };
 		53AF450C2375AC2A001A3574 /* GetInTouchSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */; };
 		53AF450E2375B1BA001A3574 /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450D2375B1BA001A3574 /* AccountCell.swift */; };
+		53AF45102375B39F001A3574 /* AccountExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450F2375B39F001A3574 /* AccountExtension.swift */; };
+		53AF45122375B3C6001A3574 /* InstanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF45112375B3C6001A3574 /* InstanceData.swift */; };
+		53AF45142375B9F7001A3574 /* AddInstanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF45132375B9F6001A3574 /* AddInstanceViewController.swift */; };
 		53B5F1DE233BC4BA0099B170 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1DD233BC4BA0099B170 /* NotificationService.swift */; };
 		53B5F1E2233BC4BA0099B170 /* Mast Push.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53B5F1DB233BC4BA0099B170 /* Mast Push.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53B5F1ED233BC5600099B170 /* SwiftGCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1E8233BC5600099B170 /* SwiftGCM.swift */; };
@@ -297,6 +300,9 @@
 		53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsSettingsViewController.swift; sourceTree = "<group>"; };
 		53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInTouchSettingsViewController.swift; sourceTree = "<group>"; };
 		53AF450D2375B1BA001A3574 /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
+		53AF450F2375B39F001A3574 /* AccountExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountExtension.swift; sourceTree = "<group>"; };
+		53AF45112375B3C6001A3574 /* InstanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstanceData.swift; sourceTree = "<group>"; };
+		53AF45132375B9F6001A3574 /* AddInstanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInstanceViewController.swift; sourceTree = "<group>"; };
 		53B5F1DB233BC4BA0099B170 /* Mast Push.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mast Push.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B5F1DD233BC4BA0099B170 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		53B5F1DF233BC4BA0099B170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -499,6 +505,8 @@
 				5379F427233271D800DC1F33 /* Date.swift */,
 				5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */,
 				53AF4507237567EE001A3574 /* GSImageViewerController.swift */,
+				53AF450F2375B39F001A3574 /* AccountExtension.swift */,
+				53AF45112375B3C6001A3574 /* InstanceData.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -532,6 +540,7 @@
 			isa = PBXGroup;
 			children = (
 				53449D3423293E3600A470E2 /* ViewController.swift */,
+				53AF45132375B9F6001A3574 /* AddInstanceViewController.swift */,
 				5339C6032340C06400770651 /* iPad */,
 				53449D4423293EF900A470E2 /* FirstViewController.swift */,
 				53449D4623293F1C00A470E2 /* SecondViewController.swift */,
@@ -766,6 +775,7 @@
 				53B5F202233E63540099B170 /* VerticalTabBarController.swift in Sources */,
 				5395A7542372D63C002253A8 /* MutedViewController.swift in Sources */,
 				53449DD323294C1000A470E2 /* Clients.swift in Sources */,
+				53AF45122375B3C6001A3574 /* InstanceData.swift in Sources */,
 				53449DB323294C1000A470E2 /* Joke.swift in Sources */,
 				53449DDA23294C1000A470E2 /* RequestRange.swift in Sources */,
 				53449DB023294C1000A470E2 /* CardType.swift in Sources */,
@@ -836,6 +846,7 @@
 				53449DA223294C1000A470E2 /* String.swift in Sources */,
 				53449DD623294C1000A470E2 /* Timelines.swift in Sources */,
 				53449DAA23294C1000A470E2 /* ScheduledStatus.swift in Sources */,
+				53AF45142375B9F7001A3574 /* AddInstanceViewController.swift in Sources */,
 				53449DA123294C1000A470E2 /* Decodable.swift in Sources */,
 				5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */,
 				5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */,
@@ -869,6 +880,7 @@
 				53449DA023294C1000A470E2 /* Data.swift in Sources */,
 				5379F42C2333751C00DC1F33 /* ThirdViewController.swift in Sources */,
 				5395A7622372FEB1002253A8 /* LikedBoostedViewController.swift in Sources */,
+				53AF45102375B39F001A3574 /* AccountExtension.swift in Sources */,
 				53449DC623294C1000A470E2 /* Instances.swift in Sources */,
 				53449DB723294C1000A470E2 /* Instance.swift in Sources */,
 				5379F4202332346700DC1F33 /* DetailCell.swift in Sources */,

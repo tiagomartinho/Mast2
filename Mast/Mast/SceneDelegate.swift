@@ -97,8 +97,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 print("Response ==> \(url.absoluteString)")
                 let x = url.absoluteString
                 let y = x.split(separator: "=")
-                GlobalStruct.authCode = y.last?.description ?? ""
+                GlobalStruct.currentInstance.authCode = y.last?.description ?? ""
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "logged"), object: nil)
+            } else if url.host == "addNewInstance" {
+                print("Response ==> \(url.absoluteString)")
+                let x = url.absoluteString
+                let y = x.split(separator: "=")
+                GlobalStruct.newInstance!.authCode = y.last?.description ?? ""
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "newInstanceLogged"), object: nil)
             }
         }
     }

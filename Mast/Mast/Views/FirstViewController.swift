@@ -43,6 +43,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let top2 = UIButton()
     let top3 = UIButton()
     let btn2 = UIButton(type: .custom)
+    var newInstance = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -96,7 +97,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 1
-
+        
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
@@ -156,11 +157,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Feed".localized
-//        self.removeTabbarItemsText()
+        //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
@@ -222,11 +225,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.object(forKey: "accessToken") == nil {
             self.createLoginView()
         } else {
-            GlobalStruct.returnedText = UserDefaults.standard.object(forKey: "returnedText") as? String ?? ""
-            GlobalStruct.accessToken = UserDefaults.standard.object(forKey: "accessToken") as? String ?? ""
+            GlobalStruct.currentInstance.accessToken = UserDefaults.standard.object(forKey: "accessToken") as! String
             GlobalStruct.client = Client(
-                baseURL: "https://\(GlobalStruct.returnedText)",
-                accessToken: GlobalStruct.accessToken
+                baseURL: "https://\(GlobalStruct.currentInstance.returnedText)",
+                accessToken: GlobalStruct.currentInstance.accessToken
             )
             self.initialFetches()
         }
@@ -356,7 +358,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     GlobalStruct.allAccounts2.append("@\(stat.username)")
                     GlobalStruct.allAccounts3.append(stat.avatar)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
-
+                    
                     #if targetEnvironment(macCatalyst)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     #elseif !targetEnvironment(macCatalyst)
@@ -1233,6 +1235,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func createLoginView(newInstance: Bool = false) {
+        self.newInstance = newInstance
         self.loginBG.frame = self.view.frame
         self.loginBG.backgroundColor = UIColor(named: "baseWhite")
         UIApplication.shared.windows.first?.addSubview(self.loginBG)
@@ -1271,56 +1274,116 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if returnedText == "" || returnedText == " " || returnedText == "  " {} else {
             DispatchQueue.main.async {
                 self.textField.resignFirstResponder()
-                GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
-                let request = Clients.register(
-                    clientName: "Mast",
-                    redirectURI: "com.shi.Mast2://success",
-                    scopes: [.read, .write, .follow, .push],
-                    website: "https://twitter.com/jpeguin"
-                )
-                GlobalStruct.client.run(request) { (application) in
-                    if application.value == nil {
-                        DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
-                            let op1 = UIAlertAction(title: "Find out more".localized, style: .default , handler:{ (UIAlertAction) in
-                                let queryURL = URL(string: "https://joinmastodon.org")!
+                
+                
+                if self.newInstance {
+                    GlobalStruct.newInstance = InstanceData()
+                    GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
+                    let request = Clients.register(
+                        clientName: "Mast",
+                        redirectURI: "com.shi.Mast2://addNewInstance",
+                        scopes: [.read, .write, .follow, .push],
+                        website: "https://twitter.com/jpeguin"
+                    )
+                    GlobalStruct.client.run(request) { (application) in
+                        if application.value == nil {
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
+                                let op1 = UIAlertAction(title: "Find out more".localized, style: .default , handler:{ (UIAlertAction) in
+                                    let queryURL = URL(string: "https://joinmastodon.org")!
+                                    UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                                        if !success {
+                                            UIApplication.shared.open(queryURL)
+                                        }
+                                    }
+                                })
+                                op1.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
+                                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                                alert.addAction(op1)
+                                alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                                }))
+                                if let presenter = alert.popoverPresentationController {
+                                    presenter.sourceView = self.view
+                                    presenter.sourceRect = self.view.bounds
+                                }
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        } else {
+                            let application = application.value!
+                            GlobalStruct.newInstance?.clientID = application.clientID
+                            GlobalStruct.newInstance?.clientSecret = application.clientSecret
+                            GlobalStruct.newInstance?.returnedText = returnedText
+                            DispatchQueue.main.async {
+                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
-                                        UIApplication.shared.open(queryURL)
+                                        if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
+                                            self.safariVC = SFSafariViewController(url: queryURL)
+                                            self.present(self.safariVC!, animated: true, completion: nil)
+                                        } else {
+                                            UIApplication.shared.open(queryURL, options: [:], completionHandler: nil)
+                                        }
                                     }
                                 }
-                            })
-                            op1.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
-                            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-                            alert.addAction(op1)
-                            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-                            }))
-                            if let presenter = alert.popoverPresentationController {
-                                presenter.sourceView = self.view
-                                presenter.sourceRect = self.view.bounds
                             }
-                            self.present(alert, animated: true, completion: nil)
                         }
-                    } else {
-                        let application = application.value!
-                        GlobalStruct.clientID = application.clientID
-                        GlobalStruct.clientSecret = application.clientSecret
-                        GlobalStruct.returnedText = returnedText
-                        DispatchQueue.main.async {
-                            let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
-                            UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
-                                if !success {
-                                    if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
-                                        self.safariVC = SFSafariViewController(url: queryURL)
-                                        self.present(self.safariVC!, animated: true, completion: nil)
-                                    } else {
-                                        UIApplication.shared.open(queryURL, options: [:], completionHandler: nil)
+                    }
+                    
+                } else {
+                    GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
+                    let request = Clients.register(
+                        clientName: "Mast",
+                        redirectURI: "com.shi.Mast2://success",
+                        scopes: [.read, .write, .follow, .push],
+                        website: "https://twitter.com/jpeguin"
+                    )
+                    GlobalStruct.client.run(request) { (application) in
+                        if application.value == nil {
+                            DispatchQueue.main.async {
+                                let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
+                                let op1 = UIAlertAction(title: "Find out more".localized, style: .default , handler:{ (UIAlertAction) in
+                                    let queryURL = URL(string: "https://joinmastodon.org")!
+                                    UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                                        if !success {
+                                            UIApplication.shared.open(queryURL)
+                                        }
+                                    }
+                                })
+                                op1.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
+                                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                                alert.addAction(op1)
+                                alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                                }))
+                                if let presenter = alert.popoverPresentationController {
+                                    presenter.sourceView = self.view
+                                    presenter.sourceRect = self.view.bounds
+                                }
+                                self.present(alert, animated: true, completion: nil)
+                            }
+                        } else {
+                            let application = application.value!
+                            GlobalStruct.currentInstance.clientID = application.clientID
+                            GlobalStruct.currentInstance.clientSecret = application.clientSecret
+                            GlobalStruct.currentInstance.returnedText = returnedText
+                            GlobalStruct.currentInstance.redirect = "com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                            DispatchQueue.main.async {
+                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.currentInstance.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                                UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                                    if !success {
+                                        if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
+                                            self.safariVC = SFSafariViewController(url: queryURL)
+                                            self.present(self.safariVC!, animated: true, completion: nil)
+                                        } else {
+                                            UIApplication.shared.open(queryURL, options: [:], completionHandler: nil)
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+                
+                
             }
         }
         return true
@@ -1333,7 +1396,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.textField.removeFromSuperview()
         self.safariVC?.dismiss(animated: true, completion: nil)
         
-        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.authCode)&redirect_uri=\("com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&client_id=\(GlobalStruct.clientID)&client_secret=\(GlobalStruct.clientSecret)&scope=read%20write%20follow%20push")!)
+        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.currentInstance.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.currentInstance.authCode)&redirect_uri=\(GlobalStruct.currentInstance.redirect)&client_id=\(GlobalStruct.currentInstance.clientID)&client_secret=\(GlobalStruct.currentInstance.clientSecret)&scope=read%20write%20follow%20push")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -1343,22 +1406,88 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             guard let data = data else { return }
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                    GlobalStruct.accessToken = (json["access_token"] as? String ?? "")
                     
-                    UserDefaults.standard.set(GlobalStruct.clientID, forKey: "clientID")
-                    UserDefaults.standard.set(GlobalStruct.clientSecret, forKey: "clientSecret")
-                    UserDefaults.standard.set(GlobalStruct.authCode, forKey: "authCode")
-                    UserDefaults.standard.set(GlobalStruct.accessToken, forKey: "accessToken")
-                    UserDefaults.standard.set(GlobalStruct.returnedText, forKey: "returnedText")
+                    GlobalStruct.currentInstance.accessToken = (json["access_token"] as? String ?? "")
+                    GlobalStruct.client.accessToken = (json["access_token"] as? String ?? "")
+                    InstanceData.setCurrentInstance(instance: GlobalStruct.currentInstance)
+                    
+                    UserDefaults.standard.set(GlobalStruct.client.accessToken, forKey: "accessToken")
+                    
+                    let request2 = Accounts.currentUser()
+                    GlobalStruct.client.run(request2) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                Account.addAccountToList(account: stat)
+                            }
+                        }
+                    }
                     
                     self.initialFetches()
-
+                    
                     let center = UNUserNotificationCenter.current()
                     center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
                         DispatchQueue.main.async {
                             UIApplication.shared.registerForRemoteNotifications()
                         }
                     }
+                    
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        })
+        task.resume()
+    }
+    
+    @objc func newInstanceLogged() {
+        self.loginBG.removeFromSuperview()
+        self.loginLogo.removeFromSuperview()
+        self.loginLabel.removeFromSuperview()
+        self.textField.removeFromSuperview()
+        self.safariVC?.dismiss(animated: true, completion: nil)
+        
+        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.newInstance!.authCode)&redirect_uri=\(GlobalStruct.newInstance!.redirect)&client_id=\(GlobalStruct.newInstance!.clientID)&client_secret=\(GlobalStruct.newInstance!.clientSecret)&scope=read%20write%20follow%20push")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            guard error == nil else { print("error"); return }
+            guard let data = data else { return }
+            guard let newInstance = GlobalStruct.newInstance else {
+                return
+            }
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                    
+                    if let access1 = (json["access_token"] as? String) {
+                        
+                        GlobalStruct.client = GlobalStruct.newClient
+                        newInstance.accessToken = access1
+                        InstanceData.setCurrentInstance(instance: newInstance)
+                        
+                        UserDefaults.standard.set(GlobalStruct.client.accessToken, forKey: "accessToken")
+                        
+                        let request2 = Accounts.currentUser()
+                        GlobalStruct.client.run(request2) { (statuses) in
+                            if let stat = (statuses.value) {
+                                DispatchQueue.main.async {
+                                    Account.addAccountToList(account: stat)
+                                }
+                            }
+                        }
+                        
+                        self.initialFetches()
+                        
+                        let center = UNUserNotificationCenter.current()
+                        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                            DispatchQueue.main.async {
+                                UIApplication.shared.registerForRemoteNotifications()
+                            }
+                        }
+                        
+                    }
+                    
                 }
             } catch let error {
                 print(error.localizedDescription)

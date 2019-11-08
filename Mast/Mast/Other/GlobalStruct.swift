@@ -10,13 +10,24 @@ import Foundation
 import UIKit
 
 class GlobalStruct {
-    static var client = Client(baseURL: "", accessToken: "")
+    init() {
+        
+    }
+    static let shared = GlobalStruct()
+    
+//    static var client = Client(baseURL: "", accessToken: "")
+    static var client = Client(baseURL: GlobalStruct.currentInstance.returnedText, accessToken: GlobalStruct.currentInstance.accessToken)
     static var clientID = ""
     static var clientSecret = ""
     static var returnedText = ""
     static var accessToken = ""
     static var authCode = ""
     static var redirect = ""
+    
+    static var currentInstance: InstanceData = InstanceData.getCurrentInstance() ?? InstanceData()
+    static var allInstances: [InstanceData] = InstanceData.getAllInstances()
+    static var newClient = Client(baseURL: "")
+    static var newInstance: InstanceData?
     
     static var allAccounts: [String] = []
     static var allAccounts2: [String] = []
