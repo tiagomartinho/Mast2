@@ -147,7 +147,42 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
                     )
                     self.tableView.reloadData()
                     FirstViewController().initialFetches()
-                    FourthViewController().initialFetches()
+
+                    #if targetEnvironment(macCatalyst)
+                    let rootController = ColumnViewController()
+                    let nav0 = VerticalTabBarController()
+                    let nav1 = ScrollMainViewController()
+
+                    let nav01 = UINavigationController(rootViewController: FirstViewController())
+                    let nav02 = UINavigationController(rootViewController: SecondViewController())
+                    let nav03 = UINavigationController(rootViewController: ThirdViewController())
+                    let nav04 = UINavigationController(rootViewController: FourthViewController())
+                    let nav05 = UINavigationController(rootViewController: FifthViewController())
+                    nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+
+                    rootController.viewControllers = [nav0, nav1]
+                    self.window?.rootViewController = rootController
+                    self.window!.makeKeyAndVisible()
+                    #elseif !targetEnvironment(macCatalyst)
+                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                        let rootController = ColumnViewController()
+                        let nav0 = VerticalTabBarController()
+                        let nav1 = ScrollMainViewController()
+
+                        let nav01 = UINavigationController(rootViewController: FirstViewController())
+                        let nav02 = UINavigationController(rootViewController: SecondViewController())
+                        let nav03 = UINavigationController(rootViewController: ThirdViewController())
+                        let nav04 = UINavigationController(rootViewController: FourthViewController())
+                        let nav05 = UINavigationController(rootViewController: FifthViewController())
+                        nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+
+                        rootController.viewControllers = [nav0, nav1]
+                        UIApplication.shared.keyWindow?.rootViewController = rootController
+                        UIApplication.shared.keyWindow?.makeKeyAndVisible()
+                    } else {
+                        UIApplication.shared.keyWindow?.rootViewController = ViewController()
+                    }
+                    #endif
                 }
             }
             

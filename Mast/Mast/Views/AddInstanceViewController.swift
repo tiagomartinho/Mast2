@@ -12,6 +12,21 @@ import SafariServices
 
 class AddInstanceViewController: UIViewController, UITextFieldDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var loginBG = UIView()
     var loginLogo = UIImageView()
     var loginLabel = UILabel()
@@ -214,8 +229,44 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                                     UserDefaults.standard.set(try? PropertyListEncoder().encode(instances), forKey: "instances")
                                     Account.addAccountToList(account: stat)
                                     FirstViewController().initialFetches()
-                                    FourthViewController().initialFetches()
                                     self.dismiss(animated: true, completion: nil)
+                                    
+                                    #if targetEnvironment(macCatalyst)
+                                    let rootController = ColumnViewController()
+                                    let nav0 = VerticalTabBarController()
+                                    let nav1 = ScrollMainViewController()
+
+                                    let nav01 = UINavigationController(rootViewController: FirstViewController())
+                                    let nav02 = UINavigationController(rootViewController: SecondViewController())
+                                    let nav03 = UINavigationController(rootViewController: ThirdViewController())
+                                    let nav04 = UINavigationController(rootViewController: FourthViewController())
+                                    let nav05 = UINavigationController(rootViewController: FifthViewController())
+                                    nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+
+                                    rootController.viewControllers = [nav0, nav1]
+                                    self.window?.rootViewController = rootController
+                                    self.window!.makeKeyAndVisible()
+                                    #elseif !targetEnvironment(macCatalyst)
+                                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                                        let rootController = ColumnViewController()
+                                        let nav0 = VerticalTabBarController()
+                                        let nav1 = ScrollMainViewController()
+
+                                        let nav01 = UINavigationController(rootViewController: FirstViewController())
+                                        let nav02 = UINavigationController(rootViewController: SecondViewController())
+                                        let nav03 = UINavigationController(rootViewController: ThirdViewController())
+                                        let nav04 = UINavigationController(rootViewController: FourthViewController())
+                                        let nav05 = UINavigationController(rootViewController: FifthViewController())
+                                        nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+
+                                        rootController.viewControllers = [nav0, nav1]
+                                        UIApplication.shared.keyWindow?.rootViewController = rootController
+                                        UIApplication.shared.keyWindow?.makeKeyAndVisible()
+                                    } else {
+                                        UIApplication.shared.keyWindow?.rootViewController = ViewController()
+                                    }
+                                    #endif
+                                    
                                 }
                             }
                         }
