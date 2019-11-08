@@ -34,6 +34,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isFollowing = false
     var isTapped: Bool = false
     var userID = ""
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -172,6 +173,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
+        
+        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        self.tableView.addSubview(self.refreshControl)
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        self.fetchUserDataRefresh()
     }
     
     func initialLoad() {
@@ -698,6 +706,60 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
+    func fetchUserDataRefresh() {
+        if GlobalStruct.currentUser == nil {} else {
+            var theUser = GlobalStruct.currentUser.id
+            if self.isYou {
+                theUser = GlobalStruct.currentUser.id
+            } else {
+                theUser = self.pickedCurrentUser.id
+            }
+            let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: false, excludeReblogs: false, range: .since(id: self.profileStatuses.first?.id ?? "", limit: 5000))
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    if stat.isEmpty {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
+                            let indexPaths = (0..<stat.count).map {
+                                IndexPath(row: $0, section: 0)
+                            }
+                            self.profileStatuses = stat + self.profileStatuses
+                            self.tableView.beginUpdates()
+                            UIView.setAnimationsEnabled(false)
+                            var heights: CGFloat = 0
+                            let _ = indexPaths.map {
+                                if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
+                                    heights += cell.bounds.height
+                                }
+                            }
+                            self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                            self.tableView.endUpdates()
+                            UIView.setAnimationsEnabled(true)
+                            
+                            let request2 = Accounts.relationships(ids: [GlobalStruct.currentUser.id, self.profileStatuses.first?.account.id ?? ""])
+                            GlobalStruct.client.run(request2) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    DispatchQueue.main.async {
+                                        if stat[1].following {
+                                            self.isFollowing = true
+                                        } else {
+                                            self.isFollowing = false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     func fetchUserData() {
         if GlobalStruct.currentUser == nil {} else {
             var theUser = GlobalStruct.currentUser.id
@@ -709,8 +771,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let request = Accounts.statuses(id: theUser, mediaOnly: nil, pinnedOnly: false, excludeReplies: false, excludeReblogs: false, range: .max(id: self.profileStatuses.last?.id ?? "", limit: 5000))
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {
-                    if stat.isEmpty {} else {
+                    if stat.isEmpty {
                         DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
                             self.profileStatuses = stat
                             self.tableView.reloadSections(IndexSet([2]), with: .none)
                             
