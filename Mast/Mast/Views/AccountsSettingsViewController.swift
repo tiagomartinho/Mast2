@@ -104,8 +104,14 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
         cell.backgroundColor = UIColor(named: "baseWhite")
 
+        var instance: InstanceData? = nil
+        if InstanceData.getAllInstances().count == 0 {} else {
+            instance = InstanceData.getAllInstances()[indexPath.row]
+        }
+        let instanceAndAccount = "@\(instance?.returnedText ?? "")"
+
         let account = Account.getAccounts()[indexPath.item]
-        cell.configure(account.displayName, op2: "@\(account.username)", op3: account.avatar)
+        cell.configure(account.displayName, op2: "@\(account.username)\(instanceAndAccount)", op3: account.avatar)
         
 //        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
 //            cell.accessoryType = .checkmark
@@ -146,6 +152,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
                         accessToken: instances[indexPath.item].accessToken
                     )
                     self.tableView.reloadData()
+                    FirstViewController().initialFetches()
                 }
             }
             
