@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 public struct GSImageInfo {
     
@@ -88,6 +89,9 @@ open class GSImageViewerController: UIViewController {
     
     public let imageView  = UIImageView()
     public let scrollView = UIScrollView()
+
+    public let detailView = UIButton()
+    public let detailText = ActiveLabel()
     
     public let imageInfo: GSImageInfo
     
@@ -194,15 +198,13 @@ open class GSImageViewerController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         scrollView.addSubview(imageView)
         
-        let detailView = UIButton()
-        detailView.layer.cornerRadius = 8
+        detailView.layer.cornerRadius = 10
         if #available(iOS 13.0, *) {
             detailView.backgroundColor = UIColor(named: "darkGray")!
             detailView.layer.cornerCurve = .continuous
         }
         self.view.addSubview(detailView)
         
-        let detailText = UILabel()
         if #available(iOS 11.0, *) {
             detailText.frame = CGRect(x: 30, y: self.view.bounds.height - 60 - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0), width: self.view.bounds.width - 60, height: 50)
         }
@@ -211,26 +213,34 @@ open class GSImageViewerController: UIViewController {
         detailText.textColor = UIColor.white
         detailText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         detailText.isUserInteractionEnabled = false
-        detailText.numberOfLines = 0
+        detailText.numberOfLines = 4
         detailText.sizeToFit()
         if #available(iOS 13.0, *) {
             detailText.frame.origin.y = self.view.bounds.height - detailText.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
         }
+        detailText.enabledTypes = [.mention, .hashtag, .url]
+        detailText.mentionColor = GlobalStruct.baseTint
+        detailText.hashtagColor = GlobalStruct.baseTint
+        detailText.URLColor = GlobalStruct.baseTint
         self.view.addSubview(detailText)
         
         detailView.frame = detailText.frame
         detailView.frame.size.width = self.view.bounds.width - 40
-        detailView.frame.size.height = detailText.bounds.height + 10
-        detailView.frame.origin.y = detailText.frame.origin.y - 5
+        detailView.frame.size.height = detailText.bounds.height + 16
+        detailView.frame.origin.y = detailText.frame.origin.y - 8
         detailView.frame.origin.x = detailText.frame.origin.x - 10
-        
-        if imageInfo.imageText == "" {
-            detailView.alpha = 0
-            detailText.alpha = 0
-        } else {
-            detailView.alpha = 1
-            detailText.alpha = 1
-        }
+
+        UIView.animate(withDuration: transitionInfo?.duration ?? 2, animations: {
+            if self.imageInfo.imageText == "" {
+                self.detailView.alpha = 0
+                self.detailText.alpha = 0
+            } else {
+                self.detailView.alpha = 1
+                self.detailText.alpha = 1
+            }
+        }, completion: { _ in
+            
+        })
     }
     
     fileprivate func setupGesture() {
@@ -310,13 +320,23 @@ open class GSImageViewerController: UIViewController {
             
             panViewOrigin = scrollView.center
             
+            UIView.animate(withDuration: 0.2,
+                           animations: {
+                            self.detailView.alpha = 0
+                            self.detailText.alpha = 0
+            },
+                           completion: { _ in
+                            
+            }
+            )
+            
         case .changed:
             
             scrollView.center = getChanged()
             panViewAlpha = 1 - getProgress()
             view.backgroundColor = backgroundColor.withAlphaComponent(panViewAlpha)
             gesture.setTranslation(CGPoint.zero, in: nil)
-
+        
         case .ended:
             
             if getProgress() > 0.25 || getVelocity() > 1000 {
@@ -327,10 +347,13 @@ open class GSImageViewerController: UIViewController {
             
         default:
             
-            UIView.animate(withDuration: 0.3,
+            UIView.animate(withDuration: 0.25,
                 animations: {
                     self.scrollView.center = self.panViewOrigin!
                     self.view.backgroundColor = self.backgroundColor
+
+                    self.detailView.alpha = 1
+                    self.detailText.alpha = 1
                 },
                 completion: { _ in
                     self.panViewOrigin = nil
