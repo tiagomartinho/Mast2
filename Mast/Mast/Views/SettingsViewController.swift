@@ -147,7 +147,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
             cell.imageView?.image = UIImage(systemName: "lock.open", withConfiguration: symbolConfig) ?? UIImage()
             cell.textLabel?.text = "Unlock Mast Pro (placeholder)"
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            cell.backgroundColor = GlobalStruct.baseTint
             cell.accessoryType = .none
             return cell
             
