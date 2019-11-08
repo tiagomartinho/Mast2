@@ -23,6 +23,8 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.createLoginView(newInstance: true)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
     }
     
     func createLoginView(newInstance: Bool = false) {
@@ -66,7 +68,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                 self.textField.resignFirstResponder()
                 
                 if self.newInstance {
-                    
+                    GlobalStruct.newInstance = InstanceData()
                     GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
                     let request = Clients.register(
                         clientName: "Mast",
@@ -102,8 +104,9 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                             GlobalStruct.newInstance?.clientID = application.clientID
                             GlobalStruct.newInstance?.clientSecret = application.clientSecret
                             GlobalStruct.newInstance?.returnedText = returnedText
+                            GlobalStruct.newInstance?.redirect = "com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                             DispatchQueue.main.async {
-                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
                                         if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
@@ -175,6 +178,52 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
             }
         }
         return true
+    }
+    
+    @objc func newInstanceLogged() {
+        self.safariVC?.dismiss(animated: true, completion: nil)
+        
+        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.newInstance!.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.newInstance!.authCode)&redirect_uri=\(GlobalStruct.newInstance!.redirect)&client_id=\(GlobalStruct.newInstance!.clientID)&client_secret=\(GlobalStruct.newInstance!.clientSecret)&scope=read%20write%20follow%20push")!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            guard error == nil else { print("error"); return }
+            guard let data = data else { return }
+            guard let newInstance = GlobalStruct.newInstance else {
+                return
+            }
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                    
+                    if let access1 = (json["access_token"] as? String) {
+                        
+                        GlobalStruct.client = GlobalStruct.newClient
+                        newInstance.accessToken = access1
+                        InstanceData.setCurrentInstance(instance: newInstance)
+                        
+                        UserDefaults.standard.set(GlobalStruct.client.accessToken, forKey: "accessToken")
+                        
+                        let request2 = Accounts.currentUser()
+                        GlobalStruct.client.run(request2) { (statuses) in
+                            if let stat = (statuses.value) {
+                                DispatchQueue.main.async {
+                                    Account.addAccountToList(account: stat)
+                                    FirstViewController().initialFetches()
+                                    self.dismiss(animated: true, completion: nil)
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                }
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        })
+        task.resume()
     }
     
 }

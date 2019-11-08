@@ -83,14 +83,18 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalStruct.allAccounts.count
+        return Account.getAccounts().count
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
-            cell.accessoryType = .checkmark
-        } else {
+        let instances = InstanceData.getAllInstances()
+        if instances.isEmpty || Account.getAccounts().isEmpty {
             cell.accessoryType = .none
+        } else {
+            let curr = InstanceData.getCurrentInstance()
+            if curr?.clientID == instances[indexPath.item].clientID {
+                cell.accessoryType = .checkmark
+            }
         }
     }
     
@@ -98,12 +102,23 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
         cell.backgroundColor = UIColor(named: "baseWhite")
 
-        cell.configure(GlobalStruct.allAccounts[indexPath.row], op2: GlobalStruct.allAccounts2[indexPath.row], op3: GlobalStruct.allAccounts3[indexPath.row])
+        let account = Account.getAccounts()[indexPath.item]
+        cell.configure(account.displayName, op2: "@\(account.username)", op3: account.avatar)
         
-        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
-            cell.accessoryType = .checkmark
-        } else {
+//        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
+
+        let instances = InstanceData.getAllInstances()
+        if instances.isEmpty || Account.getAccounts().isEmpty {
             cell.accessoryType = .none
+        } else {
+            let curr = InstanceData.getCurrentInstance()
+            if curr?.clientID == instances[indexPath.item].clientID {
+                cell.accessoryType = .checkmark
+            }
         }
         
         return cell
@@ -112,7 +127,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         DispatchQueue.main.async {
-            UserDefaults.standard.set(indexPath.row, forKey: "sync-chosenAccount")
+            // set the account
             self.tableView.reloadData()
         }
     }

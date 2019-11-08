@@ -29,10 +29,6 @@ class GlobalStruct {
     static var newClient = Client(baseURL: "")
     static var newInstance: InstanceData?
     
-    static var allAccounts: [String] = []
-    static var allAccounts2: [String] = []
-    static var allAccounts3: [String] = []
-    
     static var baseTint = UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1)
     static var arrayCols: [UIColor] = [UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1), UIColor.systemPurple, UIColor.systemBlue, UIColor(red: 84/255, green: 162/255, blue: 245/255, alpha: 1), UIColor(red: 34/255, green: 139/255, blue: 34/255, alpha: 1), UIColor.systemGreen, UIColor.systemYellow, UIColor.systemOrange, UIColor.systemRed, UIColor.systemPink, UIColor(red: 237/255, green: 121/255, blue: 195/255, alpha: 1), UIColor.brown, UIColor.systemGray]
     static var colNames: [String] = ["Mast Indigo", "Electric Purple", "Calm Blue", "Sky Blue", "Forest Green", "Lush Green", "Banana Yellow", "Sunset Orange", "Berry Red", "Bubblegum Pink", "Hot Pink", "Island Brown", "Ash Gray"]

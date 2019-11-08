@@ -163,7 +163,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
@@ -193,9 +192,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
-        }
-        if UserDefaults.standard.value(forKey: "sync-chosenAccount") == nil {
-            UserDefaults.standard.set(0, forKey: "sync-chosenAccount")
         }
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
@@ -353,10 +349,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.currentUser = stat
-                    
-                    GlobalStruct.allAccounts.append(stat.displayName)
-                    GlobalStruct.allAccounts2.append("@\(stat.username)")
-                    GlobalStruct.allAccounts3.append(stat.avatar)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
                     
                     #if targetEnvironment(macCatalyst)
@@ -1275,7 +1267,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             DispatchQueue.main.async {
                 self.textField.resignFirstResponder()
                 
-                
                 if self.newInstance {
                     GlobalStruct.newInstance = InstanceData()
                     GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
@@ -1313,8 +1304,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             GlobalStruct.newInstance?.clientID = application.clientID
                             GlobalStruct.newInstance?.clientSecret = application.clientSecret
                             GlobalStruct.newInstance?.returnedText = returnedText
+                            GlobalStruct.newInstance?.redirect = "com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                             DispatchQueue.main.async {
-                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
                                         if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
@@ -1429,63 +1421,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         DispatchQueue.main.async {
                             UIApplication.shared.registerForRemoteNotifications()
                         }
-                    }
-                    
-                }
-            } catch let error {
-                print(error.localizedDescription)
-            }
-        })
-        task.resume()
-    }
-    
-    @objc func newInstanceLogged() {
-        self.loginBG.removeFromSuperview()
-        self.loginLogo.removeFromSuperview()
-        self.loginLabel.removeFromSuperview()
-        self.textField.removeFromSuperview()
-        self.safariVC?.dismiss(animated: true, completion: nil)
-        
-        var request = URLRequest(url: URL(string: "https://\(GlobalStruct.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.newInstance!.authCode)&redirect_uri=\(GlobalStruct.newInstance!.redirect)&client_id=\(GlobalStruct.newInstance!.clientID)&client_secret=\(GlobalStruct.newInstance!.clientSecret)&scope=read%20write%20follow%20push")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-            guard error == nil else { print("error"); return }
-            guard let data = data else { return }
-            guard let newInstance = GlobalStruct.newInstance else {
-                return
-            }
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                    
-                    if let access1 = (json["access_token"] as? String) {
-                        
-                        GlobalStruct.client = GlobalStruct.newClient
-                        newInstance.accessToken = access1
-                        InstanceData.setCurrentInstance(instance: newInstance)
-                        
-                        UserDefaults.standard.set(GlobalStruct.client.accessToken, forKey: "accessToken")
-                        
-                        let request2 = Accounts.currentUser()
-                        GlobalStruct.client.run(request2) { (statuses) in
-                            if let stat = (statuses.value) {
-                                DispatchQueue.main.async {
-                                    Account.addAccountToList(account: stat)
-                                }
-                            }
-                        }
-                        
-                        self.initialFetches()
-                        
-                        let center = UNUserNotificationCenter.current()
-                        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-                            DispatchQueue.main.async {
-                                UIApplication.shared.registerForRemoteNotifications()
-                            }
-                        }
-                        
                     }
                     
                 }
