@@ -1409,6 +1409,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     GlobalStruct.client.run(request2) { (statuses) in
                         if let stat = (statuses.value) {
                             DispatchQueue.main.async {
+                                var instances = InstanceData.getAllInstances()
+                                instances.append(GlobalStruct.currentInstance)
+                                UserDefaults.standard.set(try? PropertyListEncoder().encode(instances), forKey: "instances")
                                 Account.addAccountToList(account: stat)
                             }
                         }

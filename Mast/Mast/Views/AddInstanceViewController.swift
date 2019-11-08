@@ -69,14 +69,14 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                 
                 if self.newInstance {
                     GlobalStruct.newInstance = InstanceData()
-                    GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
+                    GlobalStruct.newClient = Client(baseURL: "https://\(returnedText)")
                     let request = Clients.register(
                         clientName: "Mast",
                         redirectURI: "com.shi.Mast2://addNewInstance",
                         scopes: [.read, .write, .follow, .push],
                         website: "https://twitter.com/jpeguin"
                     )
-                    GlobalStruct.client.run(request) { (application) in
+                    GlobalStruct.newClient.run(request) { (application) in
                         if application.value == nil {
                             DispatchQueue.main.async {
                                 let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
@@ -209,6 +209,9 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                         GlobalStruct.client.run(request2) { (statuses) in
                             if let stat = (statuses.value) {
                                 DispatchQueue.main.async {
+                                    var instances = InstanceData.getAllInstances()
+                                    instances.append(newInstance)
+                                    UserDefaults.standard.set(try? PropertyListEncoder().encode(instances), forKey: "instances")
                                     Account.addAccountToList(account: stat)
                                     FirstViewController().initialFetches()
                                     self.dismiss(animated: true, completion: nil)
