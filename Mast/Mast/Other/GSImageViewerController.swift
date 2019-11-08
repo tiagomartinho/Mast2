@@ -20,6 +20,8 @@ public struct GSImageInfo {
     public let imageMode : ImageMode
     public var imageHD   : URL?
     public var imageText : String? = ""
+    public var imageText2 : Int? = 0
+    public var imageText3 : Int? = 0
     
     public var contentMode : UIView.ContentMode {
         return UIView.ContentMode(rawValue: imageMode.rawValue)!
@@ -30,10 +32,12 @@ public struct GSImageInfo {
         self.imageMode = imageMode
     }
     
-    public init(image: UIImage, imageMode: ImageMode, imageHD: URL?, imageText: String? = "") {
+    public init(image: UIImage, imageMode: ImageMode, imageHD: URL?, imageText: String? = "", imageText2: Int? = 0, imageText3: Int? = 0) {
         self.init(image: image, imageMode: imageMode)
         self.imageHD = imageHD
         self.imageText = imageText
+        self.imageText2 = imageText2
+        self.imageText3 = imageText3
     }
     
     func calculate(rect: CGRect, origin: CGPoint? = nil, imageMode: ImageMode? = nil) -> CGRect {
@@ -92,6 +96,7 @@ open class GSImageViewerController: UIViewController {
 
     public let detailView = UIButton()
     public let detailText = ActiveLabel()
+    public let detailView2 = UIButton()
     
     public let imageInfo: GSImageInfo
     
@@ -140,8 +145,8 @@ open class GSImageViewerController: UIViewController {
         }
     }
     
-    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?, imageText: String? = "") {
-        let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD, imageText: imageText)
+    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?, imageText: String? = "", imageText2: Int? = 0, imageText3: Int? = 0) {
+        let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD, imageText: imageText, imageText2: imageText2, imageText3: imageText3)
         
         if let fromView = fromView {
             self.init(imageInfo: imageInfo, transitionInfo: GSTransitionInfo(fromView: fromView))
@@ -230,17 +235,64 @@ open class GSImageViewerController: UIViewController {
         detailView.frame.origin.y = detailText.frame.origin.y - 8
         detailView.frame.origin.x = detailText.frame.origin.x - 10
         
+        detailView2.layer.cornerRadius = 10
+        if #available(iOS 13.0, *) {
+            detailView2.backgroundColor = UIColor(named: "darkGray")!
+            detailView2.layer.cornerCurve = .continuous
+        }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: self.imageInfo.imageText2 ?? 0))
+        let numberFormatter2 = NumberFormatter()
+        numberFormatter2.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: self.imageInfo.imageText3 ?? 0))
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 4, weight: .bold)
+        let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 2)
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor.white.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.white.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attStringNewLine = NSMutableAttributedString(string: "\(formattedNumber ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(1)])
+        let attStringNewLine2 = NSMutableAttributedString(string: "\(formattedNumber2 ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(1)])
+        let attString = NSAttributedString(attachment: attachment)
+        let attString2 = NSAttributedString(attachment: attachment2)
+        let fullString = NSMutableAttributedString(string: "")
+        let spaceString0 = NSMutableAttributedString(string: " ")
+        let spaceString = NSMutableAttributedString(string: "  ")
+        fullString.append(attString)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine)
+        fullString.append(spaceString)
+        fullString.append(attString2)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine2)
+        detailView2.setAttributedTitle(fullString, for: .normal)
+        detailView2.contentHorizontalAlignment = .left
+        detailView2.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        detailView2.sizeToFit()
+        detailView2.frame.origin.y = detailView.frame.origin.y - detailView2.bounds.height - 10
+        detailView2.frame.origin.x = detailView.frame.origin.x
+        self.view.addSubview(detailView2)
+        
         detailView.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
         detailView.layer.shadowOffset = CGSize(width: 0, height: 12)
         detailView.layer.shadowRadius = 12
         detailView.layer.shadowOpacity = 0.18
-
+        
+        detailView2.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
+        detailView2.layer.shadowOffset = CGSize(width: 0, height: 12)
+        detailView2.layer.shadowRadius = 12
+        detailView2.layer.shadowOpacity = 0.18
+        
         UIView.animate(withDuration: transitionInfo?.duration ?? 2, animations: {
             if self.imageInfo.imageText == "" {
                 self.detailView.alpha = 0
+                self.detailView2.alpha = 0
                 self.detailText.alpha = 0
             } else {
                 self.detailView.alpha = 1
+                self.detailView2.alpha = 1
                 self.detailText.alpha = 1
             }
         }, completion: { _ in
@@ -328,6 +380,7 @@ open class GSImageViewerController: UIViewController {
             UIView.animate(withDuration: 0.2,
                            animations: {
                             self.detailView.alpha = 0
+                            self.detailView2.alpha = 0
                             self.detailText.alpha = 0
             },
                            completion: { _ in
@@ -358,6 +411,7 @@ open class GSImageViewerController: UIViewController {
                     self.view.backgroundColor = self.backgroundColor
 
                     self.detailView.alpha = 1
+                    self.detailView2.alpha = 1
                     self.detailText.alpha = 1
                 },
                 completion: { _ in
