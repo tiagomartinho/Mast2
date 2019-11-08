@@ -40,6 +40,7 @@ class GlobalStruct {
     static var heaFile = "header"
     
     static var tappedURL = URL(string: "www.google.com")
+    static var tappedImageText = ""
 }
 
 class PaddedTextField: UITextField {

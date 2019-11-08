@@ -1,6 +1,5 @@
 PODS:
   - ActiveLabel (1.1.0)
-  - GSImageViewerController (1.6.2)
   - InputBarAccessoryView (4.2.2)
   - MessageKit (3.0.0):
     - InputBarAccessoryView (~> 4.2.2)
@@ -10,25 +9,22 @@ PODS:
 
 DEPENDENCIES:
   - ActiveLabel
-  - GSImageViewerController
   - MessageKit
   - SDWebImage
 
 SPEC REPOS:
   trunk:
     - ActiveLabel
-    - GSImageViewerController
     - InputBarAccessoryView
     - MessageKit
     - SDWebImage
 
 SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
-  GSImageViewerController: 3b8fb7d2ab7596152329d7910eeb1905b2284cb9
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
   MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
   SDWebImage: f1afa74b86587c2c63f4e80dfd39b21e3c17b45b
 
-PODFILE CHECKSUM: 4a40be47a6cba79f4ee6e7577be6f417df6e65f7
+PODFILE CHECKSUM: 34066ee5530b8c8e7278bb209405d09a6eec97b5
 
 COCOAPODS: 1.8.4

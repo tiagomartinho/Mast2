@@ -18,6 +18,7 @@ public struct GSImageInfo {
     public let image     : UIImage
     public let imageMode : ImageMode
     public var imageHD   : URL?
+    public var imageText : String? = ""
     
     public var contentMode : UIView.ContentMode {
         return UIView.ContentMode(rawValue: imageMode.rawValue)!
@@ -28,9 +29,10 @@ public struct GSImageInfo {
         self.imageMode = imageMode
     }
     
-    public init(image: UIImage, imageMode: ImageMode, imageHD: URL?) {
+    public init(image: UIImage, imageMode: ImageMode, imageHD: URL?, imageText: String? = "") {
         self.init(image: image, imageMode: imageMode)
         self.imageHD = imageHD
+        self.imageText = imageText
     }
     
     func calculate(rect: CGRect, origin: CGPoint? = nil, imageMode: ImageMode? = nil) -> CGRect {
@@ -134,8 +136,8 @@ open class GSImageViewerController: UIViewController {
         }
     }
     
-    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?) {
-        let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD)
+    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?, imageText: String? = "") {
+        let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD, imageText: imageText)
         
         if let fromView = fromView {
             self.init(imageInfo: imageInfo, transitionInfo: GSTransitionInfo(fromView: fromView))
@@ -195,24 +197,40 @@ open class GSImageViewerController: UIViewController {
         let detailView = UIButton()
         detailView.layer.cornerRadius = 8
         if #available(iOS 13.0, *) {
-            detailView.frame = CGRect(x: 20, y: self.view.bounds.height - 60 - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0), width: self.view.bounds.width - 40, height: 50)
             detailView.backgroundColor = UIColor(named: "darkGray")!
             detailView.layer.cornerCurve = .continuous
         }
-        detailView.setTitle("Example image preview text will go here, maybe part of the actual toot or just the assisting captions that accompany the image and its details.", for: .normal)
-        detailView.setTitleColor(UIColor.white, for: .normal)
-        detailView.titleLabel?.numberOfLines = 0
-        detailView.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-        detailView.titleLabel?.textAlignment = .left
-        detailView.contentHorizontalAlignment = .left
-        detailView.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
-//        detailView.sizeToFit()
-        detailView.frame.size = detailView.sizeThatFits(CGSize.zero)
-        detailView.frame.size.width = self.view.bounds.width - 40
-        if #available(iOS 13.0, *) {
-            detailView.frame.origin.y = self.view.bounds.height - detailView.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
-        }
         self.view.addSubview(detailView)
+        
+        let detailText = UILabel()
+        if #available(iOS 11.0, *) {
+            detailText.frame = CGRect(x: 30, y: self.view.bounds.height - 60 - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0), width: self.view.bounds.width - 60, height: 50)
+        }
+        detailText.textAlignment = .left
+        detailText.text = imageInfo.imageText
+        detailText.textColor = UIColor.white
+        detailText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        detailText.isUserInteractionEnabled = false
+        detailText.numberOfLines = 0
+        detailText.sizeToFit()
+        if #available(iOS 13.0, *) {
+            detailText.frame.origin.y = self.view.bounds.height - detailText.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
+        }
+        self.view.addSubview(detailText)
+        
+        detailView.frame = detailText.frame
+        detailView.frame.size.width = self.view.bounds.width - 40
+        detailView.frame.size.height = detailText.bounds.height + 10
+        detailView.frame.origin.y = detailText.frame.origin.y - 5
+        detailView.frame.origin.x = detailText.frame.origin.x - 10
+        
+        if imageInfo.imageText == "" {
+            detailView.alpha = 0
+            detailText.alpha = 0
+        } else {
+            detailView.alpha = 1
+            detailText.alpha = 1
+        }
     }
     
     fileprivate func setupGesture() {

@@ -124,6 +124,7 @@
 		5395A7622372FEB1002253A8 /* LikedBoostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */; };
 		53AF450423742F05001A3574 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450323742F05001A3574 /* ListViewController.swift */; };
 		53AF4506237463FA001A3574 /* ListMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4505237463FA001A3574 /* ListMembersViewController.swift */; };
+		53AF4508237567EF001A3574 /* GSImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4507237567EE001A3574 /* GSImageViewerController.swift */; };
 		53B5F1DE233BC4BA0099B170 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1DD233BC4BA0099B170 /* NotificationService.swift */; };
 		53B5F1E2233BC4BA0099B170 /* Mast Push.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53B5F1DB233BC4BA0099B170 /* Mast Push.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53B5F1ED233BC5600099B170 /* SwiftGCM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1E8233BC5600099B170 /* SwiftGCM.swift */; };
@@ -289,6 +290,7 @@
 		5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedBoostedViewController.swift; sourceTree = "<group>"; };
 		53AF450323742F05001A3574 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		53AF4505237463FA001A3574 /* ListMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewController.swift; sourceTree = "<group>"; };
+		53AF4507237567EE001A3574 /* GSImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSImageViewerController.swift; sourceTree = "<group>"; };
 		53B5F1DB233BC4BA0099B170 /* Mast Push.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Mast Push.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B5F1DD233BC4BA0099B170 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		53B5F1DF233BC4BA0099B170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 				5379F41423311A5700DC1F33 /* StripHTML.swift */,
 				5379F427233271D800DC1F33 /* Date.swift */,
 				5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */,
+				53AF4507237567EE001A3574 /* GSImageViewerController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				5339C600233FC74000770651 /* ImageViewController.swift in Sources */,
 				53449DCB23294C1000A470E2 /* Favourites.swift in Sources */,
 				53449DAB23294C1000A470E2 /* Attachment.swift in Sources */,
+				53AF4508237567EF001A3574 /* GSImageViewerController.swift in Sources */,
 				532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */,
 				5379F4322333C3F800DC1F33 /* ProfileImageCell.swift in Sources */,
 				53449DCF23294C1000A470E2 /* Media.swift in Sources */,

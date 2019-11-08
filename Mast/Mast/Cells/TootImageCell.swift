@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import GSImageViewerController
 import SDWebImage
 import AVKit
 import AVFoundation
@@ -143,7 +142,9 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         fatalError("init(coder:) has not been implemented")
     }
     
+    var currentStat: Status!
     func configure(_ stat: Status) {
+        self.currentStat = stat
         self.images = stat.mediaAttachments
         self.collectionView1.reloadData()
         
@@ -217,7 +218,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 }
             }
         } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]))
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: self.currentStat.content.stripHTML())
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)

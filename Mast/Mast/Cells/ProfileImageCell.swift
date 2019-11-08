@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import GSImageViewerController
 import SDWebImage
 import AVKit
 import AVFoundation
@@ -44,7 +43,9 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         fatalError("init(coder:) has not been implemented")
     }
     
+    var currentStat: [Status] = []
     func configure(_ status: [Status]) {
+        self.currentStat = status
         self.profileStatusesImages = status
         self.collectionView.reloadData()
         
@@ -103,7 +104,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 }
             }
         } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]))
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: self.currentStat[indexPath.item].content.stripHTML())
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)

@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import GSImageViewerController
 import SDWebImage
 import ActiveLabel
 

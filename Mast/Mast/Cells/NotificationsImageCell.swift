@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import GSImageViewerController
 import SDWebImage
 import AVKit
 import AVFoundation
@@ -174,7 +173,9 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         fatalError("init(coder:) has not been implemented")
     }
     
+    var currentStat: Status!
     func configure(_ noti: Notificationt) {
+        self.currentStat = noti.status
         self.images = noti.status?.mediaAttachments ?? []
         self.collectionView1.reloadData()
         
@@ -303,7 +304,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 }
             }
         } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]))
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: self.currentStat.content.stripHTML())
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)

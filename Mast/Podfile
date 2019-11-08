@@ -6,7 +6,6 @@ target 'Mast' do
   use_frameworks!
 
   # Pods for Mast
-pod "GSImageViewerController"
 pod 'MessageKit'
 pod 'SDWebImage'
 pod 'ActiveLabel'
