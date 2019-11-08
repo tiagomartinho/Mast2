@@ -344,6 +344,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func initialFetches() {
+        
+//        GlobalStruct.currentUser = nil
+//        GlobalStruct.statusesHome = []
+//        GlobalStruct.statusesLocal = []
+//        GlobalStruct.statusesFed = []
+//        GlobalStruct.notifications = []
+//        GlobalStruct.notificationsDirect = []
+        
         let request0 = Accounts.currentUser()
         GlobalStruct.client.run(request0) { (statuses) in
             if let stat = (statuses.value) {

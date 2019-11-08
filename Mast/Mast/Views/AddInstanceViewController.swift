@@ -214,6 +214,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                                     UserDefaults.standard.set(try? PropertyListEncoder().encode(instances), forKey: "instances")
                                     Account.addAccountToList(account: stat)
                                     FirstViewController().initialFetches()
+                                    FourthViewController().initialFetches()
                                     self.dismiss(animated: true, completion: nil)
                                 }
                             }

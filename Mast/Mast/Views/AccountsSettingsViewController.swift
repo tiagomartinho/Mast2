@@ -147,6 +147,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
                     )
                     self.tableView.reloadData()
                     FirstViewController().initialFetches()
+                    FourthViewController().initialFetches()
                 }
             }
             
