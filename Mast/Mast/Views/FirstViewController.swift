@@ -191,6 +191,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
         }
+        if UserDefaults.standard.value(forKey: "sync-chosenAccount") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-chosenAccount")
+        }
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
         let item00 = UIApplicationShortcutItem(type: "com.shi.Mast2.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
@@ -348,6 +351,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.currentUser = stat
+                    
+                    GlobalStruct.allAccounts.append(stat.displayName)
+                    GlobalStruct.allAccounts2.append("@\(stat.username)")
+                    GlobalStruct.allAccounts3.append(stat.avatar)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
 
                     #if targetEnvironment(macCatalyst)

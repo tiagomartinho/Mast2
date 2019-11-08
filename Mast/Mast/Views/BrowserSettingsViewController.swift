@@ -37,7 +37,7 @@ class BrowserSettingsViewController: UIViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "Default Browser".localized
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -80,7 +80,7 @@ class BrowserSettingsViewController: UIViewController, UITableViewDataSource, UI
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
         cell.backgroundColor = UIColor(named: "baseWhite")
         
-        let descriptionSideString = NSMutableAttributedString(string: "   \(self.allBrowsers[indexPath.row])", attributes: [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+        let descriptionSideString = NSMutableAttributedString(string: self.allBrowsers[indexPath.row], attributes: [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
         cell.textLabel?.attributedText = descriptionSideString
         if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenBrowser") as! Int) {
             cell.accessoryType = .checkmark

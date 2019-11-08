@@ -1,15 +1,16 @@
 //
-//  TintSettingsViewController.swift
+//  AccountsSettingsViewController.swift
 //  Mast
 //
-//  Created by Shihab Mehboob on 03/10/2019.
+//  Created by Shihab Mehboob on 08/11/2019.
 //  Copyright © 2019 Shihab Mehboob. All rights reserved.
 //
 
 import Foundation
 import UIKit
+import SDWebImage
 
-class TintSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class AccountsSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -35,13 +36,22 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
-        self.title = "App Tint".localized
+        self.title = "Accounts".localized
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
+        // Add button
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        let btn2 = UIButton(type: .custom)
+        btn2.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn2.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
+        btn2.accessibilityLabel = "Add".localized
+        let settingsButton = UIBarButtonItem(customView: btn2)
+        self.navigationItem.setRightBarButton(settingsButton, animated: true)
+        
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell")
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell1")
+        self.tableView.register(AccountCell.self, forCellReuseIdentifier: "AccountCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.backgroundColor = UIColor.clear
@@ -51,6 +61,10 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
         self.tableView.showsVerticalScrollIndicator = false
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
+    }
+    
+    @objc func addTapped() {
+        
     }
     
     //MARK: TableView
@@ -64,11 +78,11 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalStruct.arrayCols.count
+        return GlobalStruct.allAccounts.count
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-startTint") as! Int) {
+        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -76,18 +90,12 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
         cell.backgroundColor = UIColor(named: "baseWhite")
+
+        cell.configure(GlobalStruct.allAccounts[indexPath.row], op2: GlobalStruct.allAccounts2[indexPath.row], op3: GlobalStruct.allAccounts3[indexPath.row])
         
-        let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-        let clockImage = UIImage(systemName: "circle.fill", withConfiguration: symbolConfig0)
-        let tintedClockImage = clockImage?.withTintColor(GlobalStruct.arrayCols[indexPath.row], renderingMode: .alwaysOriginal)
-        let attachment = NSTextAttachment(image: tintedClockImage!)
-        let clockString = NSAttributedString(attachment: attachment)
-        let descriptionSideString = NSMutableAttributedString(string: "   \(GlobalStruct.colNames[indexPath.row])", attributes: [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
-        descriptionSideString.insert(clockString, at: 0)
-        cell.textLabel?.attributedText = descriptionSideString
-        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-startTint") as! Int) {
+        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -99,11 +107,8 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         DispatchQueue.main.async {
-            GlobalStruct.baseTint = GlobalStruct.arrayCols[indexPath.row]
-            UserDefaults.standard.set(indexPath.row, forKey: "sync-startTint")
+            UserDefaults.standard.set(indexPath.row, forKey: "sync-chosenAccount")
             self.tableView.reloadData()
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "notifChangeTint"), object: self)
-            self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
         }
     }
 }

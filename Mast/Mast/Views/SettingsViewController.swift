@@ -29,8 +29,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized]
-    let secondSection = ["Default Browser".localized, "URL Schemes".localized, "Siri Shortcuts".localized]
-    let bioSection = ["\("App Lock".localized)"]
+    let secondSection = ["Default Browser".localized, "URL Schemes".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
     
     override func viewDidLayoutSubviews() {
@@ -59,7 +59,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButton(settingsButton, animated: true)
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
@@ -105,7 +105,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 0
+            return 1
         } else if section == 1 {
             if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                 return self.firstSectionPad.count
@@ -115,7 +115,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         } else if section == 2 {
             return self.secondSection.count
         } else if section == 3 {
-            return self.bioSection.count
+            return self.accountSection.count
         } else {
             return self.thirdSection.count
         }
@@ -143,7 +143,14 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             firstSectionToUse = self.firstSectionPad
         }
-//        if indexPath.section == 0 {
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
+            cell.imageView?.image = UIImage(systemName: "lock.open", withConfiguration: symbolConfig) ?? UIImage()
+            cell.textLabel?.text = "Unlock Mast Pro (placeholder)"
+            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.accessoryType = .none
+            return cell
+            
 //            if GlobalStruct.iapPurchased {
 //                let cell = tableView.dequeueReusableCell(withIdentifier: "IAPCell2", for: indexPath) as! IAPCell2
 //                cell.selectionStyle = .none
@@ -155,8 +162,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 //                cell.backgroundColor = UIColor(named: "baseWhite")
 //                return cell
 //            }
-//        } else if indexPath.section == 1 {
-        if indexPath.section == 1 {
+        } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
             cell.textLabel?.text = firstSectionToUse[indexPath.row]
             if indexPath.row == 0 {
@@ -197,17 +203,20 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             } else if indexPath.row == 1 {
                 cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else {
+            } else if indexPath.row == 2 {
                 cell.imageView?.image = UIImage(systemName: "mic", withConfiguration: symbolConfig) ?? UIImage()
+                cell.accessoryType = .none
+            } else {
+                cell.imageView?.image = UIImage(systemName: "lock", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             }
             cell.backgroundColor = UIColor(named: "baseWhite")
             return cell
         } else if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell5", for: indexPath)
-            cell.imageView?.image = UIImage(systemName: "lock", withConfiguration: symbolConfig) ?? UIImage()
+            cell.imageView?.image = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig) ?? UIImage()
             cell.accessoryType = .disclosureIndicator
-            cell.textLabel?.text = self.bioSection[indexPath.row]
+            cell.textLabel?.text = self.accountSection[indexPath.row]
             cell.backgroundColor = UIColor(named: "baseWhite")
             return cell
         } else {
@@ -256,18 +265,17 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else if indexPath.section == 3 {
-//            if GlobalStruct.iapPurchased {
-//                let vc = LockSettingsViewController()
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
+            if indexPath.row == 0 {
+                let vc = AccountsSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else {
-//            if indexPath.row == 0 {
-//                let vc = GraphSettingsViewController()
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            } else {
-//                let vc = GetInTouchSettingsViewController()
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
+            if indexPath.row == 0 {
+                
+            } else {
+                let vc = GetInTouchSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
