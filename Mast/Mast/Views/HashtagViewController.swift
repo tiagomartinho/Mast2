@@ -57,7 +57,7 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        GlobalStruct.currentTab = 999
+        GlobalStruct.currentTab = 998
     }
     
     @objc func refreshTable1() {
@@ -70,6 +70,13 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.tableView.reloadInputViews()
     }
     
+    @objc func openTootDetail() {
+        let vc = DetailViewController()
+        vc.isPassedID = true
+        vc.passedID = GlobalStruct.thePassedID
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -80,6 +87,7 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail7"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

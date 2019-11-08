@@ -122,6 +122,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     
+    @objc func openTootDetail() {
+        let vc = DetailViewController()
+        vc.isPassedID = true
+        vc.passedID = GlobalStruct.thePassedID
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -132,6 +139,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail5"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

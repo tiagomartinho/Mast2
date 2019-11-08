@@ -147,6 +147,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
     }
     
+    @objc func openTootDetail() {
+        let vc = DetailViewController()
+        vc.isPassedID = true
+        vc.passedID = GlobalStruct.thePassedID
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
@@ -158,6 +165,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail1"), object: nil)
         
         if UserDefaults.standard.object(forKey: "clientID") == nil {} else {
             GlobalStruct.clientID = UserDefaults.standard.object(forKey: "clientID") as! String

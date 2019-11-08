@@ -35,6 +35,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var isBoosted = false
     let btn1 = UIButton(type: .custom)
     var fromContextMenu = false
+    var isPassedID = false
+    var passedID = ""
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -63,11 +65,33 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.reloadInputViews()
     }
     
+    func fetchFromID() {
+        let request = Statuses.status(id: passedID)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.pickedStatusesHome = [stat]
+                    if self.pickedStatusesHome.first?.reblogged ?? false {
+                        self.isBoosted = true
+                    } else {
+                        self.isBoosted = false
+                    }
+                    if self.pickedStatusesHome.first?.favourited ?? false {
+                        self.isLiked = true
+                    } else {
+                        self.isLiked = false
+                    }
+                    self.fetchReplies()
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Detail".localized
-//        self.removeTabbarItemsText()
+        //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
@@ -111,18 +135,21 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)
         self.view.addSubview(self.detailPrev)
         
-        if self.pickedStatusesHome.first?.reblogged ?? false {
-            self.isBoosted = true
+        if self.isPassedID {
+            self.fetchFromID()
         } else {
-            self.isBoosted = false
+            if self.pickedStatusesHome.first?.reblogged ?? false {
+                self.isBoosted = true
+            } else {
+                self.isBoosted = false
+            }
+            if self.pickedStatusesHome.first?.favourited ?? false {
+                self.isLiked = true
+            } else {
+                self.isLiked = false
+            }
+            self.fetchReplies()
         }
-        if self.pickedStatusesHome.first?.favourited ?? false {
-            self.isLiked = true
-        } else {
-            self.isLiked = false
-        }
-        
-        self.fetchReplies()
     }
     
     func fetchReplies() {
@@ -271,72 +298,81 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
         } else if indexPath.section == 1 {
-            if self.pickedStatusesHome[0].mediaAttachments.isEmpty {
+            if self.pickedStatusesHome.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
-                if self.pickedStatusesHome.isEmpty {} else {
-                    cell.configure(self.pickedStatusesHome[0])
-                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                    cell.profile.tag = indexPath.row
-                    cell.profile.addGestureRecognizer(tap)
-                    cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
-                    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                }
-                
-                cell.content.handleMentionTap { (string) in
-                    let vc = FifthViewController()
-                    vc.isYou = false
-                    vc.isTapped = true
-                    vc.userID = string
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                cell.content.handleHashtagTap { (string) in
-                    let vc = HashtagViewController()
-                    vc.theHashtag = string
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                cell.content.handleURLTap { (string) in
-                    GlobalStruct.tappedURL = string
-                    ViewController().openLink()
-                }
-                
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailImageCell", for: indexPath) as! DetailImageCell
-                if self.pickedStatusesHome.isEmpty {} else {
-                    cell.configure(self.pickedStatusesHome[0])
-                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                    cell.profile.tag = indexPath.row
-                    cell.profile.addGestureRecognizer(tap)
-                    cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
-                    cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                if self.pickedStatusesHome[0].mediaAttachments.isEmpty {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
+                    if self.pickedStatusesHome.isEmpty {} else {
+                        cell.configure(self.pickedStatusesHome[0])
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                        cell.profile.tag = indexPath.row
+                        cell.profile.addGestureRecognizer(tap)
+                        cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
+                        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                    }
+                    
+                    cell.content.handleMentionTap { (string) in
+                        let vc = FifthViewController()
+                        vc.isYou = false
+                        vc.isTapped = true
+                        vc.userID = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    cell.content.handleHashtagTap { (string) in
+                        let vc = HashtagViewController()
+                        vc.theHashtag = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    cell.content.handleURLTap { (string) in
+                        GlobalStruct.tappedURL = string
+                        ViewController().openLink()
+                    }
+                    
+                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    let bgColorView = UIView()
+                    bgColorView.backgroundColor = UIColor.clear
+                    cell.selectedBackgroundView = bgColorView
+                    return cell
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "DetailImageCell", for: indexPath) as! DetailImageCell
+                    if self.pickedStatusesHome.isEmpty {} else {
+                        cell.configure(self.pickedStatusesHome[0])
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                        cell.profile.tag = indexPath.row
+                        cell.profile.addGestureRecognizer(tap)
+                        cell.metrics.addTarget(self, action: #selector(self.metricsTapped), for: .touchUpInside)
+                        cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                    }
+                    
+                    cell.content.handleMentionTap { (string) in
+                        let vc = FifthViewController()
+                        vc.isYou = false
+                        vc.isTapped = true
+                        vc.userID = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    cell.content.handleHashtagTap { (string) in
+                        let vc = HashtagViewController()
+                        vc.theHashtag = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    cell.content.handleURLTap { (string) in
+                        GlobalStruct.tappedURL = string
+                        ViewController().openLink()
+                    }
+                    
+                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    let bgColorView = UIView()
+                    bgColorView.backgroundColor = UIColor.clear
+                    cell.selectedBackgroundView = bgColorView
+                    return cell
                 }
-                
-                cell.content.handleMentionTap { (string) in
-                    let vc = FifthViewController()
-                    vc.isYou = false
-                    vc.isTapped = true
-                    vc.userID = string
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                cell.content.handleHashtagTap { (string) in
-                    let vc = HashtagViewController()
-                    vc.theHashtag = string
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                cell.content.handleURLTap { (string) in
-                    GlobalStruct.tappedURL = string
-                    ViewController().openLink()
-                }
-                
-                cell.backgroundColor = UIColor(named: "baseWhite")
-                let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor.clear
-                cell.selectedBackgroundView = bgColorView
-                return cell
             }
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DetailActionsCell", for: indexPath) as! DetailActionsCell

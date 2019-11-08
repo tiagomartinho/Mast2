@@ -41,6 +41,7 @@ class GlobalStruct {
     
     static var tappedURL = URL(string: "www.google.com")
     static var tappedImageText = ""
+    static var thePassedID = ""
 }
 
 class PaddedTextField: UITextField {

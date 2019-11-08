@@ -22,6 +22,7 @@ public struct GSImageInfo {
     public var imageText : String? = ""
     public var imageText2 : Int? = 0
     public var imageText3 : Int? = 0
+    public var imageText4 : String? = ""
     
     public var contentMode : UIView.ContentMode {
         return UIView.ContentMode(rawValue: imageMode.rawValue)!
@@ -32,12 +33,13 @@ public struct GSImageInfo {
         self.imageMode = imageMode
     }
     
-    public init(image: UIImage, imageMode: ImageMode, imageHD: URL?, imageText: String? = "", imageText2: Int? = 0, imageText3: Int? = 0) {
+    public init(image: UIImage, imageMode: ImageMode, imageHD: URL?, imageText: String? = "", imageText2: Int? = 0, imageText3: Int? = 0, imageText4: String? = "") {
         self.init(image: image, imageMode: imageMode)
         self.imageHD = imageHD
         self.imageText = imageText
         self.imageText2 = imageText2
         self.imageText3 = imageText3
+        self.imageText4 = imageText4
     }
     
     func calculate(rect: CGRect, origin: CGPoint? = nil, imageMode: ImageMode? = nil) -> CGRect {
@@ -145,8 +147,8 @@ open class GSImageViewerController: UIViewController {
         }
     }
     
-    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?, imageText: String? = "", imageText2: Int? = 0, imageText3: Int? = 0) {
-        let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD, imageText: imageText, imageText2: imageText2, imageText3: imageText3)
+    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?, imageText: String? = "", imageText2: Int? = 0, imageText3: Int? = 0, imageText4: String? = "") {
+        let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD, imageText: imageText, imageText2: imageText2, imageText3: imageText3, imageText4: imageText4)
         
         if let fromView = fromView {
             self.init(imageInfo: imageInfo, transitionInfo: GSTransitionInfo(fromView: fromView))
@@ -198,6 +200,39 @@ open class GSImageViewerController: UIViewController {
         view.addSubview(scrollView)
     }
     
+    @objc func viewTootTapped() {
+        dismiss(animated: true, completion: {
+            GlobalStruct.thePassedID = self.imageInfo.imageText4 ?? ""
+            if GlobalStruct.currentTab == 1 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail1"), object: nil)
+            }
+            if GlobalStruct.currentTab == 2 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail2"), object: nil)
+            }
+            if GlobalStruct.currentTab == 3 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail3"), object: nil)
+            }
+            if GlobalStruct.currentTab == 4 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail4"), object: nil)
+            }
+            if GlobalStruct.currentTab == 5 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail5"), object: nil)
+            }
+            if GlobalStruct.currentTab == 999 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail6"), object: nil)
+            }
+            if GlobalStruct.currentTab == 998 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail7"), object: nil)
+            }
+            if GlobalStruct.currentTab == 997 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail8"), object: nil)
+            }
+            if GlobalStruct.currentTab == 996 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail9"), object: nil)
+            }
+        })
+    }
+    
     fileprivate func setupImageView() {
         imageView.image = imageInfo.image
         imageView.contentMode = .scaleAspectFit
@@ -208,6 +243,7 @@ open class GSImageViewerController: UIViewController {
             detailView.backgroundColor = UIColor(named: "darkGray")!
             detailView.layer.cornerCurve = .continuous
         }
+        detailView.addTarget(self, action: #selector(self.viewTootTapped), for: .touchUpInside)
         self.view.addSubview(detailView)
         
         if #available(iOS 11.0, *) {
