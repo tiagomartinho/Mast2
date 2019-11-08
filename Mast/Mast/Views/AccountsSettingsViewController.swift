@@ -113,12 +113,6 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
         let account = Account.getAccounts()[indexPath.item]
         cell.configure(account.displayName, op2: "@\(account.username)\(instanceAndAccount)", op3: account.avatar)
         
-//        if indexPath.row == (UserDefaults.standard.value(forKey: "sync-chosenAccount") as! Int) {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
-
         let instances = InstanceData.getAllInstances()
         if instances.isEmpty || Account.getAccounts().isEmpty {
             cell.accessoryType = .none
@@ -157,6 +151,38 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
             }
             
         }
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
+            let instances = InstanceData.getAllInstances()
+            if instances.isEmpty || Account.getAccounts().isEmpty {
+                return nil
+            } else {
+                let curr = InstanceData.getCurrentInstance()
+                if curr?.clientID == instances[indexPath.item].clientID {
+                    return nil
+                } else {
+                    return self.makeContextMenu([""], indexPath: indexPath)
+                }
+            }
+        })
+    }
+    
+    func makeContextMenu(_ status: [String], indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            var instance = InstanceData.getAllInstances()
+            var account = Account.getAccounts()
+            account.remove(at: indexPath.row)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(account), forKey:"allAccounts")
+            instance.remove(at: indexPath.row)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(instance), forKey:"instances")
+            self.tableView.reloadData()
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
     }
 }
 
