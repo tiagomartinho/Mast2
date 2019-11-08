@@ -237,7 +237,7 @@ open class GSImageViewerController: UIViewController {
         
         detailView2.layer.cornerRadius = 10
         if #available(iOS 13.0, *) {
-            detailView2.backgroundColor = UIColor(named: "darkGray")!
+            detailView2.backgroundColor = UIColor(named: "darkerGray")!
             detailView2.layer.cornerCurve = .continuous
         }
         
