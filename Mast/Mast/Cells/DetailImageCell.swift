@@ -263,6 +263,14 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         })
     }
     
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
                         contextMenuConfigurationForItemAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
@@ -277,7 +285,11 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     
     func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
         let share = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
-            
+            let imToShare = [self.images2[indexPath.item].image ?? UIImage()]
+            let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.contentView
+            activityViewController.popoverPresentationController?.sourceRect = self.contentView.bounds
+            self.getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
         }
         let save = UIAction(title: "Save".localized, image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
             UIImageWriteToSavedPhotosAlbum(self.images2[indexPath.item].image ?? UIImage(), nil, nil, nil)

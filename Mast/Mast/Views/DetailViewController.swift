@@ -489,7 +489,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func shareTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: " Share Content".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: " \("Share Content".localized)", style: .default , handler:{ (UIAlertAction) in
             let textToShare = [self.pickedStatusesHome.first?.content.stripHTML() ?? ""]
             let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
