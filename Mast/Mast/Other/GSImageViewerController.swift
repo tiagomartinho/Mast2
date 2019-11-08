@@ -229,6 +229,11 @@ open class GSImageViewerController: UIViewController {
         detailView.frame.size.height = detailText.bounds.height + 16
         detailView.frame.origin.y = detailText.frame.origin.y - 8
         detailView.frame.origin.x = detailText.frame.origin.x - 10
+        
+        detailView.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
+        detailView.layer.shadowOffset = CGSize(width: 0, height: 12)
+        detailView.layer.shadowRadius = 12
+        detailView.layer.shadowOpacity = 0.18
 
         UIView.animate(withDuration: transitionInfo?.duration ?? 2, animations: {
             if self.imageInfo.imageText == "" {
