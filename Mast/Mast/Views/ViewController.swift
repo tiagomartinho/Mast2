@@ -81,6 +81,18 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    @objc func viewNotifications() {
+        self.viewControllers?.last?.tabBarController?.selectedIndex = 1
+    }
+    
+    @objc func viewMessages() {
+        self.viewControllers?.last?.tabBarController?.selectedIndex = 2
+    }
+    
+    @objc func viewProfile() {
+        self.viewControllers?.last?.tabBarController?.selectedIndex = 4
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -91,6 +103,9 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.startHaptics), name: NSNotification.Name(rawValue: "startHaptics"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.viewNotifications), name: NSNotification.Name(rawValue: "viewNotifications"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.viewMessages), name: NSNotification.Name(rawValue: "viewMessages"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.viewProfile), name: NSNotification.Name(rawValue: "viewProfile"), object: nil)
         
         statusBarView.backgroundColor = UIColor(named: "baseWhite")
         view.addSubview(statusBarView)

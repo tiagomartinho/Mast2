@@ -75,6 +75,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #endif
     }
     
+    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "com.shi.Mast2.NewToot" {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+            completionHandler(true)
+        } else if shortcutItem.type == "com.shi.Mast2.Notifications" {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewNotifications"), object: self)
+            completionHandler(true)
+        } else if shortcutItem.type == "com.shi.Mast2.Messages" {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewMessages"), object: self)
+            completionHandler(true)
+        } else {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewProfile"), object: self)
+            completionHandler(false)
+        }
+    }
+    
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = (URLContexts.first?.url ?? URL(string: "www.google.com")) {
             if url.host == "success" {

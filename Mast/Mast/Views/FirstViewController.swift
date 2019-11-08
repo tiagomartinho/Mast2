@@ -192,6 +192,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
         }
         
+        let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
+        let item00 = UIApplicationShortcutItem(type: "com.shi.Mast2.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
+        let icon0 = UIApplicationShortcutIcon(systemImageName: "bell")
+        let item0 = UIApplicationShortcutItem(type: "com.shi.Mast2.Notifications", localizedTitle: "View Notiications".localized, localizedSubtitle: nil, icon: icon0, userInfo: nil)
+        let icon1 = UIApplicationShortcutIcon(systemImageName: "paperplane")
+        let item1 = UIApplicationShortcutItem(type: "com.shi.Mast2.Messages", localizedTitle: "View Messages".localized, localizedSubtitle: nil, icon: icon1, userInfo: nil)
+        let icon2 = UIApplicationShortcutIcon(systemImageName: "person.crop.circle")
+        let item2 = UIApplicationShortcutItem(type: "com.shi.Mast2.Profile", localizedTitle: "View Profile".localized, localizedSubtitle: nil, icon: icon2, userInfo: nil)
+        UIApplication.shared.shortcutItems = [item00, item0, item1, item2]
+        
         // Segmented control
         self.segment.selectedSegmentIndex = 0
         self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
