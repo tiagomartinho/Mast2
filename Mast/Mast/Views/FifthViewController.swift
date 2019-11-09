@@ -166,6 +166,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         } else {
             self.fetchMedia()
             self.fetchUserData()
+            self.fetchLists()
         }
         
         // Table
@@ -196,6 +197,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.fetchUserDataRefresh()
     }
     
+    @objc func fetchLists() {
+        let request = Lists.all()
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.allLists = stat
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
     func initialLoad() {
         let request = Accounts.search(query: self.userID)
         GlobalStruct.client.run(request) { (statuses) in
@@ -205,6 +218,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.tableView.reloadSections(IndexSet([0]), with: .none)
                     self.fetchMedia()
                     self.fetchUserData()
+                    self.fetchLists()
                 }
             }
         }
