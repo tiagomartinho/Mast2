@@ -731,7 +731,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         let config: TextField1.Config = { textField in
             textField.becomeFirstResponder()
             textField.textColor = UIColor(named: "baseBlack")!
-            textField.text = GlobalStruct.currentUser.note
+            textField.text = GlobalStruct.currentUser.note.stripHTML()
             textField.layer.borderWidth = 0
             textField.layer.cornerRadius = 8
             textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -769,9 +769,14 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func editAccount() {
         let isItLocked = GlobalStruct.currentUser.locked
+        var isItGoingToLock = false
         var lockText = "Lock Account".localized
         if isItLocked {
             lockText = "Unlock Account".localized
+            isItGoingToLock = false
+        } else {
+            lockText = "Lock Account".localized
+            isItGoingToLock = true
         }
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -806,6 +811,21 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op12.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op12)
         let op13 = UIAlertAction(title: lockText, style: .default , handler:{ (UIAlertAction) in
+
+            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: nil, locked: isItGoingToLock)
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    let request0 = Accounts.currentUser()
+                    GlobalStruct.client.run(request0) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                GlobalStruct.currentUser = stat
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
             
         })
         op13.setValue(UIImage(systemName: "lock.circle")!, forKey: "image")
