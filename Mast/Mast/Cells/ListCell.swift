@@ -24,7 +24,7 @@ class ListCell: UITableViewCell {
         contentView.addSubview(containerView)
         
         content.translatesAutoresizingMaskIntoConstraints = false
-        content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
+        content.textColor = UIColor(named: "baseBlack")!
         content.textAlignment = .natural
         content.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         content.isUserInteractionEnabled = false

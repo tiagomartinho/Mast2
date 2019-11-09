@@ -118,10 +118,14 @@ class DirectCell: UITableViewCell {
     
     func configure(_ convo: Conversation) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        if convo.unread {
-            self.unread.alpha = 1
-        } else {
+        if GlobalStruct.markedReadIDs.contains(convo.id) {
             self.unread.alpha = 0
+        } else {
+            if convo.unread {
+                self.unread.alpha = 1
+            } else {
+                self.unread.alpha = 0
+            }
         }
         self.username.text = convo.lastStatus?.account.displayName ?? ""
         self.usertag.text = "@\(convo.lastStatus?.account.username ?? "")"

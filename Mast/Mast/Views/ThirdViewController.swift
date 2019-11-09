@@ -318,6 +318,14 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         let controller = DMViewController()
         controller.mainStatus.append(GlobalStruct.notificationsDirect[indexPath.row].lastStatus!)
         self.navigationController?.pushViewController(controller, animated: true)
+        
+        let request = Timelines.markRead(id: GlobalStruct.notificationsDirect[indexPath.row].id)
+        GlobalStruct.client.run(request) { (statuses) in
+            DispatchQueue.main.async {
+                GlobalStruct.markedReadIDs.append(GlobalStruct.notificationsDirect[indexPath.row].id)
+                self.tableView.reloadData()
+            }
+        }
     }
     
     func removeTabbarItemsText() {

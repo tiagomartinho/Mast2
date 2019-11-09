@@ -46,6 +46,7 @@ class GlobalStruct {
     static var currentUser: Account!
     
     static var allLists: [List] = []
+    static var markedReadIDs: [String] = []
     
     static var currentTab = 1
     static var medType = 0
