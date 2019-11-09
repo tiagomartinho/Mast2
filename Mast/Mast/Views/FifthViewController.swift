@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import MessageUI
 
-class FifthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FifthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -35,6 +36,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isTapped: Bool = false
     var userID = ""
     var refreshControl = UIRefreshControl()
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -619,6 +624,52 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func instanceDetails() {
+        let theTitle = "\(GlobalStruct.currentInstanceDetails.first?.title.stripHTML() ?? "Instance") (\(GlobalStruct.currentInstanceDetails.first?.version ?? "1.0.0"))"
+        let theMessage = "\(GlobalStruct.currentInstanceDetails.first?.stats.userCount ?? 0) users\n\(GlobalStruct.currentInstanceDetails.first?.stats.statusCount ?? 0) statuses\n\(GlobalStruct.currentInstanceDetails.first?.stats.domainCount ?? 0) domains\n\n\(GlobalStruct.currentInstanceDetails.first?.description.stripHTML() ?? "")"
+        let alert = UIAlertController(title: theTitle, message: theMessage, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: " \("Instance Admin Contact".localized)", style: .default , handler:{ (UIAlertAction) in
+            if MFMailComposeViewController.canSendMail() {
+                let mail = MFMailComposeViewController()
+                mail.setSubject("Hello from Mast!")
+                mail.mailComposeDelegate = self
+                mail.setToRecipients([GlobalStruct.currentInstanceDetails.first?.email ?? "shihab.bus@gmail.com"])
+                self.present(mail, animated: true)
+            }
+        })
+        op1.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.left
+        let titleText = NSMutableAttributedString(
+            string: theTitle,
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            ]
+        )
+        let messageText = NSMutableAttributedString(
+            string: theMessage,
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            ]
+        )
+        alert.setValue(titleText, forKey: "attributedTitle")
+        alert.setValue(messageText, forKey: "attributedMessage")
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func moreOwnProfile() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op7 = UIAlertAction(title: " \("Endorsed".localized)", style: .default , handler:{ (UIAlertAction) in
@@ -629,7 +680,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op7)
         let op9 = UIAlertAction(title: "Instance Details".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.instanceDetails()
         })
         op9.setValue(UIImage(systemName: "eyeglasses")!, forKey: "image")
         op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

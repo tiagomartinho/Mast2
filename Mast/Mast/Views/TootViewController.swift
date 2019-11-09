@@ -41,7 +41,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var selectedImages: [Int] = []
     var replyStatus: [Status] = []
     let photoPickerView = UIImagePickerController()
-    var charCount = 500
     var allPrevious: [Status] = []
     let btn1 = UIButton(type: .custom)
     
@@ -94,7 +93,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")
-        self.title = "\(self.charCount)"
+        self.title = "\(GlobalStruct.maxChars)"
 //        self.removeTabbarItemsText()
         
         self.navigationController?.presentationController?.delegate = self
@@ -402,12 +401,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     func textViewDidChange(_ textView: UITextView) {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            self.charCount = 500 - (cell.textView.text?.count ?? 0)
-            self.title = "\(self.charCount)"
-            if self.charCount < 1 {
+            var maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
+            self.title = "\(maxChars)"
+            if maxChars < 1 {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
                 btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            } else if self.charCount < 20 {
+            } else if maxChars < 20 {
                 self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
                 btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             } else {

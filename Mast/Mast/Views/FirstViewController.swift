@@ -419,6 +419,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 }
             }
         }
+        
+        let request6 = Instances.current()
+        GlobalStruct.client.run(request6) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.maxChars = stat.max_toot_chars ?? 500
+                GlobalStruct.currentInstanceDetails = [stat]
+            }
+        }
     }
     
     @objc func refresh(_ sender: AnyObject) {
