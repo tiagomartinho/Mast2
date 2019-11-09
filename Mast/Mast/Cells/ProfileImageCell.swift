@@ -73,7 +73,12 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 let z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
-                    cell.image.sd_setImage(with: imageURL, completed: nil)
+                    if self.profileStatusesImages[indexPath.item].reblog?.sensitive ?? self.profileStatusesImages[indexPath.item].sensitive ?? true {
+                        let x = self.blurImage(imageURL)
+                        cell.image.image = x
+                    } else {
+                        cell.image.sd_setImage(with: imageURL, completed: nil)
+                    }
                     if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video {
                         cell.videoOverlay.alpha = 1
                     } else {
@@ -92,6 +97,28 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         }
         cell.backgroundColor = UIColor.clear
         return cell
+    }
+    
+    func blurImage(_ ima: URL) -> UIImage? {
+        let imageView = UIImageView()
+        imageView.sd_setImage(with: ima, completed: nil)
+        let image = imageView.image ?? UIImage()
+        let context = CIContext(options: nil)
+        let inputImage = CIImage(image: image)
+        let originalOrientation = image.imageOrientation
+        let originalScale = image.scale
+        let filter = CIFilter(name: "CIGaussianBlur")
+        filter?.setValue(inputImage, forKey: kCIInputImageKey)
+        filter?.setValue(30, forKey: kCIInputRadiusKey)
+        let outputImage = filter?.outputImage
+        var cgImage: CGImage?
+        if let asd = outputImage {
+            cgImage = context.createCGImage(asd, from: (inputImage?.extent)!)
+        }
+        if let cgImageA = cgImage {
+            return UIImage(cgImage: cgImageA, scale: originalScale, orientation: originalOrientation)
+        }
+        return nil
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
