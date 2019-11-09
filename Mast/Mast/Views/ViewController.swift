@@ -154,6 +154,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     func displayAccounts() {
         let instances = InstanceData.getAllInstances()
+        let curr = InstanceData.getCurrentInstance()
         let alert = UIAlertController(title: "All Accounts".localized, message: nil, preferredStyle: .actionSheet)
         var count = 0
         for (z, x) in Account.getAccounts().enumerated() {
@@ -164,7 +165,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             let instanceAndAccount = "@\(instance?.returnedText ?? "")"
             
             let op1 = UIAlertAction(title: "\(x.displayName) (@\(x.username)\(instanceAndAccount))", style: .default , handler:{ (UIAlertAction) in
-                let curr = InstanceData.getCurrentInstance()
                 if curr?.clientID == instances[z].clientID {
                     
                 } else {
@@ -177,7 +177,11 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
                     UIApplication.shared.keyWindow?.rootViewController = ViewController()
                 }
             })
-            op1.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+            if curr?.clientID == instances[z].clientID {
+                op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+            } else {
+                op1.setValue(UIImage(systemName: "circle")!, forKey: "image")
+            }
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
             count += 1

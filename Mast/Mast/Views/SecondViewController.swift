@@ -282,7 +282,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
             self.dismiss(animated: true, completion: nil)
         })
-        op1.setValue(UIImage(systemName: "dot.circle")!, forKey: "image")
+        op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "Mentions".localized, style: .default , handler:{ (UIAlertAction) in
