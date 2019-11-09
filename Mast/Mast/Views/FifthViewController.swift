@@ -36,6 +36,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var isTapped: Bool = false
     var userID = ""
     var refreshControl = UIRefreshControl()
+    var txt = ""
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
@@ -741,7 +742,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op6)
         let op7 = UIAlertAction(title: "Add to List".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.addToList()
         })
         op7.setValue(UIImage(systemName: "text.badge.plus")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -774,6 +775,79 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func addToList() {
+        if GlobalStruct.allLists.count == 0 {
+
+            let alert = UIAlertController(style: .actionSheet, title: nil)
+            let config: TextField1.Config = { textField in
+                textField.becomeFirstResponder()
+                textField.textColor = UIColor(named: "baseBlack")!
+                textField.placeholder = "New list title...".localized
+                textField.layer.borderWidth = 0
+                textField.layer.cornerRadius = 8
+                textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                textField.backgroundColor = nil
+                textField.keyboardAppearance = .default
+                textField.keyboardType = .default
+                textField.isSecureTextEntry = false
+                textField.returnKeyType = .default
+                textField.action { textField in
+                    self.txt = textField.text ?? ""
+                }
+            }
+            alert.addOneTextField(configuration: config)
+            alert.addAction(title: "Create and Add".localized, style: .default) { action in
+                let request = Lists.create(title: self.txt)
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        let request2 = Lists.add(accountIDs: [self.pickedCurrentUser.id], toList: stat.id)
+                        GlobalStruct.client.run(request2) { (statuses) in
+                            if let stat = (statuses.value) {
+                                DispatchQueue.main.async {
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                
+            }
+            alert.show()
+            
+        } else {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            for x in GlobalStruct.allLists {
+                let op1 = UIAlertAction(title: x.title, style: .default , handler:{ (UIAlertAction) in
+                    let request = Lists.add(accountIDs: [self.pickedCurrentUser.id], toList: x.id)
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                
+                            }
+                        }
+                    }
+                })
+                op1.setValue(UIImage(systemName: "list.bullet")!, forKey: "image")
+                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op1)
+            }
+            
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                
+            }))
+            if let presenter = alert.popoverPresentationController {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                    presenter.sourceView = cell.more
+                    presenter.sourceRect = cell.more.bounds
+                }
+            }
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
