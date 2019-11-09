@@ -174,6 +174,14 @@ open class GSImageViewerController: UIViewController {
         
         edgesForExtendedLayout = UIRectEdge()
         automaticallyAdjustsScrollViewInsets = false
+        
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override open func viewWillDisappear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarHidden(false, with: .fade)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     override open func viewWillLayoutSubviews() {
