@@ -107,6 +107,12 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         }
 
         self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
+
+        if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .video {
+            cell.videoOverlay.alpha = 1
+        } else {
+            cell.videoOverlay.alpha = 0
+        }
         
         cell.image.sd_setImage(with: imageURL, completed: nil)
         cell.image.contentMode = .scaleAspectFill
