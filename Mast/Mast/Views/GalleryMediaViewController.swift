@@ -114,7 +114,17 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
             cell.videoOverlay.alpha = 0
         }
         
-        cell.image.sd_setImage(with: imageURL, completed: nil)
+        if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
+            if self.profileStatusesImages[indexPath.row].reblog?.sensitive ?? self.profileStatusesImages[indexPath.row].sensitive ?? true {
+                let x = self.blurImage(imageURL)
+                cell.image.image = x
+            } else {
+                cell.image.sd_setImage(with: imageURL, completed: nil)
+            }
+        } else {
+            cell.image.sd_setImage(with: imageURL, completed: nil)
+        }
+        
         cell.image.contentMode = .scaleAspectFill
         cell.layer.cornerRadius = 4
         cell.layer.cornerCurve = .continuous
@@ -132,6 +142,28 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         }
         
         return cell
+    }
+    
+    func blurImage(_ ima: URL) -> UIImage? {
+        let imageView = UIImageView()
+        imageView.sd_setImage(with: ima, completed: nil)
+        let image = imageView.image ?? UIImage()
+        let context = CIContext(options: nil)
+        let inputImage = CIImage(image: image)
+        let originalOrientation = image.imageOrientation
+        let originalScale = image.scale
+        let filter = CIFilter(name: "CIGaussianBlur")
+        filter?.setValue(inputImage, forKey: kCIInputImageKey)
+        filter?.setValue(30, forKey: kCIInputRadiusKey)
+        let outputImage = filter?.outputImage
+        var cgImage: CGImage?
+        if let asd = outputImage {
+            cgImage = context.createCGImage(asd, from: (inputImage?.extent)!)
+        }
+        if let cgImageA = cgImage {
+            return UIImage(cgImage: cgImageA, scale: originalScale, orientation: originalOrientation)
+        }
+        return nil
     }
     
     func fetchMoreImages() {
