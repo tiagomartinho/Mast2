@@ -144,20 +144,20 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     
     var currentStat: Status!
     func configure(_ stat: Status) {
-        self.currentStat = stat
-        self.images = stat.mediaAttachments
+        self.currentStat = stat.reblog ?? stat
+        self.images = stat.reblog?.mediaAttachments ?? stat.mediaAttachments
         self.collectionView1.reloadData()
         
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        self.username.text = stat.account.displayName
-        self.usertag.text = "@\(stat.account.username)"
-        self.content.text = stat.content.stripHTML()
-        self.timestamp.text = timeAgoSince(stat.createdAt)
+        self.username.text = stat.reblog?.account.displayName ?? stat.account.displayName
+        self.usertag.text = "@\(stat.reblog?.account.username ?? stat.account.username)"
+        self.content.text = stat.reblog?.content.stripHTML() ?? stat.content.stripHTML()
+        self.timestamp.text = timeAgoSince(stat.reblog?.createdAt ?? stat.createdAt)
         self.profile.image = UIImage()
-        guard let imageURL = URL(string: stat.account.avatar) else { return }
+        guard let imageURL = URL(string: stat.reblog?.account.avatar ?? stat.account.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
-        if stat.favourited ?? false {
+        if stat.reblog?.favourited ?? stat.favourited ?? false {
             self.heart.alpha = 1
         } else {
             self.heart.alpha = 0

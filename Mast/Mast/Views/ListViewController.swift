@@ -229,7 +229,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.statusesListed[indexPath.row].mediaAttachments.isEmpty {
+        if self.statusesListed[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesListed[indexPath.row].mediaAttachments.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
             if self.statusesListed.isEmpty {} else {
                 cell.configure(self.statusesListed[indexPath.row])
@@ -303,14 +303,14 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         vc.isYou = false
-        vc.pickedCurrentUser = self.statusesListed[gesture.view!.tag].account
+        vc.pickedCurrentUser = self.statusesListed[gesture.view!.tag].reblog?.account ?? self.statusesListed[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = DetailViewController()
-        vc.pickedStatusesHome = [self.statusesListed[indexPath.row]]
+        vc.pickedStatusesHome = [self.statusesListed[indexPath.row].reblog ?? self.statusesListed[indexPath.row]]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -330,7 +330,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         animator.addCompletion {
             guard let indexPath = configuration.identifier as? IndexPath else { return }
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [self.statusesListed[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesListed[indexPath.row].reblog ?? self.statusesListed[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -341,10 +341,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
             let vc = DetailViewController()
             vc.fromContextMenu = true
-            vc.pickedStatusesHome = [self.statusesListed[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesListed[indexPath.row].reblog ?? self.statusesListed[indexPath.row]]
             return vc
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu([self.statusesListed[indexPath.row]], indexPath: indexPath)
+            return self.makeContextMenu([self.statusesListed[indexPath.row].reblog ?? self.statusesListed[indexPath.row]], indexPath: indexPath)
         })
     }
     

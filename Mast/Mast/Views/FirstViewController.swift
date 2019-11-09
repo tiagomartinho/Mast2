@@ -625,7 +625,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-            if GlobalStruct.statusesHome[indexPath.row].mediaAttachments.isEmpty {
+            if GlobalStruct.statusesHome[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesHome[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
                 if GlobalStruct.statusesHome.isEmpty {} else {
                     cell.configure(GlobalStruct.statusesHome[indexPath.row])
@@ -695,7 +695,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             }
         } else if tableView == self.tableViewL {
-            if GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty {
+            if GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
                 if GlobalStruct.statusesLocal.isEmpty {} else {
                     cell.configure(GlobalStruct.statusesLocal[indexPath.row])
@@ -765,7 +765,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             }
         } else {
-            if GlobalStruct.statusesFed[indexPath.row].mediaAttachments.isEmpty {
+            if GlobalStruct.statusesFed[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesFed[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellF", for: indexPath) as! TootCell
                 if GlobalStruct.statusesFed.isEmpty {} else {
                     cell.configure(GlobalStruct.statusesFed[indexPath.row])
@@ -841,13 +841,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let vc = FifthViewController()
         vc.isYou = false
         if self.tableView.alpha == 1 {
-            vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
+            vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesHome[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewL.alpha == 1 {
-            vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].account
+            vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesLocal[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewF.alpha == 1 {
-            vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].account
+            vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesFed[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -913,15 +913,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableView {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+            vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         } else if tableView == self.tableViewL {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row]]
+            vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row]]
+            vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -943,15 +943,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             guard let indexPath = configuration.identifier as? IndexPath else { return }
             if tableView == self.tableView {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
                 self.navigationController?.pushViewController(vc, animated: true)
             } else if tableView == self.tableViewL {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row]]
+                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]]
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row]]
+                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]]
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -964,26 +964,26 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if tableView == self.tableView {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
-                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row]]
+                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
                 return vc
             } else if tableView == self.tableViewL {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
-                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row]]
+                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]]
                 return vc
             } else {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
-                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row]]
+                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]]
                 return vc
             }
         }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
-                return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)
             } else if tableView == self.tableViewL {
-                return self.makeContextMenu([GlobalStruct.statusesLocal[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]], indexPath: indexPath)
             } else {
-                return self.makeContextMenu([GlobalStruct.statusesFed[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]], indexPath: indexPath)
             }
         })
     }

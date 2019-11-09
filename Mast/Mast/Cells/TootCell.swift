@@ -121,14 +121,14 @@ class TootCell: UITableViewCell {
     
     func configure(_ stat: Status) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        self.username.text = stat.account.displayName
-        self.usertag.text = "@\(stat.account.username)"
-        self.content.text = stat.content.stripHTML()
-        self.timestamp.text = timeAgoSince(stat.createdAt)
-        guard let imageURL = URL(string: stat.account.avatar) else { return }
+        self.username.text = stat.reblog?.account.displayName ?? stat.account.displayName
+        self.usertag.text = "@\(stat.reblog?.account.username ?? stat.account.username)"
+        self.content.text = stat.reblog?.content.stripHTML() ?? stat.content.stripHTML()
+        self.timestamp.text = timeAgoSince(stat.reblog?.createdAt ?? stat.createdAt)
+        guard let imageURL = URL(string: stat.reblog?.account.avatar ?? stat.account.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
-        if stat.favourited ?? false {
+        if stat.reblog?.favourited ?? stat.favourited ?? false {
             self.heart.alpha = 1
         } else {
             self.heart.alpha = 0

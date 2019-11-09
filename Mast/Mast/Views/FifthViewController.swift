@@ -386,7 +386,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 return cell
             }
         } else {
-            if self.profileStatuses[indexPath.row].mediaAttachments.isEmpty {
+            if self.profileStatuses[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.profileStatuses[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
                 if self.profileStatuses.isEmpty {
                     self.fetchUserData()
@@ -710,7 +710,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         vc.isYou = false
-        vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].account
+        vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].reblog?.account ?? self.profileStatuses[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -839,7 +839,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 2 {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [self.profileStatuses[indexPath.row]]
+            vc.pickedStatusesHome = [self.profileStatuses[indexPath.row].reblog ?? self.profileStatuses[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
