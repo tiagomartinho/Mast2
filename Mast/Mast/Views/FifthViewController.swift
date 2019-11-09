@@ -834,7 +834,51 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             
         } else {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
+
+            let op11 = UIAlertAction(title: "Create and Add".localized, style: .default , handler:{ (UIAlertAction) in
+                
+                let alert = UIAlertController(style: .actionSheet, title: nil)
+                let config: TextField1.Config = { textField in
+                    textField.becomeFirstResponder()
+                    textField.textColor = UIColor(named: "baseBlack")!
+                    textField.placeholder = "New list title...".localized
+                    textField.layer.borderWidth = 0
+                    textField.layer.cornerRadius = 8
+                    textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                    textField.backgroundColor = nil
+                    textField.keyboardAppearance = .default
+                    textField.keyboardType = .default
+                    textField.isSecureTextEntry = false
+                    textField.returnKeyType = .default
+                    textField.action { textField in
+                        self.txt = textField.text ?? ""
+                    }
+                }
+                alert.addOneTextField(configuration: config)
+                alert.addAction(title: "Create and Add".localized, style: .default) { action in
+                    let request = Lists.create(title: self.txt)
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            let request2 = Lists.add(accountIDs: [self.pickedCurrentUser.id], toList: stat.id)
+                            GlobalStruct.client.run(request2) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    DispatchQueue.main.async {
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                    
+                }
+                alert.show()
+                
+            })
+            op11.setValue(UIImage(systemName: "plus")!, forKey: "image")
+            op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op11)
             for x in GlobalStruct.allLists {
                 let op1 = UIAlertAction(title: x.title, style: .default , handler:{ (UIAlertAction) in
                     let request = Lists.add(accountIDs: [self.pickedCurrentUser.id], toList: x.id)
