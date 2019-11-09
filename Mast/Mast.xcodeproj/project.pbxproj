@@ -287,6 +287,8 @@
 		53A4F50C23771FD800EC12C6 /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F4DE23771FD800EC12C6 /* icon29.png */; };
 		53A4F50D23771FD800EC12C6 /* icon24.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F4DF23771FD800EC12C6 /* icon24.png */; };
 		53A4F50E23771FD800EC12C6 /* icon21.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F4E023771FD800EC12C6 /* icon21.png */; };
+		53A4F5112377244100EC12C6 /* icon20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F50F2377244100EC12C6 /* icon20@2x.png */; };
+		53A4F5122377244100EC12C6 /* icon20@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F5102377244100EC12C6 /* icon20@3x.png */; };
 		53AF450423742F05001A3574 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450323742F05001A3574 /* ListViewController.swift */; };
 		53AF4506237463FA001A3574 /* ListMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4505237463FA001A3574 /* ListMembersViewController.swift */; };
 		53AF4508237567EF001A3574 /* GSImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4507237567EE001A3574 /* GSImageViewerController.swift */; };
@@ -624,6 +626,8 @@
 		53A4F4DE23771FD800EC12C6 /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon29.png; path = ../../../Assets/altIcons/icon29.png; sourceTree = "<group>"; };
 		53A4F4DF23771FD800EC12C6 /* icon24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon24.png; path = ../../../Assets/altIcons/icon24.png; sourceTree = "<group>"; };
 		53A4F4E023771FD800EC12C6 /* icon21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon21.png; path = ../../../Assets/altIcons/icon21.png; sourceTree = "<group>"; };
+		53A4F50F2377244100EC12C6 /* icon20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon20@2x.png"; path = "../../../Assets/altIcons/icon20@2x.png"; sourceTree = "<group>"; };
+		53A4F5102377244100EC12C6 /* icon20@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon20@3x.png"; path = "../../../Assets/altIcons/icon20@3x.png"; sourceTree = "<group>"; };
 		53AF450323742F05001A3574 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		53AF4505237463FA001A3574 /* ListMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewController.swift; sourceTree = "<group>"; };
 		53AF4507237567EE001A3574 /* GSImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSImageViewerController.swift; sourceTree = "<group>"; };
@@ -1121,6 +1125,8 @@
 				53A4F4BF23771FD400EC12C6 /* icon19@2x.png */,
 				53A4F4D323771FD700EC12C6 /* icon19@3x.png */,
 				53A4F4D623771FD700EC12C6 /* icon20.png */,
+				53A4F50F2377244100EC12C6 /* icon20@2x.png */,
+				53A4F5102377244100EC12C6 /* icon20@3x.png */,
 				53A4F4E023771FD800EC12C6 /* icon21.png */,
 				53A4F4C623771FD500EC12C6 /* icon21@2x.png */,
 				53A4F4D123771FD700EC12C6 /* icon21@3x.png */,
@@ -1352,6 +1358,7 @@
 				53A4F50023771FD800EC12C6 /* icon29@2x.png in Resources */,
 				53A4F4A02377171600EC12C6 /* icon14@3x.png in Resources */,
 				53A4F4A22377171600EC12C6 /* icon15.png in Resources */,
+				53A4F5122377244100EC12C6 /* icon20@3x.png in Resources */,
 				53A4F4972377171600EC12C6 /* icon9@2x.png in Resources */,
 				53A4F4F823771FD800EC12C6 /* icon17@3x.png in Resources */,
 				53A4F4E923771FD800EC12C6 /* icon23@3x.png in Resources */,
@@ -1375,6 +1382,7 @@
 				53A4F4AB2377171600EC12C6 /* icon15@3x.png in Resources */,
 				53A4F4E323771FD800EC12C6 /* icon30@3x.png in Resources */,
 				53A4F49F2377171600EC12C6 /* icon1@2x.png in Resources */,
+				53A4F5112377244100EC12C6 /* icon20@2x.png in Resources */,
 				53A4F4822377171600EC12C6 /* icon2.png in Resources */,
 				53A4F4AD2377171600EC12C6 /* icon7@3x.png in Resources */,
 				53A4F4922377171600EC12C6 /* icon10@2x.png in Resources */,
