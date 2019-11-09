@@ -151,6 +151,10 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
         
+        if GlobalStruct.notificationsDirect.isEmpty {
+            self.initialFetches()
+        }
+        
         self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         self.tableView.addSubview(self.refreshControl)
         
@@ -166,6 +170,18 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
         self.top1.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top1)
+    }
+    
+    func initialFetches() {
+        let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        GlobalStruct.client.run(request5) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     @objc func didTouchTop1() {

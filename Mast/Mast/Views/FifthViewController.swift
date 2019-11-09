@@ -697,12 +697,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if self.isFollowing {
                     let request = Accounts.unfollow(id: self.profileStatuses.first?.account.id ?? "")
                     GlobalStruct.client.run(request) { (statuses) in
-                        
+                        self.fetchUserData()
                     }
                 } else {
                     let request = Accounts.follow(id: self.profileStatuses.first?.account.id ?? "", reblogs: true)
                     GlobalStruct.client.run(request) { (statuses) in
-                        
+                        self.fetchUserData()
                     }
                 }
             })
@@ -924,7 +924,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         })
         op12.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
         op12.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op12)
+//        alert.addAction(op12)
         let op13 = UIAlertAction(title: lockText, style: .default , handler:{ (UIAlertAction) in
 
             let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: nil, locked: isItGoingToLock)
