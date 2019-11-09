@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import AVKit
+import AVFoundation
 
 class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -29,6 +31,9 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
     var collectionView: UICollectionView!
     var chosenUser: Account!
     var profileStatusesImages: [Status] = []
+    var images2: [UIImageView] = []
+    let playerViewController = AVPlayerViewController()
+    var player = AVPlayer()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -55,30 +60,24 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Gallery".localized
 
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let layout = ColumnFlowLayout(
-                cellsPerRow: 7,
-                minimumInteritemSpacing: 5,
-                minimumLineSpacing: 5,
-                sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            )
-            self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
-        } else {
-            let layout = ColumnFlowLayout(
-                cellsPerRow: 4,
-                minimumInteritemSpacing: 5,
-                minimumLineSpacing: 5,
-                sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            )
-            self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
-        }
+        let layout = ColumnFlowLayout(
+            cellsPerRow: 3,
+            minimumInteritemSpacing: 5,
+            minimumLineSpacing: 5,
+            sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        )
+        self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
         self.collectionView.backgroundColor = UIColor.clear
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
+        self.collectionView.register(ImageCell2.self, forCellWithReuseIdentifier: "ImageCell2")
         self.view.addSubview(self.collectionView)
         self.collectionView.reloadData()
+        
+        let _ = self.profileStatusesImages.map {_ in
+            self.images2.append(UIImageView())
+        }
     }
     
     //MARK: CollectionView
@@ -88,31 +87,27 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let x = 7
-            let y = (self.view.bounds.width) - 20
-            let z = CGFloat(y)/CGFloat(x)
-            return CGSize(width: z - 5, height: z - 5)
-        } else {
-            let x = 4
-            let y = (self.view.bounds.width) - 20
-            let z = CGFloat(y)/CGFloat(x)
-            return CGSize(width: z - 5, height: z - 5)
-        }
+        let x = 3
+        let y = (self.view.bounds.width) - 20
+        let z = CGFloat(y)/CGFloat(x)
+        return CGSize(width: z - 5, height: z - 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell2", for: indexPath) as! ImageCell2
         cell.configure()
         cell.image.image = nil
         guard let imageURL = URL(string: self.profileStatusesImages[indexPath.row].mediaAttachments.first?.previewURL ?? "") else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell2", for: indexPath) as! ImageCell2
             cell.configure()
             cell.image.image = nil
             cell.backgroundColor = UIColor.clear
             cell.backgroundColor = UIColor(named: "baseGray")
             return cell
         }
+
+        self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
+        
         cell.image.sd_setImage(with: imageURL, completed: nil)
         cell.image.contentMode = .scaleAspectFill
         cell.layer.cornerRadius = 4
@@ -141,6 +136,10 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
                     DispatchQueue.main.async {
                         self.profileStatusesImages = self.profileStatusesImages + stat
                         self.collectionView.reloadData()
+                        
+                        let _ = stat.map {_ in
+                            self.images2.append(UIImageView())
+                        }
                     }
                 }
             }
@@ -148,7 +147,56 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        if self.profileStatusesImages[indexPath.item].mediaAttachments.first?.type == .video {
+            if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments.first?.url ?? "") {
+                self.player = AVPlayer(url: ur)
+                self.playerViewController.player = self.player
+                getTopMostViewController()?.present(playerViewController, animated: true) {
+                    self.playerViewController.player!.play()
+                }
+            }
+        } else {
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments.first?.remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments.first?.url ?? ""), imageText: "@\(self.profileStatusesImages[indexPath.item].account.username): \(self.profileStatusesImages[indexPath.item].content.stripHTML())", imageText2: self.profileStatusesImages[indexPath.item].favouritesCount, imageText3: self.profileStatusesImages[indexPath.item].reblogsCount, imageText4: self.profileStatusesImages[indexPath.item].id)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! ImageCell2).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
+            let vc = ImagePreviewViewController()
+            vc.image = self.images2[indexPath.item].image ?? UIImage()
+            return vc
+        }, actionProvider: { suggestedActions in
+            return self.makeContextMenu(indexPath)
+        })
+    }
+    
+    func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
+        let share = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            let imToShare = [self.images2[indexPath.item].image ?? UIImage()]
+            let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
+            if let cell = self.collectionView.cellForItem(at: indexPath) as? ImageCell2 {
+                activityViewController.popoverPresentationController?.sourceView = cell.image
+                activityViewController.popoverPresentationController?.sourceRect = cell.image.bounds
+            }
+            self.getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
+        }
+        let save = UIAction(title: "Save".localized, image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            UIImageWriteToSavedPhotosAlbum(self.images2[indexPath.item].image ?? UIImage(), nil, nil, nil)
+        }
+        return UIMenu(__title: self.profileStatusesImages[indexPath.item].mediaAttachments.first?.description ?? "", image: nil, identifier: nil, children: [share, save])
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
 }
 

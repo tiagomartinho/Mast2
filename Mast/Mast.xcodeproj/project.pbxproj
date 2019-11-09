@@ -290,6 +290,7 @@
 		53A4F5112377244100EC12C6 /* icon20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F50F2377244100EC12C6 /* icon20@2x.png */; };
 		53A4F5122377244100EC12C6 /* icon20@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F5102377244100EC12C6 /* icon20@3x.png */; };
 		53A4F51423772CE200EC12C6 /* GalleryMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F51323772CE200EC12C6 /* GalleryMediaViewController.swift */; };
+		53A4F5162377325000EC12C6 /* ImageCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F5152377324F00EC12C6 /* ImageCell2.swift */; };
 		53AF450423742F05001A3574 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450323742F05001A3574 /* ListViewController.swift */; };
 		53AF4506237463FA001A3574 /* ListMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4505237463FA001A3574 /* ListMembersViewController.swift */; };
 		53AF4508237567EF001A3574 /* GSImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4507237567EE001A3574 /* GSImageViewerController.swift */; };
@@ -630,6 +631,7 @@
 		53A4F50F2377244100EC12C6 /* icon20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon20@2x.png"; path = "../../../Assets/altIcons/icon20@2x.png"; sourceTree = "<group>"; };
 		53A4F5102377244100EC12C6 /* icon20@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon20@3x.png"; path = "../../../Assets/altIcons/icon20@3x.png"; sourceTree = "<group>"; };
 		53A4F51323772CE200EC12C6 /* GalleryMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryMediaViewController.swift; sourceTree = "<group>"; };
+		53A4F5152377324F00EC12C6 /* ImageCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell2.swift; sourceTree = "<group>"; };
 		53AF450323742F05001A3574 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		53AF4505237463FA001A3574 /* ListMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewController.swift; sourceTree = "<group>"; };
 		53AF4507237567EE001A3574 /* GSImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSImageViewerController.swift; sourceTree = "<group>"; };
@@ -871,6 +873,7 @@
 				5379F4352334CAE800DC1F33 /* ListCell.swift */,
 				5339C6012340BFF200770651 /* ComposeCell.swift */,
 				53A4F4B1237717E500EC12C6 /* ImageCell.swift */,
+				53A4F5152377324F00EC12C6 /* ImageCell2.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1642,6 +1645,7 @@
 				53A4F42F2376E59200EC12C6 /* CGSize.swift in Sources */,
 				53AF45102375B39F001A3574 /* AccountExtension.swift in Sources */,
 				53449DC623294C1000A470E2 /* Instances.swift in Sources */,
+				53A4F5162377325000EC12C6 /* ImageCell2.swift in Sources */,
 				53449DB723294C1000A470E2 /* Instance.swift in Sources */,
 				53A4F4132376E59200EC12C6 /* UISearchBar+Extensions.swift in Sources */,
 				53A4F42B2376E59200EC12C6 /* CALayer.swift in Sources */,
