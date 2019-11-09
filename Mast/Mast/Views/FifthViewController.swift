@@ -641,7 +641,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op10)
         let op11 = UIAlertAction(title: " \("Share Account".localized)", style: .default , handler:{ (UIAlertAction) in
-            let textToShare = [self.pickedCurrentUser.url]
+            let textToShare = [GlobalStruct.currentUser.url]
             let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
                 activityViewController.popoverPresentationController?.sourceView = cell.more
