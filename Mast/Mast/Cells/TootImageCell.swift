@@ -17,6 +17,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     
     var containerView = UIView()
     var profile = UIImageView()
+    var profile2 = UIImageView()
     var username = UILabel()
     var usertag = UILabel()
     var timestamp = UILabel()
@@ -40,6 +41,14 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         profile.backgroundColor = UIColor(named: "baseWhite")
         profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
+        
+        profile2.translatesAutoresizingMaskIntoConstraints = false
+        profile2.layer.cornerRadius = 14
+        profile2.backgroundColor = UIColor(named: "baseWhite")
+        profile2.isUserInteractionEnabled = true
+        profile2.layer.borderWidth = 1.6
+        profile2.alpha = 0
+        contentView.addSubview(profile2)
         
         username.translatesAutoresizingMaskIntoConstraints = false
         username.textColor = UIColor(named: "baseBlack")
@@ -115,6 +124,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         let viewsDict = [
             "containerView" : containerView,
             "profile" : profile,
+            "profile2" : profile2,
             "username" : username,
             "usertag" : usertag,
             "timestamp" : timestamp,
@@ -127,11 +137,13 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-36-[profile2(28)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=5)-[heart(20)]-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-33-[profile2(28)]-(>=5)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[timestamp]-2-[content]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
@@ -157,6 +169,14 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         guard let imageURL = URL(string: stat.reblog?.account.avatar ?? stat.account.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
+        if stat.reblog?.account.displayName == nil {
+            self.profile2.alpha = 0
+        } else {
+            self.profile2.alpha = 1
+            guard let imageURL2 = URL(string: stat.account.avatar) else { return }
+            self.profile2.sd_setImage(with: imageURL2, completed: nil)
+            self.profile2.layer.masksToBounds = true
+        }
         if stat.reblog?.favourited ?? stat.favourited ?? false {
             self.heart.alpha = 1
         } else {
