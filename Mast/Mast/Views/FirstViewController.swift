@@ -632,6 +632,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == GlobalStruct.statusesHome.count - 10 {
                         self.fetchMoreHome()
                     }
@@ -666,6 +669,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == GlobalStruct.statusesHome.count - 10 {
                         self.fetchMoreHome()
                     }
@@ -702,6 +708,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
                         self.fetchMoreLocal()
                     }
@@ -736,6 +745,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
                         self.fetchMoreLocal()
                     }
@@ -772,6 +784,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == GlobalStruct.statusesFed.count - 10 {
                         self.fetchMoreFed()
                     }
@@ -806,6 +821,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == GlobalStruct.statusesFed.count - 10 {
                         self.fetchMoreFed()
                     }
@@ -848,6 +866,21 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewF.alpha == 1 {
             vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesFed[gesture.view!.tag].account
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        if self.tableView.alpha == 1 {
+            vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if self.tableViewL.alpha == 1 {
+            vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].account
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else if self.tableViewF.alpha == 1 {
+            vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

@@ -395,6 +395,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == self.profileStatuses.count - 10 {
                         self.fetchMoreUserData()
                     }
@@ -431,6 +434,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
+                    let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                    cell.profile2.tag = indexPath.row
+                    cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == self.profileStatuses.count - 10 {
                         self.fetchMoreUserData()
                     }
@@ -711,6 +717,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         let vc = FifthViewController()
         vc.isYou = false
         vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].reblog?.account ?? self.profileStatuses[gesture.view!.tag].account
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

@@ -236,6 +236,9 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
+                let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                cell.profile2.tag = indexPath.row
+                cell.profile2.addGestureRecognizer(tap2)
                 if indexPath.row == self.statusesListed.count - 10 {
                     self.initialFetches()
                 }
@@ -270,6 +273,9 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                 let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                 cell.profile.tag = indexPath.row
                 cell.profile.addGestureRecognizer(tap)
+                let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
+                cell.profile2.tag = indexPath.row
+                cell.profile2.addGestureRecognizer(tap2)
                 if indexPath.row == self.statusesListed.count - 10 {
                     self.initialFetches()
                 }
@@ -304,6 +310,13 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         let vc = FifthViewController()
         vc.isYou = false
         vc.pickedCurrentUser = self.statusesListed[gesture.view!.tag].reblog?.account ?? self.statusesListed[gesture.view!.tag].account
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
+        let vc = FifthViewController()
+        vc.isYou = false
+        vc.pickedCurrentUser = self.statusesListed[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
