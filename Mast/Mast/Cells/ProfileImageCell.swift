@@ -73,9 +73,13 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                 let z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
-                    if self.profileStatusesImages[indexPath.item].reblog?.sensitive ?? self.profileStatusesImages[indexPath.item].sensitive ?? true {
-                        let x = self.blurImage(imageURL)
-                        cell.image.image = x
+                    if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
+                        if self.profileStatusesImages[indexPath.item].reblog?.sensitive ?? self.profileStatusesImages[indexPath.item].sensitive ?? true {
+                            let x = self.blurImage(imageURL)
+                            cell.image.image = x
+                        } else {
+                            cell.image.sd_setImage(with: imageURL, completed: nil)
+                        }
                     } else {
                         cell.image.sd_setImage(with: imageURL, completed: nil)
                     }

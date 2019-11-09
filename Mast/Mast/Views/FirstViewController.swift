@@ -190,6 +190,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 GlobalStruct.baseTint = GlobalStruct.arrayCols[x]
             }
         }
+        if UserDefaults.standard.value(forKey: "sync-haptics") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-haptics")
+        }
+        if UserDefaults.standard.value(forKey: "sync-sensitive") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-sensitive")
+        }
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
         }

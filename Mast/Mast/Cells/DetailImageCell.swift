@@ -211,9 +211,13 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             let z = self.images[indexPath.item].previewURL
             cell.image.contentMode = .scaleAspectFill
             if let imageURL = URL(string: z) {
-                if self.currentStat.reblog?.sensitive ?? self.currentStat.sensitive ?? true {
-                    let x = self.blurImage(imageURL)
-                    cell.image.image = x
+                if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
+                    if self.currentStat.reblog?.sensitive ?? self.currentStat.sensitive ?? true {
+                        let x = self.blurImage(imageURL)
+                        cell.image.image = x
+                    } else {
+                        cell.image.sd_setImage(with: imageURL, completed: nil)
+                    }
                 } else {
                     cell.image.sd_setImage(with: imageURL, completed: nil)
                 }
