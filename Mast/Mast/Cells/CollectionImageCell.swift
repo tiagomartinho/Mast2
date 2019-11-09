@@ -29,6 +29,9 @@ class CollectionImageCell: UICollectionViewCell {
         self.bgImage.layer.cornerRadius = 5
         contentView.addSubview(bgImage)
         
+        self.image.layer.borderWidth = 0.4
+        self.layer.borderColor = UIColor.black.cgColor
+        
         self.image.frame.origin.x = 0
         self.image.frame.origin.y = 0
         self.image.frame.size.width = 160
