@@ -28,6 +28,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     var tableView = UITableView()
     var statusesSuggested: [Account] = []
+    var txt = ""
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -145,6 +146,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.initialFetches()
         
         // Table
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "addCell")
         self.tableView.register(ListCell.self, forCellReuseIdentifier: "ListCell")
         self.tableView.register(FollowersCell.self, forCellReuseIdentifier: "FollowersCell")
         self.tableView.delegate = self
@@ -199,7 +201,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return GlobalStruct.allLists.count
+            return GlobalStruct.allLists.count + 1
         } else {
             return self.statusesSuggested.count
         }
@@ -232,23 +234,38 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            cell.accessoryType = .disclosureIndicator
+            if indexPath.row == 0 {
+                cell.accessoryType = .none
+            } else {
+                cell.accessoryType = .disclosureIndicator
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
-            if GlobalStruct.allLists.isEmpty {
-                self.fetchLists()
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
+                cell.imageView?.image = UIImage(systemName: "plus", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Add New List".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.textLabel?.attributedText = descriptionSideString
+                cell.accessoryType = .none
+                return cell
             } else {
-                cell.configure(GlobalStruct.allLists[indexPath.row])
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
+                if GlobalStruct.allLists.isEmpty {
+                    self.fetchLists()
+                } else {
+                    cell.configure(GlobalStruct.allLists[indexPath.row - 1])
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersCell", for: indexPath) as! FollowersCell
             if self.statusesSuggested.isEmpty {} else {
@@ -295,7 +312,11 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
             if indexPath.section == 0 {
-                return self.makeContextMenu([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
+                if indexPath.row == 0 {
+                    return nil
+                } else {
+                    return self.makeContextMenu([self.statusesSuggested[indexPath.row - 1]], indexPath: indexPath)
+                }
             } else {
                 return self.makeContextMenu2([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
             }
@@ -305,17 +326,50 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     func makeContextMenu(_ status: [Account], indexPath: IndexPath) -> UIMenu {
         let op1 = UIAction(title: "View List Members".localized, image: UIImage(systemName: "person.2.square.stack"), identifier: nil) { action in
             let vc = ListMembersViewController()
-            vc.listID = GlobalStruct.allLists[indexPath.row].id
+            vc.listID = GlobalStruct.allLists[indexPath.row - 1].id
             self.navigationController?.pushViewController(vc, animated: true)
         }
         let op2 = UIAction(title: "Edit List Name".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
+
+            let alert = UIAlertController(style: .actionSheet, title: nil)
+            let config: TextField1.Config = { textField in
+                textField.becomeFirstResponder()
+                textField.textColor = UIColor(named: "baseBlack")!
+                textField.placeholder = GlobalStruct.allLists[indexPath.row - 1].title
+                textField.layer.borderWidth = 0
+                textField.layer.cornerRadius = 8
+                textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                textField.backgroundColor = nil
+                textField.keyboardAppearance = .default
+                textField.keyboardType = .default
+                textField.isSecureTextEntry = false
+                textField.returnKeyType = .default
+                textField.action { textField in
+                    self.txt = textField.text ?? ""
+                }
+            }
+            alert.addOneTextField(configuration: config)
+            alert.addAction(title: "Edit".localized, style: .default) { action in
+            let request = Lists.update(id: GlobalStruct.allLists[indexPath.row - 1].id, title: self.txt)
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            self.fetchLists()
+                        }
+                    }
+                }
+            }
+            alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                
+            }
+            alert.show()
             
         }
         let op3 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-            let request = Lists.delete(id: GlobalStruct.allLists[indexPath.row].id)
+            let request = Lists.delete(id: GlobalStruct.allLists[indexPath.row - 1].id)
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
-                    GlobalStruct.allLists.remove(at: indexPath.row)
+                    GlobalStruct.allLists.remove(at: indexPath.row - 1)
                     self.tableView.reloadData()
                 }
             }
@@ -340,10 +394,47 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
-            let vc = ListViewController()
-            vc.theListID = GlobalStruct.allLists[indexPath.row].id
-            vc.theList = GlobalStruct.allLists[indexPath.row].title
-            self.navigationController?.pushViewController(vc, animated: true)
+            if indexPath.row == 0 {
+
+                let alert = UIAlertController(style: .actionSheet, title: nil)
+                let config: TextField1.Config = { textField in
+                    textField.becomeFirstResponder()
+                    textField.textColor = UIColor(named: "baseBlack")!
+                    textField.placeholder = "New list title...".localized
+                    textField.layer.borderWidth = 0
+                    textField.layer.cornerRadius = 8
+                    textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                    textField.backgroundColor = nil
+                    textField.keyboardAppearance = .default
+                    textField.keyboardType = .default
+                    textField.isSecureTextEntry = false
+                    textField.returnKeyType = .default
+                    textField.action { textField in
+                        self.txt = textField.text ?? ""
+                    }
+                }
+                alert.addOneTextField(configuration: config)
+                alert.addAction(title: "Create".localized, style: .default) { action in
+                    let request = Lists.create(title: self.txt)
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                self.fetchLists()
+                            }
+                        }
+                    }
+                }
+                alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                    
+                }
+                alert.show()
+                
+            } else {
+                let vc = ListViewController()
+                vc.theListID = GlobalStruct.allLists[indexPath.row - 1].id
+                vc.theList = GlobalStruct.allLists[indexPath.row - 1].title
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else {
             let vc = FifthViewController()
             vc.isYou = false

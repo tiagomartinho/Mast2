@@ -36,6 +36,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     var theListID: String = ""
     var theList: String = ""
     let btn1 = UIButton(type: .custom)
+    var txt = ""
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -585,6 +586,39 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "Edit List Name".localized, style: .default , handler:{ (UIAlertAction) in
+            
+            let alert = UIAlertController(style: .actionSheet, title: nil)
+            let config: TextField1.Config = { textField in
+                textField.becomeFirstResponder()
+                textField.textColor = UIColor(named: "baseBlack")!
+                textField.placeholder = self.theList
+                textField.layer.borderWidth = 0
+                textField.layer.cornerRadius = 8
+                textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                textField.backgroundColor = nil
+                textField.keyboardAppearance = .default
+                textField.keyboardType = .default
+                textField.isSecureTextEntry = false
+                textField.returnKeyType = .default
+                textField.action { textField in
+                    self.txt = textField.text ?? ""
+                }
+            }
+            alert.addOneTextField(configuration: config)
+            alert.addAction(title: "Edit".localized, style: .default) { action in
+            let request = Lists.update(id: self.theListID, title: self.txt)
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            self.fetchLists()
+                        }
+                    }
+                }
+            }
+            alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                
+            }
+            alert.show()
             
         })
         op2.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")

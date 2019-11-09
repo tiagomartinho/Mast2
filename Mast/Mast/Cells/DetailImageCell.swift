@@ -275,7 +275,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                         contextMenuConfigurationForItemAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
-            let vc = ImageViewController()
+            let vc = ImagePreviewViewController()
             vc.image = self.images2[indexPath.item].image ?? UIImage()
             return vc
         }, actionProvider: { suggestedActions in

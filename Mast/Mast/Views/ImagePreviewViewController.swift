@@ -1,5 +1,5 @@
 //
-//  ImageViewController.swift
+//  ImagePreviewViewController.swift
 //  Mast
 //
 //  Created by Shihab Mehboob on 28/09/2019.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ImageViewController: UIViewController {
+class ImagePreviewViewController: UIViewController {
     var image = UIImage()
     let imageView = UIImageView()
 
