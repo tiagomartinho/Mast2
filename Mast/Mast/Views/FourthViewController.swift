@@ -332,7 +332,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             let config: TextField1.Config = { textField in
                 textField.becomeFirstResponder()
                 textField.textColor = UIColor(named: "baseBlack")!
-                textField.placeholder = GlobalStruct.allLists[indexPath.row - 1].title
+                textField.text = GlobalStruct.allLists[indexPath.row - 1].title
                 textField.layer.borderWidth = 0
                 textField.layer.cornerRadius = 8
                 textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor

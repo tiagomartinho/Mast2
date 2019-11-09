@@ -685,6 +685,88 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.present(alert, animated: true, completion: nil)
     }
     
+    func editDisplayName() {
+        let alert = UIAlertController(style: .actionSheet, title: nil)
+        let config: TextField1.Config = { textField in
+            textField.becomeFirstResponder()
+            textField.textColor = UIColor(named: "baseBlack")!
+            textField.text = GlobalStruct.currentUser.displayName
+            textField.layer.borderWidth = 0
+            textField.layer.cornerRadius = 8
+            textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            textField.backgroundColor = nil
+            textField.keyboardAppearance = .default
+            textField.keyboardType = .default
+            textField.isSecureTextEntry = false
+            textField.returnKeyType = .default
+            textField.action { textField in
+                self.txt = textField.text ?? ""
+            }
+        }
+        alert.addOneTextField(configuration: config)
+        alert.addAction(title: "Update".localized, style: .default) { action in
+            let request = Accounts.updateCurrentUser(displayName: self.txt, note: nil, avatar: nil, header: nil, locked: nil)
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    let request0 = Accounts.currentUser()
+                    GlobalStruct.client.run(request0) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                GlobalStruct.currentUser = stat
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        alert.show()
+    }
+    
+    func editBio() {
+        let alert = UIAlertController(style: .actionSheet, title: nil)
+        let config: TextField1.Config = { textField in
+            textField.becomeFirstResponder()
+            textField.textColor = UIColor(named: "baseBlack")!
+            textField.text = GlobalStruct.currentUser.note
+            textField.layer.borderWidth = 0
+            textField.layer.cornerRadius = 8
+            textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            textField.backgroundColor = nil
+            textField.keyboardAppearance = .default
+            textField.keyboardType = .default
+            textField.isSecureTextEntry = false
+            textField.returnKeyType = .default
+            textField.action { textField in
+                self.txt = textField.text ?? ""
+            }
+        }
+        alert.addOneTextField(configuration: config)
+        alert.addAction(title: "Update".localized, style: .default) { action in
+        let request = Accounts.updateCurrentUser(displayName: nil, note: self.txt, avatar: nil, header: nil, locked: nil)
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    let request0 = Accounts.currentUser()
+                    GlobalStruct.client.run(request0) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                GlobalStruct.currentUser = stat
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        alert.show()
+    }
+    
     func editAccount() {
         let isItLocked = GlobalStruct.currentUser.locked
         var lockText = "Lock Account".localized
@@ -706,27 +788,27 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op9)
         let op10 = UIAlertAction(title: "\("Edit Display Name".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+            self.editDisplayName()
         })
-        op10.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op10.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
         op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op10)
         let op11 = UIAlertAction(title: "\("Edit Bio".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+            self.editBio()
         })
-        op11.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op11.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
         op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op11)
         let op12 = UIAlertAction(title: "\("Edit Links".localized)", style: .default , handler:{ (UIAlertAction) in
             
         })
-        op12.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op12.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
         op12.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op12)
         let op13 = UIAlertAction(title: lockText, style: .default , handler:{ (UIAlertAction) in
             
         })
-        op13.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op13.setValue(UIImage(systemName: "lock.circle")!, forKey: "image")
         op13.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op13)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
