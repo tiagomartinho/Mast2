@@ -611,6 +611,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                     if let stat = (statuses.value) {
                         DispatchQueue.main.async {
                             self.title = self.txt
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "fetchLists"), object: nil)
                         }
                     }
                 }

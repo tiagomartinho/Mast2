@@ -129,6 +129,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable), name: NSNotification.Name(rawValue: "refreshTable"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail4"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.fetchLists), name: NSNotification.Name(rawValue: "fetchLists"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -183,7 +184,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     
-    func fetchLists() {
+    @objc func fetchLists() {
         let request = Lists.all()
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
@@ -208,11 +209,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if GlobalStruct.allLists.count == 0 {
-            return 0
-        } else {
-            return 30
-        }
+        return 30
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
