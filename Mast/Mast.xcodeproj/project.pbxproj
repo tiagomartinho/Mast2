@@ -289,6 +289,7 @@
 		53A4F50E23771FD800EC12C6 /* icon21.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F4E023771FD800EC12C6 /* icon21.png */; };
 		53A4F5112377244100EC12C6 /* icon20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F50F2377244100EC12C6 /* icon20@2x.png */; };
 		53A4F5122377244100EC12C6 /* icon20@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53A4F5102377244100EC12C6 /* icon20@3x.png */; };
+		53A4F51423772CE200EC12C6 /* GalleryMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F51323772CE200EC12C6 /* GalleryMediaViewController.swift */; };
 		53AF450423742F05001A3574 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF450323742F05001A3574 /* ListViewController.swift */; };
 		53AF4506237463FA001A3574 /* ListMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4505237463FA001A3574 /* ListMembersViewController.swift */; };
 		53AF4508237567EF001A3574 /* GSImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AF4507237567EE001A3574 /* GSImageViewerController.swift */; };
@@ -628,6 +629,7 @@
 		53A4F4E023771FD800EC12C6 /* icon21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon21.png; path = ../../../Assets/altIcons/icon21.png; sourceTree = "<group>"; };
 		53A4F50F2377244100EC12C6 /* icon20@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon20@2x.png"; path = "../../../Assets/altIcons/icon20@2x.png"; sourceTree = "<group>"; };
 		53A4F5102377244100EC12C6 /* icon20@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon20@3x.png"; path = "../../../Assets/altIcons/icon20@3x.png"; sourceTree = "<group>"; };
+		53A4F51323772CE200EC12C6 /* GalleryMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryMediaViewController.swift; sourceTree = "<group>"; };
 		53AF450323742F05001A3574 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		53AF4505237463FA001A3574 /* ListMembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMembersViewController.swift; sourceTree = "<group>"; };
 		53AF4507237567EE001A3574 /* GSImageViewerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSImageViewerController.swift; sourceTree = "<group>"; };
@@ -885,6 +887,7 @@
 				53449D4823293F2F00A470E2 /* FourthViewController.swift */,
 				53449D4A23293F4100A470E2 /* FifthViewController.swift */,
 				5379F41623311BDC00DC1F33 /* DetailViewController.swift */,
+				53A4F51323772CE200EC12C6 /* GalleryMediaViewController.swift */,
 				53AF450323742F05001A3574 /* ListViewController.swift */,
 				53AF4505237463FA001A3574 /* ListMembersViewController.swift */,
 				53955D7623746F0400522101 /* HashtagViewController.swift */,
@@ -1521,6 +1524,7 @@
 				53449DB823294C1000A470E2 /* Relationship.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
 				53AF450C2375AC2A001A3574 /* GetInTouchSettingsViewController.swift in Sources */,
+				53A4F51423772CE200EC12C6 /* GalleryMediaViewController.swift in Sources */,
 				5379F4132331122100DC1F33 /* Spring.swift in Sources */,
 				53449D9E23294C1000A470E2 /* CharacterSet.swift in Sources */,
 				53B5F1EF233BC5600099B170 /* PushNotificationReceiver.swift in Sources */,

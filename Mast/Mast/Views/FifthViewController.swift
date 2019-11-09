@@ -286,6 +286,17 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    @objc func viewGallery() {
+        let vc = GalleryMediaViewController()
+        if self.isYou {
+            vc.chosenUser = GlobalStruct.currentUser
+        } else {
+            vc.chosenUser = self.pickedCurrentUser
+        }
+        vc.profileStatusesImages = self.profileStatusesImages
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 1 {
             let vw = UIView()
@@ -297,6 +308,14 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             title.textColor = UIColor(named: "baseBlack")
             title.font = UIFont.boldSystemFont(ofSize: 16)
             vw.addSubview(title)
+            
+            let butt = UIButton()
+            butt.frame = CGRect(x: self.view.bounds.width - (UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0) - 48, y: 0, width: 30, height: 30)
+            butt.setImage(UIImage(systemName: "photo.on.rectangle"), for: .normal)
+            butt.contentMode = .scaleAspectFit
+            butt.addTarget(self, action: #selector(self.viewGallery), for: .touchUpInside)
+            vw.addSubview(butt)
+            
             return vw
         } else if section == 2 {
             var theUser = GlobalStruct.currentUser
