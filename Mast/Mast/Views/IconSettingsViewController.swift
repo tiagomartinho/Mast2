@@ -31,7 +31,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
                 cellsPerRow: 7,
                 minimumInteritemSpacing: 5,
                 minimumLineSpacing: 5,
-                sectionInset: UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+                sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             )
             self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
         } else {
@@ -39,7 +39,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
                 cellsPerRow: 4,
                 minimumInteritemSpacing: 5,
                 minimumLineSpacing: 5,
-                sectionInset: UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+                sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             )
             self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
         }
@@ -61,14 +61,14 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let x = 7
-            let y = (self.view.bounds.width) - 30
+            let y = (self.view.bounds.width) - 20
             let z = CGFloat(y)/CGFloat(x)
-            return CGSize(width: z - 7.5, height: z - 7.5)
+            return CGSize(width: z - 5, height: z - 5)
         } else {
             let x = 4
-            let y = (self.view.bounds.width) - 30
+            let y = (self.view.bounds.width) - 20
             let z = CGFloat(y)/CGFloat(x)
-            return CGSize(width: z - 7.5, height: z - 7.5)
+            return CGSize(width: z - 5, height: z - 5)
         }
     }
     

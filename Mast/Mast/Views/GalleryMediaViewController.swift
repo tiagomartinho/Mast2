@@ -11,27 +11,56 @@ import UIKit
 
 class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var collectionView: UICollectionView!
     var chosenUser: Account!
     var profileStatusesImages: [Status] = []
     
     override func viewDidLayoutSubviews() {
-        self.collectionView.frame = CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height)
+        super.viewDidLayoutSubviews()
+        
+        #if targetEnvironment(macCatalyst)
+        // Table
+        let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.collectionView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        #elseif !targetEnvironment(macCatalyst)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            // Table
+            let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
+            self.collectionView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        } else {
+            // Table
+            let tableHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+            self.collectionView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
+        }
+        #endif
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
+        self.view.backgroundColor = UIColor(named: "baseWhite")
         self.title = "Gallery".localized
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
 
         if UIDevice.current.userInterfaceIdiom == .pad {
             let layout = ColumnFlowLayout(
                 cellsPerRow: 7,
                 minimumInteritemSpacing: 5,
                 minimumLineSpacing: 5,
-                sectionInset: UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+                sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             )
             self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
         } else {
@@ -39,7 +68,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
                 cellsPerRow: 4,
                 minimumInteritemSpacing: 5,
                 minimumLineSpacing: 5,
-                sectionInset: UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+                sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             )
             self.collectionView = UICollectionView(frame: CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height), collectionViewLayout: layout)
         }
@@ -61,14 +90,14 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let x = 7
-            let y = (self.view.bounds.width) - 30
+            let y = (self.view.bounds.width) - 20
             let z = CGFloat(y)/CGFloat(x)
-            return CGSize(width: z - 7.5, height: z - 7.5)
+            return CGSize(width: z - 5, height: z - 5)
         } else {
             let x = 4
-            let y = (self.view.bounds.width) - 30
+            let y = (self.view.bounds.width) - 20
             let z = CGFloat(y)/CGFloat(x)
-            return CGSize(width: z - 7.5, height: z - 7.5)
+            return CGSize(width: z - 5, height: z - 5)
         }
     }
     
