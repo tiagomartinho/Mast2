@@ -349,7 +349,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
             alert.addOneTextField(configuration: config)
-            alert.addAction(title: "Edit".localized, style: .default) { action in
+            alert.addAction(title: "Update".localized, style: .default) { action in
             let request = Lists.update(id: GlobalStruct.allLists[indexPath.row - 1].id, title: self.txt)
                 GlobalStruct.client.run(request) { (statuses) in
                     if let stat = (statuses.value) {

@@ -605,12 +605,12 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                 }
             }
             alert.addOneTextField(configuration: config)
-            alert.addAction(title: "Edit".localized, style: .default) { action in
+            alert.addAction(title: "Update".localized, style: .default) { action in
             let request = Lists.update(id: self.theListID, title: self.txt)
                 GlobalStruct.client.run(request) { (statuses) in
                     if let stat = (statuses.value) {
                         DispatchQueue.main.async {
-                            self.fetchLists()
+                            self.title = self.txt
                         }
                     }
                 }
