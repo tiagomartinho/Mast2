@@ -499,6 +499,97 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func textLinks(_ theText: String) {
+        let theText = theText
+        let alert2 = UIAlertController(title: theText, message: nil, preferredStyle: .actionSheet)
+        alert2.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.left
+        let messageText = NSMutableAttributedString(
+            string: theText,
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            ]
+        )
+        alert2.setValue(messageText, forKey: "attributedTitle")
+        if let presenter = alert2.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert2, animated: true, completion: nil)
+    }
+    
+    func viewLinks() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        for x in GlobalStruct.currentUser.fields {
+            let op1 = UIAlertAction(title: x.name, style: .default , handler:{ (UIAlertAction) in
+                if let ur = URL(string: x.value.stripHTML()) {
+                    if UIApplication.shared.canOpenURL(ur) {
+                        GlobalStruct.tappedURL = ur
+                        ViewController().openLink()
+                    } else {
+                        self.textLinks(x.value.stripHTML())
+                    }
+                }
+            })
+            if x.verifiedAt == nil {
+                op1.setValue(UIImage(systemName: "link")!, forKey: "image")
+            } else {
+                op1.setValue(UIImage(systemName: "checkmark.seal")!, forKey: "image")
+            }
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func viewLinks2() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        for x in self.pickedCurrentUser.fields {
+            let op1 = UIAlertAction(title: x.name, style: .default , handler:{ (UIAlertAction) in
+                if let ur = URL(string: x.value.stripHTML()) {
+                    if UIApplication.shared.canOpenURL(ur) {
+                        GlobalStruct.tappedURL = ur
+                        ViewController().openLink()
+                    } else {
+                        self.textLinks(x.value.stripHTML())
+                    }
+                }
+            })
+            if x.verifiedAt == nil {
+                op1.setValue(UIImage(systemName: "link")!, forKey: "image")
+            } else {
+                op1.setValue(UIImage(systemName: "checkmark.seal")!, forKey: "image")
+            }
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @objc func moreTapped() {
         if self.isYou {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -510,6 +601,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
+            
+            if GlobalStruct.currentUser.fields.isEmpty {
+                
+            } else {
+                let op90 = UIAlertAction(title: " \("Links".localized)", style: .default , handler:{ (UIAlertAction) in
+                    self.viewLinks()
+                })
+                op90.setValue(UIImage(systemName: "link")!, forKey: "image")
+                op90.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op90)
+            }
+            
             let op2 = UIAlertAction(title: " \("Liked".localized)", style: .default , handler:{ (UIAlertAction) in
                 let vc = LikedViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -566,6 +669,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            if self.pickedCurrentUser.fields.isEmpty {
+                
+            } else {
+                let op90 = UIAlertAction(title: " \("Links".localized)", style: .default , handler:{ (UIAlertAction) in
+                    self.viewLinks2()
+                })
+                op90.setValue(UIImage(systemName: "link")!, forKey: "image")
+                op90.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op90)
+            }
+            
             let op2 = UIAlertAction(title: " \("Mention".localized)", style: .default , handler:{ (UIAlertAction) in
                 
             })
