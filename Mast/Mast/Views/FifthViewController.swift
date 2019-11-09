@@ -685,6 +685,62 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.present(alert, animated: true, completion: nil)
     }
     
+    func editAccount() {
+        let isItLocked = GlobalStruct.currentUser.locked
+        var lockText = "Lock Account".localized
+        if isItLocked {
+            lockText = "Unlock Account".localized
+        }
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op7 = UIAlertAction(title: "\("Edit Avatar".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op7.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op7)
+        let op9 = UIAlertAction(title: "Edit Header".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op9.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op9)
+        let op10 = UIAlertAction(title: "\("Edit Display Name".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op10.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op10)
+        let op11 = UIAlertAction(title: "\("Edit Bio".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op11.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op11.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op11)
+        let op12 = UIAlertAction(title: "\("Edit Links".localized)", style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op12.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op12.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op12)
+        let op13 = UIAlertAction(title: lockText, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op13.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+        op13.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op13)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+                presenter.sourceView = cell.more
+                presenter.sourceRect = cell.more.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func moreOwnProfile() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op7 = UIAlertAction(title: " \("Endorsed".localized)", style: .default , handler:{ (UIAlertAction) in
@@ -701,7 +757,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op9)
         let op10 = UIAlertAction(title: " \("Edit Account".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+            self.editAccount()
         })
         op10.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
         op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
