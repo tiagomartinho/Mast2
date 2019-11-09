@@ -123,6 +123,84 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
                 GlobalStruct.baseTint = GlobalStruct.arrayCols[x]
             }
         }
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tabButtonItemLongPressed(_:)))
+        longPressRecognizer.minimumPressDuration = 0.7
+        self.tabBar.addGestureRecognizer(longPressRecognizer)
+    }
+
+    @objc func tabButtonItemLongPressed(_ recognizer: UILongPressGestureRecognizer) {
+        guard recognizer.state == .began else { return }
+        guard let tabBar = recognizer.view as? UITabBar else { return }
+        guard let tabBarItems = tabBar.items else { return }
+        guard let viewControllers = viewControllers else { return }
+        guard tabBarItems.count == viewControllers.count else { return }
+
+        let loc = recognizer.location(in: tabBar)
+
+        for (index, item) in tabBarItems.enumerated() {
+            guard let view = item.value(forKey: "view") as? UIView else { continue }
+            guard view.frame.contains(loc) else { continue }
+
+            if let _ = viewControllers[index] as? UINavigationController {
+                if index == 4 {
+                    self.displayAccounts()
+                }
+            }
+
+            break
+        }
+    }
+    
+    func displayAccounts() {
+        let instances = InstanceData.getAllInstances()
+        let alert = UIAlertController(title: "All Accounts".localized, message: nil, preferredStyle: .actionSheet)
+        var count = 0
+        for (z, x) in Account.getAccounts().enumerated() {
+            var instance: InstanceData? = nil
+            if InstanceData.getAllInstances().count == 0 {} else {
+                instance = InstanceData.getAllInstances()[z]
+            }
+            let instanceAndAccount = "@\(instance?.returnedText ?? "")"
+            
+            let op1 = UIAlertAction(title: "\(x.displayName) (@\(x.username)\(instanceAndAccount))", style: .default , handler:{ (UIAlertAction) in
+                let curr = InstanceData.getCurrentInstance()
+                if curr?.clientID == instances[z].clientID {
+                    
+                } else {
+                    InstanceData.setCurrentInstance(instance: instances[z])
+                    GlobalStruct.client = Client(
+                        baseURL: "https://\(instances[z].returnedText)",
+                        accessToken: instances[z].accessToken
+                    )
+                    FirstViewController().initialFetches()
+                    UIApplication.shared.keyWindow?.rootViewController = ViewController()
+                }
+            })
+            op1.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+            count += 1
+        }
+        
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.left
+        let messageText = NSMutableAttributedString(
+            string: "All Accounts".localized,
+            attributes: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            ]
+        )
+        alert.setValue(messageText, forKey: "attributedTitle")
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
