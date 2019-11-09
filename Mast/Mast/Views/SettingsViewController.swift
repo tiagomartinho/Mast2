@@ -122,7 +122,9 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 && indexPath.row == 0 {
+        if indexPath.section == 0 {
+            cell.accessoryType = .disclosureIndicator
+        } else if indexPath.section == 1 && indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 1 && indexPath.row == 1 {
             cell.accessoryType = .disclosureIndicator
@@ -145,12 +147,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
-            cell.imageView?.image = UIImage(systemName: "lock.open", withConfiguration: symbolConfig) ?? UIImage()
-            cell.textLabel?.text = "Unlock Mast Pro"
+            cell.imageView?.image = UIImage(systemName: "lock.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
+            cell.textLabel?.text = "Mast Pro"
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             cell.backgroundColor = GlobalStruct.baseTint
             cell.selectionStyle = .none
-            cell.accessoryType = .none
             return cell
             
 //            if GlobalStruct.iapPurchased {

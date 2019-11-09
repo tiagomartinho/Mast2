@@ -46,6 +46,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         self.collectionView.backgroundColor = UIColor.clear
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        self.collectionView.showsVerticalScrollIndicator = false
         self.collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
         self.view.addSubview(self.collectionView)
         self.collectionView.reloadData()

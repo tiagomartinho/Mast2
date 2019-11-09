@@ -85,12 +85,27 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func scrollTop1() {
         if self.tableView.alpha == 1 {
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                self.top1.alpha = 0
+                self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            }) { (completed: Bool) in
+            }
         }
         if self.tableViewL.alpha == 1 {
             self.tableViewL.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                self.top2.alpha = 0
+                self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            }) { (completed: Bool) in
+            }
         }
         if self.tableViewF.alpha == 1 {
             self.tableViewF.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                self.top3.alpha = 0
+                self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            }) { (completed: Bool) in
+            }
         }
     }
     
