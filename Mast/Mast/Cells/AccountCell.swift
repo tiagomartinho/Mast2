@@ -44,7 +44,7 @@ class AccountCell: UITableViewCell {
         usertag.translatesAutoresizingMaskIntoConstraints = false
         usertag.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
         usertag.textAlignment = .natural
-        usertag.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize)
+        usertag.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .caption1).pointSize + 3)
         usertag.isUserInteractionEnabled = false
         usertag.adjustsFontForContentSizeCategory = true
         usertag.numberOfLines = 1
