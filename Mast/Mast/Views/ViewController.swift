@@ -295,6 +295,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabOne.tabBarItem = UITabBarItem(title: "Feed".localized, image: im1, selectedImage: im1b)
             self.tabOne.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabOne.navigationBar.barTintColor = UIColor(named: "baseWhite")
+            self.tabOne.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: GlobalStruct.baseTint], for: .selected)
             self.tabOne.accessibilityLabel = "Feed".localized
             self.tabOne.tabBarItem.tag = 1
             
@@ -303,6 +304,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabTwo.tabBarItem = UITabBarItem(title: "Notifications".localized, image: im2, selectedImage: im2b)
             self.tabTwo.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabTwo.navigationBar.barTintColor = UIColor(named: "baseWhite")
+            self.tabTwo.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: GlobalStruct.baseTint], for: .selected)
             self.tabTwo.accessibilityLabel = "Notifications".localized
             self.tabTwo.tabBarItem.tag = 2
             
@@ -311,6 +313,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabThree.tabBarItem = UITabBarItem(title: "Messages".localized, image: im3, selectedImage: im3b)
             self.tabThree.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabThree.navigationBar.barTintColor = UIColor(named: "baseWhite")
+            self.tabThree.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: GlobalStruct.baseTint], for: .selected)
             self.tabThree.accessibilityLabel = "Messages".localized
             self.tabThree.tabBarItem.tag = 3
             
@@ -319,6 +322,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabFour.tabBarItem = UITabBarItem(title: "Explore".localized, image: im4, selectedImage: im4b)
             self.tabFour.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabFour.navigationBar.barTintColor = UIColor(named: "baseWhite")
+            self.tabFour.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: GlobalStruct.baseTint], for: .selected)
             self.tabFour.accessibilityLabel = "Explore".localized
             self.tabFour.tabBarItem.tag = 4
             
@@ -327,6 +331,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabFive.tabBarItem = UITabBarItem(title: "Profile".localized, image: im5, selectedImage: im5b)
             self.tabFive.navigationBar.backgroundColor = UIColor(named: "baseWhite")
             self.tabFive.navigationBar.barTintColor = UIColor(named: "baseWhite")
+            self.tabFive.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: GlobalStruct.baseTint], for: .selected)
             self.tabFive.accessibilityLabel = "Profile".localized
             self.tabFive.tabBarItem.tag = 5
             
