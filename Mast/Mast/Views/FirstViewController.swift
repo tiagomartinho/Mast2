@@ -527,6 +527,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableView.endUpdates()
                         UIView.setAnimationsEnabled(true)
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                 }
             }
@@ -566,6 +588,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableViewL.endUpdates()
                         UIView.setAnimationsEnabled(true)
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                 }
             }
@@ -605,6 +649,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableViewF.endUpdates()
                         UIView.setAnimationsEnabled(true)
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                 }
             }
@@ -1071,6 +1137,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.tableView.beginUpdates()
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.endUpdates()
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                 }
             }
@@ -1090,6 +1178,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.tableViewL.beginUpdates()
                         self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewL.endUpdates()
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                 }
             }
@@ -1109,6 +1219,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         self.tableViewF.beginUpdates()
                         self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewF.endUpdates()
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
                     }
                 }
             }
