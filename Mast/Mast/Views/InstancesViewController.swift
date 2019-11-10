@@ -89,15 +89,6 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail6"), object: nil)
-
-        // Add button
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        btn1.setImage(UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn1.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
-        btn1.accessibilityLabel = "More".localized
-        let addButton = UIBarButtonItem(customView: btn1)
-        self.navigationItem.setRightBarButton(addButton, animated: true)
         
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
@@ -588,66 +579,6 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
                 presenter.sourceView = self.view
                 presenter.sourceRect = self.view.bounds
             }
-        }
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    @objc func moreTapped() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "View List Members".localized, style: .default , handler:{ (UIAlertAction) in
-            let vc = ListMembersViewController()
-            vc.listID = self.theInstanceID
-            self.navigationController?.pushViewController(vc, animated: true)
-        })
-        op1.setValue(UIImage(systemName: "person.2.square.stack")!, forKey: "image")
-        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op1)
-        let op2 = UIAlertAction(title: "Edit List Name".localized, style: .default , handler:{ (UIAlertAction) in
-            
-            let alert = UIAlertController(style: .actionSheet, title: nil)
-            let config: TextField1.Config = { textField in
-                textField.becomeFirstResponder()
-                textField.textColor = UIColor(named: "baseBlack")!
-                textField.text = self.theInstance
-                textField.layer.borderWidth = 0
-                textField.layer.cornerRadius = 8
-                textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-                textField.backgroundColor = nil
-                textField.keyboardAppearance = .default
-                textField.keyboardType = .default
-                textField.isSecureTextEntry = false
-                textField.returnKeyType = .default
-                textField.action { textField in
-                    self.txt = textField.text ?? ""
-                }
-            }
-            alert.addOneTextField(configuration: config)
-            alert.addAction(title: "Update".localized, style: .default) { action in
-            let request = Lists.update(id: self.theInstanceID, title: self.txt)
-                GlobalStruct.client.run(request) { (statuses) in
-                    if let stat = (statuses.value) {
-                        DispatchQueue.main.async {
-                            self.title = self.txt
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "fetchLists"), object: nil)
-                        }
-                    }
-                }
-            }
-            alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
-                
-            }
-            alert.show()
-            
-        })
-        op2.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
-        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op2)
-        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            
-        }))
-        if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.btn1
-            presenter.sourceRect = self.btn1.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }

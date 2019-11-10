@@ -10,6 +10,11 @@
 		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
 		5339C600233FC74000770651 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */; };
 		5339C6022340BFF200770651 /* ComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6012340BFF200770651 /* ComposeCell.swift */; };
+		5343C0A423782FE100653A28 /* Countries.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5343C09A23782FE100653A28 /* Countries.bundle */; };
+		5343C0A523782FE100653A28 /* LocaleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343C09C23782FE100653A28 /* LocaleStore.swift */; };
+		5343C0A623782FE100653A28 /* LocaleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343C09E23782FE100653A28 /* LocaleInfo.swift */; };
+		5343C0A723782FE100653A28 /* LocalePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343C09F23782FE100653A28 /* LocalePickerViewController.swift */; };
+		5343C0AA23782FE100653A28 /* CountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5343C0A323782FE100653A28 /* CountryCell.swift */; };
 		53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3023293E3600A470E2 /* AppDelegate.swift */; };
 		53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3223293E3600A470E2 /* SceneDelegate.swift */; };
 		53449D3523293E3600A470E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53449D3423293E3600A470E2 /* ViewController.swift */; };
@@ -350,6 +355,11 @@
 		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
 		5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		5339C6012340BFF200770651 /* ComposeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeCell.swift; sourceTree = "<group>"; };
+		5343C09A23782FE100653A28 /* Countries.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Countries.bundle; sourceTree = "<group>"; };
+		5343C09C23782FE100653A28 /* LocaleStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocaleStore.swift; sourceTree = "<group>"; };
+		5343C09E23782FE100653A28 /* LocaleInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocaleInfo.swift; sourceTree = "<group>"; };
+		5343C09F23782FE100653A28 /* LocalePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalePickerViewController.swift; sourceTree = "<group>"; };
+		5343C0A323782FE100653A28 /* CountryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCell.swift; sourceTree = "<group>"; };
 		53449D2D23293E3600A470E2 /* Mast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53449D3023293E3600A470E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53449D3223293E3600A470E2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -695,6 +705,42 @@
 			path = iPad;
 			sourceTree = "<group>";
 		};
+		5343C09923782FE100653A28 /* Locale */ = {
+			isa = PBXGroup;
+			children = (
+				5343C09A23782FE100653A28 /* Countries.bundle */,
+				5343C09B23782FE100653A28 /* Managers */,
+				5343C09D23782FE100653A28 /* Models */,
+				5343C09F23782FE100653A28 /* LocalePickerViewController.swift */,
+				5343C0A023782FE100653A28 /* Views */,
+			);
+			path = Locale;
+			sourceTree = "<group>";
+		};
+		5343C09B23782FE100653A28 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5343C09C23782FE100653A28 /* LocaleStore.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		5343C09D23782FE100653A28 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5343C09E23782FE100653A28 /* LocaleInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5343C0A023782FE100653A28 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5343C0A323782FE100653A28 /* CountryCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		53449D2423293E3600A470E2 = {
 			isa = PBXGroup;
 			children = (
@@ -920,6 +966,7 @@
 		53A4F3B92376E59200EC12C6 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				5343C09923782FE100653A28 /* Locale */,
 				53A4F3BA2376E59200EC12C6 /* Extensions */,
 				53A4F3D02376E59200EC12C6 /* Viewers */,
 				53A4F3FF2376E59200EC12C6 /* Pickers */,
@@ -1379,6 +1426,7 @@
 				53A4F4F623771FD800EC12C6 /* icon22@2x.png in Resources */,
 				53A4F4942377171600EC12C6 /* icon12@2x.png in Resources */,
 				53A4F49C2377171600EC12C6 /* icon5.png in Resources */,
+				5343C0A423782FE100653A28 /* Countries.bundle in Resources */,
 				53A4F4842377171600EC12C6 /* icon6@2x.png in Resources */,
 				53A4F4A82377171600EC12C6 /* icon12@3x.png in Resources */,
 				53A4F50D23771FD800EC12C6 /* icon24.png in Resources */,
@@ -1521,12 +1569,14 @@
 				53B5F204233E63C80099B170 /* ColumnViewController.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53A4F40A2376E59200EC12C6 /* UISegmentedControl+Extensions.swift in Sources */,
+				5343C0A723782FE100653A28 /* LocalePickerViewController.swift in Sources */,
 				53449D3523293E3600A470E2 /* ViewController.swift in Sources */,
 				5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,
 				5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */,
 				53AF450423742F05001A3574 /* ListViewController.swift in Sources */,
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,
+				5343C0AA23782FE100653A28 /* CountryCell.swift in Sources */,
 				53449DB823294C1000A470E2 /* Relationship.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
 				53AF450C2375AC2A001A3574 /* GetInTouchSettingsViewController.swift in Sources */,
@@ -1548,6 +1598,7 @@
 				53449DCF23294C1000A470E2 /* Media.swift in Sources */,
 				5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */,
 				53A4F4342376E59200EC12C6 /* UIImageView.swift in Sources */,
+				5343C0A623782FE100653A28 /* LocaleInfo.swift in Sources */,
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
 				53449D9D23294C1000A470E2 /* URLComponents.swift in Sources */,
@@ -1612,6 +1663,7 @@
 				53A4F4232376E59200EC12C6 /* ItemController.swift in Sources */,
 				53A4F4322376E59200EC12C6 /* UIButton.swift in Sources */,
 				5379F42423323D3100DC1F33 /* NotificationsCell.swift in Sources */,
+				5343C0A523782FE100653A28 /* LocaleStore.swift in Sources */,
 				53A4F4182376E59200EC12C6 /* Bundle+Extensions.swift in Sources */,
 				53A4F40F2376E59200EC12C6 /* String+Extensions.swift in Sources */,
 				53449DDC23294C1000A470E2 /* Payload.swift in Sources */,

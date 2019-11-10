@@ -80,10 +80,10 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             self.navigationItem.setRightBarButton(addButton, animated: true)
         } else {
             let btn1 = UIButton(type: .custom)
-            btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            btn1.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
-            btn1.accessibilityLabel = "Create".localized
+            btn1.addTarget(self, action: #selector(self.searchTapped), for: .touchUpInside)
+            btn1.accessibilityLabel = "Search".localized
             let addButton = UIBarButtonItem(customView: btn1)
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
@@ -148,7 +148,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         
         // Table
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "addCell")
-        self.tableView.register(ListCell.self, forCellReuseIdentifier: "ListCell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "addCell2")
         self.tableView.register(FollowersCell.self, forCellReuseIdentifier: "FollowersCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -180,8 +180,39 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.show(UINavigationController(rootViewController: SettingsViewController()), sender: self)
     }
     
-    @objc func addTapped() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+    @objc func searchTapped() {
+//        let alert = UIAlertController(style: .actionSheet, title: nil)
+//        let config: TextField1.Config = { textField in
+//            textField.becomeFirstResponder()
+//            textField.textColor = UIColor(named: "baseBlack")!
+//            textField.placeholder = "Search..."
+//            textField.layer.borderWidth = 0
+//            textField.layer.cornerRadius = 8
+//            textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+//            textField.backgroundColor = nil
+//            textField.keyboardAppearance = .default
+//            textField.keyboardType = .default
+//            textField.isSecureTextEntry = false
+//            textField.returnKeyType = .default
+//            textField.action { textField in
+//                self.txt = textField.text ?? ""
+//            }
+//        }
+//        alert.addOneTextField(configuration: config)
+//        alert.addAction(title: "Search".localized, style: .default) { action in
+//
+//        }
+//        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+//
+//        }
+//        alert.show()
+        
+        let alert = UIAlertController(style: .actionSheet, message: nil)
+        alert.addLocalePicker(type: .country) { info in
+            // action with selected object
+        }
+        alert.addAction(title: "Dismiss", style: .cancel)
+        alert.show()
     }
     
     @objc func fetchLists() {
@@ -227,7 +258,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             title.text = "Follow Suggestions".localized
         }
-        title.textColor = UIColor(named: "baseBlack")
+        title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
         title.font = UIFont.boldSystemFont(ofSize: 16)
         vw.addSubview(title)
         return vw
@@ -241,6 +272,13 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.accessoryType = .disclosureIndicator
             }
         }
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                cell.accessoryType = .none
+            } else {
+                cell.accessoryType = .disclosureIndicator
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -248,19 +286,22 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
                 cell.backgroundColor = UIColor(named: "baseWhite")
-                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
-                cell.imageView?.image = UIImage(systemName: "plus", withConfiguration: symbolConfig) ?? UIImage()
-                let descriptionSideString = NSMutableAttributedString(string: "Add New List".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                cell.imageView?.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Add New List".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.textLabel?.attributedText = descriptionSideString
                 cell.accessoryType = .none
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "addCell2", for: indexPath)
                 if GlobalStruct.allLists.isEmpty {
                     self.fetchLists()
                 } else {
-                    cell.configure(GlobalStruct.allLists[indexPath.row - 1])
+                    let descriptionSideString = NSMutableAttributedString(string: GlobalStruct.allLists[indexPath.row - 1].title, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                    cell.textLabel?.attributedText = descriptionSideString
                 }
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                cell.imageView?.image = UIImage(systemName: "list.bullet", withConfiguration: symbolConfig) ?? UIImage()
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -271,19 +312,22 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
                 cell.backgroundColor = UIColor(named: "baseWhite")
-                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
-                cell.imageView?.image = UIImage(systemName: "plus", withConfiguration: symbolConfig) ?? UIImage()
-                let descriptionSideString = NSMutableAttributedString(string: "Add Instance Timeline".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                cell.imageView?.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Add Instance Timeline".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.textLabel?.attributedText = descriptionSideString
                 cell.accessoryType = .none
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "addCell2", for: indexPath)
                 if GlobalStruct.allCustomInstances.isEmpty {
                     
                 } else {
-                    cell.configure2(GlobalStruct.allCustomInstances[indexPath.row - 1])
+                    let descriptionSideString = NSMutableAttributedString(string: GlobalStruct.allCustomInstances[indexPath.row - 1], attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                    cell.textLabel?.attributedText = descriptionSideString
                 }
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                cell.imageView?.image = UIImage(systemName: "text.bubble", withConfiguration: symbolConfig) ?? UIImage()
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear

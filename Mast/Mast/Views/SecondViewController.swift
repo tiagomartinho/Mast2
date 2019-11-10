@@ -147,7 +147,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        btn2.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.setImage(UIImage(systemName: "line.horizontal.3.decrease", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.sortTapped), for: .touchUpInside)
         btn2.accessibilityLabel = "Sort".localized

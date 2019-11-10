@@ -43,6 +43,8 @@ class GlobalStruct {
     static var notificationsMentions: [Notificationt] = []
     static var notificationsDirect: [Conversation] = []
     
+    static var statusSearch: [Status] = []
+    
     static var currentUser: Account!
     
     static var allLists: [List] = []

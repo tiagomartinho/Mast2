@@ -305,13 +305,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let title = UILabel()
             title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
             title.text = "Recent Media".localized
-            title.textColor = UIColor(named: "baseBlack")
+            title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
             title.font = UIFont.boldSystemFont(ofSize: 16)
             vw.addSubview(title)
             
             let butt = UIButton()
             butt.frame = CGRect(x: self.view.bounds.width - (UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0) - 48, y: 0, width: 30, height: 30)
-            butt.setImage(UIImage(systemName: "photo.on.rectangle"), for: .normal)
+            butt.setImage(UIImage(systemName: "arrow.right"), for: .normal)
             butt.contentMode = .scaleAspectFit
             butt.addTarget(self, action: #selector(self.viewGallery), for: .touchUpInside)
             vw.addSubview(butt)
@@ -335,7 +335,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let formattedNumber = numberFormatter.string(from: NSNumber(value: theUser?.statusesCount ?? 0))
             
             title.text = "\(formattedNumber ?? "0") Toots".localized
-            title.textColor = UIColor(named: "baseBlack")
+            title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
             title.font = UIFont.boldSystemFont(ofSize: 16)
             vw.addSubview(title)
             return vw
