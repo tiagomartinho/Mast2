@@ -44,6 +44,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let top3 = UIButton()
     let btn2 = UIButton(type: .custom)
     var newInstance = false
+    var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -421,22 +422,22 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         
         if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
-            
+            self.notTypes = []
         } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
-            GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
         } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
-            GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
         } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
-            GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
         } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
-            GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
         } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
-            GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
         } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
-            GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
         }
         
-        let request4 = Notifications.all(range: .default, typesToExclude: GlobalStruct.notTypes)
+        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
         GlobalStruct.client.run(request4) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
