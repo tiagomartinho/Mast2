@@ -347,8 +347,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
         let op5 = UIAlertAction(title: "Messages".localized, style: .default , handler:{ (UIAlertAction) in
-            GlobalStruct.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
-            self.filterNots()
+        self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+        self.filterNots()
             UserDefaults.standard.set(4, forKey: "filterNotifications")
         })
         if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
