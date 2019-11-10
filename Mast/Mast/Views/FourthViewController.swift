@@ -132,6 +132,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.fetchLists), name: NSNotification.Name(rawValue: "fetchLists"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewSearchDetail), name: NSNotification.Name(rawValue: "viewSearchDetail"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewSearchDetail2), name: NSNotification.Name(rawValue: "viewSearchDetail2"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.searchTapped), name: NSNotification.Name(rawValue: "searchTapped"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
