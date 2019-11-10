@@ -1126,9 +1126,58 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         repo3.attributes = .destructive
         
         let rep = UIMenu(__title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil, options: [.destructive], children: [repo1, repo2, repo3])
-        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, rep])
         
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+        if GlobalStruct.currentUser.id == (status.first?.account.id ?? "") {
+            
+            let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                self.pinToot(status.first!)
+            }
+            let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                self.unpinToot(status.first!)
+            }
+            let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
+                
+            }
+            del1.attributes = .destructive
+            let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+                
+            }
+            del2.attributes = .destructive
+            
+            if GlobalStruct.allPinned.contains(status.first!) {
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, bloc, del2, del2])
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            } else {
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, bloc, del2, del2])
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            }
+            
+        } else {
+            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, rep])
+            return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+        }
+    }
+    
+    func pinToot(_ status: Status) {
+        let request = Statuses.pin(id: status.id ?? "")
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = statuses.value {
+                DispatchQueue.main.async {
+                    
+                }
+            }
+        }
+    }
+    
+    func unpinToot(_ status: Status) {
+        let request = Statuses.unpin(id: status.id ?? "")
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = statuses.value {
+                DispatchQueue.main.async {
+                    
+                }
+            }
+        }
     }
     
     func toggleBoostOn(_ stat: [Status]) {
