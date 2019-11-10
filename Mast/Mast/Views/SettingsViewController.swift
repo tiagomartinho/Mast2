@@ -150,6 +150,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.imageView?.image = UIImage(systemName: "lock.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
             cell.textLabel?.text = "Mast Pro"
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            cell.textLabel?.textColor = UIColor.white
             cell.backgroundColor = GlobalStruct.baseTint
             cell.selectionStyle = .none
             return cell

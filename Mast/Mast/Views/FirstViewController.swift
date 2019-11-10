@@ -448,6 +448,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 GlobalStruct.currentInstanceDetails = [stat]
             }
         }
+        
+        if let x = UserDefaults.standard.value(forKey: "sync-customInstances") as? [String] {
+            GlobalStruct.allCustomInstances = x
+        }
     }
     
     @objc func refresh(_ sender: AnyObject) {

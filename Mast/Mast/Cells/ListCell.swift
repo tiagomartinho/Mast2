@@ -54,6 +54,11 @@ class ListCell: UITableViewCell {
         self.content.text = list.title
     }
     
+    func configure2(_ list: String) {
+        containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
+        self.content.text = list
+    }
+    
     func highlightCell() {
         springWithDelay(duration: 0.3, delay: 0, animations: {
             self.containerView.alpha = 1

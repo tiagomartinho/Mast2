@@ -197,12 +197,14 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return GlobalStruct.allLists.count + 1
+        } else if section == 1 {
+            return GlobalStruct.allCustomInstances.count + 1
         } else {
             return self.statusesSuggested.count
         }
@@ -220,6 +222,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
         if section == 0 {
             title.text = "Your Lists".localized
+        } else if section == 1 {
+            title.text = "Instance Timelines".localized
         } else {
             title.text = "Follow Suggestions".localized
         }
@@ -256,6 +260,29 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                     self.fetchLists()
                 } else {
                     cell.configure(GlobalStruct.allLists[indexPath.row - 1])
+                }
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
+                cell.backgroundColor = UIColor(named: "baseWhite")
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
+                cell.imageView?.image = UIImage(systemName: "plus", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Add Instance Timeline".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.textLabel?.attributedText = descriptionSideString
+                cell.accessoryType = .none
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
+                if GlobalStruct.allCustomInstances.isEmpty {
+                    
+                } else {
+                    cell.configure2(GlobalStruct.allCustomInstances[indexPath.row - 1])
                 }
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
@@ -314,8 +341,10 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 } else {
                     return self.makeContextMenu([self.statusesSuggested[indexPath.row - 1]], indexPath: indexPath)
                 }
+            } else if indexPath.section == 1 {
+                return self.makeContextMenu2([GlobalStruct.allCustomInstances[indexPath.row - 1]], indexPath: indexPath)
             } else {
-                return self.makeContextMenu2([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu3([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
             }
         })
     }
@@ -375,7 +404,19 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         return UIMenu(__title: "", image: nil, identifier: nil, children: [op1, op2, op3])
     }
     
-    func makeContextMenu2(_ status: [Account], indexPath: IndexPath) -> UIMenu {
+    func makeContextMenu2(_ status: [String], indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            DispatchQueue.main.async {
+                GlobalStruct.allCustomInstances.remove(at: indexPath.row - 1)
+                UserDefaults.standard.set(GlobalStruct.allCustomInstances, forKey: "sync-customInstances")
+                self.tableView.reloadData()
+            }
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+    }
+    
+    func makeContextMenu3(_ status: [Account], indexPath: IndexPath) -> UIMenu {
         let remove = UIAction(title: "Follow".localized, image: UIImage(systemName: "arrow.upright.circle"), identifier: nil) { action in
             let request = Accounts.follow(id: status.first?.id ?? "", reblogs: true)
             GlobalStruct.client.run(request) { (statuses) in
@@ -431,6 +472,73 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 vc.theListID = GlobalStruct.allLists[indexPath.row - 1].id
                 vc.theList = GlobalStruct.allLists[indexPath.row - 1].title
                 self.navigationController?.pushViewController(vc, animated: true)
+            }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+
+                let alert = UIAlertController(style: .actionSheet, title: nil)
+                let config: TextField1.Config = { textField in
+                    textField.becomeFirstResponder()
+                    textField.textColor = UIColor(named: "baseBlack")!
+                    textField.placeholder = "Instance timeline...".localized
+                    textField.layer.borderWidth = 0
+                    textField.layer.cornerRadius = 8
+                    textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                    textField.backgroundColor = nil
+                    textField.keyboardAppearance = .default
+                    textField.keyboardType = .default
+                    textField.isSecureTextEntry = false
+                    textField.returnKeyType = .default
+                    textField.action { textField in
+                        self.txt = textField.text ?? ""
+                    }
+                }
+                alert.addOneTextField(configuration: config)
+                alert.addAction(title: "Add".localized, style: .default) { action in
+                    let request = Timelines.public(local: true, range: .max(id: "", limit: nil))
+                    let testClient = Client(
+                        baseURL: "https://\(self.txt)",
+                        accessToken: GlobalStruct.currentInstance.accessToken
+                    )
+                    testClient.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                if GlobalStruct.allCustomInstances.contains(self.txt.lowercased()) {} else {
+                                    GlobalStruct.allCustomInstances.append(self.txt.lowercased())
+                                    UserDefaults.standard.set(GlobalStruct.allCustomInstances, forKey: "sync-customInstances")
+                                    self.tableView.reloadData()
+                                }
+                                let vc = InstancesViewController()
+                                vc.theInstanceID = stat.first?.id ?? ""
+                                vc.theInstance = self.txt.lowercased()
+                                vc.statusesInstance = stat
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                    }
+                }
+                alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                    
+                }
+                alert.show()
+                
+            } else {
+                let request = Timelines.public(local: true, range: .max(id: "", limit: nil))
+                let testClient = Client(
+                    baseURL: "https://\(GlobalStruct.allCustomInstances[indexPath.row - 1])",
+                    accessToken: GlobalStruct.currentInstance.accessToken
+                )
+                testClient.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            let vc = InstancesViewController()
+                            vc.theInstanceID = stat.first?.id ?? ""
+                            vc.theInstance = GlobalStruct.allCustomInstances[indexPath.row - 1].lowercased()
+                            vc.statusesInstance = stat
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }
             }
         } else {
             let vc = FifthViewController()
