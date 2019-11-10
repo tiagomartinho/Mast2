@@ -218,6 +218,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
         }
+        if UserDefaults.standard.value(forKey: "filterTimelines") == nil {
+            UserDefaults.standard.set(0, forKey: "filterTimelines")
+        }
         if UserDefaults.standard.value(forKey: "filterNotifications") == nil {
             UserDefaults.standard.set(0, forKey: "filterNotifications")
         }
@@ -650,6 +653,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func sortTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
+            UserDefaults.standard.set(0, forKey: "filterTimelines")
             DispatchQueue.main.async {
                 GlobalStruct.statusesHome = self.statusesHome
                 self.tableView.reloadData()
@@ -659,10 +663,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 self.tableViewF.reloadData()
             }
         })
-        op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 0 {
+            op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+        } else {
+            op1.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        }
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "Boosted".localized, style: .default , handler:{ (UIAlertAction) in
+            UserDefaults.standard.set(1, forKey: "filterTimelines")
             DispatchQueue.main.async {
                 GlobalStruct.statusesHome = self.statusesHome
                 GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
@@ -693,10 +702,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 self.tableViewF.reloadData()
             }
         })
-        op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+            op2.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+        } else {
+            op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        }
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Contains Media".localized, style: .default , handler:{ (UIAlertAction) in
+            UserDefaults.standard.set(2, forKey: "filterTimelines")
             DispatchQueue.main.async {
                 GlobalStruct.statusesHome = self.statusesHome
                 GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
@@ -727,7 +741,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 self.tableViewF.reloadData()
             }
         })
-        op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+            op3.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+        } else {
+            op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        }
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
