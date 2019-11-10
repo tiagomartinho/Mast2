@@ -59,8 +59,8 @@ final class LocalePickerViewController: UIViewController {
     fileprivate lazy var searchController: UISearchController = { [unowned self] in
         $0.searchResultsUpdater = self
         $0.searchBar.delegate = self
-        $0.dimsBackgroundDuringPresentation = false
-        /// true if search bar in tableView header
+        $0.searchBar.showsCancelButton = false
+        $0.dimsBackgroundDuringPresentation = true
         $0.hidesNavigationBarDuringPresentation = true
         $0.searchBar.searchBarStyle = .minimal
         $0.searchBar.textField?.textColor = UIColor(named: "baseBlack")!
@@ -122,6 +122,8 @@ final class LocalePickerViewController: UIViewController {
         tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         
         updateInfo()
+        
+        searchController.searchBar.becomeFirstResponder()
     }
     
     override func viewWillLayoutSubviews() {
@@ -146,15 +148,6 @@ final class LocalePickerViewController: UIViewController {
                 
             case .success(let orderedInfo):
                 let data: [String: [LocaleInfo]] = orderedInfo
-                /*
-                 switch self.type {
-                 case .currency:
-                 data = data.filter { i in
-                 guard let code = i.currencyCode else { return false }
-                 return Locale.commonISOCurrencyCodes.contains(code)
-                 }.sorted { $0.currencyCode < $1.currencyCode }
-                 default: break }
-                 */
                 
                 self.orderedInfo = data
                 self.sortedInfoKeys = Array(self.orderedInfo.keys).sorted(by: <)
@@ -178,17 +171,6 @@ final class LocalePickerViewController: UIViewController {
             }
         }
     }
-    
-//    func info(at indexPath: IndexPath) -> LocaleInfo? {
-//        if searchController.isActive {
-//            return filteredInfo[indexPath.row]
-//        }
-//        let key: String = sortedInfoKeys[indexPath.section]
-//        if let info = orderedInfo[key]?[indexPath.row] {
-//            return info
-//        }
-//        return nil
-//    }
     
     func indexPathOfSelectedInfo() -> IndexPath? {
         guard let selectedInfo = selectedInfo else { return nil }
@@ -218,7 +200,13 @@ extension LocalePickerViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, searchController.isActive {
-//            filteredInfo = []
+            if searchText == "" {
+                searchController.searchBar.showsCancelButton = false
+                self.filteredInfo = []
+                self.tableView.reloadData()
+            } else {
+                searchController.searchBar.showsCancelButton = true
+            }
             let request = Timelines.tag(searchText)
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {
@@ -245,7 +233,10 @@ extension LocalePickerViewController: UISearchResultsUpdating {
 extension LocalePickerViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-
+        searchController.searchBar.showsCancelButton = false
+        searchBar.text = ""
+        self.filteredInfo = []
+        self.tableView.reloadData()
     }
 }
 
@@ -256,6 +247,10 @@ extension LocalePickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selection = self.filteredInfo[indexPath.row]
+        GlobalStruct.statusSearched = [selection]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "viewSearchDetail"), object: self)
+        self.indicatorView.stopAnimating()
+        self.alertController?.dismiss(animated: true)
     }
 }
 
@@ -270,27 +265,24 @@ extension LocalePickerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive { return filteredInfo.count }
-//        if let infoForSection = orderedInfo[sortedInfoKeys[section]] {
-//            return infoForSection.count
-//        }
         return 0
     }
     
-    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        if searchController.isActive { return 0 }
-        tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: .top , animated: false)
-        return sortedInfoKeys.index(of: title)!
-    }
+//    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+//        if searchController.isActive { return 0 }
+//        tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: .top , animated: false)
+//        return sortedInfoKeys.index(of: title)!
+//    }
     
-    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        if searchController.isActive { return nil }
-        return sortedInfoKeys
-    }
+//    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+//        if searchController.isActive { return nil }
+//        return sortedInfoKeys
+//    }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if searchController.isActive { return nil }
-        return sortedInfoKeys[section]
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if searchController.isActive { return nil }
+//        return sortedInfoKeys[section]
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell

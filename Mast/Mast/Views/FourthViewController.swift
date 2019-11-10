@@ -130,6 +130,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail4"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.fetchLists), name: NSNotification.Name(rawValue: "fetchLists"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.viewSearchDetail), name: NSNotification.Name(rawValue: "viewSearchDetail"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -225,6 +226,12 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
+    }
+    
+    @objc func viewSearchDetail() {
+        let vc = DetailViewController()
+        vc.pickedStatusesHome = [GlobalStruct.statusSearched[0].reblog ?? GlobalStruct.statusSearched[0]]
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
