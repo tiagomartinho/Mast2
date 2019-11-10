@@ -189,6 +189,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
+
+        let request7 = Accounts.statuses(id: GlobalStruct.currentUser.id, mediaOnly: false, pinnedOnly: true, excludeReplies: false, excludeReblogs: false, range: .default)
+        GlobalStruct.client.run(request7) { (statuses) in
+            if let stat = statuses.value {
+                GlobalStruct.allPinned = stat
+            }
+        }
     }
     
     @objc func didTouchDetailPrev() {
