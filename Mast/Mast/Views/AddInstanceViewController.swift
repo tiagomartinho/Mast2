@@ -73,6 +73,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
         self.textField.delegate = self
         self.textField.attributedPlaceholder = NSAttributedString(string: "mastodon.social",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        self.textField.accessibilityLabel = "Enter Instance"
         self.view.addSubview(self.textField)
     }
     
