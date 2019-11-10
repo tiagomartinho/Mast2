@@ -44,13 +44,17 @@ final class LocalePickerViewController: UIViewController {
         case currency
     }
     
+    fileprivate var whichSegment: Int = 0
     fileprivate var type: Kind
     fileprivate var selection: Selection?
     
     fileprivate var orderedInfo = [String: [LocaleInfo]]()
     fileprivate var sortedInfoKeys = [String]()
     fileprivate var filteredInfo: [Status] = []
+    fileprivate var filteredInfo2: [Account] = []
     fileprivate var selectedInfo: LocaleInfo?
+    
+    fileprivate let segment: UISegmentedControl = UISegmentedControl(items: ["Toots".localized, "Users".localized])
     
     //fileprivate var searchBarIsActive: Bool = false
     
@@ -115,11 +119,12 @@ final class LocalePickerViewController: UIViewController {
         
         searchView.addSubview(searchController.searchBar)
         tableView.tableHeaderView = searchView
-        
-        //extendedLayoutIncludesOpaqueBars = true
-        //edgesForExtendedLayout = .bottom
         definesPresentationContext = true
         tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
+        tableView.register(MuteBlockCell.self, forCellReuseIdentifier: "MuteBlockCell")
+        
+        self.segment.selectedSegmentIndex = 0
+        self.segment.addTarget(self, action: #selector(changeSegment(_:)), for: .valueChanged)
         
         updateInfo()
         
@@ -132,6 +137,8 @@ final class LocalePickerViewController: UIViewController {
         searchController.searchBar.sizeToFit()
         searchController.searchBar.frame.size.width = searchView.frame.size.width
         searchController.searchBar.frame.size.height = searchView.frame.size.height
+        
+        self.segment.frame = CGRect(x: 15, y: 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
     }
     
     override func viewDidLayoutSubviews() {
@@ -173,24 +180,45 @@ final class LocalePickerViewController: UIViewController {
     }
     
     func indexPathOfSelectedInfo() -> IndexPath? {
-        guard let selectedInfo = selectedInfo else { return nil }
-        if searchController.isActive {
-            for row in 0 ..< filteredInfo.count {
-                if filteredInfo[row].id == selectedInfo.id {
-                    return IndexPath(row: row, section: 0)
-                }
-            }
-        }
-        for section in 0 ..< sortedInfoKeys.count {
-            if let orderedInfo = orderedInfo[sortedInfoKeys[section]] {
-                for row in 0 ..< orderedInfo.count {
-                    if orderedInfo[row].id == selectedInfo.id {
-                        return IndexPath(row: row, section: section)
+        if self.whichSegment == 0 {
+            guard let selectedInfo = selectedInfo else { return nil }
+            if searchController.isActive {
+                for row in 0 ..< filteredInfo.count {
+                    if filteredInfo[row].id == selectedInfo.id {
+                        return IndexPath(row: row, section: 0)
                     }
                 }
             }
+            for section in 0 ..< sortedInfoKeys.count {
+                if let orderedInfo = orderedInfo[sortedInfoKeys[section]] {
+                    for row in 0 ..< orderedInfo.count {
+                        if orderedInfo[row].id == selectedInfo.id {
+                            return IndexPath(row: row, section: section)
+                        }
+                    }
+                }
+            }
+            return nil
+        } else {
+            guard let selectedInfo = selectedInfo else { return nil }
+            if searchController.isActive {
+                for row in 0 ..< filteredInfo2.count {
+                    if filteredInfo2[row].id == selectedInfo.id {
+                        return IndexPath(row: row, section: 0)
+                    }
+                }
+            }
+            for section in 0 ..< sortedInfoKeys.count {
+                if let orderedInfo = orderedInfo[sortedInfoKeys[section]] {
+                    for row in 0 ..< orderedInfo.count {
+                        if orderedInfo[row].id == selectedInfo.id {
+                            return IndexPath(row: row, section: section)
+                        }
+                    }
+                }
+            }
+            return nil
         }
-        return nil
     }
 }
 
@@ -201,11 +229,9 @@ extension LocalePickerViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, searchController.isActive {
             if searchText == "" {
-//                searchController.searchBar.showsCancelButton = false
                 self.filteredInfo = []
+                self.filteredInfo2 = []
                 self.tableView.reloadData()
-            } else {
-//                searchController.searchBar.showsCancelButton = true
             }
             let request = Timelines.tag(searchText)
             GlobalStruct.client.run(request) { (statuses) in
@@ -214,6 +240,18 @@ extension LocalePickerViewController: UISearchResultsUpdating {
                         GlobalStruct.statusSearch = stat
                         if searchText.count > 0 {
                             self.filteredInfo = stat
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+            }
+            let request2 = Accounts.search(query: searchText)
+            GlobalStruct.client.run(request2) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        GlobalStruct.statusSearch2 = stat
+                        if searchText.count > 0 {
+                            self.filteredInfo2 = stat
                             self.tableView.reloadData()
                         }
                     }
@@ -237,6 +275,7 @@ extension LocalePickerViewController: UISearchBarDelegate {
         searchBar.text = ""
         searchBar.endEditing(true)
         self.filteredInfo = []
+        self.filteredInfo2 = []
         self.tableView.reloadData()
     }
 }
@@ -247,11 +286,19 @@ extension LocalePickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selection = self.filteredInfo[indexPath.row]
-        GlobalStruct.statusSearched = [selection]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "viewSearchDetail"), object: self)
-        self.indicatorView.stopAnimating()
-        self.alertController?.dismiss(animated: true)
+        if self.whichSegment == 0 {
+            let selection = self.filteredInfo[indexPath.row]
+            GlobalStruct.statusSearched = [selection]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewSearchDetail"), object: self)
+            self.indicatorView.stopAnimating()
+            self.alertController?.dismiss(animated: true)
+        } else {
+            let selection = self.filteredInfo2[indexPath.row]
+            GlobalStruct.statusSearched2 = [selection]
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewSearchDetail2"), object: self)
+            self.indicatorView.stopAnimating()
+            self.alertController?.dismiss(animated: true)
+        }
     }
 }
 
@@ -265,7 +312,11 @@ extension LocalePickerViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive { return filteredInfo.count }
+        if self.whichSegment == 0 {
+            if searchController.isActive { return filteredInfo.count }
+        } else {
+            if searchController.isActive { return filteredInfo2.count }
+        }
         return 0
     }
     
@@ -285,13 +336,51 @@ extension LocalePickerViewController: UITableViewDataSource {
 //        return sortedInfoKeys[section]
 //    }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-        if self.filteredInfo.isEmpty {
-            
-        } else {
-            cell.configure(self.filteredInfo[indexPath.row])
+    @objc func changeSegment(_ segment: UISegmentedControl) {
+        if segment.selectedSegmentIndex == 0 {
+            self.whichSegment = 0
+            self.tableView.reloadData()
         }
-        return cell
+        if segment.selectedSegmentIndex == 1 {
+            self.whichSegment = 1
+            self.tableView.reloadData()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let vw = UIView()
+        vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50)
+        vw.addSubview(self.segment)
+        return vw
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if self.filteredInfo.isEmpty {
+            return 0
+        } else {
+            return 50
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if self.whichSegment == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
+            if self.filteredInfo.isEmpty {
+                
+            } else {
+                cell.configure(self.filteredInfo[indexPath.row])
+            }
+            cell.backgroundColor = .clear
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MuteBlockCell", for: indexPath) as! MuteBlockCell
+            if self.filteredInfo2.isEmpty {
+
+            } else {
+                cell.configure(self.filteredInfo2[indexPath.row])
+            }
+            cell.backgroundColor = .clear
+            return cell
+        }
     }
 }
