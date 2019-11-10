@@ -420,12 +420,27 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         
-        let request4 = Notifications.all(range: .default)
+        if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
+            
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
+            GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
+            GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
+            GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
+            GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
+            GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
+            GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
+        }
+        
+        let request4 = Notifications.all(range: .default, typesToExclude: GlobalStruct.notTypes)
         GlobalStruct.client.run(request4) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.notifications = stat
-                    GlobalStruct.notificationsBackup = stat
                     #if targetEnvironment(macCatalyst)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     #elseif !targetEnvironment(macCatalyst)

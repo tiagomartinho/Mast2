@@ -41,7 +41,6 @@ class GlobalStruct {
     
     static var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
     static var notifications: [Notificationt] = []
-    static var notificationsBackup: [Notificationt] = []
     static var notificationsMentions: [Notificationt] = []
     static var notificationsDirect: [Conversation] = []
     
