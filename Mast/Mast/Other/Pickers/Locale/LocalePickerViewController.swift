@@ -201,11 +201,11 @@ extension LocalePickerViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, searchController.isActive {
             if searchText == "" {
-                searchController.searchBar.showsCancelButton = false
+//                searchController.searchBar.showsCancelButton = false
                 self.filteredInfo = []
                 self.tableView.reloadData()
             } else {
-                searchController.searchBar.showsCancelButton = true
+//                searchController.searchBar.showsCancelButton = true
             }
             let request = Timelines.tag(searchText)
             GlobalStruct.client.run(request) { (statuses) in
@@ -233,8 +233,9 @@ extension LocalePickerViewController: UISearchResultsUpdating {
 extension LocalePickerViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchController.searchBar.showsCancelButton = false
+        searchBar.showsCancelButton = false
         searchBar.text = ""
+        searchBar.endEditing(true)
         self.filteredInfo = []
         self.tableView.reloadData()
     }
