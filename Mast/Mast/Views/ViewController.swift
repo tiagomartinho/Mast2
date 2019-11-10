@@ -142,7 +142,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         }
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(tabButtonItemLongPressed(_:)))
-        longPressRecognizer.minimumPressDuration = 0.4
+        longPressRecognizer.minimumPressDuration = 0.3
         self.tabBar.addGestureRecognizer(longPressRecognizer)
     }
 
