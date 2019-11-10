@@ -422,6 +422,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.notifications = stat
+                    GlobalStruct.notificationsBackup = stat
                     #if targetEnvironment(macCatalyst)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     #elseif !targetEnvironment(macCatalyst)

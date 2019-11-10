@@ -32,6 +32,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
+    var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -277,46 +278,67 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func filterNots() {
+        let request = Notifications.all(range: .default, typesToExclude: self.notTypes)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.notifications = stat
+                    if stat.count > 0 {
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
     @objc func sortTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
-            self.dismiss(animated: true, completion: nil)
+            self.notTypes = []
+            self.filterNots()
         })
         op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "Mentions".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
+            self.filterNots()
         })
         op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Likes".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
+            self.filterNots()
         })
         op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
         let op4 = UIAlertAction(title: "Boosts".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
+            self.filterNots()
         })
         op4.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
         let op5 = UIAlertAction(title: "Messages".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            GlobalStruct.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+            self.filterNots()
         })
         op5.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op5)
         let op6 = UIAlertAction(title: "Follows".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
+            self.filterNots()
         })
         op6.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op6)
         let op7 = UIAlertAction(title: "Polls".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
+            self.filterNots()
         })
         op7.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
