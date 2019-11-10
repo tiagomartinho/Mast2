@@ -45,6 +45,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let btn2 = UIButton(type: .custom)
     var newInstance = false
     var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
+    var statusesHome: [Status] = []
+    var statusesLocal: [Status] = []
+    var statusesFed: [Status] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -403,6 +406,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 DispatchQueue.main.async {
                     GlobalStruct.statusesHome = stat
                     self.tableView.reloadData()
+                    self.statusesHome = stat
                 }
             }
         }
@@ -412,6 +416,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 DispatchQueue.main.async {
                     GlobalStruct.statusesLocal = stat
                     self.tableViewL.reloadData()
+                    self.statusesLocal = stat
                 }
             }
         }
@@ -421,6 +426,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 DispatchQueue.main.async {
                     GlobalStruct.statusesFed = stat
                     self.tableViewF.reloadData()
+                    self.statusesFed = stat
                 }
             }
         }
@@ -644,19 +650,82 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func sortTapped() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
-            self.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                GlobalStruct.statusesHome = self.statusesHome
+                self.tableView.reloadData()
+                GlobalStruct.statusesLocal = self.statusesLocal
+                self.tableViewL.reloadData()
+                GlobalStruct.statusesFed = self.statusesFed
+                self.tableViewF.reloadData()
+            }
         })
         op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "Boosted".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            DispatchQueue.main.async {
+                GlobalStruct.statusesHome = self.statusesHome
+                GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                    if stat.reblog == nil {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                self.tableView.reloadData()
+                GlobalStruct.statusesLocal = self.statusesLocal
+                GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                    if stat.reblog == nil {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                self.tableViewL.reloadData()
+                GlobalStruct.statusesFed = self.statusesFed
+                GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                    if stat.reblog == nil {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                self.tableViewF.reloadData()
+            }
         })
         op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Contains Media".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            DispatchQueue.main.async {
+                GlobalStruct.statusesHome = self.statusesHome
+                GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                    if stat.mediaAttachments.isEmpty {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                self.tableView.reloadData()
+                GlobalStruct.statusesLocal = self.statusesLocal
+                GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                    if stat.mediaAttachments.isEmpty {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                self.tableViewL.reloadData()
+                GlobalStruct.statusesFed = self.statusesFed
+                GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                    if stat.mediaAttachments.isEmpty {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                self.tableViewF.reloadData()
+            }
         })
         op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
