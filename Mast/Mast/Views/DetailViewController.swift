@@ -561,51 +561,120 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func moreTapped() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: " \("Translate".localized)", style: .default , handler:{ (UIAlertAction) in
-            self.translateThis()
-        })
-        op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
-        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op1)
-        let op2 = UIAlertAction(title: "Mute".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op2.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
-        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op2)
-        let op3 = UIAlertAction(title: " \("Block".localized)", style: .default , handler:{ (UIAlertAction) in
-            let request = Accounts.block(id: self.pickedStatusesHome.first?.account.id ?? "")
-            GlobalStruct.client.run(request) { (statuses) in
-                print("blocked")
-            }
-        })
-        op3.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
-        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op3)
-        let op4 = UIAlertAction(title: " \("Duplicate".localized)", style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op4.setValue(UIImage(systemName: "doc.on.doc")!, forKey: "image")
-        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op4)
-        let op5 = UIAlertAction(title: " \("Report".localized)", style: .destructive , handler:{ (UIAlertAction) in
-            self.reportThis()
-        })
-        op5.setValue(UIImage(systemName: "flag")!, forKey: "image")
-        op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op5)
-        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            
-        }))
-        if let presenter = alert.popoverPresentationController {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                presenter.sourceView = cell.button5
-                presenter.sourceRect = cell.button5.bounds
+    func pinToot() {
+        let request = Statuses.pin(id: self.pickedStatusesHome.first?.id ?? "")
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = statuses.value {
+                DispatchQueue.main.async {
+                    
+                }
             }
         }
-        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func unpinToot() {
+        let request = Statuses.unpin(id: self.pickedStatusesHome.first?.id ?? "")
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = statuses.value {
+                DispatchQueue.main.async {
+                    
+                }
+            }
+        }
+    }
+    
+    @objc func moreTapped() {
+        if GlobalStruct.currentUser.id == (self.pickedStatusesHome.first?.account.id ?? "") {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            if GlobalStruct.allPinned.contains(self.pickedStatusesHome.first!) {
+                let op1 = UIAlertAction(title: " \("Unpin".localized)", style: .default , handler:{ (UIAlertAction) in
+                    self.unpinToot()
+                })
+                op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
+                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op1)
+            } else {
+                let op1 = UIAlertAction(title: " \("Pin".localized)", style: .default , handler:{ (UIAlertAction) in
+                    self.pinToot()
+                })
+                op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
+                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op1)
+            }
+            let op2 = UIAlertAction(title: " \("Translate".localized)", style: .default , handler:{ (UIAlertAction) in
+                self.translateThis()
+            })
+            op2.setValue(UIImage(systemName: "globe")!, forKey: "image")
+            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op2)
+            let op6 = UIAlertAction(title: " \("Delete and Redraft".localized)", style: .destructive , handler:{ (UIAlertAction) in
+                
+            })
+            op6.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
+            op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op6)
+            let op5 = UIAlertAction(title: " \("Delete".localized)", style: .destructive , handler:{ (UIAlertAction) in
+                
+            })
+            op5.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op5)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                
+            }))
+            if let presenter = alert.popoverPresentationController {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                    presenter.sourceView = cell.button5
+                    presenter.sourceRect = cell.button5.bounds
+                }
+            }
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let op1 = UIAlertAction(title: " \("Translate".localized)", style: .default , handler:{ (UIAlertAction) in
+                self.translateThis()
+            })
+            op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+            let op2 = UIAlertAction(title: "Mute".localized, style: .default , handler:{ (UIAlertAction) in
+                
+            })
+            op2.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
+            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op2)
+            let op3 = UIAlertAction(title: " \("Block".localized)", style: .default , handler:{ (UIAlertAction) in
+                let request = Accounts.block(id: self.pickedStatusesHome.first?.account.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    print("blocked")
+                }
+            })
+            op3.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
+            op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op3)
+            let op4 = UIAlertAction(title: " \("Duplicate".localized)", style: .default , handler:{ (UIAlertAction) in
+                
+            })
+            op4.setValue(UIImage(systemName: "doc.on.doc")!, forKey: "image")
+            op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op4)
+            let op5 = UIAlertAction(title: " \("Report".localized)", style: .destructive , handler:{ (UIAlertAction) in
+                self.reportThis()
+            })
+            op5.setValue(UIImage(systemName: "flag")!, forKey: "image")
+            op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op5)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                
+            }))
+            if let presenter = alert.popoverPresentationController {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                    presenter.sourceView = cell.button5
+                    presenter.sourceRect = cell.button5.bounds
+                }
+            }
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func translateThis() {

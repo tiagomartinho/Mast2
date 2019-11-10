@@ -54,6 +54,8 @@ class GlobalStruct {
     static var allCustomInstances: [String] = []
     static var markedReadIDs: [String] = []
     
+    static var allPinned: [Status] = []
+    
     static var currentTab = 1
     static var medType = 0
     static var avaFile = "avatar"

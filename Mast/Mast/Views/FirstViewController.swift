@@ -379,6 +379,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                     }
                     #endif
+
+                    let request7 = Accounts.statuses(id: GlobalStruct.currentUser.id, mediaOnly: false, pinnedOnly: true, excludeReplies: false, excludeReblogs: false, range: .default)
+                    GlobalStruct.client.run(request7) { (statuses) in
+                        if let stat = statuses.value {
+                            GlobalStruct.allPinned = stat
+                        }
+                    }
                 }
             }
         }
