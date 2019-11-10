@@ -29,7 +29,17 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
             sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         )
         layout.scrollDirection = .horizontal
-        collectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-15), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
+        
+        #if targetEnvironment(macCatalyst)
+        collectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-15), width: CGFloat(380), height: CGFloat(178)), collectionViewLayout: layout)
+        #elseif !targetEnvironment(macCatalyst)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            collectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-15), width: CGFloat(380), height: CGFloat(178)), collectionViewLayout: layout)
+        } else {
+            collectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-15), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
+        }
+        #endif
+        
         collectionView.backgroundColor = UIColor.clear
         collectionView.delegate = self
         collectionView.dataSource = self
