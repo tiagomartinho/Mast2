@@ -276,8 +276,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-                cell.imageView?.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
-                let descriptionSideString = NSMutableAttributedString(string: "Add New List".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.imageView?.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Add New List".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.textLabel?.attributedText = descriptionSideString
                 cell.accessoryType = .none
                 return cell
@@ -286,7 +286,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 if GlobalStruct.allLists.isEmpty {
                     self.fetchLists()
                 } else {
-                    let descriptionSideString = NSMutableAttributedString(string: GlobalStruct.allLists[indexPath.row - 1].title, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                    let descriptionSideString = NSMutableAttributedString(string: GlobalStruct.allLists[indexPath.row - 1].title, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                     cell.textLabel?.attributedText = descriptionSideString
                 }
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
@@ -302,8 +302,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
                 cell.backgroundColor = UIColor(named: "baseWhite")
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-                cell.imageView?.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
-                let descriptionSideString = NSMutableAttributedString(string: "Add Instance Timeline".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.imageView?.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Add Instance Timeline".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.textLabel?.attributedText = descriptionSideString
                 cell.accessoryType = .none
                 return cell
@@ -312,7 +312,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 if GlobalStruct.allCustomInstances.isEmpty {
                     
                 } else {
-                    let descriptionSideString = NSMutableAttributedString(string: GlobalStruct.allCustomInstances[indexPath.row - 1], attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                    let descriptionSideString = NSMutableAttributedString(string: GlobalStruct.allCustomInstances[indexPath.row - 1], attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                     cell.textLabel?.attributedText = descriptionSideString
                 }
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)

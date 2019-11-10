@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreHaptics
+import SafariServices
 
 class ViewController: UITabBarController, UITabBarControllerDelegate {
     
@@ -24,7 +25,9 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     var thirdView = ThirdViewController()
     var fourthView = FourthViewController()
     var fifthView = FifthViewController()
+    
     var statusBarView = UIView()
+    var safariVC: SFSafariViewController?
     
     @objc func notifChangeTint() {
         self.createTabBar()
@@ -79,6 +82,20 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
                 UIApplication.shared.openURL(GlobalStruct.tappedURL!)
             }
         }
+        if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 6 {
+            if let x = GlobalStruct.tappedURL {
+                self.safariVC = SFSafariViewController(url: x)
+                getTopMostViewController()?.present(self.safariVC!, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     @objc func viewNotifications() {

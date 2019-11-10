@@ -128,7 +128,12 @@ final class LocalePickerViewController: UIViewController {
         
         updateInfo()
         
-        searchController.searchBar.becomeFirstResponder()
+        delay(0.5) { self.searchController.searchBar.becomeFirstResponder() }
+    }
+    
+    func delay(_ delay: Double, closure: @escaping ()->()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
     
     override func viewWillLayoutSubviews() {
