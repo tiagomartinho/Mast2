@@ -655,18 +655,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
-        let op3 = UIAlertAction(title: "Not Boosted".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: "Contains Media".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
         op3.setValue(UIImage(systemName: "circle")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: "Contains Media".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op4.setValue(UIImage(systemName: "circle")!, forKey: "image")
-        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op4)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
             
         }))
