@@ -360,7 +360,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        if GlobalStruct.currentUser.id == (self.statusesSuggested[gesture.view!.tag].account.id) {
+        if GlobalStruct.currentUser.id == (self.statusesSuggested[gesture.view!.tag].id) {
             vc.isYou = true
         } else {
             vc.isYou = false
