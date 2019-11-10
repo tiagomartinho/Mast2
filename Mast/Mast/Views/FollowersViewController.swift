@@ -309,14 +309,22 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesFollowers[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesFollowers[gesture.view!.tag]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesFollowing[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesFollowing[gesture.view!.tag]
         self.navigationController?.pushViewController(vc, animated: true)
     }

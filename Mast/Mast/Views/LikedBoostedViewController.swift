@@ -310,14 +310,22 @@ class LikedBoostedViewController: UIViewController, UITextFieldDelegate, UITable
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesLiked[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesLiked[gesture.view!.tag]
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesBoosted[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesBoosted[gesture.view!.tag]
         self.navigationController?.pushViewController(vc, animated: true)
     }

@@ -1202,14 +1202,22 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.profileStatuses[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].reblog?.account ?? self.profileStatuses[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.profileStatuses[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.profileStatuses[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }

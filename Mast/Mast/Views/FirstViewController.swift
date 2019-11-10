@@ -897,14 +897,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
         if self.tableView.alpha == 1 {
+            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].reblog?.account.id ?? GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+                vc.isYou = true
+            } else {
+                vc.isYou = false
+            }
             vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesHome[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewL.alpha == 1 {
+            if GlobalStruct.currentUser.id == (GlobalStruct.statusesLocal[gesture.view!.tag].reblog?.account.id ?? GlobalStruct.statusesLocal[gesture.view!.tag].account.id) {
+                vc.isYou = true
+            } else {
+                vc.isYou = false
+            }
             vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesLocal[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewF.alpha == 1 {
+            if GlobalStruct.currentUser.id == (GlobalStruct.statusesFed[gesture.view!.tag].reblog?.account.id ?? GlobalStruct.statusesFed[gesture.view!.tag].account.id) {
+                vc.isYou = true
+            } else {
+                vc.isYou = false
+            }
             vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesFed[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -912,14 +926,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
         if self.tableView.alpha == 1 {
+            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+                vc.isYou = true
+            } else {
+                vc.isYou = false
+            }
             vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewL.alpha == 1 {
+            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+                vc.isYou = true
+            } else {
+                vc.isYou = false
+            }
             vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewF.alpha == 1 {
+            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+                vc.isYou = true
+            } else {
+                vc.isYou = false
+            }
             vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         }

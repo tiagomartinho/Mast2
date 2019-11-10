@@ -477,21 +477,33 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func viewProfilePrevious(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.allPrevious[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.allPrevious[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.pickedStatusesHome[0].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.pickedStatusesHome[0].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfileReply(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.allReplies[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.allReplies[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }

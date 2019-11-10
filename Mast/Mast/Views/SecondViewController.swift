@@ -470,12 +470,21 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
         if self.tableView.alpha == 1 {
             if let stat = GlobalStruct.notifications[gesture.view!.tag].status {
+                if GlobalStruct.currentUser.id == (stat.account.id) {
+                    vc.isYou = true
+                } else {
+                    vc.isYou = false
+                }
                 vc.pickedCurrentUser = stat.account
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
+                if GlobalStruct.currentUser.id == (GlobalStruct.notifications[gesture.view!.tag].account.id) {
+                    vc.isYou = true
+                } else {
+                    vc.isYou = false
+                }
                 vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
                 self.navigationController?.pushViewController(vc, animated: true)
             }
@@ -484,7 +493,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (GlobalStruct.notifications[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }

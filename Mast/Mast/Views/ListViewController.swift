@@ -309,14 +309,22 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesListed[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesListed[gesture.view!.tag].reblog?.account ?? self.statusesListed[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesListed[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesListed[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }

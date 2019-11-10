@@ -234,7 +234,11 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesHashtags[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesHashtags[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }

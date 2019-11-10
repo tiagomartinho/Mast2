@@ -323,7 +323,11 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (GlobalStruct.notificationsDirect[gesture.view!.tag].lastStatus!.account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = GlobalStruct.notificationsDirect[gesture.view!.tag].lastStatus!.account
         self.navigationController?.pushViewController(vc, animated: true)
     }

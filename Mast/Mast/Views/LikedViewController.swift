@@ -280,7 +280,11 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        vc.isYou = false
+        if GlobalStruct.currentUser.id == (self.statusesLiked[gesture.view!.tag].account.id) {
+            vc.isYou = true
+        } else {
+            vc.isYou = false
+        }
         vc.pickedCurrentUser = self.statusesLiked[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
