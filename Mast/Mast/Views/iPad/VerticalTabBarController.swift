@@ -64,7 +64,12 @@ class VerticalTabBarController: UIViewController {
     }
     
     @objc func search() {
-        
+        let alert = UIAlertController(style: .actionSheet, message: nil)
+        alert.addLocalePicker(type: .country) { info in
+            // action with selected object
+        }
+        alert.addAction(title: "Dismiss", style: .cancel)
+        alert.show()
     }
     
     @objc func compose() {

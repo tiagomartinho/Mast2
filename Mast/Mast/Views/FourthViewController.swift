@@ -183,32 +183,6 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func searchTapped() {
-//        let alert = UIAlertController(style: .actionSheet, title: nil)
-//        let config: TextField1.Config = { textField in
-//            textField.becomeFirstResponder()
-//            textField.textColor = UIColor(named: "baseBlack")!
-//            textField.placeholder = "Search..."
-//            textField.layer.borderWidth = 0
-//            textField.layer.cornerRadius = 8
-//            textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
-//            textField.backgroundColor = nil
-//            textField.keyboardAppearance = .default
-//            textField.keyboardType = .default
-//            textField.isSecureTextEntry = false
-//            textField.returnKeyType = .default
-//            textField.action { textField in
-//                self.txt = textField.text ?? ""
-//            }
-//        }
-//        alert.addOneTextField(configuration: config)
-//        alert.addAction(title: "Search".localized, style: .default) { action in
-//
-//        }
-//        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
-//
-//        }
-//        alert.show()
-        
         let alert = UIAlertController(style: .actionSheet, message: nil)
         alert.addLocalePicker(type: .country) { info in
             // action with selected object

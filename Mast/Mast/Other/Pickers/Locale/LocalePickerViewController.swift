@@ -286,6 +286,7 @@ extension LocalePickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "rightAr"), object: self)
         if self.whichSegment == 0 {
             let selection = self.filteredInfo[indexPath.row]
             GlobalStruct.statusSearched = [selection]
