@@ -222,7 +222,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Notifications.all(range: .since(id: GlobalStruct.notifications.first?.id ?? "", limit: nil))
+        let request = Notifications.all(range: .since(id: GlobalStruct.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
