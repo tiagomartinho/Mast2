@@ -314,6 +314,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             butt.setImage(UIImage(systemName: "arrow.right"), for: .normal)
             butt.contentMode = .scaleAspectFit
             butt.addTarget(self, action: #selector(self.viewGallery), for: .touchUpInside)
+            butt.accessibilityLabel = "Gallery"
             vw.addSubview(butt)
             
             return vw
