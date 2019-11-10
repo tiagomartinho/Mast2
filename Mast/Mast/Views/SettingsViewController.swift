@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized]
-    let secondSection = ["Hide Sensitive Media".localized, "Default Browser".localized, "URL Schemes".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let secondSection = ["Hide Sensitive Media".localized, "Default Browser".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
     
@@ -47,6 +47,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "Settings".localized
+        
 //        self.removeTabbarItemsText()
         
         // Add button
@@ -226,9 +227,6 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else if indexPath.row == 2 {
-                cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
-                cell.accessoryType = .none
-            } else if indexPath.row == 3 {
                 cell.imageView?.image = UIImage(systemName: "mic", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else {
