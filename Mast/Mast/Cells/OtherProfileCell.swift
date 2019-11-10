@@ -237,27 +237,29 @@ class OtherProfileCell: UITableViewCell {
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    if stat[1].following {
-                        self.following.setTitle("   Following   ".localized, for: .normal)
-                        self.following.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
-                        self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
-                        self.following.backgroundColor = GlobalStruct.baseTint
-                    } else {
-                        self.following.setTitle("   Follow   ".localized, for: .normal)
-                        self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
-                        self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
-                        self.following.backgroundColor = UIColor.clear
-                    }
-                    if stat[1].followedBy {
-                        self.followsYou.setTitle("   Follows You   ".localized, for: .normal)
-                        self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
-                        self.followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
-                        self.followsYou.alpha = 1
-                    } else {
-                        self.followsYou.setTitle("".localized, for: .normal)
-                        self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
-                        self.followsYou.backgroundColor = UIColor.clear
-                        self.followsYou.alpha = 0
+                    if stat.isEmpty {} else {
+                        if stat[1].following {
+                            self.following.setTitle("   Following   ".localized, for: .normal)
+                            self.following.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                            self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
+                            self.following.backgroundColor = GlobalStruct.baseTint
+                        } else {
+                            self.following.setTitle("   Follow   ".localized, for: .normal)
+                            self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
+                            self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+                            self.following.backgroundColor = UIColor.clear
+                        }
+                        if stat[1].followedBy {
+                            self.followsYou.setTitle("   Follows You   ".localized, for: .normal)
+                            self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                            self.followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
+                            self.followsYou.alpha = 1
+                        } else {
+                            self.followsYou.setTitle("".localized, for: .normal)
+                            self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                            self.followsYou.backgroundColor = UIColor.clear
+                            self.followsYou.alpha = 0
+                        }
                     }
                 }
             }

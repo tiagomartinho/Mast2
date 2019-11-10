@@ -495,26 +495,15 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 alert.addOneTextField(configuration: config)
                 alert.addAction(title: "Add".localized, style: .default) { action in
-                    let request = Timelines.public(local: true, range: .max(id: "", limit: nil))
-                    let testClient = Client(
-                        baseURL: "https://\(self.txt)",
-                        accessToken: GlobalStruct.currentInstance.accessToken
-                    )
-                    testClient.run(request) { (statuses) in
-                        if let stat = (statuses.value) {
-                            DispatchQueue.main.async {
-                                if GlobalStruct.allCustomInstances.contains(self.txt.lowercased()) {} else {
-                                    GlobalStruct.allCustomInstances.append(self.txt.lowercased())
-                                    UserDefaults.standard.set(GlobalStruct.allCustomInstances, forKey: "sync-customInstances")
-                                    self.tableView.reloadData()
-                                }
-                                let vc = InstancesViewController()
-                                vc.theInstanceID = stat.first?.id ?? ""
-                                vc.theInstance = self.txt.lowercased()
-                                vc.statusesInstance = stat
-                                self.navigationController?.pushViewController(vc, animated: true)
-                            }
+                    DispatchQueue.main.async {
+                        if GlobalStruct.allCustomInstances.contains(self.txt.lowercased()) {} else {
+                            GlobalStruct.allCustomInstances.append(self.txt.lowercased())
+                            UserDefaults.standard.set(GlobalStruct.allCustomInstances, forKey: "sync-customInstances")
+                            self.tableView.reloadData()
                         }
+                        let vc = InstancesViewController()
+                        vc.theInstance = self.txt.lowercased()
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
                 alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
@@ -523,21 +512,10 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 alert.show()
                 
             } else {
-                let request = Timelines.public(local: true, range: .max(id: "", limit: nil))
-                let testClient = Client(
-                    baseURL: "https://\(GlobalStruct.allCustomInstances[indexPath.row - 1])",
-                    accessToken: GlobalStruct.currentInstance.accessToken
-                )
-                testClient.run(request) { (statuses) in
-                    if let stat = (statuses.value) {
-                        DispatchQueue.main.async {
-                            let vc = InstancesViewController()
-                            vc.theInstanceID = stat.first?.id ?? ""
-                            vc.theInstance = GlobalStruct.allCustomInstances[indexPath.row - 1].lowercased()
-                            vc.statusesInstance = stat
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        }
-                    }
+                DispatchQueue.main.async {
+                    let vc = InstancesViewController()
+                    vc.theInstance = GlobalStruct.allCustomInstances[indexPath.row - 1]
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
         } else {

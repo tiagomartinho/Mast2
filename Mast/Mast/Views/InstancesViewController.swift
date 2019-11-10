@@ -117,6 +117,8 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         self.tableView.addSubview(self.refreshControl)
         
+        self.initialFetches()
+        
         // Top buttons
         let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + 10
         let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
@@ -130,6 +132,23 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
         self.top1.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top1)
+    }
+    
+    func initialFetches() {
+        let request = Timelines.public(local: true, range: .max(id: "", limit: nil))
+        let testClient = Client(
+            baseURL: "https://\(self.theInstance)",
+            accessToken: GlobalStruct.currentInstance.accessToken
+        )
+        testClient.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.theInstanceID = stat.first?.id ?? ""
+                    self.statusesInstance = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     @objc func didTouchTop1() {
