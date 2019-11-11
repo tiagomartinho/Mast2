@@ -177,8 +177,20 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             self.profile2.sd_setImage(with: imageURL2, completed: nil)
             self.profile2.layer.masksToBounds = true
         }
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         if stat.reblog?.favourited ?? stat.favourited ?? false {
             self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.visibility ?? stat.visibility == .direct {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.visibility ?? stat.visibility == .private {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "lock.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.visibility ?? stat.visibility == .unlisted {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "lock.open.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal)
         } else {
             self.heart.alpha = 0
         }

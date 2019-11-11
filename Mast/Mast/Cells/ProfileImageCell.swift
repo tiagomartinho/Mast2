@@ -93,7 +93,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                     } else {
                         cell.image.sd_setImage(with: imageURL, completed: nil)
                     }
-                    if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video { || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .audio
+                    if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .audio {
                         cell.videoOverlay.alpha = 1
                     } else {
                         cell.videoOverlay.alpha = 0
