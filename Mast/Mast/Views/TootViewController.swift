@@ -340,6 +340,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     cell.textView.becomeFirstResponder()
                 }
             }))
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = NSTextAlignment.left
+            let messageText = NSMutableAttributedString(
+                string: "No Drafts".localized,
+                attributes: [
+                    NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                    NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                ]
+            )
+            alert.setValue(messageText, forKey: "attributedTitle")
             if let presenter = alert.popoverPresentationController {
                 presenter.sourceView = self.x6.value(forKey: "view") as? UIView
                 presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
