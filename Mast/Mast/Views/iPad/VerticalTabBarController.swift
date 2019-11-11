@@ -69,6 +69,10 @@ class VerticalTabBarController: UIViewController {
             // action with selected object
         }
         alert.addAction(title: "Dismiss", style: .cancel)
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.button2
+            presenter.sourceRect = self.button2.bounds
+        }
         alert.show()
     }
     

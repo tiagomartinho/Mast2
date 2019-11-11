@@ -45,6 +45,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var allPrevious: [Status] = []
     var txt = ""
     var contentWarning = ""
+    var scheduleTime: String?
     var defaultVisibility: Visibility = .public
     var formatToolbar = UIToolbar()
     let btn1 = UIButton(type: .custom)
@@ -455,10 +456,15 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     @objc func scheduleTap() {
         let alert = UIAlertController(style: .actionSheet, title: nil)
         alert.addDatePicker(mode: .dateAndTime, date: Date().adjust(.minute, offset: 5), minimumDate: Date().adjust(.minute, offset: 5), maximumDate: Date().adjust(.year, offset: 10)) { date in
-            
+            self.txt = date.iso8601String
         }
         alert.addAction(title: "Schedule".localized, style: .default) { action in
-
+            self.scheduleTime = self.txt
+        }
+        if self.scheduleTime != nil {
+            alert.addAction(title: "Remove Scheduled Toot".localized, style: .destructive) { action in
+                self.scheduleTime = nil
+            }
         }
         alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
             
@@ -675,7 +681,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 }
                 theMainText = "@\(self.replyStatus.first?.account.username ?? "") \(theMainText)"
             }
-            let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)
+            let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: nil, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
                 if let _ = (statuses.value) {
                     DispatchQueue.main.async {
