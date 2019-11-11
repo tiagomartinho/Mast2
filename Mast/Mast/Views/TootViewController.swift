@@ -56,6 +56,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var x4 = UIBarButtonItem()
     var x5 = UIBarButtonItem()
     var x6 = UIBarButtonItem()
+    var x7 = UIBarButtonItem()
     var gifVidDataToAttachArray: [Data] = []
     var photoToAttachArray: [Data] = []
     
@@ -76,7 +77,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
-        self.title = "\(GlobalStruct.maxChars)"
+        self.title = "New Toot".localized
 //        self.removeTabbarItemsText()
         
         self.navigationController?.presentationController?.delegate = self
@@ -282,8 +283,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             x4.accessibilityLabel = "Emoticons".localized
             x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
             x5.accessibilityLabel = "Schedule Toot".localized
-            x6 = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))
-            x6.accessibilityLabel = "More".localized
+            x6 = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewDrafts))
+            x6.accessibilityLabel = "Drafts".localized
+            x7 = UIBarButtonItem(title: "\(GlobalStruct.maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+            x7.accessibilityLabel = "Characters".localized
             formatToolbar.items = [
                 x1,
                 fixedS,
@@ -294,8 +297,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 x4,
                 fixedS,
                 x5,
+                fixedS,
+                x6,
                 UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
-                x6]
+                x7
+            ]
             formatToolbar.sizeToFit()
             cell.textView.inputAccessoryView = formatToolbar
             
@@ -304,6 +310,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             cell.selectedBackgroundView = bgColorView
             return cell
         }
+    }
+    
+    @objc func viewDrafts() {
+        
     }
     
     @objc func visibilityTap() {
@@ -503,17 +513,21 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             var maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
-            self.title = "\(maxChars)"
-            if maxChars < 1 {
-                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
-                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            } else if maxChars < 20 {
-                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
-                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            } else {
-                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
-                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            }
+//            self.title = "\(maxChars)"
+//            if maxChars < 1 {
+//                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
+//                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+//            } else if maxChars < 20 {
+//                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
+//                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+//            } else {
+//                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
+//                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+//            }
+            
+            self.x7 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+            self.x7.accessibilityLabel = "Characters".localized
+            self.formatToolbar.items?[12] = self.x7
             
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
@@ -588,18 +602,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     @objc func viewMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op6 = UIAlertAction(title: "Sentiment Analysis".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op6.setValue(UIImage(systemName: "quote.bubble")!, forKey: "image")
-        op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op6)
-        let op8 = UIAlertAction(title: " \("Drafts".localized)", style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op8.setValue(UIImage(systemName: "doc.text")!, forKey: "image")
-        op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op8)
         let op9 = UIAlertAction(title: "Clear All".localized, style: .destructive , handler:{ (UIAlertAction) in
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 cell.textView.text = ""
