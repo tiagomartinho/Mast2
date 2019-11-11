@@ -458,7 +458,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 self.formatToolbar.items?[4] = self.x3
             }
         } else {
-            alert.addAction(title: "Edit".localized, style: .default) { action in
+            alert.addAction(title: "Update".localized, style: .default) { action in
                 self.contentWarning = self.txt
                 
                 let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
