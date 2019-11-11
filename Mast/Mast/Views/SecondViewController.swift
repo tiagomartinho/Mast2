@@ -32,7 +32,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
-    var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
+    var notTypes: [NotificationType] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
