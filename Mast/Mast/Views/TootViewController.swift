@@ -298,7 +298,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility".localized
             x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
-            x3.accessibilityLabel = "Add Spoiler".localized
+            x3.accessibilityLabel = "Spoiler Text".localized
             x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
             x4.accessibilityLabel = "Emoticons".localized
             x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
@@ -448,8 +448,32 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         }
         alert.addOneTextField(configuration: config)
-        alert.addAction(title: "Add".localized, style: .default) { action in
-            self.contentWarning = self.txt
+        if self.contentWarning == "" {
+            alert.addAction(title: "Add".localized, style: .default) { action in
+                self.contentWarning = self.txt
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                self.x3.accessibilityLabel = "Spoiler Text".localized
+                self.formatToolbar.items?[4] = self.x3
+            }
+        } else {
+            alert.addAction(title: "Edit".localized, style: .default) { action in
+                self.contentWarning = self.txt
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                self.x3.accessibilityLabel = "Spoiler Text".localized
+                self.formatToolbar.items?[4] = self.x3
+            }
+            alert.addAction(title: "Remove".localized, style: .destructive) { action in
+                self.contentWarning = ""
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                self.x3.accessibilityLabel = "Spoiler Text".localized
+                self.formatToolbar.items?[4] = self.x3
+            }
         }
         alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
             
@@ -514,10 +538,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
         alert.addAction(title: "Schedule".localized, style: .default) { action in
             self.scheduleTime = self.txt
+            
+            let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+            self.x5 = UIBarButtonItem(image: UIImage(systemName: "clock.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
+            self.x5.accessibilityLabel = "Schedule Toot".localized
+            self.formatToolbar.items?[8] = self.x5
         }
         if self.scheduleTime != nil {
             alert.addAction(title: "Remove Scheduled Toot".localized, style: .destructive) { action in
                 self.scheduleTime = nil
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
+                self.x5.accessibilityLabel = "Schedule Toot".localized
+                self.formatToolbar.items?[8] = self.x5
             }
         }
         alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
