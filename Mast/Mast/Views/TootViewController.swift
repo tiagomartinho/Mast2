@@ -442,7 +442,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             presenter.sourceView = self.x3.value(forKey: "view") as? UIView
             presenter.sourceRect = (self.x3.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
-        alert.show()
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            alert.show()
+        } else {
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func pollTap() {
@@ -470,7 +474,19 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             presenter.sourceRect = (self.x4.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         alert.addAction(title: "Dismiss", style: .cancel)
-        alert.show()
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            alert.show()
+        } else {
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     @objc func scheduleTap() {
@@ -493,7 +509,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             presenter.sourceView = self.x5.value(forKey: "view") as? UIView
             presenter.sourceRect = (self.x5.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
-        alert.show()
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            alert.show()
+        } else {
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {

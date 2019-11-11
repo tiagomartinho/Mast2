@@ -132,5 +132,7 @@ final class EmoticonPickerViewController: UIViewController, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         GlobalStruct.emoticonToAdd = GlobalStruct.allEmoticons[indexPath.row].shortcode
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addEmoji"), object: self)
+        self.indicatorView.stopAnimating()
+        self.alertController?.dismiss(animated: true)
     }
 }
