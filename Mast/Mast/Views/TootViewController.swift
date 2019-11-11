@@ -537,6 +537,30 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
     }
     
+    func moreAudio() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: " \("Audio from Documents".localized)".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op1.setValue(UIImage(systemName: "doc.text.magnifyingglass")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "  \("Record Audio".localized)".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op2.setValue(UIImage(systemName: "mic")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @objc func viewMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Add Poll".localized, style: .default , handler:{ (UIAlertAction) in
@@ -545,8 +569,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op3 = UIAlertAction(title: "  \("Record Audio".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+        let op3 = UIAlertAction(title: "  \("Add Audio".localized)", style: .default , handler:{ (UIAlertAction) in
+            self.moreAudio()
         })
         op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
