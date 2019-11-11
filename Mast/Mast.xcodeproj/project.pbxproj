@@ -327,6 +327,8 @@
 		53CC76C723797DF4005B4CF7 /* ScheduledViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C623797DF4005B4CF7 /* ScheduledViewController.swift */; };
 		53CC76C923797EE0005B4CF7 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C823797EE0005B4CF7 /* ScheduleCell.swift */; };
 		53CC76CB23797EFF005B4CF7 /* ScheduleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76CA23797EFE005B4CF7 /* ScheduleImageCell.swift */; };
+		53CC76CD23798689005B4CF7 /* EmoticonPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76CC23798689005B4CF7 /* EmoticonPickerViewController.swift */; };
+		53CC76CF23799D90005B4CF7 /* ImageCell3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76CE23799D90005B4CF7 /* ImageCell3.swift */; };
 		53DED14C234B59C90017534F /* PinnedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14B234B59C90017534F /* PinnedViewController.swift */; };
 		53DED14E234B71280017534F /* LikedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14D234B71280017534F /* LikedViewController.swift */; };
 		6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */; };
@@ -679,6 +681,8 @@
 		53CC76C623797DF4005B4CF7 /* ScheduledViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledViewController.swift; sourceTree = "<group>"; };
 		53CC76C823797EE0005B4CF7 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
 		53CC76CA23797EFE005B4CF7 /* ScheduleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleImageCell.swift; sourceTree = "<group>"; };
+		53CC76CC23798689005B4CF7 /* EmoticonPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonPickerViewController.swift; sourceTree = "<group>"; };
+		53CC76CE23799D90005B4CF7 /* ImageCell3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell3.swift; sourceTree = "<group>"; };
 		53DED14B234B59C90017534F /* PinnedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewController.swift; sourceTree = "<group>"; };
 		53DED14D234B71280017534F /* LikedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedViewController.swift; sourceTree = "<group>"; };
 		550A06FB5FDD759C102FAE53 /* Pods-Mast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mast.debug.xcconfig"; path = "Target Support Files/Pods-Mast/Pods-Mast.debug.xcconfig"; sourceTree = "<group>"; };
@@ -722,6 +726,7 @@
 				5343C09B23782FE100653A28 /* Managers */,
 				5343C09D23782FE100653A28 /* Models */,
 				5343C09F23782FE100653A28 /* LocalePickerViewController.swift */,
+				53CC76CC23798689005B4CF7 /* EmoticonPickerViewController.swift */,
 				5343C0A023782FE100653A28 /* Views */,
 			);
 			path = Locale;
@@ -934,6 +939,7 @@
 				5339C6012340BFF200770651 /* ComposeCell.swift */,
 				53A4F4B1237717E500EC12C6 /* ImageCell.swift */,
 				53A4F5152377324F00EC12C6 /* ImageCell2.swift */,
+				53CC76CE23799D90005B4CF7 /* ImageCell3.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1548,6 +1554,7 @@
 				53B5F1EE233BC5600099B170 /* DecryptNotification.swift in Sources */,
 				53A4F43A2376E59200EC12C6 /* UISlider.swift in Sources */,
 				53449DB423294C1000A470E2 /* Results.swift in Sources */,
+				53CC76CD23798689005B4CF7 /* EmoticonPickerViewController.swift in Sources */,
 				53A4F4412376E59200EC12C6 /* GalleryViewController.swift in Sources */,
 				53AF4506237463FA001A3574 /* ListMembersViewController.swift in Sources */,
 				53B5F202233E63540099B170 /* VerticalTabBarController.swift in Sources */,
@@ -1569,6 +1576,7 @@
 				53449DDB23294C1000A470E2 /* ClientError.swift in Sources */,
 				53449DA423294C1000A470E2 /* HTTPURLResponse.swift in Sources */,
 				53449DD523294C1000A470E2 /* Search.swift in Sources */,
+				53CC76CF23799D90005B4CF7 /* ImageCell3.swift in Sources */,
 				53A4F4242376E59200EC12C6 /* VideoScrubber.swift in Sources */,
 				53A4F40E2376E59200EC12C6 /* Date+Extension.swift in Sources */,
 				53B5F1FC233CED000099B170 /* DMViewController.swift in Sources */,

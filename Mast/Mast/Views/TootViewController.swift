@@ -113,6 +113,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.addEmoji), name: NSNotification.Name(rawValue: "addEmoji"), object: nil)
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -448,8 +449,28 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         
     }
     
+    @objc func addEmoji() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            if cell.textView.text.count == 0 {
+                cell.textView.text = ":\(GlobalStruct.emoticonToAdd):"
+            } else {
+                cell.textView.text = "\(cell.textView.text ?? ""):\(GlobalStruct.emoticonToAdd):"
+            }
+            cell.textView.becomeFirstResponder()
+        }
+    }
+    
     @objc func smileyTap() {
-        
+        let alert = UIAlertController(style: .actionSheet, message: nil)
+        alert.addEmoticonPicker(type: .country) { info in
+            // action with selected object
+        }
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x4.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x4.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
+        alert.addAction(title: "Dismiss", style: .cancel)
+        alert.show()
     }
     
     @objc func scheduleTap() {

@@ -56,8 +56,6 @@ final class LocalePickerViewController: UIViewController {
     
     fileprivate let segment: UISegmentedControl = UISegmentedControl(items: ["Toots".localized, "Users".localized])
     
-    //fileprivate var searchBarIsActive: Bool = false
-    
     fileprivate lazy var searchView: UIView = UIView()
     
     fileprivate lazy var searchController: UISearchController = { [unowned self] in
@@ -103,7 +101,6 @@ final class LocalePickerViewController: UIViewController {
     }
     
     deinit {
-        // http://stackoverflow.com/questions/32675001/uisearchcontroller-warning-attempting-to-load-the-view-of-a-view-controller/
         let _ = searchController.view
         Log("has deinitialized")
     }
@@ -142,7 +139,6 @@ final class LocalePickerViewController: UIViewController {
         searchController.searchBar.sizeToFit()
         searchController.searchBar.frame.size.width = searchView.frame.size.width
         searchController.searchBar.frame.size.height = searchView.frame.size.height
-        
         self.segment.frame = CGRect(x: 15, y: 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
     }
     
@@ -325,22 +321,6 @@ extension LocalePickerViewController: UITableViewDataSource {
         }
         return 0
     }
-    
-//    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-//        if searchController.isActive { return 0 }
-//        tableView.scrollToRow(at: IndexPath(row: 0, section: index), at: .top , animated: false)
-//        return sortedInfoKeys.index(of: title)!
-//    }
-    
-//    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-//        if searchController.isActive { return nil }
-//        return sortedInfoKeys
-//    }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        if searchController.isActive { return nil }
-//        return sortedInfoKeys[section]
-//    }
     
     @objc func changeSegment(_ segment: UISegmentedControl) {
         if segment.selectedSegmentIndex == 0 {

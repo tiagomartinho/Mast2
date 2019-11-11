@@ -492,6 +492,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         
+        let request7 = Instances.customEmojis()
+        GlobalStruct.client.run(request7) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.allEmoticons = stat
+            }
+        }
+        
         if let x = UserDefaults.standard.value(forKey: "sync-customInstances") as? [String] {
             GlobalStruct.allCustomInstances = x
         }
