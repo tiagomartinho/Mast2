@@ -333,21 +333,35 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func viewDrafts() {
-        let alert = UIAlertController(style: .actionSheet, message: nil)
-        alert.addDraftsPicker(type: .country) { info in
-            // action with selected object
-        }
-        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
-            
-        }
-        if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x6.value(forKey: "view") as? UIView
-            presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
-        }
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-            alert.show()
+        if GlobalStruct.allDrafts.isEmpty {
+            let alert = UIAlertController(title: "No Drafts".localized, message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    cell.textView.becomeFirstResponder()
+                }
+            }))
+            if let presenter = alert.popoverPresentationController {
+                presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+                presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+            }
+            self.present(alert, animated: true, completion: nil)
         } else {
-            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(style: .actionSheet, message: nil)
+            alert.addDraftsPicker(type: .country) { info in
+                // action with selected object
+            }
+            alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                
+            }
+            if let presenter = alert.popoverPresentationController {
+                presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+                presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+            }
+            if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                alert.show()
+            } else {
+                getTopMostViewController()?.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
