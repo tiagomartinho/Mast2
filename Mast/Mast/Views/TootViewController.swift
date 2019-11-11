@@ -14,6 +14,7 @@ import AVFoundation
 import MobileCoreServices
 import Vision
 import VisionKit
+import MediaPlayer
 
 class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
@@ -551,7 +552,29 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
         let op4 = UIAlertAction(title: "  \("Add Now Playing".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+            let player = MPMusicPlayerController.systemMusicPlayer
+            if let mediaItem = player.nowPlayingItem {
+                let title: String = mediaItem.value(forProperty: MPMediaItemPropertyTitle) as? String ?? ""
+                let artist: String = mediaItem.value(forProperty: MPMediaItemPropertyArtist) as? String ?? ""
+                if title == "" {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.textView.becomeFirstResponder()
+                    }
+                } else {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        if cell.textView.text.count == 0 {
+                            cell.textView.text = "Listening to \(title), by \(artist) 🎵"
+                        } else {
+                            cell.textView.text = "\(cell.textView.text ?? "")\n\nListening to \(title), by \(artist) 🎵"
+                        }
+                        cell.textView.becomeFirstResponder()
+                    }
+                }
+            } else {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    cell.textView.becomeFirstResponder()
+                }
+            }
         })
         op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
