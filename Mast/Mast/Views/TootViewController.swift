@@ -42,6 +42,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var replyStatus: [Status] = []
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
+    var txt = ""
+    var contentWarning = ""
     var defaultVisibility: Visibility = .public
     var formatToolbar = UIToolbar()
     let btn1 = UIButton(type: .custom)
@@ -405,7 +407,36 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func contentTap() {
-        
+        let alert = UIAlertController(style: .actionSheet, title: nil)
+        let config: TextField1.Config = { textField in
+            textField.becomeFirstResponder()
+            textField.textColor = UIColor(named: "baseBlack")!
+            if self.contentWarning == "" {
+                textField.placeholder = "Content warning...".localized
+            } else {
+                textField.text = self.contentWarning
+            }
+            textField.layer.borderWidth = 0
+            textField.layer.cornerRadius = 8
+            textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            textField.backgroundColor = nil
+            textField.keyboardAppearance = .default
+            textField.keyboardType = .URL
+            textField.autocapitalizationType = .none
+            textField.isSecureTextEntry = false
+            textField.returnKeyType = .default
+            textField.action { textField in
+                self.txt = textField.text ?? ""
+            }
+        }
+        alert.addOneTextField(configuration: config)
+        alert.addAction(title: "Add".localized, style: .default) { action in
+            self.contentWarning = self.txt
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        alert.show()
     }
     
     @objc func pollTap() {
@@ -567,7 +598,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             } else {
                 theReplyID = self.replyStatus.first?.id ?? nil
                 theSensitive = self.replyStatus.first?.sensitive ?? false
-                theSpoiler = self.replyStatus.first?.spoilerText ?? nil
+                if self.contentWarning == "" {
+                    theSpoiler = self.replyStatus.first?.spoilerText ?? self.contentWarning
+                } else {
+                    theSpoiler = self.contentWarning
+                }
                 if self.defaultVisibility == .public {
                     theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
                 }
