@@ -324,6 +324,9 @@
 		53B5F204233E63C80099B170 /* ColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F203233E63C80099B170 /* ColumnViewController.swift */; };
 		53CC76C223796D55005B4CF7 /* VisibilitySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */; };
 		53CC76C5237978CF005B4CF7 /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C4237978CF005B4CF7 /* DatePickerViewController.swift */; };
+		53CC76C723797DF4005B4CF7 /* ScheduledViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C623797DF4005B4CF7 /* ScheduledViewController.swift */; };
+		53CC76C923797EE0005B4CF7 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C823797EE0005B4CF7 /* ScheduleCell.swift */; };
+		53CC76CB23797EFF005B4CF7 /* ScheduleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76CA23797EFE005B4CF7 /* ScheduleImageCell.swift */; };
 		53DED14C234B59C90017534F /* PinnedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14B234B59C90017534F /* PinnedViewController.swift */; };
 		53DED14E234B71280017534F /* LikedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14D234B71280017534F /* LikedViewController.swift */; };
 		6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */; };
@@ -673,6 +676,9 @@
 		53B5F203233E63C80099B170 /* ColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnViewController.swift; sourceTree = "<group>"; };
 		53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilitySettingsViewController.swift; sourceTree = "<group>"; };
 		53CC76C4237978CF005B4CF7 /* DatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
+		53CC76C623797DF4005B4CF7 /* ScheduledViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledViewController.swift; sourceTree = "<group>"; };
+		53CC76C823797EE0005B4CF7 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
+		53CC76CA23797EFE005B4CF7 /* ScheduleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleImageCell.swift; sourceTree = "<group>"; };
 		53DED14B234B59C90017534F /* PinnedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewController.swift; sourceTree = "<group>"; };
 		53DED14D234B71280017534F /* LikedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedViewController.swift; sourceTree = "<group>"; };
 		550A06FB5FDD759C102FAE53 /* Pods-Mast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mast.debug.xcconfig"; path = "Target Support Files/Pods-Mast/Pods-Mast.debug.xcconfig"; sourceTree = "<group>"; };
@@ -908,6 +914,8 @@
 			children = (
 				5379F4102331115B00DC1F33 /* TootCell.swift */,
 				5344C0B9233790AC00EB3363 /* TootImageCell.swift */,
+				53CC76C823797EE0005B4CF7 /* ScheduleCell.swift */,
+				53CC76CA23797EFE005B4CF7 /* ScheduleImageCell.swift */,
 				5379F41F2332346700DC1F33 /* DetailCell.swift */,
 				5344C0BD23379A4300EB3363 /* DetailImageCell.swift */,
 				5379F4212332349500DC1F33 /* DetailActionsCell.swift */,
@@ -947,6 +955,7 @@
 				53AF450323742F05001A3574 /* ListViewController.swift */,
 				53AF4505237463FA001A3574 /* ListMembersViewController.swift */,
 				53955D7623746F0400522101 /* HashtagViewController.swift */,
+				53CC76C623797DF4005B4CF7 /* ScheduledViewController.swift */,
 				53DED14B234B59C90017534F /* PinnedViewController.swift */,
 				53DED14D234B71280017534F /* LikedViewController.swift */,
 				5395A7532372D63C002253A8 /* MutedViewController.swift */,
@@ -1595,6 +1604,7 @@
 				5343C0AA23782FE100653A28 /* CountryCell.swift in Sources */,
 				53449DB823294C1000A470E2 /* Relationship.swift in Sources */,
 				53449D3123293E3600A470E2 /* AppDelegate.swift in Sources */,
+				53CC76CB23797EFF005B4CF7 /* ScheduleImageCell.swift in Sources */,
 				53AF450C2375AC2A001A3574 /* GetInTouchSettingsViewController.swift in Sources */,
 				53A4F51423772CE200EC12C6 /* GalleryMediaViewController.swift in Sources */,
 				5379F4132331122100DC1F33 /* Spring.swift in Sources */,
@@ -1614,6 +1624,7 @@
 				53449DCF23294C1000A470E2 /* Media.swift in Sources */,
 				5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */,
 				53A4F4342376E59200EC12C6 /* UIImageView.swift in Sources */,
+				53CC76C723797DF4005B4CF7 /* ScheduledViewController.swift in Sources */,
 				5343C0A623782FE100653A28 /* LocaleInfo.swift in Sources */,
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
@@ -1714,6 +1725,7 @@
 				53A4F4392376E59200EC12C6 /* UIScreen.swift in Sources */,
 				53A4F40C2376E59200EC12C6 /* UIViewController+Extensions.swift in Sources */,
 				53A4F4332376E59200EC12C6 /* UIViewController.swift in Sources */,
+				53CC76C923797EE0005B4CF7 /* ScheduleCell.swift in Sources */,
 				53A4F42F2376E59200EC12C6 /* CGSize.swift in Sources */,
 				53AF45102375B39F001A3574 /* AccountExtension.swift in Sources */,
 				53449DC623294C1000A470E2 /* Instances.swift in Sources */,
