@@ -43,6 +43,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
     let btn1 = UIButton(type: .custom)
+    let btn2 = UIButton(type: .custom)
+    var x1 = UIBarButtonItem()
+    var x2 = UIBarButtonItem()
+    var x3 = UIBarButtonItem()
+    var x4 = UIBarButtonItem()
+    var x5 = UIBarButtonItem()
+    var x6 = UIBarButtonItem()
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -110,7 +117,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let addButton = UIBarButtonItem(customView: btn1)
         self.navigationItem.setRightBarButton(addButton, animated: true)
         
-        let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(systemName: "xmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
@@ -303,17 +309,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
             fixedS.width = 8
             
-            let x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
+            x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
             x1.accessibilityLabel = "Add Images"
-            let x2 = UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            x2 = UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility"
-            let x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+            x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
             x3.accessibilityLabel = "Add Spoiler"
-            let x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
+            x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
             x4.accessibilityLabel = "Emoticons"
-            let x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
+            x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
             x5.accessibilityLabel = "Schedule Toot"
-            let x6 = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))
+            x6 = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))
             x6.accessibilityLabel = "More"
             formatToolbar.items = [
                 x1,
@@ -367,8 +373,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             
         }))
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.view
-            presenter.sourceRect = self.view.bounds
+            presenter.sourceView = self.x2.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x2.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }
@@ -516,8 +522,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             
         }))
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.view
-            presenter.sourceRect = self.view.bounds
+            presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }
@@ -580,8 +586,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                     cell.textView.becomeFirstResponder()
                 }))
                 if let presenter = alert.popoverPresentationController {
-                    presenter.sourceView = self.view
-                    presenter.sourceRect = self.view.bounds
+                    presenter.sourceView = self.btn2
+                    presenter.sourceRect = self.btn2.bounds
                 }
                 self.present(alert, animated: true, completion: nil)
             }
@@ -845,10 +851,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
         }))
         if let presenter = alert.popoverPresentationController {
-            if let cell = self.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {
-                presenter.sourceView = cell
-                presenter.sourceRect = cell.bounds
-            }
+            presenter.sourceView = self.x1.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x1.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         self.present(alert, animated: true, completion: nil)
     }
