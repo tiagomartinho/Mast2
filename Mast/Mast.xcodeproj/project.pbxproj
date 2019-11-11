@@ -330,6 +330,7 @@
 		53CC76CD23798689005B4CF7 /* EmoticonPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76CC23798689005B4CF7 /* EmoticonPickerViewController.swift */; };
 		53CC76CF23799D90005B4CF7 /* ImageCell3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76CE23799D90005B4CF7 /* ImageCell3.swift */; };
 		53CC76E82379C5E1005B4CF7 /* ScanSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */; };
+		53CC76EB2379CE34005B4CF7 /* DraftsPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76EA2379CE34005B4CF7 /* DraftsPickerViewController.swift */; };
 		53DED14C234B59C90017534F /* PinnedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14B234B59C90017534F /* PinnedViewController.swift */; };
 		53DED14E234B71280017534F /* LikedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14D234B71280017534F /* LikedViewController.swift */; };
 		6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */; };
@@ -685,6 +686,7 @@
 		53CC76CC23798689005B4CF7 /* EmoticonPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonPickerViewController.swift; sourceTree = "<group>"; };
 		53CC76CE23799D90005B4CF7 /* ImageCell3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell3.swift; sourceTree = "<group>"; };
 		53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanSettingsViewController.swift; sourceTree = "<group>"; };
+		53CC76EA2379CE34005B4CF7 /* DraftsPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftsPickerViewController.swift; sourceTree = "<group>"; };
 		53DED14B234B59C90017534F /* PinnedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewController.swift; sourceTree = "<group>"; };
 		53DED14D234B71280017534F /* LikedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedViewController.swift; sourceTree = "<group>"; };
 		550A06FB5FDD759C102FAE53 /* Pods-Mast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mast.debug.xcconfig"; path = "Target Support Files/Pods-Mast/Pods-Mast.debug.xcconfig"; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 				5343C09D23782FE100653A28 /* Models */,
 				5343C09F23782FE100653A28 /* LocalePickerViewController.swift */,
 				53CC76CC23798689005B4CF7 /* EmoticonPickerViewController.swift */,
+				53CC76EA2379CE34005B4CF7 /* DraftsPickerViewController.swift */,
 				5343C0A023782FE100653A28 /* Views */,
 			);
 			path = Locale;
@@ -971,17 +974,10 @@
 				5395A75D2372E850002253A8 /* FollowersViewController.swift */,
 				5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */,
 				5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */,
-				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
-				53A4F4AF2377178C00EC12C6 /* IconSettingsViewController.swift */,
-				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
-				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
-				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
-				53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */,
-				53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */,
-				53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 				53B5F1FB233CED000099B170 /* DMViewController.swift */,
 				5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */,
+				53CC76E92379CE00005B4CF7 /* Settings */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1276,6 +1272,21 @@
 				53CC76C4237978CF005B4CF7 /* DatePickerViewController.swift */,
 			);
 			path = Date;
+			sourceTree = "<group>";
+		};
+		53CC76E92379CE00005B4CF7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
+				53A4F4AF2377178C00EC12C6 /* IconSettingsViewController.swift */,
+				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
+				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
+				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
+				53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */,
+				53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */,
+				53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		A9F1E35F02DDE5B7E0BEC433 /* Pods */ = {
@@ -1727,6 +1738,7 @@
 				53A4F4472376E59200EC12C6 /* OneTextFieldViewController.swift in Sources */,
 				534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */,
 				53449DC923294C1000A470E2 /* Login.swift in Sources */,
+				53CC76EB2379CE34005B4CF7 /* DraftsPickerViewController.swift in Sources */,
 				53449DA023294C1000A470E2 /* Data.swift in Sources */,
 				53A4F41A2376E59200EC12C6 /* AVCaptureSession+Extensions.swift in Sources */,
 				53A4F41B2376E59200EC12C6 /* Common+Extensions.swift in Sources */,

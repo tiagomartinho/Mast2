@@ -317,7 +317,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func viewDrafts() {
-        
+        let alert = UIAlertController(style: .actionSheet, message: nil)
+        alert.addDraftsPicker(type: .country) { info in
+            // action with selected object
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            alert.show()
+        } else {
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func visibilityTap() {
