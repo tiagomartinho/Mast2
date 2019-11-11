@@ -86,6 +86,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addEmoji), name: NSNotification.Name(rawValue: "addEmoji"), object: nil)
         
+        if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
+            GlobalStruct.allDrafts = x
+        }
+        
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
@@ -669,7 +673,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
-                    self.dismiss(animated: true, completion: nil)
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        GlobalStruct.allDrafts.append(cell.textView.text ?? "")
+                        UserDefaults.standard.set(GlobalStruct.allDrafts, forKey: "sync-allDrafts")
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 })
                 op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
                 op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
