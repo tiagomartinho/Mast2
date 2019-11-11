@@ -50,7 +50,7 @@ final class EmoticonPickerViewController: UIViewController, UICollectionViewDele
     }(UIActivityIndicatorView(style: .whiteLarge))
 
     fileprivate let layout = ColumnFlowLayout(
-        cellsPerRow: 6,
+        cellsPerRow: 7,
         minimumInteritemSpacing: 5,
         minimumLineSpacing: 5,
         sectionInset: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -112,7 +112,7 @@ final class EmoticonPickerViewController: UIViewController, UICollectionViewDele
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let x = 6
+        let x = 7
         let y = (self.view.bounds.width) - 20
         let z = CGFloat(y)/CGFloat(x)
         return CGSize(width: z - 5, height: z - 5)

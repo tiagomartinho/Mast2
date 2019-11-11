@@ -627,46 +627,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     @objc func viewMore() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "Add Poll".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
-        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op1)
-        let op3 = UIAlertAction(title: "  \("Add Audio".localized)", style: .default , handler:{ (UIAlertAction) in
-            self.moreAudio()
-        })
-        op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
-        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op3)
-        let op4 = UIAlertAction(title: "  \("Add Now Playing".localized)", style: .default , handler:{ (UIAlertAction) in
-            let player = MPMusicPlayerController.systemMusicPlayer
-            if let mediaItem = player.nowPlayingItem {
-                let title: String = mediaItem.value(forProperty: MPMediaItemPropertyTitle) as? String ?? ""
-                let artist: String = mediaItem.value(forProperty: MPMediaItemPropertyArtist) as? String ?? ""
-                if title == "" {
-                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                        cell.textView.becomeFirstResponder()
-                    }
-                } else {
-                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                        if cell.textView.text.count == 0 {
-                            cell.textView.text = "Listening to \(title), by \(artist) 🎵"
-                        } else {
-                            cell.textView.text = "\(cell.textView.text ?? "")\n\nListening to \(title), by \(artist) 🎵"
-                        }
-                        cell.textView.becomeFirstResponder()
-                    }
-                }
-            } else {
-                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                    cell.textView.becomeFirstResponder()
-                }
-            }
-        })
-        op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
-        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op4)
         let op6 = UIAlertAction(title: "Sentiment Analysis".localized, style: .default , handler:{ (UIAlertAction) in
             
         })
@@ -1025,6 +985,48 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 cell.textView.becomeFirstResponder()
             }
         }))
+        
+        let op1 = UIAlertAction(title: "Poll".localized, style: .default , handler:{ (UIAlertAction) in
+            
+        })
+        op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op3 = UIAlertAction(title: "  \("Audio".localized)", style: .default , handler:{ (UIAlertAction) in
+            self.moreAudio()
+        })
+        op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        let op4 = UIAlertAction(title: "  \("Now Playing".localized)", style: .default , handler:{ (UIAlertAction) in
+            let player = MPMusicPlayerController.systemMusicPlayer
+            if let mediaItem = player.nowPlayingItem {
+                let title: String = mediaItem.value(forProperty: MPMediaItemPropertyTitle) as? String ?? ""
+                let artist: String = mediaItem.value(forProperty: MPMediaItemPropertyArtist) as? String ?? ""
+                if title == "" {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.textView.becomeFirstResponder()
+                    }
+                } else {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        if cell.textView.text.count == 0 {
+                            cell.textView.text = "Listening to \(title), by \(artist) 🎵"
+                        } else {
+                            cell.textView.text = "\(cell.textView.text ?? "")\n\nListening to \(title), by \(artist) 🎵"
+                        }
+                        cell.textView.becomeFirstResponder()
+                    }
+                }
+            } else {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    cell.textView.becomeFirstResponder()
+                }
+            }
+        })
+        op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
+        op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op4)
+        
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = self.x1.value(forKey: "view") as? UIView
             presenter.sourceRect = (self.x1.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
