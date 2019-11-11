@@ -660,23 +660,29 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func viewMore() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op9 = UIAlertAction(title: "Clear All".localized, style: .destructive , handler:{ (UIAlertAction) in
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.text = ""
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            if cell.textView.text == "" {
+                
+            } else {
+                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                let op9 = UIAlertAction(title: "Clear All".localized, style: .destructive , handler:{ (UIAlertAction) in
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.textView.text = ""
+                    }
+                })
+                op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+                op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op9)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                    
+                }))
+                if let presenter = alert.popoverPresentationController {
+                    presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+                    presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+                }
+                self.present(alert, animated: true, completion: nil)
             }
-        })
-        op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
-        op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op9)
-        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            
-        }))
-        if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x6.value(forKey: "view") as? UIView
-            presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
-        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func tickTapped() {
