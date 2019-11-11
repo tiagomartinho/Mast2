@@ -42,6 +42,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var replyStatus: [Status] = []
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
+    var defaultVisibility: Visibility = .public
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
     var x1 = UIBarButtonItem()
@@ -124,6 +125,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
+        if UserDefaults.standard.value(forKey: "sync-chosenVisibility") as? Int == 0 {
+            self.defaultVisibility = .public
+        } else if UserDefaults.standard.value(forKey: "sync-chosenVisibility") as? Int == 1 {
+            self.defaultVisibility = .unlisted
+        } else if UserDefaults.standard.value(forKey: "sync-chosenVisibility") as? Int == 2 {
+            self.defaultVisibility = .private
+        } else {
+            self.defaultVisibility = .direct
+        }
+        
         // Table
         self.tableView.register(ComposeCell.self, forCellReuseIdentifier: "ComposeCell")
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "PrevCell")
@@ -139,17 +150,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.tableView.showsVerticalScrollIndicator = false
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
-        
-//        self.moreButton.backgroundColor = UIColor.clear
-//        let downImage = UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)
-//        let tintedDownImage = downImage?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.6), renderingMode: .alwaysOriginal)
-//        self.moreButton.setImage(tintedDownImage, for: .normal)
-//        self.moreButton.addTarget(self, action: #selector(self.viewMore), for: .touchUpInside)
-//        self.moreButton.adjustsImageWhenHighlighted = false
-//        self.moreButton.isAccessibilityElement = true
-//        self.moreButton.accessibilityTraits = .button
-//        self.moreButton.accessibilityLabel = "More".localized
-//        self.view.addSubview(self.moreButton)
         
         self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
         self.view.addSubview(self.divider)
@@ -309,9 +309,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
             fixedS.width = 8
             
+            var visibilityIcon = "globe"
+            if self.defaultVisibility == .public {
+                visibilityIcon = "globe"
+            } else if self.defaultVisibility == .unlisted {
+                visibilityIcon = "lock.open"
+            } else if self.defaultVisibility == .private {
+                visibilityIcon = "lock"
+            } else {
+                visibilityIcon = "paperplane"
+            }
+            
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
             x1.accessibilityLabel = "Add Images"
-            x2 = UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility"
             x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
             x3.accessibilityLabel = "Add Spoiler"
@@ -344,27 +355,32 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func visibilityTap() {
+        let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Public".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.defaultVisibility = .public
+            self.x2 = UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
         })
         op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op3 = UIAlertAction(title: "Unlisted".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.defaultVisibility = .unlisted
+            self.x2 = UIBarButtonItem(image: UIImage(systemName: "lock.open", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
         })
         op3.setValue(UIImage(systemName: "lock.open")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: " Followers".localized, style: .default , handler:{ (UIAlertAction) in
-            
+        let op4 = UIAlertAction(title: " \("Followers".localized)", style: .default , handler:{ (UIAlertAction) in
+            self.defaultVisibility = .private
+            self.x2 = UIBarButtonItem(image: UIImage(systemName: "lock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
         })
         op4.setValue(UIImage(systemName: "lock")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
         let op6 = UIAlertAction(title: "Direct".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            self.defaultVisibility = .direct
+            self.x2 = UIBarButtonItem(image: UIImage(systemName: "paperplane", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
         })
         op6.setValue(UIImage(systemName: "paperplane")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -543,7 +559,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 theReplyID = self.replyStatus.first?.id ?? nil
                 theSensitive = self.replyStatus.first?.sensitive ?? false
                 theSpoiler = self.replyStatus.first?.spoilerText ?? nil
-                theVisibility = self.replyStatus.first?.visibility ?? Visibility.public
+                if self.defaultVisibility == .public {
+                    theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
+                }
                 theMainText = "@\(self.replyStatus.first?.account.username ?? "") \(theMainText)"
             }
             let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: nil, poll: nil, visibility: theVisibility)

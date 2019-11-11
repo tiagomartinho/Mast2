@@ -322,6 +322,7 @@
 		53B5F200233E63370099B170 /* ScrollMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F1FF233E63360099B170 /* ScrollMainViewController.swift */; };
 		53B5F202233E63540099B170 /* VerticalTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F201233E63540099B170 /* VerticalTabBarController.swift */; };
 		53B5F204233E63C80099B170 /* ColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B5F203233E63C80099B170 /* ColumnViewController.swift */; };
+		53CC76C223796D55005B4CF7 /* VisibilitySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */; };
 		53DED14C234B59C90017534F /* PinnedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14B234B59C90017534F /* PinnedViewController.swift */; };
 		53DED14E234B71280017534F /* LikedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DED14D234B71280017534F /* LikedViewController.swift */; };
 		6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */; };
@@ -669,6 +670,7 @@
 		53B5F1FF233E63360099B170 /* ScrollMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollMainViewController.swift; sourceTree = "<group>"; };
 		53B5F201233E63540099B170 /* VerticalTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTabBarController.swift; sourceTree = "<group>"; };
 		53B5F203233E63C80099B170 /* ColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnViewController.swift; sourceTree = "<group>"; };
+		53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibilitySettingsViewController.swift; sourceTree = "<group>"; };
 		53DED14B234B59C90017534F /* PinnedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedViewController.swift; sourceTree = "<group>"; };
 		53DED14D234B71280017534F /* LikedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedViewController.swift; sourceTree = "<group>"; };
 		550A06FB5FDD759C102FAE53 /* Pods-Mast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mast.debug.xcconfig"; path = "Target Support Files/Pods-Mast/Pods-Mast.debug.xcconfig"; sourceTree = "<group>"; };
@@ -953,6 +955,7 @@
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				53A4F4AF2377178C00EC12C6 /* IconSettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
+				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
 				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
 				53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */,
 				53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */,
@@ -1574,6 +1577,7 @@
 				5379F4302333C3B500DC1F33 /* ColumnFlowLayout.swift in Sources */,
 				53449DBC23294C1000A470E2 /* Status.swift in Sources */,
 				5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */,
+				53CC76C223796D55005B4CF7 /* VisibilitySettingsViewController.swift in Sources */,
 				53AF450423742F05001A3574 /* ListViewController.swift in Sources */,
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,
 				5343C0AA23782FE100653A28 /* CountryCell.swift in Sources */,

@@ -224,6 +224,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.value(forKey: "filterNotifications") == nil {
             UserDefaults.standard.set(0, forKey: "filterNotifications")
         }
+        if UserDefaults.standard.value(forKey: "sync-chosenVisibility") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-chosenVisibility")
+        }
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
         let item00 = UIApplicationShortcutItem(type: "com.shi.Mast2.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
