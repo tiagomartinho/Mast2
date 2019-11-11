@@ -703,6 +703,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = ""
                     }
+                    self.x7 = UIBarButtonItem(title: "\(GlobalStruct.maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+                    self.x7.accessibilityLabel = "Characters".localized
+                    self.formatToolbar.items?[12] = self.x7
                 })
                 op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
                 op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
