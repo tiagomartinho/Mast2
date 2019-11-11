@@ -16,7 +16,7 @@ import Vision
 import VisionKit
 import MediaPlayer
 
-class TootViewController: UIViewController, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -36,9 +36,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var tableView = UITableView()
     var keyHeight: CGFloat = 0
     var moreButton = UIButton()
-    var collectionView1: UICollectionView!
     var images: [PHAsset] = []
-    var divider = UIView()
     var selectedImages: [Int] = []
     var replyStatus: [Status] = []
     let photoPickerView = UIImagePickerController()
@@ -66,47 +64,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         super.viewDidLayoutSubviews()
         
         // Text view
-        if self.keyHeight > 0 {
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
+        self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
 
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-            }
-        } else {
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
-
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-            }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
         }
-        
-        var safeBottom = self.view.safeAreaInsets.bottom
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-            safeBottom = 0
-        } else {
-            safeBottom = self.view.safeAreaInsets.bottom
-        }
-        
-        var keyboardY0 = self.keyHeight + safeBottom + 45
-        if self.keyHeight > 0 {
-            keyboardY0 = self.keyHeight + 47
-        }
-        let keyboardY = self.view.bounds.height - keyboardY0
-        self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
-        
-        var keyboardY02 = self.keyHeight + safeBottom + 55
-        if self.keyHeight > 0 {
-            keyboardY02 = self.keyHeight + 57
-        }
-        let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(50))
-        
-        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "\(GlobalStruct.maxChars)"
 //        self.removeTabbarItemsText()
         
@@ -148,7 +115,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "PrevImageCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorStyle = .none
         self.tableView.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
         self.tableView.backgroundColor = UIColor.clear
         self.tableView.layer.masksToBounds = true
@@ -157,29 +124,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.tableView.showsVerticalScrollIndicator = false
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
-        
-        self.divider.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.2)
-        self.view.addSubview(self.divider)
-        
-        let layout = ColumnFlowLayout2(
-            cellsPerRow: 10,
-            minimumInteritemSpacing: 15,
-            minimumLineSpacing: 15,
-            sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        )
-        layout.scrollDirection = .horizontal
-        var keyboardY02 = self.keyHeight + self.view.safeAreaInsets.bottom + 55
-        if self.keyHeight > 0 {
-            keyboardY02 = self.keyHeight + 57
-        }
-        let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(50)), collectionViewLayout: layout)
-        collectionView1.backgroundColor = UIColor.clear
-        collectionView1.delegate = self
-        collectionView1.dataSource = self
-        collectionView1.showsHorizontalScrollIndicator = false
-        collectionView1.register(ComposeImageCell.self, forCellWithReuseIdentifier: "ComposeImageCell")
-        self.view.addSubview(collectionView1)
         
         if self.replyStatus.isEmpty {
 
@@ -224,11 +168,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if section == 1 && (!replyStatus.isEmpty) {
             let vw = UIView()
             vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
-            vw.backgroundColor = UIColor(named: "lighterBaseWhite")
+            vw.backgroundColor = UIColor(named: "baseWhite")
             let replyText = UITextView()
             replyText.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
             replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
-            replyText.backgroundColor = UIColor(named: "lighterBaseWhite")
+            replyText.backgroundColor = UIColor(named: "baseWhite")
             replyText.showsVerticalScrollIndicator = false
             replyText.showsHorizontalScrollIndicator = false
             replyText.alwaysBounceVertical = true
@@ -271,7 +215,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if indexPath.section == 0 {
             return UITableView.automaticDimension
         } else {
-            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 145
+            var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 94
             if he < 0 {
                 he = 0
             }
@@ -286,7 +230,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
                 }
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = UIColor(named: "lighterBaseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -296,7 +240,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
                 }
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = UIColor(named: "lighterBaseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -304,7 +248,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ComposeCell", for: indexPath) as! ComposeCell
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = UIColor(named: "lighterBaseWhite")
             cell.textView.delegate = self
 
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
@@ -326,8 +270,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 visibilityIcon = "paperplane"
             }
             
-            x0 = UIBarButtonItem(image: UIImage(systemName: "photo", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.photoAdd))
-            x0.accessibilityLabel = "Add Images".localized
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
             x1.accessibilityLabel = "Add Media".localized
             x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
@@ -341,8 +283,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             x6 = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))
             x6.accessibilityLabel = "More".localized
             formatToolbar.items = [
-                x0,
-                fixedS,
                 x1,
                 fixedS,
                 x2,
@@ -362,10 +302,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.selectedBackgroundView = bgColorView
             return cell
         }
-    }
-    
-    @objc func photoAdd() {
-        
     }
     
     @objc func visibilityTap() {
@@ -536,11 +472,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        self.checkAuthorizationForPhotoLibraryAndGet()
-        self.collectionView1.reloadData()
-        
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.becomeFirstResponder()
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
             } else {
@@ -738,43 +671,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 self.present(alert, animated: true, completion: nil)
             }
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.images.count == 0 {
-            return 1
-        } else {
-            return self.images.count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
-        if self.images.isEmpty {
-            
-        } else {
-            cell.configure()
-            let _ = self.images[indexPath.item].getURL { (link) in
-                DispatchQueue.main.async {
-                    cell.image.sd_setImage(with: link, completed: nil)
-                    cell.image.layer.masksToBounds = true
-                    cell.image.backgroundColor = UIColor(named: "lighterBaseWhite")
-                    cell.image.layer.masksToBounds = true
-                    cell.image.layer.borderColor = UIColor.black.cgColor
-                    cell.image.contentMode = .scaleAspectFill
-                    if self.selectedImages.contains(indexPath.item) {
-                        cell.layer.borderColor = GlobalStruct.baseTint.cgColor
-                        cell.layer.cornerRadius = 5
-                        cell.layer.borderWidth = 3
-                        cell.layer.masksToBounds = true
-                    } else {
-                        cell.layer.borderWidth = 0
-                    }
-                }
-            }
-        }
-        cell.backgroundColor = UIColor.clear
-        return cell
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
@@ -1045,16 +941,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         self.present(alert, animated: true, completion: nil)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.selectedImages.contains(indexPath.item) {
-            self.selectedImages = self.selectedImages.filter {$0 != indexPath.item}
-            self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
-        } else {
-            self.selectedImages.append(indexPath.item)
-            self.collectionView1.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
-        }
-    }
-    
     @objc func keyboardWillShow(notification: Notification) {
         var safeBottom = self.view.safeAreaInsets.bottom
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
@@ -1064,27 +950,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
+            let keyboardHeight = keyboardRectangle.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 4
             self.keyHeight = CGFloat(keyboardHeight)
-            var keyboardY0 = self.keyHeight + safeBottom + 45
-            if self.keyHeight > 0 {
-                keyboardY0 = self.keyHeight + 47
-            }
-            let keyboardY = self.view.bounds.height - keyboardY0
-            self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
-            
-            var keyboardY02 = self.keyHeight + safeBottom + 55
-            if self.keyHeight > 0 {
-                keyboardY02 = self.keyHeight + 57
-            }
-            let keyboardY2 = self.view.bounds.height - keyboardY02
-            collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(50))
-            self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 62)
-
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-            }
         }
     }
     
@@ -1096,25 +963,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             safeBottom = self.view.safeAreaInsets.bottom
         }
         self.keyHeight = CGFloat(0)
-        var keyboardY0 = self.keyHeight + safeBottom + 45
-        if self.keyHeight > 0 {
-            keyboardY0 = self.keyHeight + 47
-        }
-        let keyboardY = self.view.bounds.height - keyboardY0
-        self.moreButton.frame = CGRect(x: self.view.bounds.width - 50, y: keyboardY, width: 30, height: 30)
-        
-        var keyboardY02 = self.keyHeight + safeBottom + 55
-        if self.keyHeight > 0 {
-            keyboardY02 = self.keyHeight + 57
-        }
-        let keyboardY2 = self.view.bounds.height - keyboardY02
-        collectionView1.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(50))
-        self.divider.frame = CGRect(x: CGFloat(0), y: CGFloat(keyboardY2 - 6), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(0.6))
-        self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 95)
-
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-        }
     }
     
     func removeTabbarItemsText() {

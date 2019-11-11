@@ -148,7 +148,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         }
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
-            cell.imageView?.image = UIImage(systemName: "lock.circle.fill", withConfiguration: symbolConfig) ?? UIImage()
+            cell.imageView?.image = (UIImage(systemName: "lock.circle.fill", withConfiguration: symbolConfig) ?? UIImage()).withTintColor(UIColor.white)
             cell.textLabel?.text = "Mast Pro"
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             cell.textLabel?.textColor = UIColor.white
