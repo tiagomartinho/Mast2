@@ -108,7 +108,10 @@ class ScheduleImageCell: UITableViewCell, UICollectionViewDelegate, UICollection
         self.collectionView1.reloadData()
         
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        self.username.text = stat.scheduledAt
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        let updatedAt = dateFormatter.date(from: stat.scheduledAt)
+        self.username.text = updatedAt?.toString(dateStyle: .medium, timeStyle: .medium) ?? ""
         self.content.text = stat.params.text.stripHTML()
         self.profile.image = UIImage()
         guard let imageURL = URL(string: GlobalStruct.currentUser.avatar) else { return }

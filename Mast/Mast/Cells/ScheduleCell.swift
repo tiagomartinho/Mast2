@@ -81,7 +81,10 @@ class ScheduleCell: UITableViewCell {
     
     func configure(_ stat: ScheduledStatus) {
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
-        self.username.text = stat.scheduledAt
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        let updatedAt = dateFormatter.date(from: stat.scheduledAt)
+        self.username.text = updatedAt?.toString(dateStyle: .medium, timeStyle: .medium) ?? ""
         self.content.text = stat.params.text.stripHTML()
         guard let imageURL = URL(string: GlobalStruct.currentUser.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
