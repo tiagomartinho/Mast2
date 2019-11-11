@@ -495,7 +495,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let request7 = Instances.customEmojis()
         GlobalStruct.client.run(request7) { (statuses) in
             if let stat = (statuses.value) {
-                GlobalStruct.allEmoticons = stat
+                GlobalStruct.allEmoticons = stat.sorted { $0.shortcode < $1.shortcode }
             }
         }
         
@@ -1654,7 +1654,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.textField.delegate = self
         self.textField.attributedPlaceholder = NSAttributedString(string: "mastodon.social",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        self.textField.accessibilityLabel = "Enter Instance"
+        self.textField.accessibilityLabel = "Enter Instance".localized
         UIApplication.shared.windows.first?.addSubview(self.textField)
     }
     

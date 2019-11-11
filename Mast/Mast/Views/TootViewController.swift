@@ -50,6 +50,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     var formatToolbar = UIToolbar()
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
+    var x0 = UIBarButtonItem()
     var x1 = UIBarButtonItem()
     var x2 = UIBarButtonItem()
     var x3 = UIBarButtonItem()
@@ -307,7 +308,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.textView.delegate = self
 
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-            formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50))
+            formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 60))
             formatToolbar.tintColor = UIColor(named: "baseBlack")!
             formatToolbar.barStyle = UIBarStyle.default
             formatToolbar.isTranslucent = true
@@ -325,8 +326,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 visibilityIcon = "paperplane"
             }
             
+            x0 = UIBarButtonItem(image: UIImage(systemName: "photo", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.photoAdd))
+            x0.accessibilityLabel = "Add Images".localized
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
-            x1.accessibilityLabel = "Add Images".localized
+            x1.accessibilityLabel = "Add Media".localized
             x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility".localized
             x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
@@ -338,6 +341,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             x6 = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))
             x6.accessibilityLabel = "More".localized
             formatToolbar.items = [
+                x0,
+                fixedS,
                 x1,
                 fixedS,
                 x2,
@@ -357,6 +362,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.selectedBackgroundView = bgColorView
             return cell
         }
+    }
+    
+    @objc func photoAdd() {
+        
     }
     
     @objc func visibilityTap() {
@@ -475,6 +484,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         }
         alert.addAction(title: "Dismiss", style: .cancel)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            let height:NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 350)
+            alert.view.addConstraint(height)
             alert.show()
         } else {
             getTopMostViewController()?.present(alert, animated: true, completion: nil)
