@@ -56,6 +56,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var x4 = UIBarButtonItem()
     var x5 = UIBarButtonItem()
     var x6 = UIBarButtonItem()
+    var gifVidDataToAttachArray: [Data] = []
+    var photoToAttachArray: [Data] = []
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -474,7 +476,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         super.viewDidAppear(true)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             placeholderLabel = UILabel()
-            placeholderLabel.text = "What would you like to share?".localized
+            placeholderLabel.text = "What's happening?".localized
             placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
             placeholderLabel.sizeToFit()
             cell.textView.addSubview(placeholderLabel)
@@ -723,39 +725,27 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.photoPickerView.dismiss(animated: true, completion: {
-//            self.textView.becomeFirstResponder()
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.becomeFirstResponder()
+            }
         })
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let _ = info[UIImagePickerController.InfoKey.mediaType] as? String {
-//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-//                let photoNew = info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()
-//                let attachment = NSTextAttachment()
-//                attachment.image = photoNew
-//                let imWidth = attachment.image!.size.width
-//                let imHeight = attachment.image!.size.height
-//                let ratio = imWidth/imHeight
-//                attachment.bounds = CGRect(x: 5, y: 5, width: self.textView.frame.size.width - 15, height: ((self.textView.frame.size.width - 15)/ratio) - 10)
-//
-//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-//                let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-//                let attString = NSAttributedString(attachment: attachment)
-//
-//                guard let selectedRange = self.textView.selectedTextRange else {
-//                    return
-//                }
-//                let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
-//                self.textView.textStorage.insert(attString, at: cursorIndex)
-//                if cell.textView.text.isEmpty {} else {
-//                    cell.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
-//                }
-//                cell.textView.textStorage.append(attStringNewLine)
-//
-//                self.hapticPatternType3()
-//
-//                self.fromScan = true
-//            }
+        if let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String {
+            if mediaType == "public.movie" || mediaType == kUTTypeGIF as String {
+                let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! NSURL
+                do {
+                    let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
+                    self.gifVidDataToAttachArray.append(gifVidDataToAttach)
+                } catch {
+                    print("error")
+                }
+            } else {
+                if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()).pngData() {
+                    self.photoToAttachArray.append(photoToAttach)
+                }
+            }
         }
         self.photoPickerView.dismiss(animated: true, completion: nil)
     }
@@ -792,49 +782,61 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-        controller.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.becomeFirstResponder()
+            }
+        })
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
         print(error)
-        controller.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true, completion: {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.becomeFirstResponder()
+            }
+        })
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-//        let request = VNRecognizeTextRequest { request, error in
-//            guard let observations = request.results as? [VNRecognizedTextObservation] else {
-//                return
-//            }
-//            for observation in observations {
-//                guard let bestCandidate = observation.topCandidates(1).first else {
-//                    continue
-//                }
-//                var bestString = " \(bestCandidate.string)"
-//                if self.textView.text.isEmpty {
-//                    bestString = bestCandidate.string
-//                }
-//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-//                let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-//                self.textView.textStorage.append(attStringVision)
-//                let newPosition = self.textView.endOfDocument
-//                self.textView.selectedTextRange = self.textView.textRange(from: newPosition, to: newPosition)
-//            }
-//        }
-//        if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 0 {
-//            request.recognitionLevel = .accurate
-//        } else if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 1 {
-//            request.recognitionLevel = .fast
-//        }
-//        let requests = [request]
-//        for i in 0 ..< scan.pageCount {
-//            let image1 = scan.imageOfPage(at: i)
-//            guard let img = image1.cgImage else {
-//                return
-//            }
-//            let handler = VNImageRequestHandler(cgImage: img, options: [:])
-//            try? handler.perform(requests)
-//        }
-//        controller.dismiss(animated: true, completion: nil)
+        let request = VNRecognizeTextRequest { request, error in
+            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                return
+            }
+            for observation in observations {
+                guard let bestCandidate = observation.topCandidates(1).first else {
+                    continue
+                }
+                var bestString = " \(bestCandidate.string)"
+
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    if cell.textView.text.isEmpty {
+                        bestString = bestCandidate.string
+                    }
+                    let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                    let attStringVision = NSMutableAttributedString(string: bestString, attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
+                    cell.textView.textStorage.append(attStringVision)
+                    let newPosition = cell.textView.endOfDocument
+                    cell.textView.selectedTextRange = cell.textView.textRange(from: newPosition, to: newPosition)
+                }
+                
+            }
+        }
+        if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 0 {
+            request.recognitionLevel = .accurate
+        } else if (UserDefaults.standard.value(forKey: "sync-scanMode") as? Int) == 1 {
+            request.recognitionLevel = .fast
+        }
+        let requests = [request]
+        for i in 0 ..< scan.pageCount {
+            let image1 = scan.imageOfPage(at: i)
+            guard let img = image1.cgImage else {
+                return
+            }
+            let handler = VNImageRequestHandler(cgImage: img, options: [:])
+            try? handler.perform(requests)
+        }
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func cameraVisionText() {
