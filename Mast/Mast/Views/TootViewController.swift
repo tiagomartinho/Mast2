@@ -43,6 +43,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
     var defaultVisibility: Visibility = .public
+    var formatToolbar = UIToolbar()
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
     var x1 = UIBarButtonItem()
@@ -302,7 +303,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             cell.textView.delegate = self
 
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-            let formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50))
+            formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50))
             formatToolbar.tintColor = UIColor(named: "baseBlack")!
             formatToolbar.barStyle = UIBarStyle.default
             formatToolbar.isTranslucent = true
@@ -321,17 +322,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             }
             
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
-            x1.accessibilityLabel = "Add Images"
+            x1.accessibilityLabel = "Add Images".localized
             x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
-            x2.accessibilityLabel = "Visibility"
+            x2.accessibilityLabel = "Visibility".localized
             x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
-            x3.accessibilityLabel = "Add Spoiler"
+            x3.accessibilityLabel = "Add Spoiler".localized
             x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
-            x4.accessibilityLabel = "Emoticons"
+            x4.accessibilityLabel = "Emoticons".localized
             x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
-            x5.accessibilityLabel = "Schedule Toot"
+            x5.accessibilityLabel = "Schedule Toot".localized
             x6 = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewMore))
-            x6.accessibilityLabel = "More"
+            x6.accessibilityLabel = "More".localized
             formatToolbar.items = [
                 x1,
                 fixedS,
@@ -360,6 +361,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let op1 = UIAlertAction(title: "Public".localized, style: .default , handler:{ (UIAlertAction) in
             self.defaultVisibility = .public
             self.x2 = UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            self.x2.accessibilityLabel = "Visibility".localized
+            self.formatToolbar.items?[2] = self.x2
         })
         op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -367,6 +370,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let op3 = UIAlertAction(title: "Unlisted".localized, style: .default , handler:{ (UIAlertAction) in
             self.defaultVisibility = .unlisted
             self.x2 = UIBarButtonItem(image: UIImage(systemName: "lock.open", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            self.x2.accessibilityLabel = "Visibility".localized
+            self.formatToolbar.items?[2] = self.x2
         })
         op3.setValue(UIImage(systemName: "lock.open")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -374,6 +379,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let op4 = UIAlertAction(title: " \("Followers".localized)", style: .default , handler:{ (UIAlertAction) in
             self.defaultVisibility = .private
             self.x2 = UIBarButtonItem(image: UIImage(systemName: "lock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            self.x2.accessibilityLabel = "Visibility".localized
+            self.formatToolbar.items?[2] = self.x2
         })
         op4.setValue(UIImage(systemName: "lock")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -381,6 +388,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         let op6 = UIAlertAction(title: "Direct".localized, style: .default , handler:{ (UIAlertAction) in
             self.defaultVisibility = .direct
             self.x2 = UIBarButtonItem(image: UIImage(systemName: "paperplane", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            self.x2.accessibilityLabel = "Visibility".localized
+            self.formatToolbar.items?[2] = self.x2
         })
         op6.setValue(UIImage(systemName: "paperplane")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
