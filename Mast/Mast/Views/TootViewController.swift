@@ -85,6 +85,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addEmoji), name: NSNotification.Name(rawValue: "addEmoji"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.addCurrentDraft), name: NSNotification.Name(rawValue: "addCurrentDraft"), object: nil)
         
         if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
             GlobalStruct.allDrafts = x
@@ -160,6 +161,21 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     }
                 }
             }
+        }
+    }
+    
+    @objc func addCurrentDraft() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.text = GlobalStruct.currentDraft
+            GlobalStruct.allDrafts = GlobalStruct.allDrafts.filter { (draft) -> Bool in
+                if draft == GlobalStruct.currentDraft {
+                    return false
+                } else {
+                    return true
+                }
+            }
+            UserDefaults.standard.set(GlobalStruct.allDrafts, forKey: "sync-allDrafts")
+            cell.textView.becomeFirstResponder()
         }
     }
     

@@ -118,8 +118,8 @@ extension DraftsPickerViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let selection = self.filteredInfo[indexPath.row]
-        
+        GlobalStruct.currentDraft = GlobalStruct.allDrafts[indexPath.row]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "addCurrentDraft"), object: self)
         self.indicatorView.stopAnimating()
         self.alertController?.dismiss(animated: true)
     }

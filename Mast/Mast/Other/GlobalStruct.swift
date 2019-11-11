@@ -38,6 +38,7 @@ class GlobalStruct {
     static var allEmoticons: [Emoji] = []
     static var emoticonToAdd: String = ""
     static var allDrafts: [String] = []
+    static var currentDraft: String = ""
     
     static var statusesHome: [Status] = []
     static var statusesLocal: [Status] = []
