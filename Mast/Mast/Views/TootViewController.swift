@@ -41,6 +41,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var replyStatus: [Status] = []
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
+    var placeholderLabel = UILabel()
     var txt = ""
     var contentWarning = ""
     var scheduleTime: String?
@@ -65,7 +66,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         
         // Text view
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
-
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
         }
@@ -230,7 +230,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
                 }
-                cell.backgroundColor = UIColor(named: "lighterBaseWhite")
+                cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -240,7 +240,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
                 }
-                cell.backgroundColor = UIColor(named: "lighterBaseWhite")
+                cell.backgroundColor = UIColor(named: "baseWhite")
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -473,6 +473,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            placeholderLabel = UILabel()
+            placeholderLabel.text = "What would you like to share?".localized
+            placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
+            placeholderLabel.sizeToFit()
+            cell.textView.addSubview(placeholderLabel)
+            placeholderLabel.frame.origin = CGPoint(x: 22, y: 10)
+            placeholderLabel.textColor = UIColor.lightGray
+            
             cell.textView.becomeFirstResponder()
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
@@ -483,6 +491,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        if textView.text == "" {
+            self.placeholderLabel.isHidden = false
+        } else {
+            self.placeholderLabel.isHidden = true
+        }
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             var maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
@@ -942,27 +955,23 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func keyboardWillShow(notification: Notification) {
-        var safeBottom = self.view.safeAreaInsets.bottom
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-            safeBottom = -20
-        } else {
-            safeBottom = self.view.safeAreaInsets.bottom
-        }
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 4
             self.keyHeight = CGFloat(keyboardHeight)
+            self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+            }
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
-        var safeBottom = self.view.safeAreaInsets.bottom
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-            safeBottom = 0
-        } else {
-            safeBottom = self.view.safeAreaInsets.bottom
-        }
         self.keyHeight = CGFloat(0)
+        self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+        }
     }
     
     func removeTabbarItemsText() {
