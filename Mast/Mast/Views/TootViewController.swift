@@ -437,6 +437,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
             
         }
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x3.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x3.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
         alert.show()
     }
     
@@ -449,7 +453,21 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
     }
     
     @objc func scheduleTap() {
-        
+        let alert = UIAlertController(style: .actionSheet, title: nil)
+        alert.addDatePicker(mode: .dateAndTime, date: Date().adjust(.minute, offset: 5), minimumDate: Date().adjust(.minute, offset: 5), maximumDate: Date().adjust(.year, offset: 10)) { date in
+            
+        }
+        alert.addAction(title: "Schedule".localized, style: .default) { action in
+
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x5.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x5.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
+        alert.show()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
