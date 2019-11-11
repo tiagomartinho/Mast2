@@ -544,13 +544,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op3 = UIAlertAction(title: "  Record Audio".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: "  \("Record Audio".localized)", style: .default , handler:{ (UIAlertAction) in
             
         })
         op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op3)
-        let op4 = UIAlertAction(title: "  Add Now Playing".localized, style: .default , handler:{ (UIAlertAction) in
+        let op4 = UIAlertAction(title: "  \("Add Now Playing".localized)", style: .default , handler:{ (UIAlertAction) in
             
         })
         op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
@@ -562,14 +562,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         op6.setValue(UIImage(systemName: "quote.bubble")!, forKey: "image")
         op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op6)
-        let op8 = UIAlertAction(title: " Drafts".localized, style: .default , handler:{ (UIAlertAction) in
+        let op8 = UIAlertAction(title: " \("Drafts".localized)", style: .default , handler:{ (UIAlertAction) in
             
         })
         op8.setValue(UIImage(systemName: "doc.text")!, forKey: "image")
         op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op8)
         let op9 = UIAlertAction(title: "Clear All".localized, style: .destructive , handler:{ (UIAlertAction) in
-            
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.text = ""
+            }
         })
         op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
         op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
