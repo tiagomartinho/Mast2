@@ -524,7 +524,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                     textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
                     textField.backgroundColor = nil
                     textField.keyboardAppearance = .default
-                    textField.keyboardType = .default
+                    textField.keyboardType = .URL
+                    textField.autocapitalizationType = .none
                     textField.isSecureTextEntry = false
                     textField.returnKeyType = .default
                     textField.action { textField in

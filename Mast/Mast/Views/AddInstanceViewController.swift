@@ -78,7 +78,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let returnedText = textField.text ?? ""
+        let returnedText = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         if returnedText == "" || returnedText == " " || returnedText == "  " {} else {
             DispatchQueue.main.async {
                 self.textField.resignFirstResponder()

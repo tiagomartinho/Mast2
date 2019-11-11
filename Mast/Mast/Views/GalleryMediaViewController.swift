@@ -70,7 +70,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         self.collectionView.backgroundColor = UIColor.clear
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        self.collectionView.showsVerticalScrollIndicator = false
+//        self.collectionView.showsVerticalScrollIndicator = false
         self.collectionView.register(ImageCell2.self, forCellWithReuseIdentifier: "ImageCell2")
         self.view.addSubview(self.collectionView)
         self.collectionView.reloadData()

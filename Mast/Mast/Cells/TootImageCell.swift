@@ -217,7 +217,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 } else {
                     cell.image.sd_setImage(with: imageURL, completed: nil)
                 }
-                if self.images[indexPath.row].type == .video {
+                if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .audio {
                     cell.videoOverlay.alpha = 1
                 } else {
                     cell.videoOverlay.alpha = 0
@@ -260,7 +260,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if images[indexPath.row].type == .video {
+        if images[indexPath.row].type == .video || images[indexPath.row].type == .audio {
             if let ur = URL(string: images[indexPath.row].url) {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
