@@ -242,7 +242,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
             let attString = NSAttributedString(attachment: attachment)
             let normalFont = UIFont.systemFont(ofSize: 14)
             let attStringNewLine = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
-            let attStringNewLine2 = NSMutableAttributedString(string: " \("Replying to".localized) @\(replyStatus.first?.account.username ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            let attStringNewLine2 = NSMutableAttributedString(string: " \("Replying to".localized) @\(replyStatus.first?.account.acct ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
             attStringNewLine.append(attString)
             attStringNewLine.append(attStringNewLine2)
             replyText.attributedText = attStringNewLine
@@ -269,7 +269,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
         if indexPath.section == 0 {
             return UITableView.automaticDimension
         } else {
-//            return UITableView.automaticDimension
             var he: CGFloat = (self.view.bounds.height) - self.keyHeight - 145
             if he < 0 {
                 he = 0
@@ -679,7 +678,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UICollectionView
                 if self.defaultVisibility == .public {
                     theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
                 }
-                theMainText = "@\(self.replyStatus.first?.account.username ?? "") \(theMainText)"
+                theMainText = "@\(self.replyStatus.first?.account.acct ?? "") \(theMainText)"
             }
             let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: nil, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
