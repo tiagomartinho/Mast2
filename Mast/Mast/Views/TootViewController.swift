@@ -254,7 +254,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             cell.textView.delegate = self
 
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-            formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 60))
+            formatToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 70))
             formatToolbar.tintColor = UIColor(named: "baseBlack")!
             formatToolbar.barStyle = UIBarStyle.default
             formatToolbar.isTranslucent = true
@@ -480,8 +480,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
             placeholderLabel.sizeToFit()
             cell.textView.addSubview(placeholderLabel)
-            placeholderLabel.frame.origin = CGPoint(x: 22, y: 10)
-            placeholderLabel.textColor = UIColor.lightGray
+            placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
+            placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
             
             cell.textView.becomeFirstResponder()
             if cell.textView.text.isEmpty {
@@ -495,8 +495,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     func textViewDidChange(_ textView: UITextView) {
         if textView.text == "" {
             self.placeholderLabel.isHidden = false
+            self.placeholderLabel.alpha = 1
         } else {
             self.placeholderLabel.isHidden = true
+            self.placeholderLabel.alpha = 0
         }
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
