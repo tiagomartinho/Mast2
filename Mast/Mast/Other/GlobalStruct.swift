@@ -41,6 +41,9 @@ class GlobalStruct {
     static var allDrafts: [String] = []
     static var currentDraft: String = ""
     
+    static var allowsMultiple = false
+    static var totalsHidden = false
+    
     static var statusesHome: [Status] = []
     static var statusesLocal: [Status] = []
     static var statusesFed: [Status] = []
