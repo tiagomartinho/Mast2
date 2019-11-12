@@ -100,7 +100,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                     }
                     cell.image.layer.masksToBounds = true
                     self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
-                    cell.image.backgroundColor = UIColor(named: "baseWhite")
+                    cell.image.backgroundColor = GlobalStruct.baseDarkTint
                     cell.image.layer.cornerRadius = 5
                     cell.image.layer.masksToBounds = true
                     cell.image.layer.borderColor = UIColor.black.cgColor

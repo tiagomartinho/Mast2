@@ -24,7 +24,7 @@ class CollectionImageCell: UICollectionViewCell {
     }
     
     public func configure() {
-        self.bgImage.backgroundColor = UIColor(named: "baseWhite")
+        self.bgImage.backgroundColor = GlobalStruct.baseDarkTint
         self.bgImage.frame = CGRect(x: 0, y: 0, width: 144, height: 120)
         self.bgImage.layer.cornerRadius = 5
         contentView.addSubview(bgImage)

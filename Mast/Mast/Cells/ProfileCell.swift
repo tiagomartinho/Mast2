@@ -35,10 +35,10 @@ class ProfileCell: UITableViewCell {
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 40
-        profile.backgroundColor = UIColor(named: "baseWhite")
+        profile.backgroundColor = GlobalStruct.baseDarkTint
         profile.isUserInteractionEnabled = true
         profile.layer.borderWidth = 2
-        profile.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
+        profile.layer.borderColor = GlobalStruct.baseDarkTint.cgColor
         profile.addTarget(self, action: #selector(self.profileTap), for: .touchUpInside)
         profile.imageView?.contentMode = .scaleAspectFill
         contentView.addSubview(profile)

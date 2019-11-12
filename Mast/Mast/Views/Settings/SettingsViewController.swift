@@ -159,12 +159,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 //            if GlobalStruct.iapPurchased {
 //                let cell = tableView.dequeueReusableCell(withIdentifier: "IAPCell2", for: indexPath) as! IAPCell2
 //                cell.selectionStyle = .none
-//                cell.backgroundColor = UIColor(named: "baseWhite")
+//                cell.backgroundColor = GlobalStruct.baseDarkTint
 //                return cell
 //            } else {
 //                let cell = tableView.dequeueReusableCell(withIdentifier: "IAPCell", for: indexPath) as! IAPCell
 //                cell.selectionStyle = .none
-//                cell.backgroundColor = UIColor(named: "baseWhite")
+//                cell.backgroundColor = GlobalStruct.baseDarkTint
 //                return cell
 //            }
         } else if indexPath.section == 1 {
@@ -197,7 +197,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             } else {
                 cell.accessoryType = .none
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell3", for: indexPath)
@@ -239,14 +239,14 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.imageView?.image = UIImage(systemName: "lock", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else if indexPath.section == 3 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell5", for: indexPath)
             cell.imageView?.image = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig) ?? UIImage()
             cell.accessoryType = .disclosureIndicator
             cell.textLabel?.text = self.accountSection[indexPath.row]
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else {
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell4", for: indexPath)
@@ -260,7 +260,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.textLabel?.text = self.thirdSection[indexPath.row]
                 cell.accessoryType = .disclosureIndicator
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         }
     }

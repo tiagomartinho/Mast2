@@ -78,7 +78,7 @@ class VisibilitySettingsViewController: UIViewController, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "baseWhite")
+        cell.backgroundColor = GlobalStruct.baseDarkTint
         
         let descriptionSideString = NSMutableAttributedString(string: self.allVisibility[indexPath.row], attributes: [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
         cell.textLabel?.attributedText = descriptionSideString

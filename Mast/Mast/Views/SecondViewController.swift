@@ -132,7 +132,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "Notifications".localized
 //        self.removeTabbarItemsText()
         
@@ -196,7 +196,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.top1.backgroundColor = UIColor(named: "baseWhite")
+        self.top1.backgroundColor = GlobalStruct.baseDarkTint
         self.top1.layer.cornerRadius = 19
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
@@ -409,7 +409,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             if GlobalStruct.notifications.isEmpty {
                 self.fetchNotifications()
                 let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -445,7 +445,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         ViewController().openLink()
                     }
                     
-                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    cell.backgroundColor = GlobalStruct.baseDarkTint
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = UIColor.clear
                     cell.selectedBackgroundView = bgColorView
@@ -480,7 +480,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         ViewController().openLink()
                     }
                     
-                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    cell.backgroundColor = GlobalStruct.baseDarkTint
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = UIColor.clear
                     cell.selectedBackgroundView = bgColorView
@@ -490,7 +490,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell
             
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView

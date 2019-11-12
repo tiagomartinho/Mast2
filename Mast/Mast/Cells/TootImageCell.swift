@@ -38,13 +38,13 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
-        profile.backgroundColor = UIColor(named: "baseWhite")
+        profile.backgroundColor = GlobalStruct.baseDarkTint
         profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
         
         profile2.translatesAutoresizingMaskIntoConstraints = false
         profile2.layer.cornerRadius = 14
-        profile2.backgroundColor = UIColor(named: "baseWhite")
+        profile2.backgroundColor = GlobalStruct.baseDarkTint
         profile2.isUserInteractionEnabled = true
         profile2.layer.borderWidth = 1.6
         profile2.alpha = 0
@@ -96,7 +96,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         heart.translatesAutoresizingMaskIntoConstraints = false
-        heart.backgroundColor = UIColor(named: "baseWhite")
+        heart.backgroundColor = GlobalStruct.baseDarkTint
         heart.contentMode = .scaleAspectFit
         heart.alpha = 0
         contentView.addSubview(heart)
@@ -236,7 +236,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 }
                 cell.image.layer.masksToBounds = true
                 self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
-                cell.image.backgroundColor = UIColor(named: "baseWhite")
+                cell.image.backgroundColor = GlobalStruct.baseDarkTint
                 cell.image.layer.cornerRadius = 5
                 cell.image.layer.masksToBounds = true
                 cell.image.layer.borderColor = UIColor.black.cgColor

@@ -102,7 +102,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
-        cell.backgroundColor = UIColor(named: "baseWhite")
+        cell.backgroundColor = GlobalStruct.baseDarkTint
 
         var instance: InstanceData? = nil
         if InstanceData.getAllInstances().count == 0 {} else {

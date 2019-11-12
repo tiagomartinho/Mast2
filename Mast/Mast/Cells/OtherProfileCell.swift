@@ -37,10 +37,10 @@ class OtherProfileCell: UITableViewCell {
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 40
-        profile.backgroundColor = UIColor(named: "baseWhite")
+        profile.backgroundColor = GlobalStruct.baseDarkTint
         profile.isUserInteractionEnabled = true
         profile.layer.borderWidth = 2
-        profile.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
+        profile.layer.borderColor = GlobalStruct.baseDarkTint.cgColor
         profile.addTarget(self, action: #selector(self.profileTap), for: .touchUpInside)
         profile.imageView?.contentMode = .scaleAspectFill
         contentView.addSubview(profile)
@@ -98,7 +98,7 @@ class OtherProfileCell: UITableViewCell {
         
         followsYou.translatesAutoresizingMaskIntoConstraints = false
         followsYou.setTitle("   Follows You   ".localized, for: .normal)
-        followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+        followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
         followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
         followsYou.layer.cornerRadius = 10
         followsYou.contentHorizontalAlignment = .leading
@@ -241,7 +241,7 @@ class OtherProfileCell: UITableViewCell {
                     if stat.isEmpty {} else {
                         if stat[1].following {
                             self.following.setTitle("   Following   ".localized, for: .normal)
-                            self.following.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                            self.following.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
                             self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
                             self.following.backgroundColor = GlobalStruct.baseTint
                         } else {
@@ -252,12 +252,12 @@ class OtherProfileCell: UITableViewCell {
                         }
                         if stat[1].followedBy {
                             self.followsYou.setTitle("   Follows You   ".localized, for: .normal)
-                            self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                            self.followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
                             self.followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
                             self.followsYou.alpha = 1
                         } else {
                             self.followsYou.setTitle("".localized, for: .normal)
-                            self.followsYou.setTitleColor(UIColor(named: "baseWhite"), for: .normal)
+                            self.followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
                             self.followsYou.backgroundColor = UIColor.clear
                             self.followsYou.alpha = 0
                         }

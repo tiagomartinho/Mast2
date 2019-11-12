@@ -335,7 +335,7 @@ extension LocalePickerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
-        vw.backgroundColor = UIColor(named: "baseWhite")
+        vw.backgroundColor = GlobalStruct.baseDarkTint
         vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 45)
         vw.addSubview(self.segment)
         return vw
@@ -357,7 +357,7 @@ extension LocalePickerViewController: UITableViewDataSource {
             } else {
                 cell.configure(self.filteredInfo[indexPath.row])
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MuteBlockCell", for: indexPath) as! MuteBlockCell
@@ -366,7 +366,7 @@ extension LocalePickerViewController: UITableViewDataSource {
             } else {
                 cell.configure(self.filteredInfo2[indexPath.row])
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         }
     }

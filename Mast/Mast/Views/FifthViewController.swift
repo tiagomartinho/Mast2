@@ -137,7 +137,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "Profile".localized
 //        self.removeTabbarItemsText()
         
@@ -301,7 +301,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         if section == 1 {
             let vw = UIView()
             vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
-            vw.backgroundColor = UIColor(named: "baseWhite")
+            vw.backgroundColor = GlobalStruct.baseDarkTint
             let title = UILabel()
             title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
             title.text = "Recent Media".localized
@@ -327,7 +327,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             let vw = UIView()
             vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
-            vw.backgroundColor = UIColor(named: "baseWhite")
+            vw.backgroundColor = GlobalStruct.baseDarkTint
             let title = UILabel()
             title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
 
@@ -372,7 +372,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -402,7 +402,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -411,17 +411,17 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         } else if indexPath.section == 1 {
             if self.profileStatusesImages.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell", for: indexPath) as! ProfileImageCell
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor(named: "baseWhite")
+                bgColorView.backgroundColor = GlobalStruct.baseDarkTint
                 cell.selectedBackgroundView = bgColorView
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileImageCell", for: indexPath) as! ProfileImageCell
                 cell.configure(self.profileStatusesImages)
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
-                bgColorView.backgroundColor = UIColor(named: "baseWhite")
+                bgColorView.backgroundColor = GlobalStruct.baseDarkTint
                 cell.selectedBackgroundView = bgColorView
                 return cell
             }
@@ -460,7 +460,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -499,7 +499,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView

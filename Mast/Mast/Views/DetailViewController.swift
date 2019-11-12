@@ -89,7 +89,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "Detail".localized
         //        self.removeTabbarItemsText()
         
@@ -129,7 +129,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         self.detailPrev.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.detailPrev.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.detailPrev.backgroundColor = UIColor(named: "baseWhite")
+        self.detailPrev.backgroundColor = GlobalStruct.baseDarkTint
         self.detailPrev.layer.cornerRadius = 19
         self.detailPrev.alpha = 0
         self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)
@@ -267,7 +267,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -298,7 +298,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -307,7 +307,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         } else if indexPath.section == 1 {
             if self.pickedStatusesHome.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DetailCell", for: indexPath) as! DetailCell
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -341,7 +341,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         ViewController().openLink()
                     }
                     
-                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    cell.backgroundColor = GlobalStruct.baseDarkTint
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = UIColor.clear
                     cell.selectedBackgroundView = bgColorView
@@ -374,7 +374,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         ViewController().openLink()
                     }
                     
-                    cell.backgroundColor = UIColor(named: "baseWhite")
+                    cell.backgroundColor = GlobalStruct.baseDarkTint
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = UIColor.clear
                     cell.selectedBackgroundView = bgColorView
@@ -429,7 +429,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -460,7 +460,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().openLink()
                 }
                 
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView

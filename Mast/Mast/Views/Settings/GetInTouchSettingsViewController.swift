@@ -64,19 +64,19 @@ class GetInTouchSettingsViewController: UIViewController, UITableViewDataSource,
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell")
             cell.textLabel?.text = self.firstSection[indexPath.row]
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else if indexPath.section == 1 {
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell")
             cell.textLabel?.text = self.secondSection[indexPath.row]
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else {
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell")
             cell.textLabel?.text = self.thirdSection[indexPath.row]
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         }
     }

@@ -36,7 +36,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.createLoginView(newInstance: true)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
@@ -45,7 +45,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
     func createLoginView(newInstance: Bool = false) {
         self.newInstance = newInstance
         self.loginBG.frame = self.view.frame
-        self.loginBG.backgroundColor = UIColor(named: "baseWhite")
+        self.loginBG.backgroundColor = GlobalStruct.baseDarkTint
         self.view.addSubview(self.loginBG)
         
         self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: self.view.bounds.height/4 - 40, width: 80, height: 80)

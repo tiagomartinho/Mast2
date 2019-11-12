@@ -121,7 +121,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "Explore".localized
 //        self.removeTabbarItemsText()
         
@@ -238,7 +238,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let vw = UIView()
         vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
-        vw.backgroundColor = UIColor(named: "baseWhite")
+        vw.backgroundColor = GlobalStruct.baseDarkTint
         let title = UILabel()
         title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
         if section == 0 {
@@ -275,7 +275,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
                 cell.imageView?.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig) ?? UIImage()
                 let descriptionSideString = NSMutableAttributedString(string: "Add New List".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
@@ -292,7 +292,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
                 cell.imageView?.image = UIImage(systemName: "list.bullet", withConfiguration: symbolConfig) ?? UIImage()
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -301,7 +301,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
                 cell.imageView?.image = UIImage(systemName: "plus.circle", withConfiguration: symbolConfig) ?? UIImage()
                 let descriptionSideString = NSMutableAttributedString(string: "Add Instance Timeline".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
@@ -318,7 +318,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
                 cell.imageView?.image = UIImage(systemName: "text.bubble", withConfiguration: symbolConfig) ?? UIImage()
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -350,7 +350,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 
             }
-            cell.backgroundColor = UIColor(named: "baseWhite")
+            cell.backgroundColor = GlobalStruct.baseDarkTint
             let bgColorView = UIView()
             bgColorView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = bgColorView

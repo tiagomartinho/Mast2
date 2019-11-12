@@ -140,7 +140,7 @@ extension DraftsPickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath) as! ListCell
         cell.configure2(GlobalStruct.allDrafts[indexPath.row])
-        cell.backgroundColor = UIColor(named: "baseWhite")
+        cell.backgroundColor = GlobalStruct.baseDarkTint
         return cell
     }
 }

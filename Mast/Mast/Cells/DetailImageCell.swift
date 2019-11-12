@@ -37,7 +37,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
-        profile.backgroundColor = UIColor(named: "baseWhite")
+        profile.backgroundColor = GlobalStruct.baseDarkTint
         profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
         
@@ -228,7 +228,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                 }
                 cell.image.layer.masksToBounds = true
                 self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
-                cell.image.backgroundColor = UIColor(named: "baseWhite")
+                cell.image.backgroundColor = GlobalStruct.baseDarkTint
                 cell.image.layer.cornerRadius = 5
                 cell.image.layer.masksToBounds = true
                 cell.image.layer.borderColor = UIColor.black.cgColor

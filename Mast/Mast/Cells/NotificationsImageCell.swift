@@ -45,13 +45,13 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         
         profile.translatesAutoresizingMaskIntoConstraints = false
         profile.layer.cornerRadius = 20
-        profile.backgroundColor = UIColor(named: "baseWhite")
+        profile.backgroundColor = GlobalStruct.baseDarkTint
         profile.isUserInteractionEnabled = true
         contentView.addSubview(profile)
         
         profile2.translatesAutoresizingMaskIntoConstraints = false
         profile2.layer.cornerRadius = 14
-        profile2.backgroundColor = UIColor(named: "baseWhite")
+        profile2.backgroundColor = GlobalStruct.baseDarkTint
         profile2.isUserInteractionEnabled = true
         profile2.layer.borderWidth = 1.6
         contentView.addSubview(profile2)
@@ -112,7 +112,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         heart.translatesAutoresizingMaskIntoConstraints = false
-        heart.backgroundColor = UIColor(named: "baseWhite")
+        heart.backgroundColor = GlobalStruct.baseDarkTint
         heart.contentMode = .scaleAspectFit
         heart.alpha = 0
         contentView.addSubview(heart)
@@ -240,7 +240,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 self.profile2.sd_setImage(with: imageURL2, completed: nil)
                 self.profile2.layer.masksToBounds = true
                 self.profile2.alpha = 1
-                self.profile2.layer.borderColor = UIColor(named: "baseWhite")!.cgColor
+                self.profile2.layer.borderColor = GlobalStruct.baseDarkTint.cgColor
             }
         }
         
@@ -290,7 +290,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 }
                 cell.image.layer.masksToBounds = true
                 self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
-                cell.image.backgroundColor = UIColor(named: "baseWhite")
+                cell.image.backgroundColor = GlobalStruct.baseDarkTint
                 cell.image.layer.cornerRadius = 5
                 cell.image.layer.masksToBounds = true
                 cell.image.layer.borderColor = UIColor.black.cgColor

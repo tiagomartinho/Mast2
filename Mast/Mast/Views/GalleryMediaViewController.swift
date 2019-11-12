@@ -57,7 +57,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "Gallery".localized
 
         let layout = ColumnFlowLayout(

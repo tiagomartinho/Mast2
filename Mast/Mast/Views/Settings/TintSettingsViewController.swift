@@ -77,7 +77,7 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "baseWhite")
+        cell.backgroundColor = GlobalStruct.baseDarkTint
         
         let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         let clockImage = UIImage(systemName: "circle.fill", withConfiguration: symbolConfig0)

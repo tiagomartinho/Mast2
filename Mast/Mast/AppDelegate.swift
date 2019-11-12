@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().backgroundColor = UIColor(named: "baseWhite")
+        UINavigationBar.appearance().backgroundColor = GlobalStruct.baseDarkTint
         UINavigationBar.appearance().barTintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().tintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]

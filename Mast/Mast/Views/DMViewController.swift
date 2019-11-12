@@ -66,7 +66,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "500"
 //        self.removeTabbarItemsText()
         
@@ -77,12 +77,12 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
-        messagesCollectionView.backgroundColor = UIColor(named: "baseWhite")
+        messagesCollectionView.backgroundColor = GlobalStruct.baseDarkTint
         
         let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
         layout?.setMessageOutgoingAvatarSize(.zero)
         
-        messageInputBar.backgroundColor = UIColor(named: "baseWhite")
+        messageInputBar.backgroundColor = GlobalStruct.baseDarkTint
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             messageInputBar.separatorLine.isHidden = false
         } else {
@@ -91,9 +91,9 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         messageInputBar.separatorLine.height = 2
         messageInputBar.separatorLine.backgroundColor = UIColor(named: "lighterBaseWhite")
         messageInputBar.separatorLine.tintColor = UIColor(named: "lighterBaseWhite")
-        messageInputBar.backgroundView.backgroundColor = UIColor(named: "baseWhite")
-        messageInputBar.contentView.backgroundColor = UIColor(named: "baseWhite")
-        messageInputBar.inputTextView.backgroundColor = UIColor(named: "baseWhite")
+        messageInputBar.backgroundView.backgroundColor = GlobalStruct.baseDarkTint
+        messageInputBar.contentView.backgroundColor = GlobalStruct.baseDarkTint
+        messageInputBar.inputTextView.backgroundColor = GlobalStruct.baseDarkTint
         messageInputBar.inputTextView.placeholderLabel.text = "  Message..."
         messageInputBar.inputTextView.placeholderTextColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
         messageInputBar.inputTextView.textColor = UIColor(named: "baseBlack")!

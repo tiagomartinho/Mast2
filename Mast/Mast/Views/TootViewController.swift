@@ -191,11 +191,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         if section == 1 && (!replyStatus.isEmpty) {
             let vw = UIView()
             vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
-            vw.backgroundColor = UIColor(named: "baseWhite")
+            vw.backgroundColor = GlobalStruct.baseDarkTint
             let replyText = UITextView()
             replyText.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
             replyText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .callout).pointSize, weight: .regular)
-            replyText.backgroundColor = UIColor(named: "baseWhite")
+            replyText.backgroundColor = GlobalStruct.baseDarkTint
             replyText.showsVerticalScrollIndicator = false
             replyText.showsHorizontalScrollIndicator = false
             replyText.alwaysBounceVertical = true
@@ -253,7 +253,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
                 }
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -263,7 +263,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.allPrevious.isEmpty {} else {
                     cell.configure(self.allPrevious[indexPath.row])
                 }
-                cell.backgroundColor = UIColor(named: "baseWhite")
+                cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
