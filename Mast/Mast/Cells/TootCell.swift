@@ -293,7 +293,7 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
                         }
                     }
                 })
-                op1.setValue(UIImage(systemName: "arrow.up.doc")!, forKey: "image")
+                op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
                 op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
                 alert.addAction(op1)
                 alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
