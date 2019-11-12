@@ -62,7 +62,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseBlack")!
+        self.view.backgroundColor = UIColor(named: "baseWhite")!
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         var tabHeight = Int(UITabBarController().tabBar.frame.size.height) + Int(34)
