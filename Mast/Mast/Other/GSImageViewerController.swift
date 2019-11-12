@@ -73,7 +73,7 @@ public struct GSImageInfo {
 
 open class GSTransitionInfo {
     
-    open var duration: TimeInterval = 0.35
+    open var duration: TimeInterval = 0.25
     open var canSwipe: Bool         = true
     
     public init(fromView: UIView) {

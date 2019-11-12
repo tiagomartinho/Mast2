@@ -110,6 +110,13 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         self.viewControllers?.last?.tabBarController?.selectedIndex = 4
     }
     
+    @objc func notifChangeBG() {
+        GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,6 +130,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewNotifications), name: NSNotification.Name(rawValue: "viewNotifications"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewMessages), name: NSNotification.Name(rawValue: "viewMessages"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewProfile), name: NSNotification.Name(rawValue: "viewProfile"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         
         statusBarView.backgroundColor = GlobalStruct.baseDarkTint
         view.addSubview(statusBarView)
