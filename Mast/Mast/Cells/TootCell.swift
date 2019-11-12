@@ -281,7 +281,7 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
         if self.sta.account.id == GlobalStruct.currentUser.id {
             
         } else {
-            if self.sta.reblog?.poll?.expired ?? self.sta.poll?.expired ?? false {
+            if (self.sta.reblog?.poll?.expired ?? self.sta.poll?.expired ?? false) || (self.sta.reblog?.poll?.voted ?? self.sta.poll?.voted ?? false) {
                 
             } else {
                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

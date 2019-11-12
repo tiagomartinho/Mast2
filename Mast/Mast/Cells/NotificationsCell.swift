@@ -336,7 +336,7 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
         if self.notif.account.id == GlobalStruct.currentUser.id {
             
         } else {
-            if self.notif.status?.reblog?.poll?.expired ?? self.notif.status?.poll?.expired ?? false {
+            if (self.notif.status?.reblog?.poll?.expired ?? self.notif.status?.poll?.expired ?? false) || (self.notif.status?.reblog?.poll?.voted ?? self.notif.status?.poll?.voted ?? false) {
                 
             } else {
                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
