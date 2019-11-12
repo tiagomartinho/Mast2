@@ -294,6 +294,11 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         return allData
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.barChart.reload()
+    }
+    
     var sta: Status!
     func didTouch(entryData: CoreChartEntry) {
         if self.sta.account.id == GlobalStruct.currentUser.id {

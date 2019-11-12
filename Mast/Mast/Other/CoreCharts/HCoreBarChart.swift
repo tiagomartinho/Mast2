@@ -52,7 +52,7 @@ public class HCoreBarChart: BarChartCore {
         
         let barWidth = drawBar(xPos: xPos, yPos: yPos, entry: entry)
         
-        drawTitle(xPos: xPos, yPos: yPos, title: entry.barTitle, color: UIColor.black)
+        drawTitle(xPos: xPos, yPos: yPos, title: entry.barTitle, color: UIColor(named: "baseBlack")!)
 
         drawTextValue(barWidth: barWidth, yPos: yPos, textValue: entry.barHeightText, color: UIColor(named: "baseBlack")!)
     }

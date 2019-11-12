@@ -309,6 +309,11 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self.barChart.reload()
+    }
+    
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
