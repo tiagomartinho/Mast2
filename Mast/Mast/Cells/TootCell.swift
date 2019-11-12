@@ -165,6 +165,27 @@ class TootCell: UITableViewCell {
         } else {
             self.heart.alpha = 0
         }
+        
+        if stat.reblog?.emojis.isEmpty ?? stat.emojis.isEmpty {
+            
+        } else {
+            let attributedString = NSMutableAttributedString(string: "\(stat.reblog?.content.stripHTML() ?? stat.content.stripHTML())", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            let z = stat.reblog?.emojis ?? stat.emojis
+            let _ = z.map({
+                let textAttachment = NSTextAttachment()
+                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight))
+                let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+                while attributedString.mutableString.contains(":\($0.shortcode):") {
+                    let range: NSRange = (attributedString.mutableString as NSString).range(of: ":\($0.shortcode):")
+                    attributedString.replaceCharacters(in: range, with: attrStringWithImage)
+                }
+            })
+            let attributedString2 = NSMutableAttributedString(string: "\(stat.reblog?.account.displayName ?? stat.account.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
+            self.username.attributedText = attributedString2
+            self.content.attributedText = attributedString
+            self.reloadInputViews()
+        }
     }
     
     func highlightCell() {
