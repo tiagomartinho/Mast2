@@ -84,6 +84,25 @@ class MuteBlockCell: UITableViewCell {
         guard let imageURL = URL(string: status.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
+        
+        if status.emojis.isEmpty {
+            
+        } else {
+            let attributedString = NSMutableAttributedString(string: "\(status.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
+            let z = status.emojis
+            let _ = z.map({
+                let textAttachment = NSTextAttachment()
+                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.username.font.lineHeight), height: Int(self.username.font.lineHeight))
+                let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+                while attributedString.mutableString.contains(":\($0.shortcode):") {
+                    let range: NSRange = (attributedString.mutableString as NSString).range(of: ":\($0.shortcode):")
+                    attributedString.replaceCharacters(in: range, with: attrStringWithImage)
+                }
+            })
+            self.username.attributedText = attributedString
+            self.reloadInputViews()
+        }
     }
     
     func highlightCell() {

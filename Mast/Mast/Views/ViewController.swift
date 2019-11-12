@@ -497,8 +497,8 @@ extension NSTextAttachment {
             
             DispatchQueue.main.async {
                 if let image = UIImage(data: data!) {
-                    imageCache.setObject(image, forKey: urlString as NSString)
                     self.image = image
+                    imageCache.setObject(image, forKey: urlString as NSString)
                 }
             }
             
