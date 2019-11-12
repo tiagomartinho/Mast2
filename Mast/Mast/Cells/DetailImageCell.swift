@@ -13,7 +13,7 @@ import AVKit
 import AVFoundation
 import ActiveLabel
 
-class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource {
     
     var containerView = UIView()
     var profile = UIImageView()
@@ -25,6 +25,8 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     var collectionView1: UICollectionView!
     let playerViewController = AVPlayerViewController()
     var player = AVPlayer()
+    var pollView = UIView()
+    var barChart: HCoreBarChart = HCoreBarChart()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -91,6 +93,10 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
         
+        pollView.translatesAutoresizingMaskIntoConstraints = false
+        pollView.backgroundColor = .clear
+        contentView.addSubview(pollView)
+        
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -120,6 +126,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             "timestamp" : timestamp,
             "content" : content,
             "collectionView" : collectionView1,
+            "pollView" : pollView,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
@@ -131,10 +138,12 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[metrics]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[pollView]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-6-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-6-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
+        
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-6-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-6-[content]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -143,6 +152,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     
     var currentStat: Status!
     func configure(_ stat: Status) {
+        self.sta = stat
         self.currentStat = stat
         self.images = stat.mediaAttachments
         self.collectionView1.reloadData()
@@ -212,7 +222,110 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             self.images2.append(UIImageView())
             self.images3.append("")
         }
+
+        var pollHeight = (self.pollOptions.count * 24) + (self.pollOptions.count * 10)
+        if stat.reblog?.poll ?? stat.poll != nil {
+            self.pollView.alpha = 1
+            self.pollOptions = stat.reblog?.poll?.options ?? stat.poll!.options
+            pollHeight = (self.pollOptions.count * 26) + (self.pollOptions.count * 10)
+            barChart.frame = CGRect(x: 0, y: 0, width: Int(CGFloat((getTopMostViewController()?.view.bounds.width ?? self.bounds.width) - 86)), height: pollHeight)
+            barChart.dataSource = self
+            barChart.displayConfig = CoreBarChartsDisplayConfig(barWidth: 26.0,
+                                                                barSpace: 10.0,
+                                                                bottomSpace: 0.0,
+                                                                topSpace: 0.0,
+                                                                backgroundColor: .clear,
+                                                                titleFontSize: 14,
+                                                                valueFontSize: 16,
+                                                                titleFont: UIFont.systemFont(ofSize: 14),
+                                                                valueFont: UIFont.systemFont(ofSize: 16),
+                                                                titleLength: 400)
+            pollView.addSubview(self.barChart)
+            let countLabel = UILabel()
+            let expiryLabel = UILabel()
+            var voteText = "\(stat.reblog?.poll?.votesCount ?? stat.poll?.votesCount ?? 0) \("votes".localized)"
+            if stat.reblog?.poll?.voted ?? stat.poll?.voted ?? false {
+                voteText = "\(voteText) • \("Voted".localized)"
+            }
+            if stat.reblog?.poll?.multiple ?? stat.poll?.multiple ?? false {
+                voteText = "\(voteText) • \("Multiple choices allowed".localized)"
+            }
+            countLabel.frame = CGRect(x: 0, y: Int(pollHeight + 8), width: Int(CGFloat((getTopMostViewController()?.view.bounds.width ?? self.bounds.width) - 116)), height: 20)
+            countLabel.text = voteText
+            countLabel.font = UIFont.systemFont(ofSize: 12)
+            countLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+            countLabel.textAlignment = .left
+            pollView.addSubview(countLabel)
+            let expText = stat.reblog?.poll?.expiresAt?.toString(dateStyle: .short, timeStyle: .short) ?? stat.poll?.expiresAt?.toString(dateStyle: .short, timeStyle: .short) ?? ""
+            var timeText = "\("Expires at".localized) \(expText)"
+            if stat.reblog?.poll?.expired ?? stat.poll?.expired ?? false {
+                timeText = "Closed".localized
+            }
+            expiryLabel.frame = CGRect(x: 0, y: Int(pollHeight + 24), width: Int(CGFloat((getTopMostViewController()?.view.bounds.width ?? self.bounds.width) - 116)), height: 20)
+            expiryLabel.text = timeText
+            expiryLabel.font = UIFont.systemFont(ofSize: 12)
+            expiryLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+            expiryLabel.textAlignment = .left
+            pollView.addSubview(expiryLabel)
+            self.pollView.removeConstraint(heightConstraint)
+            heightConstraint = NSLayoutConstraint(item: self.pollView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(pollHeight + 44))
+            self.pollView.addConstraint(heightConstraint)
+            contentView.layoutIfNeeded()
+        } else {
+            self.pollView.alpha = 0
+            self.pollView.removeConstraint(heightConstraint)
+            heightConstraint = NSLayoutConstraint(item: self.pollView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(0))
+            self.pollView.addConstraint(heightConstraint)
+            contentView.layoutIfNeeded()
+        }
     }
+
+    var heightConstraint = NSLayoutConstraint()
+    var pollOptions: [PollOptions] = []
+    func loadCoreChartData() -> [CoreChartEntry] {
+        var allData = [CoreChartEntry]()
+        for index in 0..<self.pollOptions.count {
+            let newEntry = CoreChartEntry(id: "\(index)",
+                barTitle: self.pollOptions[index].title,
+                barHeight: Double(self.pollOptions[index].votesCount ?? 0),
+                barColor: GlobalStruct.baseTint)
+            allData.append(newEntry)
+        }
+        return allData
+    }
+    
+    var sta: Status!
+    func didTouch(entryData: CoreChartEntry) {
+        if self.sta.account.id == GlobalStruct.currentUser.id {
+            
+        } else {
+            if self.sta.reblog?.poll?.expired ?? self.sta.poll?.expired ?? false {
+                
+            } else {
+                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                let op1 = UIAlertAction(title: "\("Vote for".localized) \(entryData.barTitle)", style: .default , handler:{ (UIAlertAction) in
+                    let request = Polls.vote(id: self.sta.reblog?.poll?.id ?? self.sta.poll?.id ?? "", choices: [Int(entryData.id) ?? 0])
+                    GlobalStruct.client.run(request) { (statuses) in
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                })
+                op1.setValue(UIImage(systemName: "arrow.up.doc")!, forKey: "image")
+                op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                alert.addAction(op1)
+                alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                    
+                }
+                if let presenter = alert.popoverPresentationController {
+                    presenter.sourceView = self.containerView
+                    presenter.sourceRect = self.containerView.bounds
+                }
+                self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
     
     var images: [Attachment] = []
     var images2: [UIImageView] = []

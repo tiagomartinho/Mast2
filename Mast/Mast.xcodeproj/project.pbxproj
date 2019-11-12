@@ -102,6 +102,14 @@
 		5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */; };
 		534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534B278523466CC700A9042E /* TintSettingsViewController.swift */; };
 		53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */; };
+		53633DC3237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */; };
+		53633DC4237AD4F800541F13 /* VCoreBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBC237AD4F800541F13 /* VCoreBarChart.swift */; };
+		53633DC5237AD4F800541F13 /* HCoreBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBD237AD4F800541F13 /* HCoreBarChart.swift */; };
+		53633DC6237AD4F800541F13 /* Extensions2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBE237AD4F800541F13 /* Extensions2.swift */; };
+		53633DC7237AD4F800541F13 /* CoreChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBF237AD4F800541F13 /* CoreChartEntry.swift */; };
+		53633DC8237AD4F800541F13 /* CoreChartOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DC0237AD4F800541F13 /* CoreChartOrientation.swift */; };
+		53633DC9237AD4F800541F13 /* BarChartCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DC1237AD4F800541F13 /* BarChartCore.swift */; };
+		53633DCA237AD4F800541F13 /* CoreChartViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DC2237AD4F800541F13 /* CoreChartViewDataSource.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -459,6 +467,14 @@
 		5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCell.swift; sourceTree = "<group>"; };
 		534B278523466CC700A9042E /* TintSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
+		53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBarChartsDisplayConfig.swift; sourceTree = "<group>"; };
+		53633DBC237AD4F800541F13 /* VCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCoreBarChart.swift; sourceTree = "<group>"; };
+		53633DBD237AD4F800541F13 /* HCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HCoreBarChart.swift; sourceTree = "<group>"; };
+		53633DBE237AD4F800541F13 /* Extensions2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions2.swift; sourceTree = "<group>"; };
+		53633DBF237AD4F800541F13 /* CoreChartEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreChartEntry.swift; sourceTree = "<group>"; };
+		53633DC0237AD4F800541F13 /* CoreChartOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreChartOrientation.swift; sourceTree = "<group>"; };
+		53633DC1237AD4F800541F13 /* BarChartCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartCore.swift; sourceTree = "<group>"; };
+		53633DC2237AD4F800541F13 /* CoreChartViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreChartViewDataSource.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -904,9 +920,33 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		53633DB9237AD4F800541F13 /* CoreCharts */ = {
+			isa = PBXGroup;
+			children = (
+				53633DBA237AD4F800541F13 /* ChartApperance */,
+				53633DBC237AD4F800541F13 /* VCoreBarChart.swift */,
+				53633DBD237AD4F800541F13 /* HCoreBarChart.swift */,
+				53633DBE237AD4F800541F13 /* Extensions2.swift */,
+				53633DBF237AD4F800541F13 /* CoreChartEntry.swift */,
+				53633DC0237AD4F800541F13 /* CoreChartOrientation.swift */,
+				53633DC1237AD4F800541F13 /* BarChartCore.swift */,
+				53633DC2237AD4F800541F13 /* CoreChartViewDataSource.swift */,
+			);
+			path = CoreCharts;
+			sourceTree = "<group>";
+		};
+		53633DBA237AD4F800541F13 /* ChartApperance */ = {
+			isa = PBXGroup;
+			children = (
+				53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */,
+			);
+			path = ChartApperance;
+			sourceTree = "<group>";
+		};
 		5379F4182331236100DC1F33 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				53633DB9237AD4F800541F13 /* CoreCharts */,
 				53A4F3B92376E59200EC12C6 /* Pickers */,
 				53B5F1E7233BC5600099B170 /* push */,
 				53449DDE23294E4900A470E2 /* GlobalStruct.swift */,
@@ -1584,6 +1624,8 @@
 				53449DB323294C1000A470E2 /* Joke.swift in Sources */,
 				53449DDA23294C1000A470E2 /* RequestRange.swift in Sources */,
 				53A4F4482376E59200EC12C6 /* Label.swift in Sources */,
+				53633DCA237AD4F800541F13 /* CoreChartViewDataSource.swift in Sources */,
+				53633DC7237AD4F800541F13 /* CoreChartEntry.swift in Sources */,
 				53449DB023294C1000A470E2 /* CardType.swift in Sources */,
 				5379F42E2333AD6400DC1F33 /* ProfileCell.swift in Sources */,
 				5344C0BC2337966F00EB3363 /* NotificationsImageCell.swift in Sources */,
@@ -1604,6 +1646,7 @@
 				53A4F40B2376E59200EC12C6 /* UIImageView+Extensions.swift in Sources */,
 				53449DD923294C1000A470E2 /* Request.swift in Sources */,
 				53A4F4112376E59200EC12C6 /* UIColor+Extensions.swift in Sources */,
+				53633DC9237AD4F800541F13 /* BarChartCore.swift in Sources */,
 				5379F41E23313CAA00DC1F33 /* TootViewController.swift in Sources */,
 				53A4F4172376E59200EC12C6 /* Optional+Extensions.swift in Sources */,
 				53A4F4362376E59200EC12C6 /* Bool.swift in Sources */,
@@ -1633,6 +1676,7 @@
 				53AF450C2375AC2A001A3574 /* GetInTouchSettingsViewController.swift in Sources */,
 				53A4F51423772CE200EC12C6 /* GalleryMediaViewController.swift in Sources */,
 				5379F4132331122100DC1F33 /* Spring.swift in Sources */,
+				53633DC6237AD4F800541F13 /* Extensions2.swift in Sources */,
 				53CC76E82379C5E1005B4CF7 /* ScanSettingsViewController.swift in Sources */,
 				53449D9E23294C1000A470E2 /* CharacterSet.swift in Sources */,
 				53B5F1EF233BC5600099B170 /* PushNotificationReceiver.swift in Sources */,
@@ -1673,6 +1717,7 @@
 				53449D3323293E3600A470E2 /* SceneDelegate.swift in Sources */,
 				53A4F4272376E59200EC12C6 /* ThumbnailsViewController.swift in Sources */,
 				53A4F43E2376E59200EC12C6 /* GalleryDisplacedViewsDataSource.swift in Sources */,
+				53633DC3237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift in Sources */,
 				53449DBB23294C1000A470E2 /* StatusPara.swift in Sources */,
 				53449DD423294C1000A470E2 /* DomainBlocks.swift in Sources */,
 				5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */,
@@ -1686,6 +1731,7 @@
 				53A4F42D2376E59200EC12C6 /* PickerCustomizableButton.swift in Sources */,
 				53A4F4292376E59200EC12C6 /* ImageViewController.swift in Sources */,
 				5379F41723311BDC00DC1F33 /* DetailViewController.swift in Sources */,
+				53633DC4237AD4F800541F13 /* VCoreBarChart.swift in Sources */,
 				5339C6022340BFF200770651 /* ComposeCell.swift in Sources */,
 				5379F42623323F8C00DC1F33 /* DirectCell.swift in Sources */,
 				5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */,
@@ -1699,6 +1745,7 @@
 				53449DA123294C1000A470E2 /* Decodable.swift in Sources */,
 				53A4F4B2237717E500EC12C6 /* ImageCell.swift in Sources */,
 				5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */,
+				53633DC8237AD4F800541F13 /* CoreChartOrientation.swift in Sources */,
 				5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */,
 				53449DD023294C1000A470E2 /* Accounts.swift in Sources */,
 				53A4F4452376E59200EC12C6 /* ImageFadeInHandler.swift in Sources */,
@@ -1725,6 +1772,7 @@
 				53449DAC23294C1000A470E2 /* Poll.swift in Sources */,
 				53449DBE23294C1000A470E2 /* Emoji.swift in Sources */,
 				53DED14E234B71280017534F /* LikedViewController.swift in Sources */,
+				53633DC5237AD4F800541F13 /* HCoreBarChart.swift in Sources */,
 				53449DD723294C1000A470E2 /* Pagination.swift in Sources */,
 				53449DBA23294C1000A470E2 /* Application.swift in Sources */,
 				5395A7582372DE7E002253A8 /* BlockedViewController.swift in Sources */,
