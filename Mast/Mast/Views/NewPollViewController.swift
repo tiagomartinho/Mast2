@@ -14,7 +14,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     var currentOptions: [String] = []
     var tootLabel = UIButton()
     var textField = TextFieldP()
-    var keyHeight = 0
+    var keyHeight: CGFloat = 0
     var tableView = UITableView()
     let timePicker = UIDatePicker()
     let toolBar = UIToolbar()
@@ -22,11 +22,24 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     var titlesOp = ["Allow Multiple Selections".localized, "Hide Totals".localized]
     var descriptionsOp = ["Allow users to select multiple options when voting.".localized, "Hide the running vote count from users.".localized]
     var pollPickerDate = Date()
+    let btn1 = UIButton(type: .custom)
+    let btn2 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.textField.frame = CGRect(x: self.view.safeAreaInsets.left, y: self.navigationController?.navigationBar.frame.height ?? 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: 42)
-        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - (self.navigationController?.navigationBar.frame.height ?? 0) - 42)
+        let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) - 42 - self.keyHeight
+        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+    }
+    
+    @objc func crossTapped() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func tickTapped() {
+        if self.currentOptions.count >= 2 {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     override func viewDidLoad() {
@@ -34,12 +47,29 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.view.backgroundColor = UIColor(named: "baseWhite")!
         self.title = "Add Poll".localized
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
         self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
         self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        
+        // Add button
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn1.addTarget(self, action: #selector(self.tickTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "Add Poll".localized
+        let addButton = UIBarButtonItem(customView: btn1)
+        self.navigationItem.setRightBarButton(addButton, animated: true)
+        
+        btn2.setImage(UIImage(systemName: "xmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
+        btn2.accessibilityLabel = "Dismiss".localized
+        let settingsButton = UIBarButtonItem(customView: btn2)
+        self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
         textField.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         textField.delegate = self
@@ -176,7 +206,19 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            self.keyHeight = Int(keyboardHeight)
+            self.keyHeight = CGFloat(keyboardHeight)
+
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) - 42 - self.keyHeight
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            self.keyHeight = CGFloat(0)
+
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) - 42
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
     
@@ -206,6 +248,10 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
             self.textField.resignFirstResponder()
         } else {
             self.currentOptions.append(textField.text ?? "")
+            if self.currentOptions.count >= 2 {
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+                self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+            }
             self.textField.text = ""
             self.tableView.reloadData()
         }

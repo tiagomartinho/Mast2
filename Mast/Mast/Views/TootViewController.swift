@@ -1027,7 +1027,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }))
         
         let op1 = UIAlertAction(title: "Poll".localized, style: .default , handler:{ (UIAlertAction) in
-//            self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
+            self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
         })
         op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
