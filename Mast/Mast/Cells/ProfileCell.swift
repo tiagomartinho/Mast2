@@ -197,11 +197,11 @@ class ProfileCell: UITableViewCell {
         self.header.imageView?.contentMode = .scaleAspectFill
         self.image2?.sd_setImage(with: imageURL2, completed: nil)
         
-        if status.emojis.isEmpty {
+        if acc.emojis.isEmpty {
             
         } else {
-            let attributedString = NSMutableAttributedString(string: "\(status.note.stripHTML())", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
-            let z = status.emojis
+            let attributedString = NSMutableAttributedString(string: "\(acc.note.stripHTML())", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            let z = acc.emojis
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
                 textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
@@ -212,7 +212,7 @@ class ProfileCell: UITableViewCell {
                     attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                 }
             })
-            let attributedString2 = NSMutableAttributedString(string: "\(status.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
+            let attributedString2 = NSMutableAttributedString(string: "\(acc.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString
             self.reloadInputViews()
