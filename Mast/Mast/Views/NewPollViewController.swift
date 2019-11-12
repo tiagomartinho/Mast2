@@ -13,9 +13,8 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     var currentOptions: [String] = []
     var tootLabel = UIButton()
-    var textField = UITextField()
+    var textField = TextFieldP()
     var keyHeight = 0
-    var bgView = UIView()
     var tableView = UITableView()
     let timePicker = UIDatePicker()
     let toolBar = UIToolbar()
@@ -26,78 +25,27 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        var tabHeight = Int(UITabBarController().tabBar.frame.size.height) + Int(34)
-        var offset = 88
-        var closeB = 47
-        var botbot = 20
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 2688:
-                offset = 88
-                closeB = 47
-                botbot = 40
-            case 2436, 1792:
-                offset = 88
-                closeB = 47
-                botbot = 40
-            default:
-                offset = 64
-                closeB = 24
-                botbot = 20
-                tabHeight = Int(UITabBarController().tabBar.frame.size.height)
-            }
-        }
-        
-        tootLabel.frame = CGRect(x: CGFloat(self.view.bounds.width - 175), y: CGFloat(closeB), width: CGFloat(150), height: CGFloat(36))
-        tootLabel.setTitle("Create", for: .normal)
-        tootLabel.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
-        tootLabel.setTitleColor(UIColor(named: "baseWhite")!, for: .normal)
-        tootLabel.contentHorizontalAlignment = .right
-        tootLabel.addTarget(self, action: #selector(didTouchUpInsideTootButton), for: .touchUpInside)
-        self.view.addSubview(tootLabel)
-        
-        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height)
+        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left, y: self.navigationController?.navigationBar.frame.height ?? 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: 42)
+        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - (self.navigationController?.navigationBar.frame.height ?? 0) - 42)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")!
+        self.title = "Add Poll".localized
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         
-        var tabHeight = Int(UITabBarController().tabBar.frame.size.height) + Int(34)
-        var offset = 88
-        var closeB = 47
-        var botbot = 20
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 2688:
-                offset = 88
-                closeB = 47
-                botbot = 40
-            case 2436, 1792:
-                offset = 88
-                closeB = 47
-                botbot = 40
-            default:
-                offset = 64
-                closeB = 24
-                botbot = 20
-                tabHeight = Int(UITabBarController().tabBar.frame.size.height)
-            }
-        }
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
-        bgView.frame = CGRect(x:0, y:Int(self.view.bounds.height) - 40 - Int(self.keyHeight), width:Int(self.view.bounds.width), height:Int(self.keyHeight) + 40)
-        bgView.backgroundColor = GlobalStruct.baseDarkTint
-        bgView.alpha = 0
-        self.view.addSubview(bgView)
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
         
-        textField.frame = CGRect(x: 20, y: offset + 6, width: Int(self.view.bounds.width - 40), height: 30)
         textField.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         textField.delegate = self
         textField.keyboardType = .default
         textField.attributedPlaceholder = NSAttributedString(string: "Add at least two poll options...".localized,
-                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "lighterBaseWhite")!])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.25)])
         textField.textColor = UIColor(named: "baseBlack")!
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         textField.returnKeyType = .done
@@ -116,9 +64,9 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.tableView.alpha = 1
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.separatorStyle = .singleLine
         self.tableView.backgroundColor = .clear
-        self.tableView.separatorColor = .clear
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
         self.tableView.layer.masksToBounds = true
         self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.rowHeight = UITableView.automaticDimension
@@ -413,5 +361,22 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
 //        } else {
 //
 //        }
+    }
+}
+
+class TextFieldP: UITextField {
+
+    let padding = UIEdgeInsets(top: 2, left: 18, bottom: 2, right: 18)
+
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
     }
 }

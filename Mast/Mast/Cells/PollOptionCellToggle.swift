@@ -30,7 +30,7 @@ class PollOptionCellToggle: UITableViewCell {
         
         userName.textColor = UIColor(named: "baseBlack")!
         userTag.textColor = UIColor(named: "baseBlack")!
-        toot.textColor = UIColor(named: "baseBlack")!
+        toot.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
         
         userName.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         userTag.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
@@ -51,9 +51,9 @@ class PollOptionCellToggle: UITableViewCell {
             "switch" : switchView,
             ]
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[name]-(>=10)-[switch(40)]-20-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[artist]-(>=10)-[switch(40)]-20-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-12-[episodes]-(>=10)-[switch(40)]-20-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[name]-(>=10)-[switch(40)]-24-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[artist]-(>=10)-[switch(40)]-24-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[episodes]-(>=10)-[switch(40)]-24-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-18-[switch(40)]-(>=12)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-18-[name]-1-[artist]-1-[episodes]-18-|", options: [], metrics: nil, views: viewsDict))
     }
