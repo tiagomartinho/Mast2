@@ -101,6 +101,7 @@
 		5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BD23379A4300EB3363 /* DetailImageCell.swift */; };
 		5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */; };
 		534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534B278523466CC700A9042E /* TintSettingsViewController.swift */; };
+		53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -457,6 +458,7 @@
 		5344C0BD23379A4300EB3363 /* DetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageCell.swift; sourceTree = "<group>"; };
 		5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCell.swift; sourceTree = "<group>"; };
 		534B278523466CC700A9042E /* TintSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintSettingsViewController.swift; sourceTree = "<group>"; };
+		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -1280,6 +1282,7 @@
 				5379F41B23313B1700DC1F33 /* SettingsViewController.swift */,
 				53A4F4AF2377178C00EC12C6 /* IconSettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
+				53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */,
 				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
 				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
 				53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */,
@@ -1770,6 +1773,7 @@
 				53A4F4252376E59200EC12C6 /* GallerySwipeToDismissTransition.swift in Sources */,
 				53449DCA23294C1000A470E2 /* Polls.swift in Sources */,
 				53449DB523294C1000A470E2 /* List.swift in Sources */,
+				53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */,
 				5395A75A2372E18C002253A8 /* FollowersCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

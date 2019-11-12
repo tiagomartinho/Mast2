@@ -115,6 +115,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 1
         
         // Add button
@@ -174,6 +175,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func notifChangeBG() {
+        GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -187,6 +196,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail1"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         
         if UserDefaults.standard.object(forKey: "clientID") == nil {} else {
             GlobalStruct.clientID = UserDefaults.standard.object(forKey: "clientID") as! String
@@ -229,6 +239,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         if UserDefaults.standard.value(forKey: "sync-scanMode") == nil {
             UserDefaults.standard.set(0, forKey: "sync-scanMode")
+        }
+        if UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-startDarkTint")
         }
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")

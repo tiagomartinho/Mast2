@@ -74,6 +74,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    @objc func notifChangeBG() {
+        GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -86,6 +93,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addEmoji), name: NSNotification.Name(rawValue: "addEmoji"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addCurrentDraft), name: NSNotification.Name(rawValue: "addCurrentDraft"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         
         if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
             GlobalStruct.allDrafts = x

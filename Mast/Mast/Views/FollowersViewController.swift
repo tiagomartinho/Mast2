@@ -83,6 +83,8 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 999
+        
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
     }
     
     @objc func refreshTable1() {
@@ -95,6 +97,14 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
         self.tableView.reloadInputViews()
     }
     
+    @objc func notifChangeBG() {
+        GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -105,6 +115,7 @@ class FollowersViewController: UIViewController, UITextFieldDelegate, UITableVie
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0

@@ -58,6 +58,8 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         GlobalStruct.currentTab = 998
+        
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
     }
     
     @objc func refreshTable1() {
@@ -77,6 +79,14 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func notifChangeBG() {
+        GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
+        self.view.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -88,6 +98,7 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshTable1), name: NSNotification.Name(rawValue: "refreshTable1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail7"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

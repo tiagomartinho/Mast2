@@ -27,8 +27,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return false
     }
     var tableView = UITableView()
-    let firstSection = ["App Icon".localized, "App Tint".localized, "App Haptics".localized]
-    let firstSectionPad = ["App Icon".localized, "App Tint".localized]
+    let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "App Haptics".localized]
+    let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized]
     let secondSection = ["Hide Sensitive Media".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
@@ -43,10 +43,19 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.reloadInputViews()
     }
     
+    @objc func notifChangeBG() {
+        GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        self.tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "Settings".localized
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         
 //        self.removeTabbarItemsText()
         
@@ -62,6 +71,9 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
+        
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         
@@ -129,6 +141,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 1 && indexPath.row == 1 {
             cell.accessoryType = .disclosureIndicator
+        } else if indexPath.section == 1 && indexPath.row == 2 {
+            cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 2 {
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 3 {
@@ -175,6 +189,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             } else if indexPath.row == 1 {
                 cell.imageView?.image = UIImage(systemName: "paintbrush", withConfiguration: symbolConfig) ?? UIImage()
             } else if indexPath.row == 2 {
+                cell.imageView?.image = UIImage(systemName: "moon.circle", withConfiguration: symbolConfig) ?? UIImage()
+            } else if indexPath.row == 3 {
                 cell.imageView?.image = UIImage(systemName: "bolt", withConfiguration: symbolConfig) ?? UIImage()
                 let switchView = UISwitch(frame: .zero)
                 
@@ -290,6 +306,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             if indexPath.row == 1 {
                 let vc = TintSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            if indexPath.row == 2 {
+                let vc = DarkModeSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else if indexPath.section == 2 {
