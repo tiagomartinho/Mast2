@@ -63,11 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deviceToken = PushNotificationDeviceToken(deviceToken: deviceToken)
         state = PushNotificationState(receiver: receiver, subscription: subscription, deviceToken: deviceToken)
         PushNotificationReceiver.setState(state: state)
-//        #if DEBUG
         let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1-dev.your.org/relay-to/development/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
-//        #else
-//        let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1.your.org/relay-to/production/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
-//        #endif
         let url = URL(string: "https://\(GlobalStruct.currentInstance.returnedText)/api/v1/push/subscription")!
         let session = URLSession.shared
         var request = URLRequest(url: url)
@@ -85,7 +81,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil else {
-                return
+                
+                let requestParams2 = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1.your.org/relay-to/production/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
+                let url2 = URL(string: "https://\(GlobalStruct.currentInstance.returnedText)/api/v1/push/subscription")!
+                let session2 = URLSession.shared
+                var request2 = URLRequest(url: url2)
+                request2.httpMethod = "POST"
+                let jsonEncoder2 = JSONEncoder()
+                do {
+                    let jsonData = try jsonEncoder2.encode(requestParams2)
+                    request2.httpBody = jsonData
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+                request2.setValue("Bearer \(GlobalStruct.currentInstance.accessToken)", forHTTPHeaderField: "Authorization")
+                request2.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request2.addValue("application/json", forHTTPHeaderField: "Accept")
+                let task2 = session2.dataTask(with: request2 as URLRequest, completionHandler: { data, response, error in
+                    guard error == nil else {
+                        return
+                    }
+                    guard let data = data else {
+                        return
+                    }
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
+                            print(json)
+                        }
+                    } catch let error {
+                        print(error.localizedDescription)
+                    }
+                })
+                task2.resume()
+                
             }
             guard let data = data else {
                 return
