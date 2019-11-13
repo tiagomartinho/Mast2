@@ -245,16 +245,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
-        let item00 = UIApplicationShortcutItem(type: "com.shi.Mast2.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
+        let item00 = UIApplicationShortcutItem(type: "com.shi.Mast.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
         item00.accessibilityLabel = "New Toot"
         let icon0 = UIApplicationShortcutIcon(systemImageName: "bell")
-        let item0 = UIApplicationShortcutItem(type: "com.shi.Mast2.Notifications", localizedTitle: "View Notiications".localized, localizedSubtitle: nil, icon: icon0, userInfo: nil)
+        let item0 = UIApplicationShortcutItem(type: "com.shi.Mast.Notifications", localizedTitle: "View Notiications".localized, localizedSubtitle: nil, icon: icon0, userInfo: nil)
         item0.accessibilityLabel = "View Notiications"
         let icon1 = UIApplicationShortcutIcon(systemImageName: "paperplane")
-        let item1 = UIApplicationShortcutItem(type: "com.shi.Mast2.Messages", localizedTitle: "View Messages".localized, localizedSubtitle: nil, icon: icon1, userInfo: nil)
+        let item1 = UIApplicationShortcutItem(type: "com.shi.Mast.Messages", localizedTitle: "View Messages".localized, localizedSubtitle: nil, icon: icon1, userInfo: nil)
         item1.accessibilityLabel = "View Messages"
         let icon2 = UIApplicationShortcutIcon(systemImageName: "person.crop.circle")
-        let item2 = UIApplicationShortcutItem(type: "com.shi.Mast2.Profile", localizedTitle: "View Profile".localized, localizedSubtitle: nil, icon: icon2, userInfo: nil)
+        let item2 = UIApplicationShortcutItem(type: "com.shi.Mast.Profile", localizedTitle: "View Profile".localized, localizedSubtitle: nil, icon: icon2, userInfo: nil)
         item2.accessibilityLabel = "View Profile"
         UIApplication.shared.shortcutItems = [item00, item0, item1, item2]
         
@@ -1701,7 +1701,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
                     let request = Clients.register(
                         clientName: "Mast",
-                        redirectURI: "com.shi.Mast2://addNewInstance",
+                        redirectURI: "com.shi.Mast://addNewInstance",
                         scopes: [.read, .write, .follow, .push],
                         website: "https://twitter.com/jpeguin"
                     )
@@ -1733,7 +1733,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             GlobalStruct.newInstance?.clientID = application.clientID
                             GlobalStruct.newInstance?.clientSecret = application.clientSecret
                             GlobalStruct.newInstance?.returnedText = returnedText
-                            GlobalStruct.newInstance?.redirect = "com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                            GlobalStruct.newInstance?.redirect = "com.shi.Mast://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                             DispatchQueue.main.async {
                                 let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
@@ -1754,7 +1754,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
                     let request = Clients.register(
                         clientName: "Mast",
-                        redirectURI: "com.shi.Mast2://success",
+                        redirectURI: "com.shi.Mast://success",
                         scopes: [.read, .write, .follow, .push],
                         website: "https://twitter.com/jpeguin"
                     )
@@ -1786,7 +1786,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             GlobalStruct.currentInstance.clientID = application.clientID
                             GlobalStruct.currentInstance.clientSecret = application.clientSecret
                             GlobalStruct.currentInstance.returnedText = returnedText
-                            GlobalStruct.currentInstance.redirect = "com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                            GlobalStruct.currentInstance.redirect = "com.shi.Mast://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                             DispatchQueue.main.async {
                                 let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.currentInstance.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in

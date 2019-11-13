@@ -31,7 +31,7 @@ class NotificationService: UNNotificationServiceExtension {
             
             if let content = try? bestAttemptContent.decrypt(state: storedState) {
                 if content.notificationType == .follow {} else {
-                    if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast2.wormhole") {
+                    if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
                         userDefaults.set(content.notificationId, forKey: "notidpush")
                     }
                 }

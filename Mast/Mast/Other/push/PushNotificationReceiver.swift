@@ -152,7 +152,7 @@ extension PushNotificationReceiver {
     
     
     static func setState(state:PushNotificationState) {
-        if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast2.wormhole" ) {
+        if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole" ) {
             guard let statedata = try? JSONEncoder().encode(state) else{
                 return
             }
@@ -162,7 +162,7 @@ extension PushNotificationReceiver {
     }
     
     static func getSate() -> PushNotificationState? {
-         if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast2.wormhole" ) {
+         if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole" ) {
             guard let state = userDefaults.data(forKey: "PushNotificationState"),  let theState = try? JSONDecoder().decode(PushNotificationState.self, from: state) else {
                return nil
             }

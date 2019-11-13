@@ -895,7 +895,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.shi.Mast2</string>
+				<string>com.shi.Mast</string>
 			</array>
 		</dict>
 	</array>

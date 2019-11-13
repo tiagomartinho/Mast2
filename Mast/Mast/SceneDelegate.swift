@@ -76,13 +76,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        if shortcutItem.type == "com.shi.Mast2.NewToot" {
+        if shortcutItem.type == "com.shi.Mast.NewToot" {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
             completionHandler(true)
-        } else if shortcutItem.type == "com.shi.Mast2.Notifications" {
+        } else if shortcutItem.type == "com.shi.Mast.Notifications" {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "viewNotifications"), object: self)
             completionHandler(true)
-        } else if shortcutItem.type == "com.shi.Mast2.Messages" {
+        } else if shortcutItem.type == "com.shi.Mast.Messages" {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "viewMessages"), object: self)
             completionHandler(true)
         } else {

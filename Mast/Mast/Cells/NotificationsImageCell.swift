@@ -213,7 +213,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             self.title.text = "New follower".localized
             self.username.text = noti.account.displayName
             self.usertag.text = "@\(noti.account.username)"
-            self.content.text = "\(noti.account.followersCount) \("followers".localized), \(noti.account.followingCount) \("following".localized)"
+            self.content.text = "\(noti.account.note.stripHTML())"
             self.profile.image = UIImage()
             guard let imageURL = URL(string: noti.account.avatar) else { return }
             self.profile.sd_setImage(with: imageURL, completed: nil)

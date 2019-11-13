@@ -88,7 +88,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                     GlobalStruct.newClient = Client(baseURL: "https://\(returnedText)")
                     let request = Clients.register(
                         clientName: "Mast",
-                        redirectURI: "com.shi.Mast2://addNewInstance",
+                        redirectURI: "com.shi.Mast://addNewInstance",
                         scopes: [.read, .write, .follow, .push],
                         website: "https://twitter.com/jpeguin"
                     )
@@ -120,7 +120,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                             GlobalStruct.newInstance?.clientID = application.clientID
                             GlobalStruct.newInstance?.clientSecret = application.clientSecret
                             GlobalStruct.newInstance?.returnedText = returnedText
-                            GlobalStruct.newInstance?.redirect = "com.shi.Mast2://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                            GlobalStruct.newInstance?.redirect = "com.shi.Mast://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                             DispatchQueue.main.async {
                                 let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
@@ -141,7 +141,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                     GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
                     let request = Clients.register(
                         clientName: "Mast",
-                        redirectURI: "com.shi.Mast2://success",
+                        redirectURI: "com.shi.Mast://success",
                         scopes: [.read, .write, .follow, .push],
                         website: "https://twitter.com/jpeguin"
                     )
@@ -174,7 +174,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
                             GlobalStruct.currentInstance.clientSecret = application.clientSecret
                             GlobalStruct.currentInstance.returnedText = returnedText
                             DispatchQueue.main.async {
-                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast2://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                                let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\("com.shi.Mast://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
                                         if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
