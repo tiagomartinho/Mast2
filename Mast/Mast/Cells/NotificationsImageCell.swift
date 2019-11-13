@@ -233,7 +233,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             } else if noti.type == .direct {
                 self.title.text = "\(noti.account.displayName) \("direct messaged you".localized)"
             } else if noti.type == .poll {
-                self.title.text = "\(noti.account.displayName)'s \("poll".localized)"
+                self.title.text = "\(noti.account.displayName)"
             }
             self.username.text = noti.status?.account.displayName ?? ""
             self.usertag.text = "@\(noti.status?.account.username ?? "")"
@@ -242,7 +242,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             guard let imageURL = URL(string: noti.status?.account.avatar ?? "") else { return }
             self.profile.sd_setImage(with: imageURL, completed: nil)
             self.profile.layer.masksToBounds = true
-            if noti.type == .mention {
+            if noti.type == .mention || noti.type == .poll {
                 self.profile2.alpha = 0
             } else {
                 self.profile2.image = UIImage()
