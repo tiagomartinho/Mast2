@@ -339,6 +339,34 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
+            if indexPath.section == 0 {
+                return self.makeContextMenu([""]], indexPath: indexPath)
+            } else {
+                return nil
+            }
+        })
+    }
+    
+    func makeContextMenu(_ status: [String], indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            self.currentOptions = self.currentOptions.filter { $0 != self.currentOptions[indexPath.row] }
+            self.tableView.reloadData()
+            if self.currentOptions.count < 2 {
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+                self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal), for: .normal)
+            } else {
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+                self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+            }
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         
