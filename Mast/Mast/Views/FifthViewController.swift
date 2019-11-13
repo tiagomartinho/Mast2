@@ -1024,6 +1024,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func moreOwnProfile() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op5 = UIAlertAction(title: " \("Follow Requests".localized)", style: .default , handler:{ (UIAlertAction) in
+            let vc = FollowRequestsViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        })
+        op5.setValue(UIImage(systemName: "person.crop.circle.badge.plus")!, forKey: "image")
+        op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op5)
         let op6 = UIAlertAction(title: " \("Scheduled".localized)", style: .default , handler:{ (UIAlertAction) in
             let vc = ScheduledViewController()
             self.navigationController?.pushViewController(vc, animated: true)

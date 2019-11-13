@@ -11,6 +11,7 @@
 		53381EE1237B14DC0000E287 /* NewPollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE0237B14DC0000E287 /* NewPollViewController.swift */; };
 		53381EE3237B16320000E287 /* PollOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE2237B16320000E287 /* PollOptionCell.swift */; };
 		53381EE5237B16570000E287 /* PollOptionCellToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE4237B16570000E287 /* PollOptionCellToggle.swift */; };
+		53381EE9237C1E9A0000E287 /* FollowRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE8237C1E9A0000E287 /* FollowRequestsViewController.swift */; };
 		5339C600233FC74000770651 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */; };
 		5339C6022340BFF200770651 /* ComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6012340BFF200770651 /* ComposeCell.swift */; };
 		5343C0A423782FE100653A28 /* Countries.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5343C09A23782FE100653A28 /* Countries.bundle */; };
@@ -377,6 +378,7 @@
 		53381EE0237B14DC0000E287 /* NewPollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPollViewController.swift; sourceTree = "<group>"; };
 		53381EE2237B16320000E287 /* PollOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionCell.swift; sourceTree = "<group>"; };
 		53381EE4237B16570000E287 /* PollOptionCellToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionCellToggle.swift; sourceTree = "<group>"; };
+		53381EE8237C1E9A0000E287 /* FollowRequestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRequestsViewController.swift; sourceTree = "<group>"; };
 		5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		5339C6012340BFF200770651 /* ComposeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeCell.swift; sourceTree = "<group>"; };
 		5343C09A23782FE100653A28 /* Countries.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Countries.bundle; sourceTree = "<group>"; };
@@ -1024,6 +1026,7 @@
 				5395A75D2372E850002253A8 /* FollowersViewController.swift */,
 				5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */,
 				5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */,
+				53381EE8237C1E9A0000E287 /* FollowRequestsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 				53381EE0237B14DC0000E287 /* NewPollViewController.swift */,
 				53B5F1FB233CED000099B170 /* DMViewController.swift */,
@@ -1635,6 +1638,7 @@
 				53449DDA23294C1000A470E2 /* RequestRange.swift in Sources */,
 				53A4F4482376E59200EC12C6 /* Label.swift in Sources */,
 				53633DCA237AD4F800541F13 /* CoreChartViewDataSource.swift in Sources */,
+				53381EE9237C1E9A0000E287 /* FollowRequestsViewController.swift in Sources */,
 				53633DC7237AD4F800541F13 /* CoreChartEntry.swift in Sources */,
 				53449DB023294C1000A470E2 /* CardType.swift in Sources */,
 				5379F42E2333AD6400DC1F33 /* ProfileCell.swift in Sources */,
