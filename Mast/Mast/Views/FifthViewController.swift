@@ -344,7 +344,15 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             numberFormatter.numberStyle = NumberFormatter.Style.decimal
             let formattedNumber = numberFormatter.string(from: NSNumber(value: theUser?.statusesCount ?? 0))
             
-            title.text = "\(formattedNumber ?? "0") Toots".localized
+            if self.isYou {
+                title.text = "\(formattedNumber ?? "0") Toots".localized
+            } else {
+                if theUser?.locked ?? false {
+                    title.text = "Locked Account".localized
+                } else {
+                    title.text = "\(formattedNumber ?? "0") Toots".localized
+                }
+            }
             title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
             title.font = UIFont.boldSystemFont(ofSize: 16)
             vw.addSubview(title)
@@ -713,13 +721,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.present(alert, animated: true, completion: nil)
         } else {
             var friendText = "Follow".localized
-            var friendImage = "arrow.upright.circle"
+            var friendImage = "person.crop.circle.badge.plus"
             if GlobalStruct.isFollowing {
                 friendText = "Unfollow".localized
-                friendImage = "xmark"
+                friendImage = "person.crop.circle.badge.minus"
             } else {
                 friendText = "Follow".localized
-                friendImage = "arrow.upright.circle"
+                friendImage = "person.crop.circle.badge.plus"
             }
             
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
