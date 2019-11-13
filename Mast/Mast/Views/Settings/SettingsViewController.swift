@@ -27,8 +27,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return false
     }
     var tableView = UITableView()
-    let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "App Haptics".localized]
-    let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized]
+    let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
+    let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let secondSection = ["Hide Sensitive Media".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
@@ -191,6 +191,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             } else if indexPath.row == 2 {
                 cell.imageView?.image = UIImage(systemName: "moon.circle", withConfiguration: symbolConfig) ?? UIImage()
             } else if indexPath.row == 3 {
+                cell.imageView?.image = UIImage(systemName: "app.badge", withConfiguration: symbolConfig) ?? UIImage()
+            } else if indexPath.row == 4 {
                 cell.imageView?.image = UIImage(systemName: "bolt", withConfiguration: symbolConfig) ?? UIImage()
                 let switchView = UISwitch(frame: .zero)
                 
@@ -310,6 +312,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             if indexPath.row == 2 {
                 let vc = DarkModeSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            if indexPath.row == 3 {
+                let vc = NotificationsSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else if indexPath.section == 2 {

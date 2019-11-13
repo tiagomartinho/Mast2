@@ -35,6 +35,7 @@
 		53381F1B237C59C30000E287 /* CRRefreshProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381F04237C59C20000E287 /* CRRefreshProtocol.swift */; };
 		53381F1C237C59C30000E287 /* CRRefreshComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381F05237C59C20000E287 /* CRRefreshComponent.swift */; };
 		53381F1D237C59C30000E287 /* CRRefreshFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381F06237C59C20000E287 /* CRRefreshFooterView.swift */; };
+		53381F1F237C70310000E287 /* NotificationsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381F1E237C70310000E287 /* NotificationsSettingsViewController.swift */; };
 		5339C600233FC74000770651 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */; };
 		5339C6022340BFF200770651 /* ComposeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339C6012340BFF200770651 /* ComposeCell.swift */; };
 		5343C0A423782FE100653A28 /* Countries.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5343C09A23782FE100653A28 /* Countries.bundle */; };
@@ -425,6 +426,7 @@
 		53381F04237C59C20000E287 /* CRRefreshProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRRefreshProtocol.swift; sourceTree = "<group>"; };
 		53381F05237C59C20000E287 /* CRRefreshComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRRefreshComponent.swift; sourceTree = "<group>"; };
 		53381F06237C59C20000E287 /* CRRefreshFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRRefreshFooterView.swift; sourceTree = "<group>"; };
+		53381F1E237C70310000E287 /* NotificationsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsViewController.swift; sourceTree = "<group>"; };
 		5339C5FF233FC74000770651 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		5339C6012340BFF200770651 /* ComposeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeCell.swift; sourceTree = "<group>"; };
 		5343C09A23782FE100653A28 /* Countries.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Countries.bundle; sourceTree = "<group>"; };
@@ -1452,6 +1454,7 @@
 				53A4F4AF2377178C00EC12C6 /* IconSettingsViewController.swift */,
 				534B278523466CC700A9042E /* TintSettingsViewController.swift */,
 				53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */,
+				53381F1E237C70310000E287 /* NotificationsSettingsViewController.swift */,
 				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
 				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
 				53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */,
@@ -1842,6 +1845,7 @@
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
 				53449D9D23294C1000A470E2 /* URLComponents.swift in Sources */,
+				53381F1F237C70310000E287 /* NotificationsSettingsViewController.swift in Sources */,
 				53449D9B23294C1000A470E2 /* Functions.swift in Sources */,
 				53B5F1F1233BC5600099B170 /* Decode85.swift in Sources */,
 				5379F4112331115B00DC1F33 /* TootCell.swift in Sources */,
