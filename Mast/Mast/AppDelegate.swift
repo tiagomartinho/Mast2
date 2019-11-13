@@ -55,6 +55,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        if UserDefaults.standard.value(forKey: "pnmentions") == nil {
+            UserDefaults.standard.set(0, forKey: "pnmentions")
+        }
+        if UserDefaults.standard.value(forKey: "pnlikes") == nil {
+            UserDefaults.standard.set(0, forKey: "pnlikes")
+        }
+        if UserDefaults.standard.value(forKey: "pnboosts") == nil {
+            UserDefaults.standard.set(0, forKey: "pnboosts")
+        }
+        if UserDefaults.standard.value(forKey: "pnfollows") == nil {
+            UserDefaults.standard.set(0, forKey: "pnfollows")
+        }
+        
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
         var state: PushNotificationState!

@@ -143,6 +143,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 1 && indexPath.row == 2 {
             cell.accessoryType = .disclosureIndicator
+        } else if indexPath.section == 1 && indexPath.row == 3 {
+            cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 2 {
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 3 {
