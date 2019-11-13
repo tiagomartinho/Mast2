@@ -140,12 +140,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.tableView.showsVerticalScrollIndicator = false
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
-        
-        if self.replyStatus.isEmpty {
-
-        } else {
-            self.fetchReplies()
-        }
     }
     
     func fetchReplies() {
@@ -585,21 +579,41 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            placeholderLabel = UILabel()
-            placeholderLabel.text = "What's happening?".localized
-            placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
-            placeholderLabel.sizeToFit()
-            cell.textView.addSubview(placeholderLabel)
-            placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
-            placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
-            
-            cell.textView.becomeFirstResponder()
-            if cell.textView.text.isEmpty {
-                self.isModalInPresentation = false
-            } else {
-                self.isModalInPresentation = true
+        
+        if self.replyStatus.isEmpty {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                placeholderLabel = UILabel()
+                placeholderLabel.text = "What's happening?".localized
+                placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
+                placeholderLabel.sizeToFit()
+                cell.textView.addSubview(placeholderLabel)
+                placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
+                placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
+                
+                cell.textView.becomeFirstResponder()
+                if cell.textView.text.isEmpty {
+                    self.isModalInPresentation = false
+                } else {
+                    self.isModalInPresentation = true
+                }
             }
+        } else {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                if let statusAuthor = self.replyStatus.first {
+                    var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
+                    var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                    if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
+                        mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
+                        allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                    }
+                    let allUsers = allAccounts.map{ "@\($0)" }
+                    var theText = allUsers.reduce("") { $0 + $1 + " " }
+                    theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
+                    theText = theText.replacingOccurrences(of: "  ", with: " ")
+                    cell.textView.text = theText
+                }
+            }
+            self.fetchReplies()
         }
     }
     
@@ -745,7 +759,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.defaultVisibility == .public {
                     theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
                 }
-                theMainText = "@\(self.replyStatus.first?.account.acct ?? "") \(theMainText)"
+//                theMainText = "@\(self.replyStatus.first?.account.acct ?? "") \(theMainText)"
             }
             let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
