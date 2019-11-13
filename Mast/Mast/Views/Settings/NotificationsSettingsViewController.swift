@@ -85,8 +85,8 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
 
         if indexPath.row == 0 {
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnmentions") as? Int != nil {
-                if UserDefaults.standard.value(forKey: "pnmentions") as? Int == 0 {
+            if UserDefaults.standard.value(forKey: "pnmentions") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "pnmentions") as? Bool == true {
                     switchView.setOn(true, animated: false)
                 } else {
                     switchView.setOn(false, animated: false)
@@ -102,8 +102,8 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             cell.selectionStyle = .none
         } else if indexPath.row == 1 {
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnlikes") as? Int != nil {
-                if UserDefaults.standard.value(forKey: "pnlikes") as? Int == 0 {
+            if UserDefaults.standard.value(forKey: "pnlikes") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "pnlikes") as? Bool == true {
                     switchView.setOn(true, animated: false)
                 } else {
                     switchView.setOn(false, animated: false)
@@ -119,8 +119,8 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             cell.selectionStyle = .none
         } else if indexPath.row == 2 {
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnboosts") as? Int != nil {
-                if UserDefaults.standard.value(forKey: "pnboosts") as? Int == 0 {
+            if UserDefaults.standard.value(forKey: "pnboosts") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "pnboosts") as? Bool == true {
                     switchView.setOn(true, animated: false)
                 } else {
                     switchView.setOn(false, animated: false)
@@ -136,8 +136,8 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             cell.selectionStyle = .none
         } else {
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnfollows") as? Int != nil {
-                if UserDefaults.standard.value(forKey: "pnfollows") as? Int == 0 {
+            if UserDefaults.standard.value(forKey: "pnfollows") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "pnfollows") as? Bool == true {
                     switchView.setOn(true, animated: false)
                 } else {
                     switchView.setOn(false, animated: false)
@@ -161,10 +161,10 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
         print("The switch is \(sender.isOn ? "ON" : "OFF")")
         
         if sender.isOn {
-            UserDefaults.standard.set(0, forKey: "pnmentions")
+            UserDefaults.standard.set(true, forKey: "pnmentions")
             self.updateRegister()
         } else {
-            UserDefaults.standard.set(1, forKey: "pnmentions")
+            UserDefaults.standard.set(false, forKey: "pnmentions")
             self.updateRegister()
         }
     }
@@ -174,10 +174,10 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
         print("The switch is \(sender.isOn ? "ON" : "OFF")")
         
         if sender.isOn {
-            UserDefaults.standard.set(0, forKey: "pnlikes")
+            UserDefaults.standard.set(true, forKey: "pnlikes")
             self.updateRegister()
         } else {
-            UserDefaults.standard.set(1, forKey: "pnlikes")
+            UserDefaults.standard.set(false, forKey: "pnlikes")
             self.updateRegister()
         }
     }
@@ -187,10 +187,10 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
         print("The switch is \(sender.isOn ? "ON" : "OFF")")
         
         if sender.isOn {
-            UserDefaults.standard.set(0, forKey: "pnboosts")
+            UserDefaults.standard.set(true, forKey: "pnboosts")
             self.updateRegister()
         } else {
-            UserDefaults.standard.set(1, forKey: "pnboosts")
+            UserDefaults.standard.set(false, forKey: "pnboosts")
             self.updateRegister()
         }
     }
@@ -200,10 +200,10 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
         print("The switch is \(sender.isOn ? "ON" : "OFF")")
         
         if sender.isOn {
-            UserDefaults.standard.set(0, forKey: "pnfollows")
+            UserDefaults.standard.set(true, forKey: "pnfollows")
             self.updateRegister()
         } else {
-            UserDefaults.standard.set(1, forKey: "pnfollows")
+            UserDefaults.standard.set(false, forKey: "pnfollows")
             self.updateRegister()
         }
     }

@@ -56,16 +56,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         if UserDefaults.standard.value(forKey: "pnmentions") == nil {
-            UserDefaults.standard.set(0, forKey: "pnmentions")
+            UserDefaults.standard.set(true, forKey: "pnmentions")
         }
         if UserDefaults.standard.value(forKey: "pnlikes") == nil {
-            UserDefaults.standard.set(0, forKey: "pnlikes")
+            UserDefaults.standard.set(true, forKey: "pnlikes")
         }
         if UserDefaults.standard.value(forKey: "pnboosts") == nil {
-            UserDefaults.standard.set(0, forKey: "pnboosts")
+            UserDefaults.standard.set(true, forKey: "pnboosts")
         }
         if UserDefaults.standard.value(forKey: "pnfollows") == nil {
-            UserDefaults.standard.set(0, forKey: "pnfollows")
+            UserDefaults.standard.set(true, forKey: "pnfollows")
         }
         
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
