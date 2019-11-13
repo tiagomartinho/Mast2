@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        #else
 //        let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1.your.org/relay-to/production/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
 //        #endif
-        let url = URL(string: "https://\(GlobalStruct.returnedText)/api/v1/push/subscription")!
+        let url = URL(string: "https://\(GlobalStruct.currentInstance.returnedText)/api/v1/push/subscription")!
         let session = URLSession.shared
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         catch {
             print(error.localizedDescription)
         }
-        request.setValue("Bearer \(GlobalStruct.accessToken)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(GlobalStruct.currentInstance.accessToken)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
