@@ -117,6 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 })
                 task2.resume()
+                return
                 
             }
             guard let data = data else {
