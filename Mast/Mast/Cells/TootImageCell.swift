@@ -316,7 +316,10 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     var sta: Status!
+    var doOnce: Bool = true
     func didTouch(entryData: CoreChartEntry) {
+        if self.doOnce {
+            self.doOnce = false
         if self.sta.account.id == GlobalStruct.currentUser.id {
             
         } else {
@@ -336,7 +339,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
                 alert.addAction(op1)
                 alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
-                    
+                    self.doOnce = true
                 }
                 if let presenter = alert.popoverPresentationController {
                     presenter.sourceView = self.containerView
@@ -344,6 +347,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 }
                 self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
             }
+        }
         }
     }
     

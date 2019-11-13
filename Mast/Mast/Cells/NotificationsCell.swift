@@ -337,7 +337,10 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
     }
     
     var notif: Notificationt!
+    var doOnce: Bool = true
     func didTouch(entryData: CoreChartEntry) {
+        if self.doOnce {
+            self.doOnce = false
         if self.notif.account.id == GlobalStruct.currentUser.id {
             
         } else {
@@ -357,7 +360,7 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
                 op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
                 alert.addAction(op1)
                 alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
-                    
+                    self.doOnce = true
                 }
                 if let presenter = alert.popoverPresentationController {
                     presenter.sourceView = self.containerView
@@ -365,6 +368,7 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
                 }
                 self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
             }
+        }
         }
     }
     
