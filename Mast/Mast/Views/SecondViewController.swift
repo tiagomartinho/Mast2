@@ -181,8 +181,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
         
-        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        let anim = FastAnimator()
+        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
+            self?.refresh()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self?.tableView.cr.endHeaderRefresh()
+            })
+        }
         
         self.tableView2.register(DirectCell.self, forCellReuseIdentifier: "DirectCell")
         self.tableView2.delegate = self
@@ -231,17 +236,17 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    @objc func refresh(_ sender: AnyObject) {
+    @objc func refresh() {
         let request = Notifications.all(range: .since(id: GlobalStruct.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
+                        self.tableView.cr.endHeaderRefresh()
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
+                        self.tableView.cr.endHeaderRefresh()
                         self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top1.alpha = 1

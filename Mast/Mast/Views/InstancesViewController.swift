@@ -116,8 +116,13 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        let anim = FastAnimator()
+        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
+            self?.refresh()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self?.tableView.cr.endHeaderRefresh()
+            })
+        }
         
         self.initialFetches()
         
@@ -162,13 +167,13 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         }
     }
     
-    @objc func refresh(_ sender: AnyObject) {
+    @objc func refresh() {
         let request = Lists.accounts(id: self.theInstanceID)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
+                        self.tableView.cr.endHeaderRefresh()
                     }
                 } else {
                     DispatchQueue.main.async {
@@ -179,7 +184,7 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
                                 if let stat = (statuses.value) {
                                     if stat != nil {
                                         DispatchQueue.main.async {
-                                            self.refreshControl.endRefreshing()
+                                            self.tableView.cr.endHeaderRefresh()
                                             self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                                             UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                                                 self.top1.alpha = 1

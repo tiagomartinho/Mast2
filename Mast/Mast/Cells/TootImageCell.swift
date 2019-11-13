@@ -322,14 +322,14 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 let op1 = UIAlertAction(title: "\("Vote for".localized) \(entryData.barTitle)", style: .default , handler:{ (UIAlertAction) in
                     let request = Polls.vote(id: self.sta.reblog?.poll?.id ?? self.sta.poll?.id ?? "", choices: [Int(entryData.id) ?? 0])
                     GlobalStruct.client.run(request) { (statuses) in
-                        let request2 = Statuses.status(id: self.sta.id)
-                        GlobalStruct.client.run(request2) { (statuses) in
-                            if let stat = statuses.value {
-                                DispatchQueue.main.async {
-                                    self.configure(stat)
-                                }
-                            }
-                        }
+//                        let request2 = Statuses.status(id: self.sta.id)
+//                        GlobalStruct.client.run(request2) { (statuses) in
+//                            if let stat = statuses.value {
+//                                DispatchQueue.main.async {
+//                                    self.configure(stat)
+//                                }
+//                            }
+//                        }
                     }
                 })
                 op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")

@@ -198,11 +198,16 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
         
-        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        let anim = FastAnimator()
+        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
+            self?.refresh()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self?.tableView.cr.endHeaderRefresh()
+            })
+        }
     }
     
-    @objc func refresh(_ sender: AnyObject) {
+    @objc func refresh() {
         self.fetchUserDataRefresh()
     }
     
@@ -1296,11 +1301,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if let stat = (statuses.value) {
                     if stat.isEmpty {
                         DispatchQueue.main.async {
-                            self.refreshControl.endRefreshing()
+                            self.tableView.cr.endHeaderRefresh()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.refreshControl.endRefreshing()
+                            self.tableView.cr.endHeaderRefresh()
                             let indexPaths = (0..<stat.count).map {
                                 IndexPath(row: $0, section: 2)
                             }
@@ -1337,11 +1342,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if let stat = (statuses.value) {
                     if stat.isEmpty {
                         DispatchQueue.main.async {
-                            self.refreshControl.endRefreshing()
+                            self.tableView.cr.endHeaderRefresh()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.refreshControl.endRefreshing()
+                            self.tableView.cr.endHeaderRefresh()
                             self.profileStatuses = stat
                             self.tableView.reloadSections(IndexSet([2]), with: .none)
                         }

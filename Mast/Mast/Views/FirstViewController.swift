@@ -298,8 +298,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        let anim = FastAnimator()
+        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
+            self?.refresh()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self?.tableView.cr.endHeaderRefresh()
+            })
+        }
         
         self.tableViewL.register(TootCell.self, forCellReuseIdentifier: "TootCellL")
         self.tableViewL.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCellL")
@@ -316,8 +321,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewL.alpha = 0
         self.view.addSubview(self.tableViewL)
         
-        self.refreshControlL.addTarget(self, action: #selector(refreshL(_:)), for: UIControl.Event.valueChanged)
-        self.tableViewL.addSubview(self.refreshControlL)
+        tableViewL.cr.addHeadRefresh(animator: anim) { [weak self] in
+            self?.refreshL()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self?.tableViewL.cr.endHeaderRefresh()
+            })
+        }
         
         self.tableViewF.register(TootCell.self, forCellReuseIdentifier: "TootCellF")
         self.tableViewF.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCellF")
@@ -334,8 +343,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.alpha = 0
         self.view.addSubview(self.tableViewF)
         
-        self.refreshControlF.addTarget(self, action: #selector(refreshF(_:)), for: UIControl.Event.valueChanged)
-        self.tableViewF.addSubview(self.refreshControlF)
+        tableViewF.cr.addHeadRefresh(animator: anim) { [weak self] in
+            self?.refreshF()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self?.tableViewF.cr.endHeaderRefresh()
+            })
+        }
         
         // Top buttons
         let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
@@ -520,17 +533,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
-    @objc func refresh(_ sender: AnyObject) {
+    @objc func refresh() {
         let request = Timelines.home(range: .since(id: GlobalStruct.statusesHome.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
+                        self.tableView.cr.endHeaderRefresh()
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
+                        self.tableView.cr.endHeaderRefresh()
                         self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top1.alpha = 1
@@ -581,17 +594,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
-    @objc func refreshL(_ sender: AnyObject) {
+    @objc func refreshL() {
         let request = Timelines.public(local: true, range: .since(id: GlobalStruct.statusesLocal.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.refreshControlL.endRefreshing()
+                        self.tableViewL.cr.endHeaderRefresh()
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.refreshControlL.endRefreshing()
+                        self.tableViewL.cr.endHeaderRefresh()
                         self.top2.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top2.alpha = 1
@@ -642,17 +655,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
-    @objc func refreshF(_ sender: AnyObject) {
+    @objc func refreshF() {
         let request = Timelines.public(local: false, range: .since(id: GlobalStruct.statusesFed.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.refreshControlF.endRefreshing()
+                        self.tableViewF.cr.endHeaderRefresh()
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.refreshControlF.endRefreshing()
+                        self.tableViewF.cr.endHeaderRefresh()
                         self.top3.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top3.alpha = 1
