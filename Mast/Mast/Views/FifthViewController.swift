@@ -1302,7 +1302,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         DispatchQueue.main.async {
                             self.refreshControl.endRefreshing()
                             let indexPaths = (0..<stat.count).map {
-                                IndexPath(row: $0, section: 0)
+                                IndexPath(row: $0, section: 2)
                             }
                             self.profileStatuses = stat + self.profileStatuses
                             self.tableView.beginUpdates()
@@ -1314,7 +1314,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                                 }
                             }
                             self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+//                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                             self.tableView.endUpdates()
                             UIView.setAnimationsEnabled(true)
                         }
