@@ -938,7 +938,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             }
         } else if tableView == self.tableViewL {
-            if GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty {
+//            if (GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty) || (GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.first?.type ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.first?.type == .audio)  {
+
+            if (GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty)  {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
                 if GlobalStruct.statusesLocal.isEmpty {} else {
                     cell.configure(GlobalStruct.statusesLocal[indexPath.row])

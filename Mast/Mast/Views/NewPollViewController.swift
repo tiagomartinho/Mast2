@@ -65,7 +65,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "baseWhite")!
+        self.view.backgroundColor = UIColor(named: "lighterBaseWhite")!
         self.title = "Add Poll".localized
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -109,6 +109,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.hiddenTextField.frame = CGRect.zero
         self.view.addSubview(self.hiddenTextField)
         
+        self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(PollOptionCell.self, forCellReuseIdentifier: "PollOptionCell")
         self.tableView.register(PollOptionCell.self, forCellReuseIdentifier: "PollOptionCell2")
         self.tableView.register(PollOptionCellToggle.self, forCellReuseIdentifier: "PollOptionCellToggle")
