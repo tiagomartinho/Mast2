@@ -344,7 +344,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
             if indexPath.section == 0 {
-                return self.makeContextMenu([""]], indexPath: indexPath)
+                return self.makeContextMenu([""], indexPath: indexPath)
             } else {
                 return nil
             }
