@@ -233,7 +233,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             } else if noti.type == .direct {
                 self.title.text = "\(noti.account.displayName) \("direct messaged you".localized)"
             } else if noti.type == .poll {
-                self.title.text = "\(noti.account.displayName) \("voted on your poll".localized)"
+                self.title.text = "\(noti.account.displayName)'s \("poll".localized)"
             }
             self.username.text = noti.status?.account.displayName ?? ""
             self.usertag.text = "@\(noti.status?.account.username ?? "")"
