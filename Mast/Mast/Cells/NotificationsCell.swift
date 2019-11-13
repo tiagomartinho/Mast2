@@ -234,7 +234,10 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
         if noti.status?.emojis.isEmpty ?? false {
             
         } else {
-            let attributedString = NSMutableAttributedString(string: "\(noti.status?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            var attributedString = NSMutableAttributedString(string: "\(noti.status?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            if noti.type == .follow {
+                attributedString = NSMutableAttributedString(string: noti.account.note.stripHTML(), attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            }
             let z = noti.status?.emojis ?? []
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
