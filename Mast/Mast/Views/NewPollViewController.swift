@@ -78,7 +78,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.tickTapped), for: .touchUpInside)
         btn1.accessibilityLabel = "Add Poll".localized

@@ -101,7 +101,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn1.addTarget(self, action: #selector(self.tickTapped), for: .touchUpInside)
         btn1.accessibilityLabel = "Post".localized
@@ -607,29 +607,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         if textView.text == "" {
             self.placeholderLabel.isHidden = false
             self.placeholderLabel.alpha = 1
+            
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+            self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal), for: .normal)
         } else {
             self.placeholderLabel.isHidden = true
             self.placeholderLabel.alpha = 0
+            
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+            self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         }
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            var maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
-//            self.title = "\(maxChars)"
-//            if maxChars < 1 {
-//                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemRed]
-//                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-//            } else if maxChars < 20 {
-//                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemOrange]
-//                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-//            } else {
-//                self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!]
-//                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-//            }
-            
+            let maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
             self.x7 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
             self.x7.accessibilityLabel = "Characters".localized
             self.formatToolbar.items?[12] = self.x7
-            
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
                 btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
