@@ -81,6 +81,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.tableView.reloadData()
     }
     
+    @objc func becomeFirst() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.becomeFirstResponder()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -94,6 +100,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         NotificationCenter.default.addObserver(self, selector: #selector(self.addEmoji), name: NSNotification.Name(rawValue: "addEmoji"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addCurrentDraft), name: NSNotification.Name(rawValue: "addCurrentDraft"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.becomeFirst), name: NSNotification.Name(rawValue: "becomeFirst"), object: nil)
         
         if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
             GlobalStruct.allDrafts = x

@@ -47,16 +47,18 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.textField.frame = CGRect(x: self.view.safeAreaInsets.left, y: self.navigationController?.navigationBar.frame.height ?? 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: 42)
-        let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) - 42 - self.keyHeight
+        let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 42 + self.keyHeight
         self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
     }
     
     @objc func crossTapped() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "becomeFirst"), object: self)
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func tickTapped() {
         if self.currentOptions.count >= 2 {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "becomeFirst"), object: self)
             let expiresIn = Calendar.current.dateComponents([.second], from: Date(), to: self.scheduleTime).second ?? 0
             GlobalStruct.newPollPost = [self.currentOptions, expiresIn, self.allowsMultiple, self.totalsHidden]
             self.dismiss(animated: true, completion: nil)
@@ -203,7 +205,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
 
-            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) - 42 - self.keyHeight
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 42 + self.keyHeight
             self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
@@ -212,7 +214,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             self.keyHeight = CGFloat(0)
 
-            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) - 42
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 42
             self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 42, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
