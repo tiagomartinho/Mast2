@@ -42,6 +42,7 @@ class GlobalStruct {
     static var currentDraft: String = ""
     
     static var newPollPost: [Any]? = []
+    static var isFollowing: Bool = false
     
     static var allowsMultiple = false
     static var totalsHidden = false

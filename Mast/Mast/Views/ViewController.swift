@@ -113,6 +113,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     @objc func notifChangeBG() {
         GlobalStruct.baseDarkTint = (UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil || UserDefaults.standard.value(forKey: "sync-startDarkTint") as? Int == 0) ? UIColor(named: "baseWhite")! : UIColor(named: "baseWhite2")!
         self.view.backgroundColor = GlobalStruct.baseDarkTint
+        self.tabBar.barTintColor = GlobalStruct.baseDarkTint
         self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
         self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
     }
@@ -137,7 +138,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         
         self.createTabBar()
         self.tabBar.barTintColor = GlobalStruct.baseDarkTint
-//        self.tabBar.backgroundColor = GlobalStruct.baseDarkTint
         self.tabBar.isTranslucent = true
         
         if UserDefaults.standard.value(forKey: "sync-startTint") == nil {

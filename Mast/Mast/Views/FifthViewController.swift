@@ -32,7 +32,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var pickedCurrentUser: Account!
     var profileStatusesImages: [Status] = []
     var profileStatuses: [Status] = []
-    var isFollowing = false
     var isTapped: Bool = false
     var userID = ""
     var refreshControl = UIRefreshControl()
@@ -394,6 +393,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 cell.more.addTarget(self, action: #selector(self.moreTapped), for: .touchUpInside)
                 cell.followers.addTarget(self, action: #selector(self.followersTapped2), for: .touchUpInside)
+                cell.following.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
                 
                 cell.content.handleMentionTap { (string) in
                     let vc = FifthViewController()
@@ -514,6 +514,30 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
                 return cell
+            }
+        }
+    }
+    
+    @objc func followTapped() {
+        if GlobalStruct.isFollowing {
+            let request = Accounts.unfollow(id: self.pickedCurrentUser.id)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                        GlobalStruct.isFollowing = false
+                        cell.configure(self.pickedCurrentUser)
+                    }
+                }
+            }
+        } else {
+            let request = Accounts.follow(id: self.pickedCurrentUser.id, reblogs: true)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                        GlobalStruct.isFollowing = true
+                        cell.configure(self.pickedCurrentUser)
+                    }
+                }
             }
         }
     }
@@ -690,7 +714,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         } else {
             var friendText = "Follow".localized
             var friendImage = "arrow.upright.circle"
-            if self.isFollowing {
+            if GlobalStruct.isFollowing {
                 friendText = "Unfollow".localized
                 friendImage = "xmark"
             } else {
@@ -724,15 +748,25 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op3)
             let op5 = UIAlertAction(title: " \(friendText)", style: .default , handler:{ (UIAlertAction) in
-                if self.isFollowing {
-                    let request = Accounts.unfollow(id: self.profileStatuses.first?.account.id ?? "")
+                if GlobalStruct.isFollowing {
+                    let request = Accounts.unfollow(id: self.pickedCurrentUser.id)
                     GlobalStruct.client.run(request) { (statuses) in
-                        self.fetchUserData()
+                        DispatchQueue.main.async {
+                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                                GlobalStruct.isFollowing = false
+                                cell.configure(self.pickedCurrentUser)
+                            }
+                        }
                     }
                 } else {
-                    let request = Accounts.follow(id: self.profileStatuses.first?.account.id ?? "", reblogs: true)
+                    let request = Accounts.follow(id: self.pickedCurrentUser.id, reblogs: true)
                     GlobalStruct.client.run(request) { (statuses) in
-                        self.fetchUserData()
+                        DispatchQueue.main.async {
+                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                                GlobalStruct.isFollowing = true
+                                cell.configure(self.pickedCurrentUser)
+                            }
+                        }
                     }
                 }
             })
@@ -1268,19 +1302,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                             self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                             self.tableView.endUpdates()
                             UIView.setAnimationsEnabled(true)
-                            
-                            let request2 = Accounts.relationships(ids: [GlobalStruct.currentUser.id, self.profileStatuses.first?.account.id ?? ""])
-                            GlobalStruct.client.run(request2) { (statuses) in
-                                if let stat = (statuses.value) {
-                                    DispatchQueue.main.async {
-                                        if stat[1].following {
-                                            self.isFollowing = true
-                                        } else {
-                                            self.isFollowing = false
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }
@@ -1308,19 +1329,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                             self.refreshControl.endRefreshing()
                             self.profileStatuses = stat
                             self.tableView.reloadSections(IndexSet([2]), with: .none)
-                            
-                            let request2 = Accounts.relationships(ids: [GlobalStruct.currentUser.id, self.profileStatuses.first?.account.id ?? ""])
-                            GlobalStruct.client.run(request2) { (statuses) in
-                                if let stat = (statuses.value) {
-                                    DispatchQueue.main.async {
-                                        if stat[1].following {
-                                            self.isFollowing = true
-                                        } else {
-                                            self.isFollowing = false
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }

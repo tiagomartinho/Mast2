@@ -111,6 +111,7 @@ class OtherProfileCell: UITableViewCell {
         contentView.addSubview(followsYou)
         
         following.translatesAutoresizingMaskIntoConstraints = false
+        following.backgroundColor = GlobalStruct.baseDarkTint
         following.setTitle("   Follow   ".localized, for: .normal)
         following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
         following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
@@ -260,16 +261,18 @@ class OtherProfileCell: UITableViewCell {
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     if stat.isEmpty {} else {
-                        if stat[1].following {
+                        if stat[1].following || (GlobalStruct.isFollowing == true) {
+                            GlobalStruct.isFollowing = true
                             self.following.setTitle("   Following   ".localized, for: .normal)
                             self.following.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
                             self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
                             self.following.backgroundColor = GlobalStruct.baseTint
-                        } else {
+                        } else if stat[1].following == false || (GlobalStruct.isFollowing == false) {
+                            GlobalStruct.isFollowing = false
                             self.following.setTitle("   Follow   ".localized, for: .normal)
                             self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
                             self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
-                            self.following.backgroundColor = UIColor.clear
+                            self.following.backgroundColor = GlobalStruct.baseDarkTint
                         }
                         if stat[1].followedBy {
                             self.followsYou.setTitle("   Follows You   ".localized, for: .normal)
