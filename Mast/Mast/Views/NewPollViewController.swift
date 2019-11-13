@@ -11,6 +11,21 @@ import UIKit
 
 class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var currentOptions: [String] = []
     var tootLabel = UIButton()
     var textField = TextFieldP()
@@ -24,6 +39,10 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     var pollPickerDate = Date()
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
+    var scheduleTime = Date().adding(.day, value: 1)
+    var txt = Date()
+    var allowsMultiple: Bool = false
+    var totalsHidden: Bool = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -38,6 +57,8 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     @objc func tickTapped() {
         if self.currentOptions.count >= 2 {
+            let expiresIn = Calendar.current.dateComponents([.second], from: Date(), to: self.scheduleTime).second ?? 0
+            GlobalStruct.newPollPost = [self.currentOptions, expiresIn, self.allowsMultiple, self.totalsHidden]
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -102,40 +123,48 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         self.tableView.rowHeight = UITableView.automaticDimension
         self.view.addSubview(self.tableView)
         self.tableView.tableFooterView = UIView()
-        
-        self.openTimePicker()
     }
     
     func openTimePicker()  {
-//        self.timePicker.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 250)
-//        self.timePicker.tintColor = Colours.grayDark
-//        self.timePicker.datePickerMode = .dateAndTime
-//        self.timePicker.minimumDate = Date()
-//
-//        if (UserDefaults.standard.object(forKey: "theme") == nil || UserDefaults.standard.object(forKey: "theme") as! Int == 0) {
-//            toolBar.barStyle = .default
-//            self.timePicker.backgroundColor = UIColor.white
-//            self.timePicker.setValue(UIColor.black, forKeyPath: "textColor")
-//            self.timePicker.setValue(false, forKeyPath: "highlightsToday")
-//        } else {
-//            toolBar.barStyle = .blackOpaque
-//            self.timePicker.backgroundColor = UIColor.black
-//            self.timePicker.setValue(UIColor.white, forKeyPath: "textColor")
-//            self.timePicker.setValue(false, forKeyPath: "highlightsToday")
-//        }
-//
-//        toolBar.isTranslucent = false
-//        toolBar.tintColor = Colours.tabUnselected
-//        toolBar.sizeToFit()
-//
-//        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(timeChanged))
-//        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
-//        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: true)
-//        toolBar.isUserInteractionEnabled = true
-//
-//        self.hiddenTextField.inputView = timePicker
-//        self.hiddenTextField.inputAccessoryView = toolBar
+        let alert = UIAlertController(style: .actionSheet, title: nil)
+        alert.addDatePicker(mode: .dateAndTime, date: Date().adjust(.day, offset: 1), minimumDate: Date().adjust(.minute, offset: 5), maximumDate: Date().adjust(.year, offset: 10)) { date in
+            self.txt = date
+        }
+        alert.addAction(title: "Set".localized, style: .default) { action in
+            self.scheduleTime = self.txt
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? PollOptionCell {
+                let formatter = DateFormatter()
+                formatter.dateStyle = .short
+                formatter.timeStyle = .short
+                var dText = formatter.string(from: self.scheduleTime)
+                if self.pollPickerDate == Date() {
+                    dText = "Tomorrow"
+                }
+                cell.configure(dText, count: "This poll will expire on:")
+            }
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? PollOptionCell {
+                presenter.sourceView = cell
+                presenter.sourceRect = cell.bounds
+            }
+        }
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            alert.show()
+        } else {
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
     }
     
     @objc func cancelDatePicker() {
@@ -164,42 +193,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         self.textField.becomeFirstResponder()
-        
-        var tabHeight = Int(UITabBarController().tabBar.frame.size.height) + Int(34)
-        var offset = 88
-        var closeB = 47
-        var botbot = 20
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 2688:
-                offset = 88
-                closeB = 47
-                botbot = 40
-            case 2436, 1792:
-                offset = 88
-                closeB = 47
-                botbot = 40
-            default:
-                offset = 64
-                closeB = 24
-                botbot = 20
-                tabHeight = Int(UITabBarController().tabBar.frame.size.height)
-            }
-        }
-        
-        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
-        switch (deviceIdiom) {
-        case .pad:
-            self.tableView.translatesAutoresizingMaskIntoConstraints = false
-            self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-            self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-            self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: CGFloat(closeB + 40)).isActive = true
-            self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
-        default:
-            print("nothing")
-        }
     }
     
     @objc func keyboardWillShow(notification: Notification) {
@@ -233,16 +227,6 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         }
     }
     
-    @objc func didTouchUpInsideCloseButton(_ sender: AnyObject) {
-        if (UserDefaults.standard.object(forKey: "hapticToggle") == nil) || (UserDefaults.standard.object(forKey: "hapticToggle") as! Int == 0) {
-            let impact = UIImpactFeedbackGenerator(style: .light)
-            impact.impactOccurred()
-        }
-        
-        self.textField.resignFirstResponder()
-        self.dismiss(animated: true, completion: nil)
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text == "" || textField.text == " " {
             self.textField.resignFirstResponder()
@@ -274,17 +258,6 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
         } else {
             tootLabel.setTitleColor(UIColor(named: "baseWhite")!, for: .normal)
         }
-    }
-    
-    @objc func didTouchUpInsideTootButton(_ sender: AnyObject) {
-        if self.currentOptions.count < 2 { return }
-        if self.currentOptions.isEmpty && self.textField.text == "" { return }
-        
-//        GlobalStruct.newPollPost = [self.currentOptions, GlobalStruct.expiresIn, GlobalStruct.allowsMultiple, GlobalStruct.totalsHidden]
-//        NotificationCenter.default.post(name: Notification.Name(rawValue: "addedPoll"), object: self)
-        
-        self.textField.resignFirstResponder()
-        self.dismiss(animated: true, completion: nil)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -348,26 +321,33 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     @objc func handleToggle1(sender: UISwitch) {
         if sender.isOn {
-            GlobalStruct.allowsMultiple = true
+            self.allowsMultiple = true
             sender.setOn(true, animated: true)
         } else {
-            GlobalStruct.allowsMultiple = false
+            self.allowsMultiple = false
             sender.setOn(false, animated: true)
         }
     }
     
     @objc func handleToggle2(sender: UISwitch) {
         if sender.isOn {
-            GlobalStruct.totalsHidden = true
+            self.totalsHidden = true
             sender.setOn(true, animated: true)
         } else {
-            GlobalStruct.totalsHidden = false
+            self.totalsHidden = false
             sender.setOn(false, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                self.openTimePicker()
+            }
+        }
+        
 //        if indexPath.section == 0 {
 //            if (UserDefaults.standard.object(forKey: "hapticToggle") == nil) || (UserDefaults.standard.object(forKey: "hapticToggle") as! Int == 0) {
 //                let selection = UISelectionFeedbackGenerator()

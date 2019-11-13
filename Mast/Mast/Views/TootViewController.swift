@@ -754,9 +754,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
                 theMainText = "@\(self.replyStatus.first?.account.acct ?? "") \(theMainText)"
             }
-            let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: nil, visibility: theVisibility)
+            let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
-                if let _ = (statuses.value) {
+                if let stat = (statuses.value) {
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                     }
