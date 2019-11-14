@@ -141,7 +141,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         if pasteboard.hasImages {
             if let theData = pasteboard.image?.pngData() {
                 GlobalStruct.photoToAttachArray.append(theData as Data)
-                GlobalStruct.photoToAttachArrayImage.append(pasteboard.image)
+                GlobalStruct.photoToAttachArrayImage.append(pasteboard.image ?? UIImage())
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                     cell.textView.text = "\(cell.textView.text ?? "")"
                     cell.textView.becomeFirstResponder()
