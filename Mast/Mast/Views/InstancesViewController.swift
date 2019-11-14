@@ -233,7 +233,7 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
     }
     
     func fetchMore() {
-        let request = Timelines.public(local: true, range: .max(id: "", limit: nil))
+        let request = Timelines.public(local: true, range: .max(id: self.statusesInstance.last?.id ?? "", limit: nil))
         let testClient = Client(
             baseURL: "https://\(self.txt)",
             accessToken: GlobalStruct.currentInstance.accessToken
