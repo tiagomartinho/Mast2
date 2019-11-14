@@ -22,6 +22,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     var metrics = UIButton()
     var timestamp = UILabel()
     var content = ActiveLabel()
+    var heart = UIImageView()
     var collectionView1: UICollectionView!
     let playerViewController = AVPlayerViewController()
     var player = AVPlayer()
@@ -92,6 +93,14 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         content.hashtagColor = GlobalStruct.baseTint
         content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
+
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        heart.translatesAutoresizingMaskIntoConstraints = false
+        heart.backgroundColor = GlobalStruct.baseDarkTint
+        heart.contentMode = .scaleAspectFit
+        heart.alpha = 0
+        contentView.addSubview(heart)
         
         pollView.translatesAutoresizingMaskIntoConstraints = false
         pollView.backgroundColor = .clear
@@ -127,13 +136,14 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             "content" : content,
             "collectionView" : collectionView1,
             "pollView" : pollView,
+            "heart" : heart,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-18-[profile(40)]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=18)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[username]-5-[usertag]-(>=5)-[heart(20)]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[metrics]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
@@ -141,6 +151,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[pollView]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-6-[content]-[pollView]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-6-[content]-[pollView]-5-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
@@ -196,6 +207,23 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         guard let imageURL = URL(string: stat.account.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        if stat.reblog?.favourited ?? stat.favourited ?? false {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.visibility ?? stat.visibility == .direct {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.visibility ?? stat.visibility == .private {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "lock.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.visibility ?? stat.visibility == .unlisted {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "lock.open.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+        } else {
+            self.heart.alpha = 0
+        }
         
         if stat.emojis.isEmpty {
             

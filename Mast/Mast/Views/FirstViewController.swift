@@ -181,6 +181,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
         self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
         self.tableView.reloadData()
+        self.tableViewL.reloadData()
+        self.tableViewF.reloadData()
     }
     
     override func viewDidLoad() {
