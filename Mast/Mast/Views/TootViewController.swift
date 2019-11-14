@@ -925,11 +925,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 do {
                     let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
                     self.gifVidDataToAttachArray = [gifVidDataToAttach]
-                    self.gifVidDataToAttachArrayImage = [self.thumbnailForVideoAtURL(url: videoURL)]
+                    self.gifVidDataToAttachArrayImage = [(self.thumbnailForVideoAtURL(url: videoURL) ?? UIImage())]
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
-                        cell.configure(self.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [videoURL])
+                        cell.configure(self.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [(videoURL as URL)])
                     }
                     self.containsMedia = true
                     if self.photoToAttachArray.isEmpty {
