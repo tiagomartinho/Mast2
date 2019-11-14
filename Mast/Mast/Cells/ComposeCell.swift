@@ -102,4 +102,12 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
         getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
     }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+    }
 }
