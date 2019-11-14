@@ -135,6 +135,9 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     
     func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
         let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            if GlobalStruct.mediaIDs.count == self.images.count {
+                GlobalStruct.mediaIDs.remove(at: indexPath.row)
+            }
             self.images.remove(at: indexPath.row)
             if self.isVideo {
                 self.videoURLs.remove(at: indexPath.row)
@@ -143,9 +146,6 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             } else {
                 GlobalStruct.photoToAttachArray.remove(at: indexPath.row)
                 GlobalStruct.photoToAttachArrayImage.remove(at: indexPath.row)
-            }
-            if GlobalStruct.mediaIDs.count == self.images.count {
-                GlobalStruct.mediaIDs.remove(at: indexPath.row)
             }
             self.collectionView1.reloadData()
         }
