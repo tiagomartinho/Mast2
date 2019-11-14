@@ -1234,15 +1234,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 cell.textView.becomeFirstResponder()
             }
         }))
-        
-//        let op1 = UIAlertAction(title: "Poll".localized, style: .default , handler:{ (UIAlertAction) in
-//            self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
+//        let op3 = UIAlertAction(title: "  \("Audio".localized)", style: .default , handler:{ (UIAlertAction) in
+//            self.moreAudio()
 //        })
-//        op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
-//        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-//        alert.addAction(op1)
-        let op3 = UIAlertAction(title: "  \("Audio".localized)", style: .default , handler:{ (UIAlertAction) in
-            self.moreAudio()
+//        op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
+//        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+//        alert.addAction(op3)
+        let op3 = UIAlertAction(title: "  \("Audio".localized)".localized, style: .default , handler:{ (UIAlertAction) in
+            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String, kUTTypeMPEG as String]
+            let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+            documentPicker.delegate = self
+            self.present(documentPicker, animated: true, completion: nil)
         })
         op3.setValue(UIImage(systemName: "mic")!, forKey: "image")
         op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
