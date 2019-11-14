@@ -753,7 +753,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     func moreAudio() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: " \("Audio from Documents".localized)".localized, style: .default , handler:{ (UIAlertAction) in
-            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String, kUTTypeMPEG as String]
+            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String]
             let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
             documentPicker.delegate = self
             self.present(documentPicker, animated: true, completion: nil)
@@ -1241,7 +1241,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
 //        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 //        alert.addAction(op3)
         let op3 = UIAlertAction(title: "  \("Audio".localized)".localized, style: .default , handler:{ (UIAlertAction) in
-            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String, kUTTypeMPEG as String]
+            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String]
             let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
             documentPicker.delegate = self
             self.present(documentPicker, animated: true, completion: nil)
