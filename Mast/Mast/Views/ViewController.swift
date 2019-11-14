@@ -168,6 +168,15 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             guard view.frame.contains(loc) else { continue }
 
             if let _ = viewControllers[index] as? UINavigationController {
+                if index == 0 {
+                    self.show(UINavigationController(rootViewController: TootViewController()), sender: self)
+                }
+                if index == 1 {
+                    self.show(UINavigationController(rootViewController: TootViewController()), sender: self)
+                }
+                if index == 2 {
+                    self.show(UINavigationController(rootViewController: TootViewController()), sender: self)
+                }
                 if index == 3 {
                     self.viewControllers?.last?.tabBarController?.selectedIndex = 3
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "searchTapped"), object: self)
