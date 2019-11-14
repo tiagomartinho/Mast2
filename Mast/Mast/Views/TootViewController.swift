@@ -753,7 +753,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     func moreAudio() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: " \("Audio from Documents".localized)".localized, style: .default , handler:{ (UIAlertAction) in
-            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String]
+            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String, kUTTypeWaveformAudio as String]
             let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
             documentPicker.delegate = self
             self.present(documentPicker, animated: true, completion: nil)
@@ -926,7 +926,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         let fileURL = urls.first!
         let ext = fileURL.pathExtension
         let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, ext as CFString, nil)
-        if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMP3) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeAudio) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMPEG) {
+        if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMP3) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeWaveformAudio) {
 
             if let theData = NSData(contentsOf: fileURL) {
                 GlobalStruct.gifVidDataToAttachArray.append(theData as Data)
@@ -1241,7 +1241,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
 //        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 //        alert.addAction(op3)
         let op3 = UIAlertAction(title: "  \("Audio".localized)".localized, style: .default , handler:{ (UIAlertAction) in
-            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String]
+            let types: [String] = [kUTTypeMP3 as String, kUTTypeWaveformAudio as String]
             let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
             documentPicker.delegate = self
             self.present(documentPicker, animated: true, completion: nil)
