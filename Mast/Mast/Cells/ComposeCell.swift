@@ -15,6 +15,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     
     var textView = UITextView()
     var collectionView1: UICollectionView!
+    var player = AVPlayer()
     let playerViewController = AVPlayerViewController()
     var images: [UIImage] = []
     
@@ -67,8 +68,12 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ images: [UIImage]) {
+    var isVideo: Bool = false
+    var videoURLs: [URL] = []
+    func configure(_ images: [UIImage], isVideo: Bool, videoURLs: [URL]? = []) {
         self.images = images
+        self.isVideo = isVideo
+        self.videoURLs = videoURLs ?? []
         self.collectionView1.reloadData()
     }
     
@@ -82,7 +87,11 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             cell.configure()
             cell.image.contentMode = .scaleAspectFill
             cell.image.image = images[indexPath.row]
-            cell.videoOverlay.alpha = 0
+            if self.isVideo {
+                cell.videoOverlay.alpha = 1
+            } else {
+                cell.videoOverlay.alpha = 0
+            }
             cell.image.layer.masksToBounds = true
             cell.image.backgroundColor = GlobalStruct.baseDarkTint
             cell.image.layer.cornerRadius = 5
@@ -97,10 +106,19 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageInfo = GSImageInfo(image: self.images[indexPath.item], imageMode: .aspectFit, imageHD: nil, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
-        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+        if self.isVideo {
+            let ur = videoURLs[indexPath.row]
+            self.player = AVPlayer(url: ur)
+            self.playerViewController.player = self.player
+            getTopMostViewController()?.present(playerViewController, animated: true) {
+                self.playerViewController.player!.play()
+            }
+        } else {
+            let imageInfo = GSImageInfo(image: self.images[indexPath.item], imageMode: .aspectFit, imageHD: nil, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+        }
     }
     
     func getTopMostViewController() -> UIViewController? {

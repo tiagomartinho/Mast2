@@ -810,7 +810,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         }
                     }
                 } else {
-                    let alert = UIAlertController(title: "Please wait for all media to finish uploading", message: nil, preferredStyle: .actionSheet)
+                    let alert = UIAlertController(title: "Please wait for all media to finish uploading".localized, message: nil, preferredStyle: .actionSheet)
                     alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
                         cell.textView.becomeFirstResponder()
                     }))
@@ -924,7 +924,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! NSURL
                 do {
                     let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
-                    self.gifVidDataToAttachArray.append(gifVidDataToAttach)
+                    self.gifVidDataToAttachArray = [gifVidDataToAttach]
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.textView.text = "\(cell.textView.text ?? "")"
+                        cell.textView.becomeFirstResponder()
+                        cell.configure(self.gifVidDataToAttachArray, isVideo: true, videoURLs: [videoURL])
+                    }
                     self.containsMedia = true
                     if self.photoToAttachArray.isEmpty {
                         
@@ -949,7 +954,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
-                        cell.configure(self.photoToAttachArrayImage)
+                        cell.configure(self.photoToAttachArrayImage, isVideo: false, videoURLs: [])
                     }
                     self.containsMedia = true
                     if self.gifVidDataToAttachArray.isEmpty {
