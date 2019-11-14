@@ -61,6 +61,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var photoToAttachArray: [Data] = []
     var gifVidDataToAttachArrayImage: [UIImage] = []
     var photoToAttachArrayImage: [UIImage] = []
+    var mediaIDs: [String] = []
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -631,6 +632,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            if self.photoToAttachArrayImage.isEmpty {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+            } else {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+            }
+        }
         if textView.text == "" {
             self.placeholderLabel.isHidden = false
             self.placeholderLabel.alpha = 1
@@ -758,7 +766,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             var theSensitive = false
             var theSpoiler: String? = nil
             var theVisibility = Visibility.public
-            var theMainText = cell.textView.text ?? ""
+            let theMainText = cell.textView.text ?? ""
             if self.replyStatus.isEmpty {
                 
             } else {
@@ -773,12 +781,28 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
                 }
             }
-            let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
-            GlobalStruct.client.run(request) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+            
+            if self.photoToAttachArray.isEmpty {
+                let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let _ = (statuses.value) {
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                        }
                     }
+                }
+            } else {
+                if self.mediaIDs.count == self.photoToAttachArray.count {
+                    let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: self.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let _ = (statuses.value) {
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                            }
+                        }
+                    }
+                } else {
+                    print("Wait for all media to finish uploading")
                 }
             }
         }
@@ -883,12 +907,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     self.photoToAttachArray.append(photoToAttach)
                     self.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
                         cell.configure(self.photoToAttachArrayImage)
-                        if self.photoToAttachArrayImage.isEmpty {
-                            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
-                        } else {
-                            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+                    }
+                    for x in self.photoToAttachArray {
+                        let request = Media.upload(media: .png(x))
+                        GlobalStruct.client.run(request) { (statuses) in
+                            if let stat = (statuses.value) {
+                                self.mediaIDs.append(stat.id)
+                            }
                         }
                     }
                 }
