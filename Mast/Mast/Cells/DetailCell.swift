@@ -180,19 +180,19 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
+        let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         if stat.reblog?.favourited ?? stat.favourited ?? false {
             self.heart.alpha = 1
-            self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+            self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig2)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         } else if stat.reblog?.visibility ?? stat.visibility == .direct {
             self.heart.alpha = 1
-            self.heart.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            self.heart.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig2)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
         } else if stat.reblog?.visibility ?? stat.visibility == .private {
             self.heart.alpha = 1
-            self.heart.image = UIImage(systemName: "lock.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            self.heart.image = UIImage(systemName: "lock.fill", withConfiguration: symbolConfig2)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
         } else if stat.reblog?.visibility ?? stat.visibility == .unlisted {
             self.heart.alpha = 1
-            self.heart.image = UIImage(systemName: "lock.open.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
+            self.heart.image = UIImage(systemName: "lock.open.fill", withConfiguration: symbolConfig2)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
         } else {
             self.heart.alpha = 0
         }
