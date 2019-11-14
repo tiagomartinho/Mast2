@@ -130,6 +130,47 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.present(alert, animated: true, completion: nil)
     }
     
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(self.paste(_:)) {
+            return UIPasteboard.general.image != nil
+        }
+    }
+    
+    @objc override func paste(_ sender: Any?) {
+        let pasteboard = UIPasteboard.general
+        if pasteboard.hasImages {
+            if let theData = pasteboard.image?.pngData() {
+                GlobalStruct.photoToAttachArray.append(theData as Data)
+                GlobalStruct.photoToAttachArrayImage.append(pasteboard.image)
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    cell.textView.text = "\(cell.textView.text ?? "")"
+                    cell.textView.becomeFirstResponder()
+                    cell.configure(GlobalStruct.photoToAttachArrayImage, isVideo: false, videoURLs: [])
+                    cell.layoutIfNeeded()
+                    
+                    UIView.setAnimationsEnabled(false)
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
+                    UIView.setAnimationsEnabled(true)
+                }
+                self.containsMedia = true
+                if GlobalStruct.gifVidDataToAttachArray.isEmpty {
+                    
+                } else {
+                    GlobalStruct.mediaIDs = []
+                }
+                for x in GlobalStruct.photoToAttachArray {
+                    let request = Media.upload(media: .png(x))
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            GlobalStruct.mediaIDs.append(stat.id)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")

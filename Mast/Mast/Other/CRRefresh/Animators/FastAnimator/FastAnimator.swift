@@ -43,7 +43,7 @@ open class FastAnimator: UIView, CRRefreshProtocol {
     
     private(set) var arrowColor: UIColor = UIColor.gray.withAlphaComponent(0.6)
     
-    private(set) var lineWidth: CGFloat = 1.2
+    private(set) var lineWidth: CGFloat = 1.1
     
     private(set) var fastLayer: FastLayer?
 
@@ -109,7 +109,7 @@ open class FastAnimator: UIView, CRRefreshProtocol {
     public init(frame: CGRect,
              color: UIColor = UIColor.gray.withAlphaComponent(0.6),
              arrowColor: UIColor = UIColor.gray.withAlphaComponent(0.6),
-             lineWidth: CGFloat = 1.2) {
+             lineWidth: CGFloat = 1.1) {
         self.color      = color
         self.arrowColor = arrowColor
         self.lineWidth  = lineWidth
