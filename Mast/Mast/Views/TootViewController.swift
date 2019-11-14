@@ -54,6 +54,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var x2 = UIBarButtonItem()
     var x3 = UIBarButtonItem()
     var x4 = UIBarButtonItem()
+    var x42 = UIBarButtonItem()
     var x5 = UIBarButtonItem()
     var x6 = UIBarButtonItem()
     var x7 = UIBarButtonItem()
@@ -98,6 +99,37 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         GlobalStruct.mediaIDs = []
     }
     
+    @objc func pollAdded() {
+        let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+        self.x42 = UIBarButtonItem(image: UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.removePoll))
+        self.x42.accessibilityLabel = "Remove Poll".localized
+        self.formatToolbar.items?[8] = self.x42
+    }
+    
+    @objc func removePoll() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Remove Poll".localized, style: .default , handler:{ (UIAlertAction) in
+            GlobalStruct.newPollPost = []
+            let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+            self.x42 = UIBarButtonItem(image: UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.addPoll))
+            self.x42.accessibilityLabel = "Add Poll".localized
+            self.formatToolbar.items?[8] = self.x42
+        })
+        op1.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.becomeFirstResponder()
+            }
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x42.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x42.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -112,6 +144,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         NotificationCenter.default.addObserver(self, selector: #selector(self.addCurrentDraft), name: NSNotification.Name(rawValue: "addCurrentDraft"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.becomeFirst), name: NSNotification.Name(rawValue: "becomeFirst"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.pollAdded), name: NSNotification.Name(rawValue: "pollAdded"), object: nil)
         
         if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
             GlobalStruct.allDrafts = x
@@ -321,6 +354,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             x3.accessibilityLabel = "Spoiler Text".localized
             x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
             x4.accessibilityLabel = "Emoticons".localized
+            x42 = UIBarButtonItem(image: UIImage(systemName: "chart.bar", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.addPoll))
+            x42.accessibilityLabel = "Add Poll".localized
             x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
             x5.accessibilityLabel = "Schedule Toot".localized
             x6 = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewDrafts))
@@ -336,6 +371,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 fixedS,
                 x4,
                 fixedS,
+                x42,
+                fixedS,
                 x5,
                 fixedS,
                 x6,
@@ -350,6 +387,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             cell.selectedBackgroundView = bgColorView
             return cell
         }
+    }
+    
+    @objc func addPoll() {
+        self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
     }
     
     @objc func viewDrafts() {
@@ -562,7 +603,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
             self.x5 = UIBarButtonItem(image: UIImage(systemName: "clock.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
             self.x5.accessibilityLabel = "Schedule Toot".localized
-            self.formatToolbar.items?[8] = self.x5
+            self.formatToolbar.items?[10] = self.x5
         }
         if self.scheduleTime != nil {
             alert.addAction(title: "Remove Scheduled Toot".localized, style: .destructive) { action in
@@ -571,7 +612,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
                 self.x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
                 self.x5.accessibilityLabel = "Schedule Toot".localized
-                self.formatToolbar.items?[8] = self.x5
+                self.formatToolbar.items?[10] = self.x5
             }
         }
         alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
@@ -661,7 +702,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
             self.x7 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
             self.x7.accessibilityLabel = "Characters".localized
-            self.formatToolbar.items?[12] = self.x7
+            self.formatToolbar.items?[14] = self.x7
             if cell.textView.text.isEmpty {
                 self.isModalInPresentation = false
                 btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
@@ -748,7 +789,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     }
                     self.x7 = UIBarButtonItem(title: "\(GlobalStruct.maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
                     self.x7.accessibilityLabel = "Characters".localized
-                    self.formatToolbar.items?[12] = self.x7
+                    self.formatToolbar.items?[14] = self.x7
                 })
                 op9.setValue(UIImage(systemName: "xmark")!, forKey: "image")
                 op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -1194,12 +1235,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         }))
         
-        let op1 = UIAlertAction(title: "Poll".localized, style: .default , handler:{ (UIAlertAction) in
-            self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
-        })
-        op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
-        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op1)
+//        let op1 = UIAlertAction(title: "Poll".localized, style: .default , handler:{ (UIAlertAction) in
+//            self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
+//        })
+//        op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")
+//        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+//        alert.addAction(op1)
         let op3 = UIAlertAction(title: "  \("Audio".localized)", style: .default , handler:{ (UIAlertAction) in
             self.moreAudio()
         })
