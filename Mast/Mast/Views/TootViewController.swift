@@ -805,7 +805,25 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         }
                     }
                 } else {
-                    print("Wait for all media to finish uploading")
+                    let alert = UIAlertController(title: "Please wait for all media to finish uploading", message: nil, preferredStyle: .actionSheet)
+                    alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                        cell.textView.becomeFirstResponder()
+                    }))
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.alignment = NSTextAlignment.left
+                    let messageText = NSMutableAttributedString(
+                        string: "Please wait for all media to finish uploading".localized,
+                        attributes: [
+                            NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                        ]
+                    )
+                    alert.setValue(messageText, forKey: "attributedTitle")
+                    if let presenter = alert.popoverPresentationController {
+                        presenter.sourceView = self.btn1
+                        presenter.sourceRect = self.btn1.bounds
+                    }
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
