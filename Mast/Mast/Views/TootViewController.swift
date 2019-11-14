@@ -59,6 +59,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var x7 = UIBarButtonItem()
     var gifVidDataToAttachArray: [Data] = []
     var photoToAttachArray: [Data] = []
+    var gifVidDataToAttachArrayImage: [UIImage] = []
+    var photoToAttachArrayImage: [UIImage] = []
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -876,6 +878,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             } else {
                 if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()).pngData() {
                     self.photoToAttachArray.append(photoToAttach)
+                    self.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.configure(self.photoToAttachArrayImage)
+                    }
                 }
             }
         }
