@@ -90,6 +90,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        GlobalStruct.gifVidDataToAttachArray = []
+        GlobalStruct.photoToAttachArray = []
+        GlobalStruct.gifVidDataToAttachArrayImage = []
+        GlobalStruct.photoToAttachArrayImage = []
+        GlobalStruct.mediaIDs = []
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
