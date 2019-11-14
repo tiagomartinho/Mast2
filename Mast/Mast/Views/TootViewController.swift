@@ -881,30 +881,33 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let fileURL = urls.first!
         if let theData = NSData(contentsOf: fileURL) {
-//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-//                let attachment = NSTextAttachment()
-//                attachment.image = UIImage(data: theData as Data)
-//                let imWidth = attachment.image!.size.width
-//                let imHeight = attachment.image!.size.height
-//                let ratio = imWidth/imHeight
-//                attachment.bounds = CGRect(x: 5, y: 5, width: cell.textView.frame.size.width - 15, height: ((cell.textView.frame.size.width - 15)/ratio) - 10)
-//
-//                let normalFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-//                let attStringNewLine = NSMutableAttributedString(string: "\n\n", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!])
-//                let attString = NSAttributedString(attachment: attachment)
-//
-//                guard let selectedRange = cell.textView.selectedTextRange else {
-//                    return
-//                }
-//                let cursorIndex = self.textView.offset(from: self.textView.beginningOfDocument, to: selectedRange.start)
-//                cell.textView.textStorage.insert(attString, at: cursorIndex)
-//                if cell.textView.text.isEmpty {} else {
-//                    cell.textView.textStorage.insert(attStringNewLine, at: cursorIndex)
-//                }
-//                cell.textView.textStorage.append(attStringNewLine)
-//                self.hapticPatternType3()
-//                self.fromScan = true
-//            }
+            GlobalStruct.photoToAttachArray.append(theData as Data)
+            GlobalStruct.photoToAttachArrayImage.append(UIImage(data: theData as Data) ?? UIImage())
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.text = "\(cell.textView.text ?? "")"
+                cell.textView.becomeFirstResponder()
+                cell.configure(GlobalStruct.photoToAttachArrayImage, isVideo: false, videoURLs: [])
+                cell.layoutIfNeeded()
+                
+                UIView.setAnimationsEnabled(false)
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+                UIView.setAnimationsEnabled(true)
+            }
+            self.containsMedia = true
+            if GlobalStruct.gifVidDataToAttachArray.isEmpty {
+                
+            } else {
+                GlobalStruct.mediaIDs = []
+            }
+            for x in GlobalStruct.photoToAttachArray {
+                let request = Media.upload(media: .png(x))
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        GlobalStruct.mediaIDs.append(stat.id)
+                    }
+                }
+            }
         }
         controller.dismiss(animated: true, completion: nil)
     }
