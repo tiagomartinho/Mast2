@@ -75,7 +75,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             if self.photoToAttachArrayImage.isEmpty {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
             } else {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 140
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
             }
         }
     }
@@ -884,6 +884,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     self.photoToAttachArray.append(photoToAttach)
                     self.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        cell.textView.becomeFirstResponder()
                         cell.configure(self.photoToAttachArrayImage)
                     }
                 }
@@ -1108,7 +1109,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.photoToAttachArrayImage.isEmpty {
                     cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
                 } else {
-                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 140
+                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
                 }
             }
         }
@@ -1121,7 +1122,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             if self.photoToAttachArrayImage.isEmpty {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
             } else {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 140
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
             }
         }
     }
