@@ -1086,7 +1086,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         DispatchQueue.main.async {
                             self.photoPickerView.delegate = self
                             self.photoPickerView.sourceType = .camera
-                            self.photoPickerView.mediaTypes = [kUTTypeImage as String]
+                            self.photoPickerView.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
                             self.photoPickerView.allowsEditing = false
                             self.present(self.photoPickerView, animated: true, completion: nil)
                         }
@@ -1097,14 +1097,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         camA.setValue(UIImage(systemName: "camera")!, forKey: "image")
         camA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(camA)
-        let galA = UIAlertAction(title: "Image Gallery".localized, style: .default , handler:{ (UIAlertAction) in
+        let galA = UIAlertAction(title: "Gallery".localized, style: .default , handler:{ (UIAlertAction) in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
                 if response {
                     if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                         DispatchQueue.main.async {
                             self.photoPickerView.delegate = self
                             self.photoPickerView.sourceType = .photoLibrary
-                            self.photoPickerView.mediaTypes = [kUTTypeImage as String]
+                            self.photoPickerView.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
                             self.present(self.photoPickerView, animated: true, completion: nil)
                         }
                     }
