@@ -47,6 +47,12 @@ class GlobalStruct {
     static var allowsMultiple = false
     static var totalsHidden = false
     
+    static var gifVidDataToAttachArray: [Data] = []
+    static var photoToAttachArray: [Data] = []
+    static var gifVidDataToAttachArrayImage: [UIImage] = []
+    static var photoToAttachArrayImage: [UIImage] = []
+    static var mediaIDs: [String] = []
+    
     static var statusesHome: [Status] = []
     static var statusesLocal: [Status] = []
     static var statusesFed: [Status] = []

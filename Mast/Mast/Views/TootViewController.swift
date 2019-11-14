@@ -57,11 +57,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var x5 = UIBarButtonItem()
     var x6 = UIBarButtonItem()
     var x7 = UIBarButtonItem()
-    var gifVidDataToAttachArray: [Data] = []
-    var photoToAttachArray: [Data] = []
-    var gifVidDataToAttachArrayImage: [UIImage] = []
-    var photoToAttachArrayImage: [UIImage] = []
-    var mediaIDs: [String] = []
     var containsMedia = false
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
@@ -74,7 +69,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         // Text view
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            if self.photoToAttachArrayImage.isEmpty {
+            if GlobalStruct.photoToAttachArrayImage.isEmpty {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
             } else {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
@@ -634,7 +629,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     func textViewDidChange(_ textView: UITextView) {
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            if self.photoToAttachArrayImage.isEmpty {
+            if GlobalStruct.photoToAttachArrayImage.isEmpty {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
             } else {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
@@ -795,12 +790,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     }
                 }
             } else {
-                var y = self.photoToAttachArray.count
-                if self.photoToAttachArray.isEmpty {
-                    y = self.gifVidDataToAttachArray.count
+                var y = GlobalStruct.photoToAttachArray.count
+                if GlobalStruct.photoToAttachArray.isEmpty {
+                    y = GlobalStruct.gifVidDataToAttachArray.count
                 }
-                if self.mediaIDs.count == y {
-                    let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: self.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
+                if GlobalStruct.mediaIDs.count == y {
+                    let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: GlobalStruct.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                     GlobalStruct.client.run(request) { (statuses) in
                         if let _ = (statuses.value) {
                             DispatchQueue.main.async {
@@ -924,24 +919,24 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as! NSURL
                 do {
                     let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
-                    self.gifVidDataToAttachArray = [gifVidDataToAttach]
-                    self.gifVidDataToAttachArrayImage = [(self.thumbnailForVideoAtURL(url: videoURL) ?? UIImage())]
+                    GlobalStruct.gifVidDataToAttachArray = [gifVidDataToAttach]
+                    GlobalStruct.gifVidDataToAttachArrayImage = [(self.thumbnailForVideoAtURL(url: videoURL) ?? UIImage())]
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
-                        cell.configure(self.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [(videoURL as URL)])
+                        cell.configure(GlobalStruct.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [(videoURL as URL)])
                     }
                     self.containsMedia = true
-                    if self.photoToAttachArray.isEmpty {
+                    if GlobalStruct.photoToAttachArray.isEmpty {
                         
                     } else {
-                        self.mediaIDs = []
+                        GlobalStruct.mediaIDs = []
                     }
-                    for x in self.gifVidDataToAttachArray {
+                    for x in GlobalStruct.gifVidDataToAttachArray {
                         let request = Media.upload(media: .gif(x))
                         GlobalStruct.client.run(request) { (statuses) in
                             if let stat = (statuses.value) {
-                                self.mediaIDs.append(stat.id)
+                                GlobalStruct.mediaIDs.append(stat.id)
                             }
                         }
                     }
@@ -950,24 +945,24 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
             } else {
                 if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()).pngData() {
-                    self.photoToAttachArray.append(photoToAttach)
-                    self.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
+                    GlobalStruct.photoToAttachArray.append(photoToAttach)
+                    GlobalStruct.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
-                        cell.configure(self.photoToAttachArrayImage, isVideo: false, videoURLs: [])
+                        cell.configure(GlobalStruct.photoToAttachArrayImage, isVideo: false, videoURLs: [])
                     }
                     self.containsMedia = true
-                    if self.gifVidDataToAttachArray.isEmpty {
+                    if GlobalStruct.gifVidDataToAttachArray.isEmpty {
                         
                     } else {
-                        self.mediaIDs = []
+                        GlobalStruct.mediaIDs = []
                     }
-                    for x in self.photoToAttachArray {
+                    for x in GlobalStruct.photoToAttachArray {
                         let request = Media.upload(media: .png(x))
                         GlobalStruct.client.run(request) { (statuses) in
                             if let stat = (statuses.value) {
-                                self.mediaIDs.append(stat.id)
+                                GlobalStruct.mediaIDs.append(stat.id)
                             }
                         }
                     }
@@ -1190,7 +1185,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             self.keyHeight = CGFloat(keyboardHeight)
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if self.photoToAttachArrayImage.isEmpty {
+                if GlobalStruct.photoToAttachArrayImage.isEmpty {
                     cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
                 } else {
                     cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
@@ -1203,7 +1198,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.keyHeight = CGFloat(0)
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            if self.photoToAttachArrayImage.isEmpty {
+            if GlobalStruct.photoToAttachArrayImage.isEmpty {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
             } else {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145

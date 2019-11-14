@@ -121,6 +121,27 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
+            let vc = ImagePreviewViewController()
+            vc.image = self.images[indexPath.item]
+            return vc
+        }, actionProvider: { suggestedActions in
+            return self.makeContextMenu(indexPath)
+        })
+    }
+    
+    func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            self.images.remove(at: indexPath.row)
+            self.collectionView1.reloadData()
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+    }
+    
     func getTopMostViewController() -> UIViewController? {
         var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
         while let presentedViewController = topMostViewController?.presentedViewController {
