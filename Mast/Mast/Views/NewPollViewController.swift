@@ -59,6 +59,7 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     @objc func tickTapped() {
         if self.currentOptions.count >= 2 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "becomeFirst"), object: self)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "pollAdded"), object: self)
             let expiresIn = Calendar.current.dateComponents([.second], from: Date(), to: self.scheduleTime).second ?? 0
             GlobalStruct.newPollPost = [self.currentOptions, expiresIn, self.allowsMultiple, self.totalsHidden]
             self.dismiss(animated: true, completion: nil)
