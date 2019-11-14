@@ -772,7 +772,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 if self.defaultVisibility == .public {
                     theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
                 }
-//                theMainText = "@\(self.replyStatus.first?.account.acct ?? "") \(theMainText)"
             }
             let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
             GlobalStruct.client.run(request) { (statuses) in
@@ -886,6 +885,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.becomeFirstResponder()
                         cell.configure(self.photoToAttachArrayImage)
+                        if self.photoToAttachArrayImage.isEmpty {
+                            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+                        } else {
+                            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+                        }
                     }
                 }
             }

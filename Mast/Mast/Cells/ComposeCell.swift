@@ -95,4 +95,11 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         cell.backgroundColor = UIColor.clear
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let imageInfo = GSImageInfo(image: self.images[indexPath.item], imageMode: .aspectFit, imageHD: nil, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+        let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+    }
 }
