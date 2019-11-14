@@ -133,6 +133,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(self.paste(_:)) {
             return UIPasteboard.general.image != nil
+        } else {
+            return false
         }
     }
     
