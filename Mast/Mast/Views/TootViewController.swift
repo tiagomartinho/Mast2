@@ -925,10 +925,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 do {
                     let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
                     self.gifVidDataToAttachArray = [gifVidDataToAttach]
+                    self.gifVidDataToAttachArrayImage = [self.thumbnailForVideoAtURL(url: videoURL)]
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
-                        cell.configure(self.gifVidDataToAttachArray, isVideo: true, videoURLs: [videoURL])
+                        cell.configure(self.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [videoURL])
                     }
                     self.containsMedia = true
                     if self.photoToAttachArray.isEmpty {
@@ -1215,6 +1216,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             for item in items {
                 item.title = ""
             }
+        }
+    }
+    
+    private func thumbnailForVideoAtURL(url: NSURL) -> UIImage? {
+        let asset = AVAsset(url: url as URL)
+        let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+        
+        var time = asset.duration
+        time.value = min(time.value, 2)
+        
+        do {
+            let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+            return UIImage(cgImage: imageRef)
+        } catch {
+            print("error")
+            return nil
         }
     }
 }
