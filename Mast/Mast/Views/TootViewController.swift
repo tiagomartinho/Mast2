@@ -884,7 +884,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let fileURL = urls.first!
         let ext = fileURL.pathExtension
-        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, ext, nil)
+        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, ext as CFString, nil)
         if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMP3) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeAudio) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMPEG) {
 
             if let theData = NSData(contentsOf: fileURL) {
