@@ -38,7 +38,7 @@ extension MediaAttachment {
             case .jpeg: return "file.jpeg"
             case .gif: return "file.gif"
             case .png: return "file.png"
-            case .mp3: return "file.png"
+            case .mp3: return "file.mp3"
             case .other(_, let fileExtension, _): return "file.\(fileExtension)"
             }
         } else if GlobalStruct.medType == 1 {
