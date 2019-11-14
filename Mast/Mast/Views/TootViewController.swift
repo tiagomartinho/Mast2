@@ -111,7 +111,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         let op1 = UIAlertAction(title: "Remove Poll".localized, style: .default , handler:{ (UIAlertAction) in
             GlobalStruct.newPollPost = []
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-            self.x42 = UIBarButtonItem(image: UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.addPoll))
+            self.x42 = UIBarButtonItem(image: UIImage(systemName: "chart.bar", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.addPoll))
             self.x42.accessibilityLabel = "Add Poll".localized
             self.formatToolbar.items?[8] = self.x42
         })
