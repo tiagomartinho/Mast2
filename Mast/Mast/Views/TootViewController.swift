@@ -759,7 +759,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func tickTapped() {
-        self.dismiss(animated: true, completion: nil)
+        if self.photoToAttachArray.isEmpty {
+            self.dismiss(animated: true, completion: nil)
+        }
         
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             var theReplyID: String? = nil
@@ -798,6 +800,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         if let _ = (statuses.value) {
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                                self.dismiss(animated: true, completion: nil)
                             }
                         }
                     }
