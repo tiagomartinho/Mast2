@@ -72,7 +72,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         // Text view
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+            if self.photoToAttachArrayImage.isEmpty {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+            } else {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 140
+            }
         }
     }
     
@@ -1101,7 +1105,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             self.keyHeight = CGFloat(keyboardHeight)
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+                if self.photoToAttachArrayImage.isEmpty {
+                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+                } else {
+                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 140
+                }
             }
         }
     }
@@ -1110,7 +1118,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.keyHeight = CGFloat(0)
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+            if self.photoToAttachArrayImage.isEmpty {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+            } else {
+                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 140
+            }
         }
     }
     

@@ -40,7 +40,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             cellsPerRow: 4,
             minimumInteritemSpacing: 15,
             minimumLineSpacing: 15,
-            sectionInset: UIEdgeInsets(top: 0, left: 68, bottom: 0, right: 20)
+            sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         )
         layout.scrollDirection = .horizontal
         collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-10), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
