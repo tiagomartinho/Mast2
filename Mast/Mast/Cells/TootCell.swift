@@ -202,7 +202,7 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
             self.pollView.alpha = 1
             self.pollOptions = stat.reblog?.poll?.options ?? stat.poll!.options
             pollHeight = (self.pollOptions.count * 26) + (self.pollOptions.count * 10)
-            barChart.frame = CGRect(x: 0, y: 0, width: Int(CGFloat((getTopMostViewController()?.view.bounds.width ?? self.bounds.width) - 86)), height: pollHeight)
+            barChart.frame = CGRect(x: 0, y: 0, width: Int(CGFloat((self.bounds.width) - 86)), height: pollHeight)
             barChart.dataSource = self
             barChart.displayConfig = CoreBarChartsDisplayConfig(barWidth: 26.0,
                                                                 barSpace: 10.0,
