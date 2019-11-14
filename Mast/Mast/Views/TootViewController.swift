@@ -759,7 +759,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func tickTapped() {
-        if self.photoToAttachArray.isEmpty {
+        if self.photoToAttachArray.isEmpty || self.gifVidDataToAttachArray.isEmpty {
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -784,7 +784,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
             }
             
-            if self.photoToAttachArray.isEmpty {
+            if self.photoToAttachArray.isEmpty || self.gifVidDataToAttachArray.isEmpty {
                 let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                 GlobalStruct.client.run(request) { (statuses) in
                     if let _ = (statuses.value) {
@@ -794,7 +794,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     }
                 }
             } else {
-                if self.mediaIDs.count == self.photoToAttachArray.count {
+                var y = self.photoToAttachArray.count
+                if self.photoToAttachArray.isEmpty {
+                    y = self.gifVidDataToAttachArray.count
+                }
+                if self.mediaIDs.count == y {
                     let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: self.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                     GlobalStruct.client.run(request) { (statuses) in
                         if let _ = (statuses.value) {
@@ -920,6 +924,19 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 do {
                     let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
                     self.gifVidDataToAttachArray.append(gifVidDataToAttach)
+                    if self.photoToAttachArray.isEmpty {
+                        
+                    } else {
+                        self.mediaIDs = []
+                    }
+                    for x in self.gifVidDataToAttachArray {
+                        let request = Media.upload(media: .gif(x))
+                        GlobalStruct.client.run(request) { (statuses) in
+                            if let stat = (statuses.value) {
+                                self.mediaIDs.append(stat.id)
+                            }
+                        }
+                    }
                 } catch {
                     print("error")
                 }
@@ -931,6 +948,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
                         cell.configure(self.photoToAttachArrayImage)
+                    }
+                    if self.gifVidDataToAttachArray.isEmpty {
+                        
+                    } else {
+                        self.mediaIDs = []
                     }
                     for x in self.photoToAttachArray {
                         let request = Media.upload(media: .png(x))
