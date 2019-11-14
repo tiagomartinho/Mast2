@@ -933,6 +933,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
                         cell.configure(GlobalStruct.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [(videoURL as URL)])
+                        cell.layoutIfNeeded()
+
+                        UIView.setAnimationsEnabled(false)
+                        self.tableView.beginUpdates()
+                        self.tableView.endUpdates()
+                        UIView.setAnimationsEnabled(true)
                     }
                     self.containsMedia = true
                     if GlobalStruct.photoToAttachArray.isEmpty {
@@ -959,6 +965,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         cell.textView.text = "\(cell.textView.text ?? "")"
                         cell.textView.becomeFirstResponder()
                         cell.configure(GlobalStruct.photoToAttachArrayImage, isVideo: false, videoURLs: [])
+                        cell.layoutIfNeeded()
+
+                        UIView.setAnimationsEnabled(false)
+                        self.tableView.beginUpdates()
+                        self.tableView.endUpdates()
+                        UIView.setAnimationsEnabled(true)
                     }
                     self.containsMedia = true
                     if GlobalStruct.gifVidDataToAttachArray.isEmpty {
