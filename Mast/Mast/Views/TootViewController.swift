@@ -62,6 +62,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var gifVidDataToAttachArrayImage: [UIImage] = []
     var photoToAttachArrayImage: [UIImage] = []
     var mediaIDs: [String] = []
+    var containsMedia = false
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -759,7 +760,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func tickTapped() {
-        if self.photoToAttachArray.isEmpty || self.gifVidDataToAttachArray.isEmpty {
+        if self.containsMedia == false {
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -784,7 +785,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
             }
             
-            if self.photoToAttachArray.isEmpty || self.gifVidDataToAttachArray.isEmpty {
+            if self.containsMedia == false {
                 let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                 GlobalStruct.client.run(request) { (statuses) in
                     if let _ = (statuses.value) {
@@ -924,6 +925,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 do {
                     let gifVidDataToAttach = try NSData(contentsOf: videoURL as URL, options: .mappedIfSafe) as Data
                     self.gifVidDataToAttachArray.append(gifVidDataToAttach)
+                    self.containsMedia = true
                     if self.photoToAttachArray.isEmpty {
                         
                     } else {
@@ -949,6 +951,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         cell.textView.becomeFirstResponder()
                         cell.configure(self.photoToAttachArrayImage)
                     }
+                    self.containsMedia = true
                     if self.gifVidDataToAttachArray.isEmpty {
                         
                     } else {
