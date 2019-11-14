@@ -39,14 +39,13 @@ open class FastAnimator: UIView, CRRefreshProtocol {
     
     open var hold: CGFloat = 55.0
     
-    private(set) var color: UIColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+    private(set) var color: UIColor = UIColor.gray.withAlphaComponent(0.6)
     
-    private(set) var arrowColor: UIColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45)
+    private(set) var arrowColor: UIColor = UIColor.gray.withAlphaComponent(0.6)
     
-    private(set) var lineWidth: CGFloat = 1
+    private(set) var lineWidth: CGFloat = 1.2
     
     private(set) var fastLayer: FastLayer?
-
 
     //MARK: CRRefreshProtocol
     /// 开始刷新
@@ -108,9 +107,9 @@ open class FastAnimator: UIView, CRRefreshProtocol {
     
     //MARK: Initial Methods
     public init(frame: CGRect,
-             color: UIColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45),
-             arrowColor: UIColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.45),
-             lineWidth: CGFloat = 1) {
+             color: UIColor = UIColor.gray.withAlphaComponent(0.6),
+             arrowColor: UIColor = UIColor.gray.withAlphaComponent(0.6),
+             lineWidth: CGFloat = 1.2) {
         self.color      = color
         self.arrowColor = arrowColor
         self.lineWidth  = lineWidth

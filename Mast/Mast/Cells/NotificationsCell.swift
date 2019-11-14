@@ -215,7 +215,9 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
             self.profile.sd_setImage(with: imageURL, completed: nil)
             self.profile.layer.masksToBounds = true
             if noti.type == .mention || noti.type == .poll {
+                self.profile2.layer.masksToBounds = true
                 self.profile2.alpha = 0
+                self.profile2.layer.borderColor = GlobalStruct.baseDarkTint.cgColor
             } else {
                 self.profile2.image = UIImage()
                 guard let imageURL2 = URL(string: noti.account.avatar) else { return }

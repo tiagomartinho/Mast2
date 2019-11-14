@@ -144,7 +144,9 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
                 GlobalStruct.photoToAttachArray.remove(at: indexPath.row)
                 GlobalStruct.photoToAttachArrayImage.remove(at: indexPath.row)
             }
-            GlobalStruct.mediaIDs.remove(at: indexPath.row)
+            if GlobalStruct.mediaIDs.count == self.images.count {
+                GlobalStruct.mediaIDs.remove(at: indexPath.row)
+            }
             self.collectionView1.reloadData()
         }
         remove.attributes = .destructive
