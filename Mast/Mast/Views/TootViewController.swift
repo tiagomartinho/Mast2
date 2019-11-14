@@ -712,7 +712,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     func moreAudio() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: " \("Audio from Documents".localized)".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            let types: [String] = [kUTTypeMP3 as String, kUTTypeAudio as String, kUTTypeMPEG as String]
+            let documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
+            documentPicker.delegate = self
+            self.present(documentPicker, animated: true, completion: nil)
         })
         op1.setValue(UIImage(systemName: "doc.text.magnifyingglass")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -880,34 +883,72 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let fileURL = urls.first!
-        if let theData = NSData(contentsOf: fileURL) {
-            GlobalStruct.photoToAttachArray.append(theData as Data)
-            GlobalStruct.photoToAttachArrayImage.append(UIImage(data: theData as Data) ?? UIImage())
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.text = "\(cell.textView.text ?? "")"
-                cell.textView.becomeFirstResponder()
-                cell.configure(GlobalStruct.photoToAttachArrayImage, isVideo: false, videoURLs: [])
-                cell.layoutIfNeeded()
-                
-                UIView.setAnimationsEnabled(false)
-                self.tableView.beginUpdates()
-                self.tableView.endUpdates()
-                UIView.setAnimationsEnabled(true)
-            }
-            self.containsMedia = true
-            if GlobalStruct.gifVidDataToAttachArray.isEmpty {
-                
-            } else {
-                GlobalStruct.mediaIDs = []
-            }
-            for x in GlobalStruct.photoToAttachArray {
-                let request = Media.upload(media: .png(x))
-                GlobalStruct.client.run(request) { (statuses) in
-                    if let stat = (statuses.value) {
-                        GlobalStruct.mediaIDs.append(stat.id)
+        let ext = fileURL.pathExtension
+        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, ext, nil)
+        if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMP3) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeAudio) || UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeMPEG) {
+
+            if let theData = NSData(contentsOf: fileURL) {
+                GlobalStruct.gifVidDataToAttachArray.append(theData as Data)
+                GlobalStruct.gifVidDataToAttachArrayImage.append(UIImage(data: theData as Data) ?? UIImage())
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    cell.textView.text = "\(cell.textView.text ?? "")"
+                    cell.textView.becomeFirstResponder()
+                    cell.configure(GlobalStruct.gifVidDataToAttachArrayImage, isVideo: true, videoURLs: [fileURL])
+                    cell.layoutIfNeeded()
+                    
+                    UIView.setAnimationsEnabled(false)
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
+                    UIView.setAnimationsEnabled(true)
+                }
+                self.containsMedia = true
+                if GlobalStruct.photoToAttachArray.isEmpty {
+                    
+                } else {
+                    GlobalStruct.mediaIDs = []
+                }
+                for x in GlobalStruct.gifVidDataToAttachArray {
+                    let request = Media.upload(media: .mp3(x))
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            GlobalStruct.mediaIDs.append(stat.id)
+                        }
                     }
                 }
             }
+            
+        } else {
+            
+            if let theData = NSData(contentsOf: fileURL) {
+                GlobalStruct.photoToAttachArray.append(theData as Data)
+                GlobalStruct.photoToAttachArrayImage.append(UIImage(data: theData as Data) ?? UIImage())
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    cell.textView.text = "\(cell.textView.text ?? "")"
+                    cell.textView.becomeFirstResponder()
+                    cell.configure(GlobalStruct.photoToAttachArrayImage, isVideo: false, videoURLs: [])
+                    cell.layoutIfNeeded()
+                    
+                    UIView.setAnimationsEnabled(false)
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
+                    UIView.setAnimationsEnabled(true)
+                }
+                self.containsMedia = true
+                if GlobalStruct.gifVidDataToAttachArray.isEmpty {
+                    
+                } else {
+                    GlobalStruct.mediaIDs = []
+                }
+                for x in GlobalStruct.photoToAttachArray {
+                    let request = Media.upload(media: .png(x))
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            GlobalStruct.mediaIDs.append(stat.id)
+                        }
+                    }
+                }
+            }
+            
         }
         controller.dismiss(animated: true, completion: nil)
     }
