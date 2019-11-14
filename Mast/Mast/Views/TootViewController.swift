@@ -333,7 +333,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             formatToolbar.barStyle = UIBarStyle.default
             formatToolbar.isTranslucent = true
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
-            fixedS.width = 8
+            fixedS.width = 6
             
             var visibilityIcon = "globe"
             if self.defaultVisibility == .public {
