@@ -122,6 +122,24 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let vw = UIView()
+        vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 60)
+        vw.backgroundColor = .clear
+        let title = UILabel()
+        title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 10, y: 0, width: self.view.bounds.width - 20, height: 60)
+        title.text = "Pick the instance you'd like to add an account from"
+        title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.25)
+        title.font = UIFont.systemFont(ofSize: 16)
+        title.numberOfLines = 0
+        vw.addSubview(title)
+        return vw
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.accessoryType = .disclosureIndicator
     }
