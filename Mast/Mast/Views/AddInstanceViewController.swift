@@ -41,7 +41,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         super.viewDidLayoutSubviews()
         
         self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 20, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
-        let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
+        let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 90 + self.keyHeight
         self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 90, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
     }
     
