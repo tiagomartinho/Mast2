@@ -1748,7 +1748,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.loginLogo.image = UIImage(named: "icon")
         self.loginLogo.contentMode = .scaleAspectFit
         self.loginLogo.backgroundColor = UIColor.clear
-        self.loginLogo.layer.cornerRadius = 30
+        self.loginLogo.layer.cornerRadius = 20
         self.loginLogo.layer.cornerCurve = .continuous
         self.loginLogo.layer.masksToBounds = true
         UIApplication.shared.windows.first?.addSubview(self.loginLogo)
@@ -1759,9 +1759,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.loginLabel.font = UIFont.systemFont(ofSize: 14)
 //        UIApplication.shared.windows.first?.addSubview(self.loginLabel)
         
-        self.textField.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.04)
+        self.textField.backgroundColor = UIColor(named: "baseWhite")!
         self.textField.borderStyle = .none
-        self.textField.layer.cornerRadius = 5
+        self.textField.layer.cornerRadius = 8
+        self.textField.layer.cornerCurve = .continuous
         self.textField.textColor = UIColor(named: "baseBlack")
         self.textField.spellCheckingType = .no
         self.textField.returnKeyType = .done

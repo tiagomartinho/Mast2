@@ -93,7 +93,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.textField.becomeFirstResponder()
+//        self.textField.becomeFirstResponder()
     }
     
     @objc func crossTapped() {
