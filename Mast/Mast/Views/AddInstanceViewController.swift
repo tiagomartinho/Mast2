@@ -146,7 +146,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.textField.text = "\(self.altInstances[indexPath.row])"
         
         GlobalStruct.newInstance = InstanceData()
-        GlobalStruct.newClient = Client(baseURL: "https://\(self.textField.text)")
+        GlobalStruct.newClient = Client(baseURL: "https://\("\(self.altInstances[indexPath.row])")")
         let request = Clients.register(
             clientName: "Mast",
             redirectURI: "com.shi.Mast://addNewInstance",
@@ -180,10 +180,10 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
                 let application = application.value!
                 GlobalStruct.newInstance?.clientID = application.clientID
                 GlobalStruct.newInstance?.clientSecret = application.clientSecret
-                GlobalStruct.newInstance?.returnedText = returnedText
+                GlobalStruct.newInstance?.returnedText = "\(self.altInstances[indexPath.row])"
                 GlobalStruct.newInstance?.redirect = "com.shi.Mast://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                 DispatchQueue.main.async {
-                    let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                    let queryURL = URL(string: "https://\("\(self.altInstances[indexPath.row])")/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                     UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                         if !success {
                             if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
