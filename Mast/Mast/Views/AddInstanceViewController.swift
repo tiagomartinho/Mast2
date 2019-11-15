@@ -76,7 +76,6 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell1")
-        self.tableView.contentInset.top = 0
         self.tableView.alpha = 1
         self.tableView.delegate = self
         self.tableView.dataSource = self
