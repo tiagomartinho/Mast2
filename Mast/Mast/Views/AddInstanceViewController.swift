@@ -47,7 +47,6 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.createLoginView(newInstance: true)
         
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -58,7 +57,6 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         
         self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
         self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -134,7 +132,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 10, y: 0, width: self.view.bounds.width - 20, height: 60)
         title.text = "Pick the instance you'd like to add an account from"
         title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.25)
-        title.font = UIFont.systemFont(ofSize: 16)
+        title.font = UIFont.systemFont(ofSize: 14)
         title.numberOfLines = 0
         vw.addSubview(title)
         return vw
@@ -166,7 +164,6 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         self.textField.text = "\(self.altInstances[indexPath.row])"
-        
         GlobalStruct.newInstance = InstanceData()
         GlobalStruct.newClient = Client(baseURL: "https://\("\(self.altInstances[indexPath.row])")")
         let request = Clients.register(

@@ -30,6 +30,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var tableView = UITableView()
     var tableViewL = UITableView()
     var tableViewF = UITableView()
+    var tableViewIntro = UITableView()
     var loginBG = UIView()
     var loginLogo = UIImageView()
     var loginLabel = UILabel()
@@ -48,9 +49,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var statusesHome: [Status] = []
     var statusesLocal: [Status] = []
     var statusesFed: [Status] = []
+    var keyHeight: CGFloat = 0
+    var altInstances: [String] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
+        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
+        let part1 = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210 + self.keyHeight
+        self.tableViewIntro.frame = CGRect(x: self.view.safeAreaInsets.left, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         
         #if targetEnvironment(macCatalyst)
         self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
@@ -185,6 +193,26 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.reloadData()
     }
     
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.keyHeight = CGFloat(keyboardHeight)
+
+            let part1 = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210 + self.keyHeight
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            self.keyHeight = CGFloat(0)
+
+            let part1 = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -192,6 +220,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.title = "Feed".localized
         //        self.removeTabbarItemsText()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.logged), name: NSNotification.Name(rawValue: "logged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
@@ -853,7 +883,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == self.tableView {
+        if tableView == self.tableViewIntro {
+            return self.altInstances.count
+        } else if tableView == self.tableView {
             return GlobalStruct.statusesHome.count
         } else if tableView == self.tableViewL {
             return GlobalStruct.statusesLocal.count
@@ -863,7 +895,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == self.tableView {
+        if tableView == self.tableViewIntro {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell1", for: indexPath)
+            cell.textLabel?.text = self.altInstances[indexPath.row]
+            cell.textLabel?.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
+            cell.backgroundColor = UIColor(named: "baseWhite")!
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor(named: "baseWhite")!
+            cell.selectedBackgroundView = bgColorView
+            return cell
+        } else if tableView == self.tableView {
             if GlobalStruct.statusesHome[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesHome[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
                 if GlobalStruct.statusesHome.isEmpty {} else {
@@ -1279,7 +1320,62 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if tableView == self.tableView {
+        if tableView == self.tableViewIntro {
+            
+            self.textField.text = "\(self.altInstances[indexPath.row])"
+            GlobalStruct.client = Client(baseURL: "https://\("\(self.altInstances[indexPath.row])")")
+            let request = Clients.register(
+                clientName: "Mast",
+                redirectURI: "com.shi.Mast://success",
+                scopes: [.read, .write, .follow, .push],
+                website: "https://twitter.com/jpeguin"
+            )
+            GlobalStruct.client.run(request) { (application) in
+                if application.value == nil {
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
+                        let op1 = UIAlertAction(title: "Find out more".localized, style: .default , handler:{ (UIAlertAction) in
+                            let queryURL = URL(string: "https://joinmastodon.org")!
+                            UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                                if !success {
+                                    UIApplication.shared.open(queryURL)
+                                }
+                            }
+                        })
+                        op1.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
+                        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                        alert.addAction(op1)
+                        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                        }))
+                        if let presenter = alert.popoverPresentationController {
+                            presenter.sourceView = self.view
+                            presenter.sourceRect = self.view.bounds
+                        }
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                } else {
+                    let application = application.value!
+                    GlobalStruct.currentInstance.clientID = application.clientID
+                    GlobalStruct.currentInstance.clientSecret = application.clientSecret
+                    GlobalStruct.currentInstance.returnedText = "\(self.altInstances[indexPath.row])"
+                    GlobalStruct.currentInstance.redirect = "com.shi.Mast://success".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                    DispatchQueue.main.async {
+                        let queryURL = URL(string: "https://\("\(self.altInstances[indexPath.row])")/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.currentInstance.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                        UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                            if !success {
+                                if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
+                                    self.safariVC = SFSafariViewController(url: queryURL)
+                                    self.present(self.safariVC!, animated: true, completion: nil)
+                                } else {
+                                    UIApplication.shared.open(queryURL, options: [:], completionHandler: nil)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+        } else if tableView == self.tableView {
             let vc = DetailViewController()
             vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
@@ -1646,22 +1742,23 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     func createLoginView(newInstance: Bool = false) {
         self.newInstance = newInstance
         self.loginBG.frame = self.view.frame
-        self.loginBG.backgroundColor = GlobalStruct.baseDarkTint
+        self.loginBG.backgroundColor = UIColor(named: "lighterBaseWhite")
         UIApplication.shared.windows.first?.addSubview(self.loginBG)
         
-        self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: self.view.bounds.height/4 - 40, width: 80, height: 80)
-        self.loginLogo.image = UIImage(named: "logLogo")
+        self.loginLogo.image = UIImage(named: "icon")
         self.loginLogo.contentMode = .scaleAspectFit
         self.loginLogo.backgroundColor = UIColor.clear
+        self.loginLogo.layer.cornerRadius = 30
+        self.loginLogo.layer.cornerCurve = .continuous
+        self.loginLogo.layer.masksToBounds = true
         UIApplication.shared.windows.first?.addSubview(self.loginLogo)
         
         self.loginLabel.frame = CGRect(x: 50, y: self.view.bounds.height/2 - 57.5, width: self.view.bounds.width - 80, height: 35)
         self.loginLabel.text = "Instance name:".localized
         self.loginLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.6)
         self.loginLabel.font = UIFont.systemFont(ofSize: 14)
-        UIApplication.shared.windows.first?.addSubview(self.loginLabel)
+//        UIApplication.shared.windows.first?.addSubview(self.loginLabel)
         
-        self.textField.frame = CGRect(x: 40, y: self.view.bounds.height/2 - 22.5, width: self.view.bounds.width - 80, height: 45)
         self.textField.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.04)
         self.textField.borderStyle = .none
         self.textField.layer.cornerRadius = 5
@@ -1672,19 +1769,98 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.textField.autocapitalizationType = .none
         self.textField.keyboardType = .URL
         self.textField.delegate = self
-        self.textField.attributedPlaceholder = NSAttributedString(string: "mastodon.social",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        self.textField.accessibilityLabel = "Enter Instance".localized
+        self.textField.attributedPlaceholder = NSAttributedString(string: "Instance name...",
+                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.45)])
+        self.textField.accessibilityLabel = "Enter Instance Name".localized
         UIApplication.shared.windows.first?.addSubview(self.textField)
+        
+        self.tableViewIntro = UITableView(frame: .zero, style: .insetGrouped)
+        self.tableViewIntro = UITableView(frame: .zero, style: .insetGrouped)
+        self.tableViewIntro.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell1")
+        self.tableViewIntro.alpha = 1
+        self.tableViewIntro.delegate = self
+        self.tableViewIntro.dataSource = self
+        self.tableViewIntro.backgroundColor = .clear
+        self.tableViewIntro.separatorStyle = .singleLine
+        self.tableViewIntro.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
+        self.tableViewIntro.layer.masksToBounds = true
+        self.tableViewIntro.estimatedRowHeight = UITableView.automaticDimension
+        self.tableViewIntro.rowHeight = UITableView.automaticDimension
+        UIApplication.shared.windows.first?.addSubview(self.tableViewIntro)
+        self.tableViewIntro.tableFooterView = UIView()
+        
+        self.fetchAltInstances()
+    }
+    
+    func fetchAltInstances() {
+        let urlStr = "https://instances.social/api/1.0/instances/list?count=\(100)&include_closed=\(false)&include_down=\(false)"
+        let url: URL = URL(string: urlStr)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("Bearer 8gVQzoU62VFjvlrdnBUyAW8slAekA5uyuwdMi0CBzwfWwyStkqQo80jTZemuSGO8QomSycdD1JYgdRUnJH0OVT3uYYUilPMenrRZupuMQLl9hVt6xnhV6bwdXVSAT1wR", forHTTPHeaderField: "Authorization")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let task = session.dataTask(with: request) { (data, response, err) in
+            do {
+                let json = try JSONDecoder().decode(tagInstances.self, from: data ?? Data())
+                DispatchQueue.main.async {
+                    for x in json.instances {
+                        self.altInstances.append(x.name)
+                    }
+                    self.altInstances.insert("mastodon.technology", at: 0)
+                    self.altInstances.insert("mastodon.social", at: 0)
+                    self.tableViewIntro.reloadData()
+                }
+            } catch {
+                print("err")
+            }
+        }
+        task.resume()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if tableView == self.tableViewIntro {
+            return 60
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if tableView == self.tableViewIntro {
+            let vw = UIView()
+            vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 60)
+            vw.backgroundColor = .clear
+            let title = UILabel()
+            title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 10, y: 0, width: self.view.bounds.width - 20, height: 60)
+            title.text = "Pick the instance you'd like to add an account from"
+            title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.25)
+            title.font = UIFont.systemFont(ofSize: 14)
+            title.numberOfLines = 0
+            vw.addSubview(title)
+            return vw
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView == self.tableViewIntro {
+            cell.accessoryType = .disclosureIndicator
+        } else {
+            cell.accessoryType = .none
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
+        DispatchQueue.main.async {
+            self.textField.resignFirstResponder()
+        }
         let returnedText = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         if returnedText == "" || returnedText == " " || returnedText == "  " {} else {
             DispatchQueue.main.async {
-                self.textField.resignFirstResponder()
-                
                 if self.newInstance {
                     GlobalStruct.newInstance = InstanceData()
                     GlobalStruct.client = Client(baseURL: "https://\(returnedText)")
