@@ -42,7 +42,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         
         self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 10, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
         let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
-        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + self.view.safeAreaInsets.top + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
     }
     
     override func viewDidLoad() {
@@ -189,7 +189,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.textField.keyboardType = .URL
         self.textField.delegate = self
         self.textField.attributedPlaceholder = NSAttributedString(string: "Instance name...",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.75)])
         self.textField.accessibilityLabel = "Enter Instance Name".localized
         self.view.addSubview(self.textField)
     }
