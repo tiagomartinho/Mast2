@@ -450,8 +450,8 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
                                     nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
 
                                     rootController.viewControllers = [nav0, nav1]
-                                    self.window?.rootViewController = rootController
-                                    self.window!.makeKeyAndVisible()
+                                    UIApplication.shared.keyWindow?.rootViewController = rootController
+                                    UIApplication.shared.keyWindow?.makeKeyAndVisible()
                                     #elseif !targetEnvironment(macCatalyst)
                                     if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                                         let rootController = ColumnViewController()
