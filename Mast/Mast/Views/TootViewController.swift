@@ -70,10 +70,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         // Text view
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            if GlobalStruct.photoToAttachArrayImage.isEmpty {
+            if self.containsMedia == false {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+                cell.layoutIfNeeded()
+                UIView.setAnimationsEnabled(false)
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+                UIView.setAnimationsEnabled(true)
             } else {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+                cell.layoutIfNeeded()
+                UIView.setAnimationsEnabled(false)
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+                UIView.setAnimationsEnabled(true)
             }
         }
     }
@@ -1334,26 +1344,46 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let keyboardHeight = keyboardRectangle.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 4
             self.keyHeight = CGFloat(keyboardHeight)
             self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if GlobalStruct.photoToAttachArrayImage.isEmpty {
-                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
-                } else {
-                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-                }
-            }
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+//                if self.containsMedia == false {
+//                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+//                    cell.layoutIfNeeded()
+//                    UIView.setAnimationsEnabled(false)
+//                    self.tableView.beginUpdates()
+//                    self.tableView.endUpdates()
+//                    UIView.setAnimationsEnabled(true)
+//                } else {
+//                    cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+//                    cell.layoutIfNeeded()
+//                    UIView.setAnimationsEnabled(false)
+//                    self.tableView.beginUpdates()
+//                    self.tableView.endUpdates()
+//                    UIView.setAnimationsEnabled(true)
+//                }
+//            }
         }
     }
     
     @objc func keyboardWillHide(notification: Notification) {
         self.keyHeight = CGFloat(0)
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            if GlobalStruct.photoToAttachArrayImage.isEmpty {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
-            } else {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-            }
-        }
+//        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+//            if self.containsMedia == false {
+//                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+//                cell.layoutIfNeeded()
+//                UIView.setAnimationsEnabled(false)
+//                self.tableView.beginUpdates()
+//                self.tableView.endUpdates()
+//                UIView.setAnimationsEnabled(true)
+//            } else {
+//                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+//                cell.layoutIfNeeded()
+//                UIView.setAnimationsEnabled(false)
+//                self.tableView.beginUpdates()
+//                self.tableView.endUpdates()
+//                UIView.setAnimationsEnabled(true)
+//            }
+//        }
     }
     
     func removeTabbarItemsText() {

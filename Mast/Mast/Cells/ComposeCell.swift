@@ -59,7 +59,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[textView]-0-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[textView]-5-[collectionView(140)]-5-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[textView]-5-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
     }
@@ -68,6 +68,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         fatalError("init(coder:) has not been implemented")
     }
     
+    var heightConstraint = NSLayoutConstraint()
     var isVideo: Bool = false
     var videoURLs: [URL] = []
     func configure(_ images: [UIImage], isVideo: Bool, videoURLs: [URL]? = []) {
@@ -75,6 +76,11 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         self.isVideo = isVideo
         self.videoURLs = videoURLs ?? []
         self.collectionView1.reloadData()
+        
+        self.collectionView1.removeConstraint(heightConstraint)
+        heightConstraint = NSLayoutConstraint(item: self.collectionView1!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(145))
+        self.collectionView1.addConstraint(heightConstraint)
+        contentView.layoutIfNeeded()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
