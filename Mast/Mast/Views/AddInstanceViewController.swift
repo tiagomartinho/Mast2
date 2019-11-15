@@ -40,9 +40,9 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 10, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
+        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 20, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
         let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
-        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 90, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
     }
     
     override func viewDidLoad() {
@@ -63,9 +63,20 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        // Add button
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        let btn2 = UIButton(type: .custom)
+        btn2.setImage(UIImage(systemName: "xmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
+        btn2.accessibilityLabel = "Dismiss".localized
+        let settingsButton = UIBarButtonItem(customView: btn2)
+        self.navigationItem.setRightBarButton(settingsButton, animated: true)
+        
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell1")
+        self.tableView.contentInset.top = 0
         self.tableView.alpha = 1
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -83,14 +94,18 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
     }
     
+    @objc func crossTapped() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @objc func keyboardWillShow(notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
 
-            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 60 + self.keyHeight
-            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 90 + self.keyHeight
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 90, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
     
@@ -98,8 +113,8 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             self.keyHeight = CGFloat(0)
 
-            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50
-            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 90
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 90, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
     
@@ -129,6 +144,59 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         self.textField.text = "\(self.altInstances[indexPath.row])"
+        
+        GlobalStruct.newInstance = InstanceData()
+        GlobalStruct.newClient = Client(baseURL: "https://\(self.textField.text)")
+        let request = Clients.register(
+            clientName: "Mast",
+            redirectURI: "com.shi.Mast://addNewInstance",
+            scopes: [.read, .write, .follow, .push],
+            website: "https://twitter.com/jpeguin"
+        )
+        GlobalStruct.newClient.run(request) { (application) in
+            if application.value == nil {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "Not a valid instance (may be closed or dead)", message: "Please enter an instance name like mastodon.social or mastodon.technology, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .actionSheet)
+                    let op1 = UIAlertAction(title: "Find out more".localized, style: .default , handler:{ (UIAlertAction) in
+                        let queryURL = URL(string: "https://joinmastodon.org")!
+                        UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                            if !success {
+                                UIApplication.shared.open(queryURL)
+                            }
+                        }
+                    })
+                    op1.setValue(UIImage(systemName: "link.circle")!, forKey: "image")
+                    op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                    alert.addAction(op1)
+                    alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                    }))
+                    if let presenter = alert.popoverPresentationController {
+                        presenter.sourceView = self.view
+                        presenter.sourceRect = self.view.bounds
+                    }
+                    self.present(alert, animated: true, completion: nil)
+                }
+            } else {
+                let application = application.value!
+                GlobalStruct.newInstance?.clientID = application.clientID
+                GlobalStruct.newInstance?.clientSecret = application.clientSecret
+                GlobalStruct.newInstance?.returnedText = returnedText
+                GlobalStruct.newInstance?.redirect = "com.shi.Mast://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+                DispatchQueue.main.async {
+                    let queryURL = URL(string: "https://\(returnedText)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                    UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
+                        if !success {
+                            if (UserDefaults.standard.object(forKey: "linkdest") == nil) || (UserDefaults.standard.object(forKey: "linkdest") as! Int == 0) {
+                                self.safariVC = SFSafariViewController(url: queryURL)
+                                self.present(self.safariVC!, animated: true, completion: nil)
+                            } else {
+                                UIApplication.shared.open(queryURL, options: [:], completionHandler: nil)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func fetchAltInstances() {
@@ -195,11 +263,12 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        DispatchQueue.main.async {
+            self.textField.resignFirstResponder()
+        }
         let returnedText = (textField.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         if returnedText == "" || returnedText == " " || returnedText == "  " {} else {
             DispatchQueue.main.async {
-                self.textField.resignFirstResponder()
-                
                 if self.newInstance {
                     GlobalStruct.newInstance = InstanceData()
                     GlobalStruct.newClient = Client(baseURL: "https://\(returnedText)")
