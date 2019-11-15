@@ -67,6 +67,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func scrollTop2() {
         if self.tableView.alpha == 1 {
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                self.top1.alpha = 0
+                self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            }) { (completed: Bool) in
+            }
         }
         if self.tableView2.alpha == 1 {
             self.tableView2.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)

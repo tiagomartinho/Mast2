@@ -1337,11 +1337,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if let stat = (statuses.value) {
                     if stat.isEmpty {
                         DispatchQueue.main.async {
-                            self.tableView.cr.endHeaderRefresh()
+                            self.refreshControl.endRefreshing()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.tableView.cr.endHeaderRefresh()
+                            self.refreshControl.endRefreshing()
                             self.profileStatuses = stat
                             self.tableView.reloadSections(IndexSet([2]), with: .none)
                         }
