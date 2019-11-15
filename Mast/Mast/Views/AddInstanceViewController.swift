@@ -257,7 +257,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.textField.keyboardType = .URL
         self.textField.delegate = self
         self.textField.attributedPlaceholder = NSAttributedString(string: "Instance name...",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.55)])
+                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.45)])
         self.textField.accessibilityLabel = "Enter Instance Name".localized
         self.view.addSubview(self.textField)
     }
