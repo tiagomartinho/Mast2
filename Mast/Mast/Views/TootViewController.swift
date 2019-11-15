@@ -171,14 +171,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 } else {
                     GlobalStruct.mediaIDs = []
                 }
-                for x in GlobalStruct.photoToAttachArray {
-                    let request = Media.upload(media: .png(x))
+//                for x in GlobalStruct.photoToAttachArray {
+                    let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }
-                }
+//                }
             }
         }
     }
@@ -1001,14 +1001,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 } else {
                     GlobalStruct.mediaIDs = []
                 }
-                for x in GlobalStruct.gifVidDataToAttachArray {
-                    let request = Media.upload(media: .mp3(x))
+//                for x in GlobalStruct.gifVidDataToAttachArray {
+                    let request = Media.upload(media: .mp3(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }
-                }
+//                }
             }
             
         } else {
@@ -1033,14 +1033,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 } else {
                     GlobalStruct.mediaIDs = []
                 }
-                for x in GlobalStruct.photoToAttachArray {
-                    let request = Media.upload(media: .png(x))
+//                for x in GlobalStruct.photoToAttachArray {
+                    let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }
-                }
+//                }
             }
             
         }
@@ -1084,14 +1084,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     } else {
                         GlobalStruct.mediaIDs = []
                     }
-                    for x in GlobalStruct.gifVidDataToAttachArray {
-                        let request = Media.upload(media: .gif(x))
+//                    for x in GlobalStruct.gifVidDataToAttachArray {
+                        let request = Media.upload(media: .gif(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
                         GlobalStruct.client.run(request) { (statuses) in
                             if let stat = (statuses.value) {
                                 GlobalStruct.mediaIDs.append(stat.id)
                             }
                         }
-                    }
+//                    }
                 } catch {
                     print("error")
                 }
@@ -1116,14 +1116,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     } else {
                         GlobalStruct.mediaIDs = []
                     }
-                    for x in GlobalStruct.photoToAttachArray {
-                        let request = Media.upload(media: .png(x))
+//                    for x in GlobalStruct.photoToAttachArray {
+                        let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
                         GlobalStruct.client.run(request) { (statuses) in
                             if let stat = (statuses.value) {
                                 GlobalStruct.mediaIDs.append(stat.id)
                             }
                         }
-                    }
+//                    }
                 }
             }
         }
