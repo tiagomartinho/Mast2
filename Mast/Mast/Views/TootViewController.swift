@@ -692,17 +692,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         if self.replyStatus.isEmpty {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                placeholderLabel = UILabel()
-                placeholderLabel.text = "What's happening?".localized
-                placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
-                placeholderLabel.sizeToFit()
-                cell.textView.addSubview(placeholderLabel)
-                placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
-                placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
-                
+                if self.mentionAuthor == "" {
+                    placeholderLabel = UILabel()
+                    placeholderLabel.text = "What's happening?".localized
+                    placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
+                    placeholderLabel.sizeToFit()
+                    cell.textView.addSubview(placeholderLabel)
+                    placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
+                    placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
+                } else {
+                    let theText = "@\(self.mentionAuthor) "
+                    cell.textView.text = theText
+                }
                 cell.textView.becomeFirstResponder()
                 if cell.textView.text.isEmpty {
                     self.isModalInPresentation = false
@@ -712,22 +715,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if self.mentionAuthor == "" {
-                    if let statusAuthor = self.replyStatus.first {
-                        var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
-                        var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
-                        if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
-                            mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
-                            allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
-                        }
-                        let allUsers = allAccounts.map{ "@\($0)" }
-                        var theText = allUsers.reduce("") { $0 + $1 + " " }
-                        theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
-                        theText = theText.replacingOccurrences(of: "  ", with: " ")
-                        cell.textView.text = theText
+                if let statusAuthor = self.replyStatus.first {
+                    var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
+                    var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                    if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
+                        mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
+                        allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
                     }
-                } else {
-                    var theText = "@\(self.mentionAuthor) "
+                    let allUsers = allAccounts.map{ "@\($0)" }
+                    var theText = allUsers.reduce("") { $0 + $1 + " " }
+                    theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
+                    theText = theText.replacingOccurrences(of: "  ", with: " ")
                     cell.textView.text = theText
                 }
             }
