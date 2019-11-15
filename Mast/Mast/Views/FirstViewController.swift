@@ -1981,6 +1981,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.loginLogo.removeFromSuperview()
         self.loginLabel.removeFromSuperview()
         self.textField.removeFromSuperview()
+        self.tableViewIntro.removeFromSuperview()
         self.safariVC?.dismiss(animated: true, completion: nil)
         
         var request = URLRequest(url: URL(string: "https://\(GlobalStruct.currentInstance.returnedText)/oauth/token?grant_type=authorization_code&code=\(GlobalStruct.currentInstance.authCode)&redirect_uri=\(GlobalStruct.currentInstance.redirect)&client_id=\(GlobalStruct.currentInstance.clientID)&client_secret=\(GlobalStruct.currentInstance.clientSecret)&scope=read%20write%20follow%20push")!)
