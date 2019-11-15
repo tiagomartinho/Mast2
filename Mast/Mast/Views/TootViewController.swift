@@ -39,6 +39,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var images: [PHAsset] = []
     var selectedImages: [Int] = []
     var replyStatus: [Status] = []
+    var mentionAuthor: String = ""
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
     var placeholderLabel = UILabel()
@@ -711,17 +712,22 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if let statusAuthor = self.replyStatus.first {
-                    var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
-                    var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
-                    if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
-                        mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
-                        allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                if self.mentionAuthor == "" {
+                    if let statusAuthor = self.replyStatus.first {
+                        var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
+                        var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                        if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
+                            mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
+                            allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                        }
+                        let allUsers = allAccounts.map{ "@\($0)" }
+                        var theText = allUsers.reduce("") { $0 + $1 + " " }
+                        theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
+                        theText = theText.replacingOccurrences(of: "  ", with: " ")
+                        cell.textView.text = theText
                     }
-                    let allUsers = allAccounts.map{ "@\($0)" }
-                    var theText = allUsers.reduce("") { $0 + $1 + " " }
-                    theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
-                    theText = theText.replacingOccurrences(of: "  ", with: " ")
+                } else {
+                    var theText = "@\(self.mentionAuthor) "
                     cell.textView.text = theText
                 }
             }

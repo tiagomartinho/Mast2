@@ -744,7 +744,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
             let op2 = UIAlertAction(title: " \("Mention".localized)", style: .default , handler:{ (UIAlertAction) in
-                
+                let vc = TootViewController()
+                vc.mentionAuthor = self.pickedCurrentUser.acct
+                self.show(UINavigationController(rootViewController: vc), sender: self)
             })
             op2.setValue(UIImage(systemName: "arrowshape.turn.up.left")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
