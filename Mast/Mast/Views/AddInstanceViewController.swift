@@ -33,13 +33,42 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
     var textField = PaddedTextField()
     var safariVC: SFSafariViewController?
     var newInstance: Bool = false
+    var altInstances: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.createLoginView(newInstance: true)
         
+        self.fetchAltInstances()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
+    }
+    
+    func fetchAltInstances() {
+        let urlStr = "https://instances.social/api/1.0/instances/list?count=\(100)&include_closed=\(false)&include_down=\(false)"
+        let url: URL = URL(string: urlStr)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("Bearer 8gVQzoU62VFjvlrdnBUyAW8slAekA5uyuwdMi0CBzwfWwyStkqQo80jTZemuSGO8QomSycdD1JYgdRUnJH0OVT3uYYUilPMenrRZupuMQLl9hVt6xnhV6bwdXVSAT1wR", forHTTPHeaderField: "Authorization")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let task = session.dataTask(with: request) { (data, response, err) in
+            do {
+                let json = try JSONDecoder().decode(tagInstances.self, from: data ?? Data())
+                for x in json.instances {
+                    DispatchQueue.main.async {
+                        self.altInstances.append(x.name)
+                        print(self.altInstances)
+                    }
+                }
+            } catch {
+                print("err")
+            }
+        }
+        task.resume()
     }
     
     func createLoginView(newInstance: Bool = false) {
