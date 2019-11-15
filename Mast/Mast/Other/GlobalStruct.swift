@@ -86,7 +86,7 @@ class GlobalStruct {
 }
 
 class PaddedTextField: UITextField {
-    let padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+    let padding = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
     }

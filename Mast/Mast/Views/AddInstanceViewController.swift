@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SafariServices
 
-class AddInstanceViewController: UIViewController, UITextFieldDelegate {
+class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -34,15 +34,101 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
     var safariVC: SFSafariViewController?
     var newInstance: Bool = false
     var altInstances: [String] = []
+    var tableView = UITableView()
+    var keyHeight: CGFloat = 0
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left, y: self.navigationController?.navigationBar.frame.height ?? 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: 50)
+        let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
+        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 50, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.createLoginView(newInstance: true)
         
+        self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
+        self.title = "Add New Instance".localized
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
+        
+        self.navigationController?.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.navigationController?.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        self.tableView = UITableView(frame: .zero, style: .insetGrouped)
+        self.tableView = UITableView(frame: .zero, style: .insetGrouped)
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell1")
+        self.tableView.alpha = 1
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.backgroundColor = .clear
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
+        self.tableView.layer.masksToBounds = true
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.view.addSubview(self.tableView)
+        self.tableView.tableFooterView = UIView()
+        
         self.fetchAltInstances()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.newInstanceLogged), name: NSNotification.Name(rawValue: "newInstanceLogged"), object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.keyHeight = CGFloat(keyboardHeight)
+
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 50, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            self.keyHeight = CGFloat(0)
+
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 50, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessoryType = .disclosureIndicator
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.altInstances.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell1", for: indexPath)
+        cell.textLabel?.text = self.altInstances[indexPath.row]
+        cell.textLabel?.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
+        cell.backgroundColor = UIColor(named: "baseWhite")!
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor(named: "baseWhite")!
+        cell.selectedBackgroundView = bgColorView
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        self.textField.text = "\(self.altInstances[indexPath.row])"
     }
     
     func fetchAltInstances() {
@@ -58,11 +144,13 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
         let task = session.dataTask(with: request) { (data, response, err) in
             do {
                 let json = try JSONDecoder().decode(tagInstances.self, from: data ?? Data())
-                for x in json.instances {
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    for x in json.instances {
                         self.altInstances.append(x.name)
-                        print(self.altInstances)
                     }
+                    self.altInstances.insert("mastodon.technology", at: 0)
+                    self.altInstances.insert("mastodon.social", at: 0)
+                    self.tableView.reloadData()
                 }
             } catch {
                 print("err")
@@ -75,21 +163,20 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate {
         self.newInstance = newInstance
         self.loginBG.frame = self.view.frame
         self.loginBG.backgroundColor = GlobalStruct.baseDarkTint
-        self.view.addSubview(self.loginBG)
+//        self.view.addSubview(self.loginBG)
         
         self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: self.view.bounds.height/4 - 40, width: 80, height: 80)
         self.loginLogo.image = UIImage(named: "logLogo")
         self.loginLogo.contentMode = .scaleAspectFit
         self.loginLogo.backgroundColor = UIColor.clear
-        self.view.addSubview(self.loginLogo)
+//        self.view.addSubview(self.loginLogo)
         
         self.loginLabel.frame = CGRect(x: 50, y: self.view.bounds.height/2 - 57.5, width: self.view.bounds.width - 80, height: 35)
         self.loginLabel.text = "Instance name:".localized
         self.loginLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.6)
         self.loginLabel.font = UIFont.systemFont(ofSize: 14)
-        self.view.addSubview(self.loginLabel)
+//        self.view.addSubview(self.loginLabel)
         
-        self.textField.frame = CGRect(x: 40, y: self.view.bounds.height/2 - 22.5, width: self.view.bounds.width - 80, height: 45)
         self.textField.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.04)
         self.textField.borderStyle = .none
         self.textField.layer.cornerRadius = 5
