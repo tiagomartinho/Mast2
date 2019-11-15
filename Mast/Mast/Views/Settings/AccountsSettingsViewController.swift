@@ -65,7 +65,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     
     @objc func addTapped() {
         DispatchQueue.main.async {
-            let vc = AddInstanceViewController()
+            let vc = UINavigationController(rootViewController: AddInstanceViewController())
             self.present(vc, animated: true, completion: {
 //                vc.textField.becomeFirstResponder()
             })

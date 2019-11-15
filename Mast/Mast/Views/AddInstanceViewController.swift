@@ -40,9 +40,9 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left, y: self.navigationController?.navigationBar.frame.height ?? 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: 50)
+        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 10, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
         let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
-        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 50, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + self.view.safeAreaInsets.top + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
     }
     
     override func viewDidLoad() {
@@ -89,8 +89,8 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
             let keyboardHeight = keyboardRectangle.height
             self.keyHeight = CGFloat(keyboardHeight)
 
-            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50 + self.keyHeight
-            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 50, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+            let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 60 + self.keyHeight
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
     
@@ -99,7 +99,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
             self.keyHeight = CGFloat(0)
 
             let part1 = (self.navigationController?.navigationBar.frame.height ?? 0) + 50
-            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 50, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+            self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: (self.navigationController?.navigationBar.frame.height ?? 0) + 60, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
         }
     }
     
@@ -177,9 +177,10 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.loginLabel.font = UIFont.systemFont(ofSize: 14)
 //        self.view.addSubview(self.loginLabel)
         
-        self.textField.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.04)
+        self.textField.backgroundColor = UIColor(named: "baseWhite")!
         self.textField.borderStyle = .none
-        self.textField.layer.cornerRadius = 5
+        self.textField.layer.cornerRadius = 6
+        self.textField.layer.cornerCurve = .continuous
         self.textField.textColor = UIColor(named: "baseBlack")
         self.textField.spellCheckingType = .no
         self.textField.returnKeyType = .done
@@ -187,9 +188,9 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.textField.autocapitalizationType = .none
         self.textField.keyboardType = .URL
         self.textField.delegate = self
-        self.textField.attributedPlaceholder = NSAttributedString(string: "mastodon.social",
+        self.textField.attributedPlaceholder = NSAttributedString(string: "Instance name...",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        self.textField.accessibilityLabel = "Enter Instance".localized
+        self.textField.accessibilityLabel = "Enter Instance Name".localized
         self.view.addSubview(self.textField)
     }
     
