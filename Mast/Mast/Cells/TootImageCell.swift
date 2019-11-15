@@ -98,7 +98,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         heart.translatesAutoresizingMaskIntoConstraints = false
-        heart.backgroundColor = GlobalStruct.baseDarkTint
+        heart.backgroundColor = .clear
         heart.contentMode = .scaleAspectFit
         heart.alpha = 0
         contentView.addSubview(heart)
