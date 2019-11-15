@@ -179,7 +179,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         
         self.textField.backgroundColor = UIColor(named: "baseWhite")!
         self.textField.borderStyle = .none
-        self.textField.layer.cornerRadius = 6
+        self.textField.layer.cornerRadius = 8
         self.textField.layer.cornerCurve = .continuous
         self.textField.textColor = UIColor(named: "baseBlack")
         self.textField.spellCheckingType = .no
@@ -189,7 +189,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         self.textField.keyboardType = .URL
         self.textField.delegate = self
         self.textField.attributedPlaceholder = NSAttributedString(string: "Instance name...",
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.75)])
+                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray.withAlphaComponent(0.55)])
         self.textField.accessibilityLabel = "Enter Instance Name".localized
         self.view.addSubview(self.textField)
     }
