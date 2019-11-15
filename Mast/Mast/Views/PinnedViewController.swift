@@ -124,13 +124,8 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        let anim = FastAnimator()
-        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
-            self?.refresh()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                self?.tableView.cr.endHeaderRefresh()
-            })
-        }
+        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        self.tableView.addSubview(self.refreshControl)
         
         self.statusesPinned = []
         self.initialFetches()
@@ -171,17 +166,17 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         }
     }
     
-    @objc func refresh() {
+    @objc func refresh(_ sender: AnyObject) {
         let request = Accounts.statuses(id: self.userId, mediaOnly: nil, pinnedOnly: true, excludeReplies: nil, range: .since(id: self.statusesPinned.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.tableView.cr.endHeaderRefresh()
+                        self.refreshControl.endRefreshing()
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.tableView.cr.endHeaderRefresh()
+                        self.refreshControl.endRefreshing()
                         self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top1.alpha = 1

@@ -198,16 +198,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
         
-        let anim = FastAnimator()
-        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
-            self?.refresh()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                self?.tableView.cr.endHeaderRefresh()
-            })
-        }
+        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        self.tableView.addSubview(self.refreshControl)
     }
     
-    @objc func refresh() {
+    @objc func refresh(_ sender: AnyObject) {
         self.fetchUserDataRefresh()
     }
     
@@ -1301,11 +1296,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if let stat = (statuses.value) {
                     if stat.isEmpty {
                         DispatchQueue.main.async {
-                            self.tableView.cr.endHeaderRefresh()
+                            self.refreshControl.endRefreshing()
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.tableView.cr.endHeaderRefresh()
+                            self.refreshControl.endRefreshing()
                             let indexPaths = (0..<stat.count).map {
                                 IndexPath(row: $0, section: 2)
                             }

@@ -165,13 +165,8 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.initialFetches()
         }
         
-        let anim = FastAnimator()
-        tableView.cr.addHeadRefresh(animator: anim) { [weak self] in
-            self?.refresh()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                self?.tableView.cr.endHeaderRefresh()
-            })
-        }
+        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        self.tableView.addSubview(self.refreshControl)
         
         // Top buttons
         let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
@@ -216,17 +211,17 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    @objc func refresh() {
+    @objc func refresh(_ sender: AnyObject) {
         let request = Timelines.conversations(range: .since(id: GlobalStruct.notificationsDirect.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
                     DispatchQueue.main.async {
-                        self.tableView.cr.endHeaderRefresh()
+                        self.refreshControl.endRefreshing()
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.tableView.cr.endHeaderRefresh()
+                        self.refreshControl.endRefreshing()
                         self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                         UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                             self.top1.alpha = 1
