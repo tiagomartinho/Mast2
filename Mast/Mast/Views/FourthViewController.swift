@@ -27,6 +27,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         return false
     }
     var tableView = UITableView()
+    var refreshControl = UIRefreshControl()
     var statusesSuggested: [Account] = []
     var txt = ""
     
@@ -175,6 +176,28 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
+        
+        self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        self.tableView.addSubview(self.refreshControl)
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        let request = Accounts.followSuggestions()
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                        self.statusesSuggested = stat
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
     
     func initialFetches() {
