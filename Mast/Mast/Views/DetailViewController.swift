@@ -636,13 +636,23 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
             let op6 = UIAlertAction(title: " \("Delete and Redraft".localized)", style: .destructive , handler:{ (UIAlertAction) in
-                
+                let request = Statuses.delete(id: self.pickedStatusesHome[0].id)
+                GlobalStruct.client.run(request) { (statuses) in
+                    DispatchQueue.main.async {
+                        let vc = TootViewController()
+                        vc.duplicateStatus = self.pickedStatusesHome
+                        self.show(UINavigationController(rootViewController: vc), sender: self)
+                    }
+                }
             })
             op6.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
             op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op6)
             let op5 = UIAlertAction(title: " \("Delete".localized)", style: .destructive , handler:{ (UIAlertAction) in
-                
+                let request = Statuses.delete(id: self.pickedStatusesHome[0].id)
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
             })
             op5.setValue(UIImage(systemName: "xmark")!, forKey: "image")
             op5.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
