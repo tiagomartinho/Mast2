@@ -245,6 +245,20 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     
     @objc func didTouchSend(sender: UIButton) {
         guard let thText = self.messageInputBar.inputTextView.text else { return }
+        let sender = Sender(id: "1", displayName: "\(GlobalStruct.currentUser.acct)")
+        let x = MockMessage.init(text: thText, sender: sender, messageId: "18982", date: Date())
+        let request0 = Statuses.create(status: "@\(self.lastUser) \(String(describing: thText))", replyToID: self.mainStatus[0].id, mediaIDs: [], sensitive: self.mainStatus[0].sensitive, spoilerText: "", scheduledAt: nil, poll: nil, visibility: .direct)
+        GlobalStruct.client.run(request0) { (statuses) in
+            DispatchQueue.main.async {
+                if let stat = statuses.value {
+                    self.allPosts.append(stat)
+                    self.messages.append(x)
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToBottom()
+                    self.messageInputBar.inputTextView.text = ""
+                }
+            }
+        }
     }
     
     func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
