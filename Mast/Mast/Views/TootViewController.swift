@@ -1294,11 +1294,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         scanA.setValue(UIImage(systemName: "doc.text.viewfinder")!, forKey: "image")
         scanA.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(scanA)
-        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                cell.textView.becomeFirstResponder()
-            }
-        }))
 //        let op3 = UIAlertAction(title: "  \("Audio".localized)", style: .default , handler:{ (UIAlertAction) in
 //            self.moreAudio()
 //        })
@@ -1342,6 +1337,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         op4.setValue(UIImage(systemName: "music.note")!, forKey: "image")
         op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op4)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                cell.textView.becomeFirstResponder()
+            }
+        }))
         
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = self.x1.value(forKey: "view") as? UIView
