@@ -55,11 +55,25 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.loginBG.frame = self.view.frame
-        self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
-        self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
+        #if targetEnvironment(macCatalyst)
+        let theWid = self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right
+        self.loginLogo.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
+        self.textField.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
+        self.tableViewIntro.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
+        #elseif !targetEnvironment(macCatalyst)
+        self.loginBG.frame = UIApplication.applicationWindow.screen.bounds
         let part1 = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210 + self.keyHeight
-        self.tableViewIntro.frame = CGRect(x: self.view.safeAreaInsets.left, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            let theWid = self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right
+            self.loginLogo.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
+            self.textField.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
+            self.tableViewIntro.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
+        } else {
+            self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
+            self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
+            self.tableViewIntro.frame = CGRect(x: self.view.safeAreaInsets.left, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
+        }
+        #endif
         
         #if targetEnvironment(macCatalyst)
         self.segment.frame = CGRect(x: 15, y: (self.navigationController?.navigationBar.bounds.height ?? 0) + 5, width: self.view.bounds.width - 30, height: segment.bounds.height)
