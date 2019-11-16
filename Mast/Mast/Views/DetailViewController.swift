@@ -639,6 +639,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 let request = Statuses.delete(id: self.pickedStatusesHome[0].id)
                 GlobalStruct.client.run(request) { (statuses) in
                     DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
                         let vc = TootViewController()
                         vc.duplicateStatus = self.pickedStatusesHome
                         self.show(UINavigationController(rootViewController: vc), sender: self)
@@ -651,7 +652,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             let op5 = UIAlertAction(title: " \("Delete".localized)", style: .destructive , handler:{ (UIAlertAction) in
                 let request = Statuses.delete(id: self.pickedStatusesHome[0].id)
                 GlobalStruct.client.run(request) { (statuses) in
-                    
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
             })
             op5.setValue(UIImage(systemName: "xmark")!, forKey: "image")

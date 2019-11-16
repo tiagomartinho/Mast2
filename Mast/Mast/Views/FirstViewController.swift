@@ -1569,7 +1569,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
                 let request = Statuses.delete(id: status[indexPath.row].id)
                 GlobalStruct.client.run(request) { (statuses) in
+                    DispatchQueue.main.async {
                     
+                    }
                 }
             }
             del2.attributes = .destructive
