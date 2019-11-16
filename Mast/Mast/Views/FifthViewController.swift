@@ -170,6 +170,8 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
+        GlobalStruct.isFollowing = false
+        
         if self.isTapped {
             self.initialLoad()
         } else {
