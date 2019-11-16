@@ -134,7 +134,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         
         statusBarView.backgroundColor = UIColor(named: "baseWhite")!
-        view.addSubview(statusBarView)
+        self.view.addSubview(statusBarView)
         
         self.createTabBar()
         self.tabBar.barTintColor = GlobalStruct.baseDarkTint

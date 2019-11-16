@@ -681,7 +681,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op3)
             let op4 = UIAlertAction(title: " \("Duplicate".localized)", style: .default , handler:{ (UIAlertAction) in
-                
+                let vc = TootViewController()
+                vc.duplicateStatus = self.pickedStatusesHome
+                self.show(UINavigationController(rootViewController: vc), sender: self)
             })
             op4.setValue(UIImage(systemName: "doc.on.doc")!, forKey: "image")
             op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")

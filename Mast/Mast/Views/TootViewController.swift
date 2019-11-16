@@ -40,6 +40,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var selectedImages: [Int] = []
     var replyStatus: [Status] = []
     var mentionAuthor: String = ""
+    var duplicateStatus: [Status] = []
     let photoPickerView = UIImagePickerController()
     var allPrevious: [Status] = []
     var placeholderLabel = UILabel()
@@ -318,7 +319,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let attString = NSAttributedString(attachment: attachment)
             let normalFont = UIFont.systemFont(ofSize: 14)
             let attStringNewLine = NSMutableAttributedString(string: "", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
-            let attStringNewLine2 = NSMutableAttributedString(string: " \("Replying to".localized) @\(replyStatus.first?.account.acct ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
+            let attStringNewLine2 = NSMutableAttributedString(string: " \("Replying to".localized) @\(replyStatus.first?.account.username ?? "")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(0.36)])
             attStringNewLine.append(attString)
             attStringNewLine.append(attStringNewLine2)
             replyText.attributedText = attStringNewLine
@@ -694,17 +695,24 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         super.viewDidAppear(true)
         if self.replyStatus.isEmpty {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if self.mentionAuthor == "" {
-                    placeholderLabel = UILabel()
-                    placeholderLabel.text = "What's happening?".localized
-                    placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
-                    placeholderLabel.sizeToFit()
-                    cell.textView.addSubview(placeholderLabel)
-                    placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
-                    placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
-                } else {
-                    let theText = "@\(self.mentionAuthor) "
+                if !self.duplicateStatus.isEmpty {
+                    let theText = "\(self.duplicateStatus.first?.content ?? "")"
                     cell.textView.text = theText
+                    let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+                    self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+                } else {
+                    if self.mentionAuthor == "" {
+                        placeholderLabel = UILabel()
+                        placeholderLabel.text = "What's happening?".localized
+                        placeholderLabel.font = UIFont.systemFont(ofSize: (cell.textView.font?.pointSize)!)
+                        placeholderLabel.sizeToFit()
+                        cell.textView.addSubview(placeholderLabel)
+                        placeholderLabel.frame.origin = CGPoint(x: 25, y: 10)
+                        placeholderLabel.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.3)
+                    } else {
+                        let theText = "@\(self.mentionAuthor) "
+                        cell.textView.text = theText
+                    }
                 }
                 cell.textView.becomeFirstResponder()
                 if cell.textView.text.isEmpty {

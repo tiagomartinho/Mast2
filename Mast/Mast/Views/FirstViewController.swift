@@ -1720,7 +1720,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func duplicateThis(_ stat: [Status]) {
-        
+        let vc = TootViewController()
+        vc.duplicateStatus = stat
+        self.show(UINavigationController(rootViewController: vc), sender: self)
     }
     
     func reportThis(_ stat: [Status]) {
