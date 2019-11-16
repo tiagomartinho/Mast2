@@ -51,11 +51,21 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var statusesFed: [Status] = []
     var keyHeight: CGFloat = 0
     var altInstances: [String] = []
-    var fullWid = UIApplication.applicationWindow.screen.bounds.width
-    var fullHe = UIApplication.applicationWindow.screen.bounds.height
+    var fullWid = UIScreen.main.bounds.width
+    var fullHe = UIScreen.main.bounds.height
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        let statusBarOrientation = UIApplication.shared.statusBarOrientation
+        if (statusBarOrientation != UIInterfaceOrientation.portrait
+            && statusBarOrientation != UIInterfaceOrientation.portraitUpsideDown) {
+            self.fullHe = UIScreen.main.bounds.width
+            self.fullWid = UIScreen.main.bounds.height
+        } else {
+            self.fullHe = UIScreen.main.bounds.height
+            self.fullWid = UIScreen.main.bounds.width
+        }
         
         #if targetEnvironment(macCatalyst)
         let theWid = self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right
@@ -71,10 +81,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.loginLogo.frame = CGRect(x: self.fullWid/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
             self.textField.frame = CGRect(x: self.fullWid/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
             self.tableViewIntro.frame = CGRect(x: self.fullWid/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
-            
-            self.loginLogo.centerXAnchor.constraint(equalTo: UIApplication.applicationWindow.rootViewController!.view.centerXAnchor).isActive = true
-            self.textField.centerXAnchor.constraint(equalTo: UIApplication.applicationWindow.rootViewController!.view.centerXAnchor).isActive = true
-            self.tableViewIntro.centerXAnchor.constraint(equalTo: UIApplication.applicationWindow.rootViewController!.view.centerXAnchor).isActive = true
         } else {
             self.loginBG.frame = UIApplication.applicationWindow.screen.bounds
             self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
@@ -1763,6 +1769,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func createLoginView(newInstance: Bool = false) {
+        
+        let statusBarOrientation = UIApplication.shared.statusBarOrientation
+        if (statusBarOrientation != UIInterfaceOrientation.portrait
+            && statusBarOrientation != UIInterfaceOrientation.portraitUpsideDown) {
+            self.fullHe = UIScreen.main.bounds.width
+            self.fullWid = UIScreen.main.bounds.height
+        } else {
+            self.fullHe = UIScreen.main.bounds.height
+            self.fullWid = UIScreen.main.bounds.width
+        }
+        
         self.newInstance = newInstance
         self.loginBG.backgroundColor = UIColor(named: "lighterBaseWhite")
         UIApplication.shared.windows.first?.addSubview(self.loginBG)
