@@ -51,24 +51,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var statusesFed: [Status] = []
     var keyHeight: CGFloat = 0
     var altInstances: [String] = []
+    var fullWid = UIApplication.applicationWindow.screen.bounds.width
+    var fullHe = UIApplication.applicationWindow.screen.bounds.height
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         #if targetEnvironment(macCatalyst)
         let theWid = self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right
-        self.loginLogo.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
-        self.textField.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
-        self.tableViewIntro.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
-        #elseif !targetEnvironment(macCatalyst)
         self.loginBG.frame = UIApplication.applicationWindow.screen.bounds
+        self.loginLogo.frame = CGRect(x: self.fullWid/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
+        self.textField.frame = CGRect(x: self.fullWid/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
+        self.tableViewIntro.frame = CGRect(x: self.fullWid/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
+        #elseif !targetEnvironment(macCatalyst)
         let part1 = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210 + self.keyHeight
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             let theWid = self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right
-            self.loginLogo.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
-            self.textField.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
-            self.tableViewIntro.frame = CGRect(x: UIApplication.applicationWindow.screen.bounds.width/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
+            self.loginBG.frame = CGRect(x: 0, y: 0, width: self.fullWid, height: self.fullHe)
+            self.loginLogo.frame = CGRect(x: self.fullWid/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
+            self.textField.frame = CGRect(x: self.fullWid/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
+            self.tableViewIntro.frame = CGRect(x: self.fullWid/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
         } else {
+            self.loginBG.frame = UIApplication.applicationWindow.screen.bounds
             self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
             self.textField.frame = CGRect(x: self.view.safeAreaInsets.left + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right - 40, height: 50)
             self.tableViewIntro.frame = CGRect(x: self.view.safeAreaInsets.left, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height - part1)
