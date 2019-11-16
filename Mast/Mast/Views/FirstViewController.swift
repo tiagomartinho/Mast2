@@ -71,6 +71,10 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.loginLogo.frame = CGRect(x: self.fullWid/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
             self.textField.frame = CGRect(x: self.fullWid/2 - (theWid/2) + 20, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 140, width: theWid - 40, height: 50)
             self.tableViewIntro.frame = CGRect(x: self.fullWid/2 - (theWid/2), y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210, width: theWid, height: self.view.bounds.height - part1)
+            
+            self.loginLogo.centerXAnchor.constraint(equalTo: UIApplication.applicationWindow.rootViewController!.view.centerXAnchor).isActive = true
+            self.textField.centerXAnchor.constraint(equalTo: UIApplication.applicationWindow.rootViewController!.view.centerXAnchor).isActive = true
+            self.tableViewIntro.centerXAnchor.constraint(equalTo: UIApplication.applicationWindow.rootViewController!.view.centerXAnchor).isActive = true
         } else {
             self.loginBG.frame = UIApplication.applicationWindow.screen.bounds
             self.loginLogo.frame = CGRect(x: self.view.bounds.width/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
