@@ -644,7 +644,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             
         }))
         if let presenter = alert.popoverPresentationController {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? ProfileCell {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
                 presenter.sourceView = cell.more
                 presenter.sourceRect = cell.more.bounds
             }
