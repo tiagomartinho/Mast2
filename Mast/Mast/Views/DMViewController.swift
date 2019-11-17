@@ -90,13 +90,14 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         
         let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
         layout?.setMessageOutgoingAvatarSize(.zero)
+        layout?.setMessageIncomingAvatarSize(.zero)
         
         messageInputBar.backgroundColor = GlobalStruct.baseDarkTint
-        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+//        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             messageInputBar.separatorLine.isHidden = false
-        } else {
-            messageInputBar.separatorLine.isHidden = true
-        }
+//        } else {
+//            messageInputBar.separatorLine.isHidden = true
+//        }
         messageInputBar.separatorLine.height = 2
         messageInputBar.separatorLine.backgroundColor = UIColor(named: "lighterBaseWhite")
         messageInputBar.separatorLine.tintColor = UIColor(named: "lighterBaseWhite")
@@ -111,7 +112,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 11, left: 10, bottom: 4, right: 10)
         messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 9, left: 2, bottom: 5, right: 5)
         messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
-        messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
+        messageInputBar.setLeftStackViewWidthConstant(to: 5, animated: false)
         messageInputBar.sendButton.imageView?.backgroundColor = UIColor.clear
         messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
@@ -137,7 +138,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
             }
         allButton.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.2), renderingMode: .alwaysOriginal)
         let bottomItems = [allButton]
-        messageInputBar.setStackViewItems(bottomItems, forStack: .left, animated: false)
+//        messageInputBar.setStackViewItems(bottomItems, forStack: .left, animated: false)
         
         if self.mainStatus.isEmpty {} else {
             let request = Statuses.context(id: self.mainStatus[0].reblog?.id ?? self.mainStatus[0].id)
@@ -229,15 +230,6 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         return Sender(id: "1", displayName: "\(GlobalStruct.currentUser.acct)")
     }
     
-    func didTapAvatar(in cell: MessageCollectionViewCell) {
-        let pos: CGPoint = cell.convert(CGPoint.zero, to: messagesCollectionView)
-        let indexPath = messagesCollectionView.indexPathForItem(at: pos)
-        let vc = FifthViewController()
-        vc.isYou = false
-        vc.pickedCurrentUser = self.allPosts[indexPath?.section ?? 0].account
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     func didTapMessage(in cell: MessageCollectionViewCell) {
         let pos: CGPoint = cell.convert(CGPoint.zero, to: messagesCollectionView)
         let indexPath = messagesCollectionView.indexPathForItem(at: pos)
@@ -266,14 +258,19 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         return messages[indexPath.section].sender.displayName == messages[indexPath.section + 1].sender.displayName
     }
     
-    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        let avString = self.allPosts[indexPath.section].account.avatar
-        let url = URL(string: avString)
-        let imageData = try! Data(contentsOf: url!)
-        let image1 = UIImage(data: imageData)
-        let avatar = Avatar(image: image1, initials: "")
-        avatarView.set(avatar: avatar)
-        avatarView.isHidden = isNextMessageSameSender(at: indexPath)
+//    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+//        let avString = self.allPosts[indexPath.section].account.avatar
+//        let url = URL(string: avString)
+//        let imageData = try! Data(contentsOf: url!)
+//        let image1 = UIImage(data: imageData)
+//        let avatar = Avatar(image: image1, initials: "")
+//        avatarView.set(avatar: avatar)
+//        avatarView.isHidden = isNextMessageSameSender(at: indexPath)
+//    }
+    
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
+        return .bubbleTail(tail, .curved)
     }
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
