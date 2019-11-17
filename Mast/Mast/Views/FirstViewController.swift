@@ -309,8 +309,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let item00 = UIApplicationShortcutItem(type: "com.shi.Mast.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
         item00.accessibilityLabel = "New Toot"
         let icon0 = UIApplicationShortcutIcon(systemImageName: "bell")
-        let item0 = UIApplicationShortcutItem(type: "com.shi.Mast.Notifications", localizedTitle: "View Notiications".localized, localizedSubtitle: nil, icon: icon0, userInfo: nil)
-        item0.accessibilityLabel = "View Notiications"
+        let item0 = UIApplicationShortcutItem(type: "com.shi.Mast.Notifications", localizedTitle: "View Notifications".localized, localizedSubtitle: nil, icon: icon0, userInfo: nil)
+        item0.accessibilityLabel = "View Notifications"
         let icon1 = UIApplicationShortcutIcon(systemImageName: "paperplane")
         let item1 = UIApplicationShortcutItem(type: "com.shi.Mast.Messages", localizedTitle: "View Messages".localized, localizedSubtitle: nil, icon: icon1, userInfo: nil)
         item1.accessibilityLabel = "View Messages"

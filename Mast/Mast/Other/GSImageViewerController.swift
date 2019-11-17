@@ -441,9 +441,30 @@ open class GSImageViewerController: UIViewController {
     // MARK: Gesture
     
     @objc fileprivate func singleTap() {
-        if navigationController == nil || (presentingViewController != nil && navigationController!.viewControllers.count <= 1) {
-            dismiss(animated: true, completion: dismissCompletion)
+//        if navigationController == nil || (presentingViewController != nil && navigationController!.viewControllers.count <= 1) {
+//            dismiss(animated: true, completion: dismissCompletion)
+//        }
+        
+        if self.detailView.alpha == 1 {
+            UIView.animate(withDuration: 0.14,
+                           animations: {
+                            self.detailView.alpha = 0
+                            self.detailView2.alpha = 0
+                            self.detailText.alpha = 0
+            },
+                           completion: { _ in
+            })
+        } else {
+            UIView.animate(withDuration: 0.14,
+                           animations: {
+                            self.detailView.alpha = 1
+                            self.detailView2.alpha = 1
+                            self.detailText.alpha = 1
+            },
+                           completion: { _ in
+            })
         }
+        
     }
     
     @objc fileprivate func doubleTap(_ gesture: UITapGestureRecognizer) {
