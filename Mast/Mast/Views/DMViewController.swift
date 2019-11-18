@@ -39,6 +39,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     var allPrevious: [Status] = []
     var allReplies: [Status] = []
     var allPosts: [Status] = []
+    let playerViewController = AVPlayerViewController()
     var player = AVPlayer()
     var safariVC: SFSafariViewController?
     var lastUser = ""
@@ -233,6 +234,28 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     func didTapMessage(in cell: MessageCollectionViewCell) {
         let pos: CGPoint = cell.convert(CGPoint.zero, to: messagesCollectionView)
         let indexPath = messagesCollectionView.indexPathForItem(at: pos)
+        guard self.allPosts[indexPath?.section ?? 0].mediaAttachments.count > 0 else { return }
+        
+        let beginBit = self.allPosts[indexPath?.section ?? 0]
+        
+        if beginBit.mediaAttachments[0].type == .video || beginBit.mediaAttachments[0].type == .gifv || beginBit.mediaAttachments[0].type == .audio {
+            
+            if let ur = URL(string: images[indexPath.row].url) {
+                self.player = AVPlayer(url: ur)
+                self.playerViewController.player = self.player
+                self.view.present(playerViewController, animated: true) {
+                    self.playerViewController.player!.play()
+                }
+            }
+            
+        } else {
+            
+            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+            self.view.present(imageViewer, animated: true, completion: nil)
+            
+        }
     }
     
     @objc func didTouchSend(sender: UIButton) {
