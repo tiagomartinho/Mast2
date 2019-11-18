@@ -966,8 +966,13 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        
+        GlobalStruct.avaFile = "\(GlobalStruct.avaFile)\(Int.random(in: 10...5000000))"
+        GlobalStruct.heaFile = "\(GlobalStruct.heaFile)\(Int.random(in: 10...5000000))"
+        
         self.cropViewController.dismiss(animated: true, completion: nil)
         if self.editType == 0 {
+            GlobalStruct.medType = 1
             let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: .png(image.pngData()), header: nil)
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
@@ -975,6 +980,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
         } else {
+            GlobalStruct.medType = 2
             let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: .png(image.pngData()))
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {

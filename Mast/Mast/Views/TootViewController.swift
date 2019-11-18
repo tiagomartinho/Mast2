@@ -190,6 +190,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "New Toot".localized
 //        self.removeTabbarItemsText()
+
+        GlobalStruct.medType = 0
         
         self.navigationController?.presentationController?.delegate = self
         
