@@ -671,7 +671,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             }
             self.present(alert, animated: true, completion: nil)
         } else {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "\("Posted via".localized) \(self.pickedStatusesHome[0].application?.name ?? "")", message: nil, preferredStyle: .actionSheet)
             let op1 = UIAlertAction(title: " \("Translate".localized)", style: .default , handler:{ (UIAlertAction) in
                 self.translateThis()
             })
