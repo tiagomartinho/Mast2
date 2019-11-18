@@ -459,6 +459,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func initialFetches() {
+        if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
+            userDefaults.set(GlobalStruct.currentInstance.accessToken, forKey: "key1")
+            userDefaults.set(GlobalStruct.currentInstance.returnedText, forKey: "key2")
+            userDefaults.synchronize()
+        }
+        
         let request0 = Accounts.currentUser()
         GlobalStruct.client.run(request0) { (statuses) in
             if let stat = (statuses.value) {

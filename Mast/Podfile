@@ -11,3 +11,11 @@ pod 'SDWebImage'
 pod 'ActiveLabel'
 
 end
+
+target 'MastExtension' do
+
+  use_frameworks!
+
+pod 'SDWebImage'
+
+end

@@ -1,0 +1,136 @@
+//
+//  TodayViewController.swift
+//  MastExtension
+//
+//  Created by Shihab Mehboob on 18/11/2019.
+//  Copyright © 2019 Shihab Mehboob. All rights reserved.
+//
+
+import UIKit
+import NotificationCenter
+
+class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDelegate, UITableViewDataSource {
+    
+    var tableView = UITableView()
+    var allStats: [Status] = []
+    var expanded1 = false
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view from its nib.
+        self.extensionContext?.widgetLargestAvailableDisplayMode = .expanded
+        
+        var client = Client(baseURL: "")
+        if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
+            let value1 = userDefaults.string(forKey: "key1")
+            let value2 = userDefaults.string(forKey: "key2")
+            client = Client(
+                baseURL: "https://\(value2 ?? "")",
+                accessToken: value1 ?? ""
+            )
+        }
+        
+        self.tableView.register(MainFeedCell.self, forCellReuseIdentifier: "cellmain")
+        self.tableView.frame = CGRect(x: 0, y: 0, width: Int(self.view.bounds.width - 20), height: Int(900))
+        self.tableView.alpha = 1
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.backgroundColor = UIColor.clear
+        self.tableView.separatorColor = UIColor.clear
+        self.tableView.layer.masksToBounds = true
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.view.addSubview(self.tableView)
+        
+        let request = Timelines.home()
+        client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.allStats = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        var client = Client(baseURL: "")
+        if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
+            let value1 = userDefaults.string(forKey: "key1")
+            let value2 = userDefaults.string(forKey: "key2")
+            client = Client(
+                baseURL: "https://\(value2 ?? "")",
+                accessToken: value1 ?? ""
+            )
+        }
+        
+        let request = Timelines.home()
+        client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.allStats = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.allStats.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellmain", for: indexPath) as! MainFeedCell
+        cell.configure(self.allStats[indexPath.row])
+        cell.backgroundColor = UIColor.clear
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor.clear
+        cell.selectedBackgroundView = bgColorView
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.openURL("com.shi.mastodon://id=\(self.allStats[indexPath.row].id)")
+    }
+    
+    @objc func openURL(_ url: String) -> Bool {
+        var responder: UIResponder? = self
+        while responder != nil {
+            if let application = responder as? UIApplication {
+                return application.perform(#selector(openURL(_:)), with: URL(string: url)) != nil
+            }
+            responder = responder?.next
+        }
+        return false
+    }
+    
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        let expanded = activeDisplayMode == .expanded
+        preferredContentSize = expanded ? CGSize(width: maxSize.width, height: 900) : CGSize(width: maxSize.width, height: 75)
+        
+        expanded1 = expanded
+    }
+        
+    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
+        // Perform any setup necessary in order to update the view.
+        
+        // If an error is encountered, use NCUpdateResult.Failed
+        // If there's no update required, use NCUpdateResult.NoData
+        // If there's an update, use NCUpdateResult.NewData
+        
+        completionHandler(NCUpdateResult.newData)
+    }
+    
+}
+
