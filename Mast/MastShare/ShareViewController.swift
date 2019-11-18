@@ -314,11 +314,36 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
                 accessToken: value1 ?? ""
             )
         }
-        let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: false, spoilerText: nil, visibility: self.defaultVisibility)
-        client.run(request) { (statuses) in
-            if let _ = (statuses.value) {
-                DispatchQueue.main.async {
-                    self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+        if self.images.isEmpty {
+            let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: false, spoilerText: nil, visibility: self.defaultVisibility)
+            client.run(request) { (statuses) in
+                if let _ = (statuses.value) {
+                    DispatchQueue.main.async {
+                        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+                    }
+                }
+            }
+        } else {
+            var mediaIDs: [String] = []
+            for (x,y) in self.images.enumerated() {
+                let request = Media.upload(media: .png(y.pngData()))
+                client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        print("Uploaded - \(x)")
+                        mediaIDs.append(stat.id)
+                        
+                        if x == self.images.count - 1 {
+                            let request2 = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: mediaIDs, sensitive: false, spoilerText: nil, visibility: self.defaultVisibility)
+                            client.run(request2) { (statuses) in
+                                if let _ = (statuses.value) {
+                                    DispatchQueue.main.async {
+                                        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
                 }
             }
         }
