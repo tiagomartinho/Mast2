@@ -240,20 +240,25 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         
         if beginBit.mediaAttachments[0].type == .video || beginBit.mediaAttachments[0].type == .gifv || beginBit.mediaAttachments[0].type == .audio {
             
-            if let ur = URL(string: images[indexPath.row].url) {
+            if let ur = beginBit.url {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
-                self.view.present(playerViewController, animated: true) {
+                self.present(playerViewController, animated: true) {
                     self.playerViewController.player!.play()
                 }
             }
             
         } else {
             
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
-            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-            self.view.present(imageViewer, animated: true, completion: nil)
+            if let ur0 = beginBit.mediaAttachments.first?.previewURL, let ur1 = beginBit.mediaAttachments.first?.url, let ur2 = URL(string: ur0), let ur3 = URL(string: ur1) {
+                let im: [UIImageView] = []
+                im[0].sd_setImage(with: ur2, completed: nil)
+                
+                let imageInfo = GSImageInfo(image: im.first?.image ?? UIImage(), imageMode: .aspectFit, imageHD: ur3, imageText: "@\(beginBit.account.username): \(beginBit.content.stripHTML())", imageText2: beginBit.favouritesCount, imageText3: beginBit.reblogsCount, imageText4: beginBit.id)
+                let transitionInfo = GSTransitionInfo(fromView: (cell as! MediaMessageCell).imageView)
+                let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+                self.present(imageViewer, animated: true, completion: nil)
+            }
             
         }
     }
