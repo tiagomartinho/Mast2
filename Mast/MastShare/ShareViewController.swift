@@ -252,7 +252,23 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     }
     
     @objc func tickTapped() {
-        
+        var client = Client(baseURL: "")
+        if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
+            let value1 = userDefaults.string(forKey: "key1")
+            let value2 = userDefaults.string(forKey: "key2")
+            client = Client(
+                baseURL: "https://\(value2 ?? "")",
+                accessToken: value1 ?? ""
+            )
+        }
+        let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: false, spoilerText: nil, visibility: self.defaultVisibility)
+        client.run(request) { (statuses) in
+            if let _ = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+                }
+            }
+        }
     }
     
 }
