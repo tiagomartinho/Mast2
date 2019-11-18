@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().backgroundColor = GlobalStruct.baseDarkTint
         UINavigationBar.appearance().barTintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().tintColor = UIColor(named: "baseBlack")
