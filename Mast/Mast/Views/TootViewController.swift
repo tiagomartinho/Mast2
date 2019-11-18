@@ -1272,11 +1272,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         }
         
-        self.photoPickerView.navigationBar.isTranslucent = false
-        self.photoPickerView.navigationBar.prefersLargeTitles = false
-        self.photoPickerView.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
-        self.photoPickerView.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
-        self.photoPickerView.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        UINavigationBar().prefersLargeTitles = false
+        UINavigationBar().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
+        UINavigationBar().backgroundColor = GlobalStruct.baseDarkTint
+        UINavigationBar().barTintColor = GlobalStruct.baseDarkTint
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
