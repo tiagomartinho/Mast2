@@ -971,9 +971,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         GlobalStruct.heaFile = "\(GlobalStruct.heaFile)\(Int.random(in: 10...5000000))"
         
         self.cropViewController.dismiss(animated: true, completion: nil)
+        self.photoPickerView.dismiss(animated: false, completion: nil)
         if self.editType == 0 {
             GlobalStruct.medType = 1
-            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: .png(image.pngData()), header: nil)
+            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: .jpeg(image.jpegData(compressionQuality: 1)), header: nil)
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
                     self.updateProfileHere()
@@ -981,7 +982,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         } else {
             GlobalStruct.medType = 2
-            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: .png(image.pngData()))
+            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: .jpeg(image.jpegData(compressionQuality: 1)))
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
                     self.updateProfileHere()
@@ -1042,11 +1043,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             lockText = "Lock Account".localized
             isItGoingToLock = true
         }
-        
-        UINavigationBar().prefersLargeTitles = false
-        UINavigationBar().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
-        UINavigationBar().backgroundColor = GlobalStruct.baseDarkTint
-        UINavigationBar().barTintColor = GlobalStruct.baseDarkTint
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op7 = UIAlertAction(title: "\("Edit Avatar".localized)", style: .default , handler:{ (UIAlertAction) in

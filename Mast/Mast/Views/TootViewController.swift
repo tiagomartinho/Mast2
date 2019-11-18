@@ -1272,11 +1272,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         }
         
-        UINavigationBar().prefersLargeTitles = false
-        UINavigationBar().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
-        UINavigationBar().backgroundColor = GlobalStruct.baseDarkTint
-        UINavigationBar().barTintColor = GlobalStruct.baseDarkTint
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
