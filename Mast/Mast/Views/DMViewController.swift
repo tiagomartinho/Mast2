@@ -240,8 +240,8 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         
         if beginBit.mediaAttachments[0].type == .video || beginBit.mediaAttachments[0].type == .gifv || beginBit.mediaAttachments[0].type == .audio {
             
-            if let ur = beginBit.mediaAttachments.first?.url {
-                self.player = AVPlayer(url: ur)
+            if let ur = beginBit.mediaAttachments.first?.url, let ur1 = URL(string: ur) {
+                self.player = AVPlayer(url: ur1)
                 self.playerViewController.player = self.player
                 self.present(playerViewController, animated: true) {
                     self.playerViewController.player!.play()
