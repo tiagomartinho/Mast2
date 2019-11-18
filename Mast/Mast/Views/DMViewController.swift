@@ -251,11 +251,11 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         } else {
             
             if let ur0 = beginBit.mediaAttachments.first?.previewURL, let ur1 = beginBit.mediaAttachments.first?.url, let ur2 = URL(string: ur0), let ur3 = URL(string: ur1) {
-                let im: [UIImageView] = []
+                let im: [UIImageView] = [UIImageView()]
                 im[0].sd_setImage(with: ur2, completed: nil)
                 
                 let imageInfo = GSImageInfo(image: im.first?.image ?? UIImage(), imageMode: .aspectFit, imageHD: ur3, imageText: "@\(beginBit.account.username): \(beginBit.content.stripHTML())", imageText2: beginBit.favouritesCount, imageText3: beginBit.reblogsCount, imageText4: beginBit.id)
-                let transitionInfo = GSTransitionInfo(fromView: (cell as! MediaMessageCell).imageView)
+                let transitionInfo = GSTransitionInfo(fromView: cell as! MediaMessageCell)
                 let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
                 self.present(imageViewer, animated: true, completion: nil)
             }
