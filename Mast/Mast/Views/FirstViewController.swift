@@ -1509,11 +1509,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let tran = UIAction(title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
             self.translateThis(status)
         }
-        let mute = UIAction(title: "Mute".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
-            self.muteThis(status)
-        }
-        let bloc = UIAction(title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
-            self.blockThis(status)
+        let mute = UIAction(title: "Mute Conversation".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
+            let request = Statuses.mute(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                print("muted")
+            }
         }
         let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             self.duplicateThis(status)
@@ -1585,7 +1585,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
             
         } else {
-            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, rep])
+            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
             return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
         }
     }
@@ -1721,14 +1721,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         task.resume()
-    }
-    
-    func muteThis(_ stat: [Status]) {
-        
-    }
-    
-    func blockThis(_ stat: [Status]) {
-        
     }
     
     func duplicateThis(_ stat: [Status]) {

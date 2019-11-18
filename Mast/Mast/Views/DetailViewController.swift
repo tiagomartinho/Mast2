@@ -678,21 +678,15 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             op1.setValue(UIImage(systemName: "globe")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
-            let op2 = UIAlertAction(title: "Mute".localized, style: .default , handler:{ (UIAlertAction) in
-                
+            let op2 = UIAlertAction(title: "Mute Conversation".localized, style: .default , handler:{ (UIAlertAction) in
+                let request = Statuses.mute(id: self.pickedStatusesHome.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    print("muted")
+                }
             })
             op2.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
-            let op3 = UIAlertAction(title: " \("Block".localized)", style: .default , handler:{ (UIAlertAction) in
-                let request = Accounts.block(id: self.pickedStatusesHome.first?.account.id ?? "")
-                GlobalStruct.client.run(request) { (statuses) in
-                    print("blocked")
-                }
-            })
-            op3.setValue(UIImage(systemName: "hand.raised")!, forKey: "image")
-            op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            alert.addAction(op3)
             let op4 = UIAlertAction(title: " \("Duplicate".localized)", style: .default , handler:{ (UIAlertAction) in
                 let vc = TootViewController()
                 vc.duplicateStatus = self.pickedStatusesHome
