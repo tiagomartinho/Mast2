@@ -13,6 +13,8 @@ public enum MediaAttachment {
     case jpeg(Data?)
     /// GIF (Graphics Interchange Format) image
     case gif(Data?)
+    /// Video
+    case video(Data?)
     /// PNG (Portable Network Graphics) image
     case png(Data?)
     /// MP3
@@ -26,6 +28,7 @@ extension MediaAttachment {
         switch self {
         case .jpeg(let data): return data
         case .gif(let data): return data
+        case .video(let data): return data
         case .png(let data): return data
         case .mp3(let data): return data
         case .other(let data, _, _): return data
@@ -37,6 +40,7 @@ extension MediaAttachment {
             switch self {
             case .jpeg: return "file.jpeg"
             case .gif: return "file.gif"
+            case .video: return "file.mp4"
             case .png: return "file.png"
             case .mp3: return "file.mp3"
             case .other(_, let fileExtension, _): return "file.\(fileExtension)"
@@ -45,6 +49,7 @@ extension MediaAttachment {
             switch self {
             case .jpeg: return "\(GlobalStruct.avaFile).jpeg"
             case .gif: return "\(GlobalStruct.avaFile).gif"
+            case .video: return "\(GlobalStruct.avaFile).mp4"
             case .png: return "\(GlobalStruct.avaFile).png"
             case .mp3: return "\(GlobalStruct.avaFile).mp3"
             case .other(_, let fileExtension, _): return "\(GlobalStruct.avaFile).\(fileExtension)"
@@ -53,6 +58,7 @@ extension MediaAttachment {
             switch self {
             case .jpeg: return "\(GlobalStruct.heaFile).jpeg"
             case .gif: return "\(GlobalStruct.heaFile).gif"
+            case .video: return "\(GlobalStruct.heaFile).mp4"
             case .png: return "\(GlobalStruct.heaFile).png"
             case .mp3: return "\(GlobalStruct.avaFile).mp3"
             case .other(_, let fileExtension, _): return "\(GlobalStruct.heaFile).\(fileExtension)"
@@ -64,6 +70,7 @@ extension MediaAttachment {
         switch self {
         case .jpeg: return "image/jpg"
         case .gif: return "image/gif"
+        case .video: return "video/mp4"
         case .png: return "image/png"
         case .mp3: return "audio/mpeg"
         case .other(_, _, let mimeType): return mimeType
