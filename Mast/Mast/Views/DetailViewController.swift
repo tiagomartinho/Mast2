@@ -613,7 +613,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func moreTapped() {
         if GlobalStruct.currentUser.id == (self.pickedStatusesHome.first?.account.id ?? "") {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "\("Posted via".localized) \(self.pickedStatusesHome[0].application?.name ?? "")", message: nil, preferredStyle: .actionSheet)
             if GlobalStruct.allPinned.contains(self.pickedStatusesHome.first!) {
                 let op1 = UIAlertAction(title: " \("Unpin".localized)", style: .default , handler:{ (UIAlertAction) in
                     self.unpinToot()
