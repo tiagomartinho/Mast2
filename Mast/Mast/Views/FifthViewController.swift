@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 import MessageUI
+import Photos
+import AVKit
+import AVFoundation
+import MobileCoreServices
 
-class FifthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
+class FifthViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, UIImagePickerControllerDelegate, CropViewControllerDelegate, UINavigationControllerDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -36,6 +40,9 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     var userID = ""
     var refreshControl = UIRefreshControl()
     var txt = ""
+    let photoPickerView = UIImagePickerController()
+    var cropViewController = CropViewController(image: UIImage())
+    var editType = 0
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
@@ -958,6 +965,66 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         alert.show()
     }
     
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        self.cropViewController.dismiss(animated: true, completion: nil)
+        if self.editType == 0 {
+            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: .png(image.pngData()), header: nil)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.updateProfileHere()
+                }
+            }
+        } else {
+            let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: .png(image.pngData()))
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.updateProfileHere()
+                }
+            }
+        }
+    }
+    
+    @objc func updateProfileHere() {
+        let request2 = Accounts.currentUser()
+        GlobalStruct.client.run(request2) { (statuses) in
+            if let stat = (statuses.value) {
+                GlobalStruct.currentUser = stat
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String {
+            if mediaType == "public.movie" || mediaType == kUTTypeGIF as String {} else {
+                if let photoToAttach = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                    self.cropViewController = CropViewController(image: photoToAttach)
+                    self.cropViewController.delegate = self
+                    if self.editType == 0 {
+                        self.cropViewController.aspectRatioPreset = .presetSquare
+                    } else {
+                        self.cropViewController.aspectRatioPreset = .preset3x1
+                    }
+                    self.cropViewController.aspectRatioLockEnabled = true
+                    self.cropViewController.resetAspectRatioEnabled = false
+                    self.cropViewController.aspectRatioPickerButtonHidden = true
+                    self.cropViewController.title = "Resize Avatar"
+                    self.getTopMostViewController()?.present(self.cropViewController, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    func getTopMostViewController() -> UIViewController? {
+        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
+        while let presentedViewController = topMostViewController?.presentedViewController {
+            topMostViewController = presentedViewController
+        }
+        return topMostViewController
+    }
+    
     func editAccount() {
         let isItLocked = GlobalStruct.currentUser.locked
         var isItGoingToLock = false
@@ -970,15 +1037,44 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             isItGoingToLock = true
         }
         
+        self.photoPickerView.navigationBar.prefersLargeTitles = false
+        self.photoPickerView.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
+        self.photoPickerView.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.photoPickerView.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op7 = UIAlertAction(title: "\("Edit Avatar".localized)", style: .default , handler:{ (UIAlertAction) in
-            
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                if response {
+                    self.editType = 0
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        DispatchQueue.main.async {
+                            self.photoPickerView.delegate = self
+                            self.photoPickerView.sourceType = .photoLibrary
+                            self.photoPickerView.mediaTypes = [kUTTypeImage as String]
+                            self.getTopMostViewController()?.present(self.photoPickerView, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
         })
         op7.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op7)
         let op9 = UIAlertAction(title: "Edit Header".localized, style: .default , handler:{ (UIAlertAction) in
-            
+            AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+                if response {
+                    self.editType = 1
+                    if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                        DispatchQueue.main.async {
+                            self.photoPickerView.delegate = self
+                            self.photoPickerView.sourceType = .photoLibrary
+                            self.photoPickerView.mediaTypes = [kUTTypeImage as String]
+                            self.getTopMostViewController()?.present(self.photoPickerView, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
         })
         op9.setValue(UIImage(systemName: "person.crop.circle")!, forKey: "image")
         op9.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
@@ -1118,12 +1214,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op7.setValue(UIImage(systemName: "text.badge.plus")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op7)
-        let op10 = UIAlertAction(title: "Disable Boosts".localized, style: .default , handler:{ (UIAlertAction) in
-            
-        })
-        op10.setValue(UIImage(systemName: "xmark")!, forKey: "image")
-        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-        alert.addAction(op10)
+//        let op10 = UIAlertAction(title: "Disable Boosts".localized, style: .default , handler:{ (UIAlertAction) in
+//
+//        })
+//        op10.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+//        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+//        alert.addAction(op10)
         let op11 = UIAlertAction(title: "Share Account".localized, style: .default , handler:{ (UIAlertAction) in
             let textToShare = [self.pickedCurrentUser.url]
             let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)

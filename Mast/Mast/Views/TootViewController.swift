@@ -1269,6 +1269,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 cell.textView.resignFirstResponder()
             }
         }
+        
+        self.photoPickerView.navigationBar.prefersLargeTitles = false
+        self.photoPickerView.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
+        self.photoPickerView.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
+        self.photoPickerView.navigationBar.barTintColor = GlobalStruct.baseDarkTint
+        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let camA = UIAlertAction(title: "Camera".localized, style: .default , handler:{ (UIAlertAction) in
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
