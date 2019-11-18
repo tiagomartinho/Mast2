@@ -247,6 +247,8 @@
 		53733D512382DDF6006F260E /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733D152382DDF5006F260E /* Payload.swift */; };
 		53733D522382DDF6006F260E /* MediaAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733D162382DDF5006F260E /* MediaAttachment.swift */; };
 		53733D532382DFBA006F260E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3923293E3700A470E2 /* Assets.xcassets */; };
+		53733D562382EE19006F260E /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */; };
+		53733D592382EFC7006F260E /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733D582382EFC7006F260E /* CollectionImageCell.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -767,6 +769,7 @@
 		53733D142382DDF5006F260E /* ClientError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientError.swift; sourceTree = "<group>"; };
 		53733D152382DDF5006F260E /* Payload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		53733D162382DDF5006F260E /* MediaAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaAttachment.swift; sourceTree = "<group>"; };
+		53733D582382EFC7006F260E /* CollectionImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionImageCell.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -1368,6 +1371,7 @@
 				53733CD62382DC55006F260E /* MastShare.entitlements */,
 				53733CD72382DDF5006F260E /* MastodonKit */,
 				53733CCA2382DC50006F260E /* ShareViewController.swift */,
+				53733D582382EFC7006F260E /* CollectionImageCell.swift */,
 				53733CCC2382DC50006F260E /* MainInterface.storyboard */,
 				53733CCF2382DC50006F260E /* Info.plist */,
 			);
@@ -2528,6 +2532,7 @@
 				53733D412382DDF6006F260E /* Favourites.swift in Sources */,
 				53733D402382DDF6006F260E /* Login.swift in Sources */,
 				53733D1F2382DDF6006F260E /* Data.swift in Sources */,
+				53733D562382EE19006F260E /* ColumnFlowLayout.swift in Sources */,
 				53733D2C2382DDF6006F260E /* LoginSettings.swift in Sources */,
 				53733D492382DDF6006F260E /* DomainBlocks.swift in Sources */,
 				53733D252382DDF6006F260E /* Mention.swift in Sources */,
@@ -2547,6 +2552,7 @@
 				53733D212382DDF6006F260E /* String.swift in Sources */,
 				53733D472382DDF6006F260E /* Reports.swift in Sources */,
 				53733D1A2382DDF5006F260E /* Functions.swift in Sources */,
+				53733D592382EFC7006F260E /* CollectionImageCell.swift in Sources */,
 				53733D202382DDF6006F260E /* Decodable.swift in Sources */,
 				53733D302382DDF6006F260E /* Context.swift in Sources */,
 				53733D3F2382DDF6006F260E /* FollowRequests.swift in Sources */,

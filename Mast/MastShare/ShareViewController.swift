@@ -9,7 +9,7 @@
 import UIKit
 import MobileCoreServices
 
-class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBarDelegate {
+class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     let textView = UITextView()
     let cancelLabel = UIButton()
@@ -24,6 +24,8 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
     let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+    var collectionView1: UICollectionView!
+    var images: [UIImage] = []
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return .default
@@ -32,7 +34,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.textView.frame = CGRect(x: 0, y: 50 + self.view.safeAreaInsets.top, width: self.view.bounds.width, height: self.view.bounds.height - self.keyHeight - 50 - self.view.safeAreaInsets.top)
+        self.textView.frame = CGRect(x: 0, y: 50 + self.view.safeAreaInsets.top, width: self.view.bounds.width, height: self.view.bounds.height - self.keyHeight - 50 - self.view.safeAreaInsets.top - 150)
     }
     
     override func viewDidLoad() {
@@ -145,8 +147,22 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         ]
         formatToolbar.sizeToFit()
         self.textView.inputAccessoryView = formatToolbar
-        
         self.textView.becomeFirstResponder()
+        
+        let layout = ColumnFlowLayout(
+            cellsPerRow: 4,
+            minimumInteritemSpacing: 15,
+            minimumLineSpacing: 15,
+            sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        )
+        layout.scrollDirection = .horizontal
+        collectionView1 = UICollectionView(frame: CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 145), collectionViewLayout: layout)
+        collectionView1.backgroundColor = UIColor.clear
+        collectionView1.delegate = self
+        collectionView1.dataSource = self
+        collectionView1.showsHorizontalScrollIndicator = false
+        collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
+        self.view.addSubview(collectionView1)
         
         for y in extensionContext!.inputItems {
             if let inputItem = y as? NSExtensionItem {
@@ -155,11 +171,20 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
                         x.loadItem(forTypeIdentifier: kUTTypeImage as String) { [unowned self] (imageData, error) in
                             DispatchQueue.main.async {
                                 if let item = imageData as? Data {
+                                    self.images.append(UIImage(data: item) ?? UIImage())
+                                    self.collectionView1.frame = CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 145)
+                                    self.collectionView1.reloadData()
                                     self.textView.frame = CGRect(x: 20, y: 90, width: UIScreen.main.bounds.size.width - 40, height: UIScreen.main.bounds.size.height - 190 - CGFloat(self.keyHeight))
-                                }  else if let url = imageData as? URL {
-                                    let data = try? Data(contentsOf: url)
+                                } else if let url = imageData as? URL {
+                                    let dat = try? Data(contentsOf: url)
+                                    self.images.append(UIImage(data: dat ?? Data()) ?? UIImage())
+                                    self.collectionView1.frame = CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 145)
+                                    self.collectionView1.reloadData()
                                     self.textView.frame = CGRect(x: 20, y: 90, width: UIScreen.main.bounds.size.width - 40, height: UIScreen.main.bounds.size.height - 190 - CGFloat(self.keyHeight))
                                 } else if let imageData = imageData as? UIImage {
+                                    self.images.append(imageData)
+                                    self.collectionView1.frame = CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 145)
+                                    self.collectionView1.reloadData()
                                     self.textView.frame = CGRect(x: 20, y: 90, width: UIScreen.main.bounds.size.width - 40, height: UIScreen.main.bounds.size.height - 190 - CGFloat(self.keyHeight))
                                 }
                             }
@@ -180,6 +205,34 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
                 }
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
+        if self.images.isEmpty {} else {
+            cell.configure()
+            cell.image.contentMode = .scaleAspectFill
+            cell.image.image = images[indexPath.row]
+            cell.videoOverlay.alpha = 0
+            cell.image.layer.masksToBounds = true
+            cell.image.backgroundColor = .clear
+            cell.image.layer.cornerRadius = 5
+            cell.image.layer.masksToBounds = true
+            cell.image.layer.borderColor = UIColor.black.cgColor
+            cell.image.frame.size.width = 160
+            cell.image.frame.size.height = 120
+            cell.bgImage.layer.masksToBounds = false
+        }
+        cell.backgroundColor = UIColor.clear
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
     @objc func visibilityTap() {
