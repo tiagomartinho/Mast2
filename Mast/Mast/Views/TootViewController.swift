@@ -1272,6 +1272,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             }
         }
         
+        self.photoPickerView.navigationBar.isTranslucent = false
         self.photoPickerView.navigationBar.prefersLargeTitles = false
         self.photoPickerView.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         self.photoPickerView.navigationBar.backgroundColor = GlobalStruct.baseDarkTint
