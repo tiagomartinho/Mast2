@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
-    let secondSection = ["Hide Sensitive Media".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let secondSection = ["Hide Sensitive Media".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
     
@@ -244,15 +244,35 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.accessoryView = switchView
                 cell.selectionStyle = .none
             } else if indexPath.row == 1 {
+                cell.imageView?.image = UIImage(systemName: "paperclip.circle", withConfiguration: symbolConfig) ?? UIImage()
+                let switchView = UISwitch(frame: .zero)
+                
+                if UserDefaults.standard.value(forKey: "sync-uploadgif") as? Int != nil {
+                    if UserDefaults.standard.value(forKey: "sync-uploadgif") as? Int == 0 {
+                        switchView.setOn(true, animated: false)
+                    } else {
+                        switchView.setOn(false, animated: false)
+                    }
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+                
+                switchView.onTintColor = GlobalStruct.baseTint
+                switchView.tintColor = GlobalStruct.baseTint
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchUploadgif(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
+            } else if indexPath.row == 2 {
                 cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 2 {
+            } else if indexPath.row == 3 {
                 cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 3 {
+            } else if indexPath.row == 4 {
                 cell.imageView?.image = UIImage(systemName: "doc.text.viewfinder", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 4 {
+            } else if indexPath.row == 5 {
                 cell.imageView?.image = UIImage(systemName: "mic", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else {
@@ -321,15 +341,15 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else if indexPath.section == 2 {
-            if indexPath.row == 1 {
+            if indexPath.row == 2 {
                 let vc = VisibilitySettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            if indexPath.row == 2 {
+            if indexPath.row == 3 {
                 let vc = BrowserSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            if indexPath.row == 3 {
+            if indexPath.row == 4 {
                 let vc = ScanSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
@@ -369,6 +389,17 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             UserDefaults.standard.set(0, forKey: "sync-sensitive")
         } else {
             UserDefaults.standard.set(1, forKey: "sync-sensitive")
+        }
+    }
+    
+    @objc func switchUploadgif(_ sender: UISwitch!) {
+        print("table row switch Changed \(sender.tag)")
+        print("The switch is \(sender.isOn ? "ON" : "OFF")")
+        
+        if sender.isOn {
+            UserDefaults.standard.set(0, forKey: "sync-uploadgif")
+        } else {
+            UserDefaults.standard.set(1, forKey: "sync-uploadgif")
         }
     }
 }

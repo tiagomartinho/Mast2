@@ -1103,12 +1103,32 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         GlobalStruct.mediaIDs = []
                     }
 //                    for x in GlobalStruct.gifVidDataToAttachArray {
+
+                    if UserDefaults.standard.value(forKey: "sync-uploadgif") as? Int != nil {
+                        if UserDefaults.standard.value(forKey: "sync-uploadgif") as? Int == 0 {
+                            let request = Media.upload(media: .gif(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
+                            GlobalStruct.client.run(request) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    GlobalStruct.mediaIDs.append(stat.id)
+                                }
+                            }
+                        } else {
+                            let request = Media.upload(media: .video(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
+                            GlobalStruct.client.run(request) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    GlobalStruct.mediaIDs.append(stat.id)
+                                }
+                            }
+                        }
+                    } else {
                         let request = Media.upload(media: .gif(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
                         GlobalStruct.client.run(request) { (statuses) in
                             if let stat = (statuses.value) {
                                 GlobalStruct.mediaIDs.append(stat.id)
                             }
                         }
+                    }
+                    
 //                    }
                 } catch {
                     print("error")
