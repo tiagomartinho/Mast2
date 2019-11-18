@@ -1006,7 +1006,6 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String {
             if mediaType == "public.movie" || mediaType == kUTTypeGIF as String {} else {
                 if let photoToAttach = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                    self.photoPickerView.dismiss(animated: true, completion: nil)
                     self.cropViewController = CropViewController(image: photoToAttach)
                     self.cropViewController.delegate = self
                     if self.editType == 0 {
