@@ -127,19 +127,12 @@ class MainFeedCell: UITableViewCell {
         guard let imageURL = URL(string: stat.reblog?.account.avatar ?? stat.account.avatar) else { return }
         self.profile.sd_setImage(with: imageURL, completed: nil)
         self.profile.layer.masksToBounds = true
-        
 //        if stat.reblog?.account.displayName == nil {
 //            self.profile2.alpha = 0
 //        } else {
-//            self.profile2.alpha = 1
 //            guard let imageURL2 = URL(string: stat.account.avatar) else { return }
-//            DispatchQueue.global().async {
-//                let data = try? Data(contentsOf: imageURL2)
-//                DispatchQueue.main.async {
-//                    self.profile2.image = UIImage(data: data ?? Data())
-//                    self.profile2.layer.masksToBounds = true
-//                }
-//            }
+//            self.profile2.sd_setImage(with: imageURL2, completed: nil)
+//            self.profile2.layer.masksToBounds = true
 //        }
         
         if stat.reblog?.emojis.isEmpty ?? stat.emojis.isEmpty {
