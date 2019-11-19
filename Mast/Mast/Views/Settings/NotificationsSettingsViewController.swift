@@ -51,6 +51,7 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
         
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell1")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.backgroundColor = UIColor.clear
@@ -69,75 +70,106 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.notifArray.count
+        if section == 0 {
+            return self.notifArray.count
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
-        cell.backgroundColor = GlobalStruct.baseDarkTint
-        
-        let descriptionSideString = NSMutableAttributedString(string: self.notifArray[indexPath.row], attributes: [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
-        cell.textLabel?.attributedText = descriptionSideString
-
-        if indexPath.row == 0 {
-            let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnmentions") as? Bool != nil {
-                if UserDefaults.standard.value(forKey: "pnmentions") as? Bool == true {
-                    switchView.setOn(true, animated: false)
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
+            cell.backgroundColor = GlobalStruct.baseDarkTint
+            
+            let descriptionSideString = NSMutableAttributedString(string: self.notifArray[indexPath.row], attributes: [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+            cell.textLabel?.attributedText = descriptionSideString
+            
+            if indexPath.row == 0 {
+                let switchView = UISwitch(frame: .zero)
+                if UserDefaults.standard.value(forKey: "pnmentions") as? Bool != nil {
+                    if UserDefaults.standard.value(forKey: "pnmentions") as? Bool == true {
+                        switchView.setOn(true, animated: false)
+                    } else {
+                        switchView.setOn(false, animated: false)
+                    }
                 } else {
-                    switchView.setOn(false, animated: false)
-                }
-            } else {
-                switchView.setOn(true, animated: false)
-            }
-            switchView.onTintColor = GlobalStruct.baseTint
-            switchView.tintColor = GlobalStruct.baseTint
-            switchView.tag = indexPath.row
-            switchView.addTarget(self, action: #selector(self.switchMentions(_:)), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.selectionStyle = .none
-        } else if indexPath.row == 1 {
-            let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnlikes") as? Bool != nil {
-                if UserDefaults.standard.value(forKey: "pnlikes") as? Bool == true {
                     switchView.setOn(true, animated: false)
-                } else {
-                    switchView.setOn(false, animated: false)
                 }
-            } else {
-                switchView.setOn(true, animated: false)
-            }
-            switchView.onTintColor = GlobalStruct.baseTint
-            switchView.tintColor = GlobalStruct.baseTint
-            switchView.tag = indexPath.row
-            switchView.addTarget(self, action: #selector(self.switchLikes(_:)), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.selectionStyle = .none
-        } else if indexPath.row == 2 {
-            let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnboosts") as? Bool != nil {
-                if UserDefaults.standard.value(forKey: "pnboosts") as? Bool == true {
+                switchView.onTintColor = GlobalStruct.baseTint
+                switchView.tintColor = GlobalStruct.baseTint
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchMentions(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
+            } else if indexPath.row == 1 {
+                let switchView = UISwitch(frame: .zero)
+                if UserDefaults.standard.value(forKey: "pnlikes") as? Bool != nil {
+                    if UserDefaults.standard.value(forKey: "pnlikes") as? Bool == true {
+                        switchView.setOn(true, animated: false)
+                    } else {
+                        switchView.setOn(false, animated: false)
+                    }
+                } else {
                     switchView.setOn(true, animated: false)
-                } else {
-                    switchView.setOn(false, animated: false)
                 }
+                switchView.onTintColor = GlobalStruct.baseTint
+                switchView.tintColor = GlobalStruct.baseTint
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchLikes(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
+            } else if indexPath.row == 2 {
+                let switchView = UISwitch(frame: .zero)
+                if UserDefaults.standard.value(forKey: "pnboosts") as? Bool != nil {
+                    if UserDefaults.standard.value(forKey: "pnboosts") as? Bool == true {
+                        switchView.setOn(true, animated: false)
+                    } else {
+                        switchView.setOn(false, animated: false)
+                    }
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+                switchView.onTintColor = GlobalStruct.baseTint
+                switchView.tintColor = GlobalStruct.baseTint
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchBoosts(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
             } else {
-                switchView.setOn(true, animated: false)
+                let switchView = UISwitch(frame: .zero)
+                if UserDefaults.standard.value(forKey: "pnfollows") as? Bool != nil {
+                    if UserDefaults.standard.value(forKey: "pnfollows") as? Bool == true {
+                        switchView.setOn(true, animated: false)
+                    } else {
+                        switchView.setOn(false, animated: false)
+                    }
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+                switchView.onTintColor = GlobalStruct.baseTint
+                switchView.tintColor = GlobalStruct.baseTint
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchFollows(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
             }
-            switchView.onTintColor = GlobalStruct.baseTint
-            switchView.tintColor = GlobalStruct.baseTint
-            switchView.tag = indexPath.row
-            switchView.addTarget(self, action: #selector(self.switchBoosts(_:)), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.selectionStyle = .none
+            
+            return cell
         } else {
+            
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell1", for: indexPath)
+            cell.textLabel?.text = "In-App Banners"
+            cell.imageView?.image = UIImage(systemName: "bolt", withConfiguration: symbolConfig) ?? UIImage()
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "pnfollows") as? Bool != nil {
-                if UserDefaults.standard.value(forKey: "pnfollows") as? Bool == true {
+            
+            if UserDefaults.standard.value(forKey: "switchbanners") as? Int != nil {
+                if UserDefaults.standard.value(forKey: "switchbanners") as? Int == 0 {
                     switchView.setOn(true, animated: false)
                 } else {
                     switchView.setOn(false, animated: false)
@@ -145,15 +177,16 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             } else {
                 switchView.setOn(true, animated: false)
             }
+            
             switchView.onTintColor = GlobalStruct.baseTint
             switchView.tintColor = GlobalStruct.baseTint
             switchView.tag = indexPath.row
-            switchView.addTarget(self, action: #selector(self.switchFollows(_:)), for: .valueChanged)
+            switchView.addTarget(self, action: #selector(self.switchBanners(_:)), for: .valueChanged)
             cell.accessoryView = switchView
             cell.selectionStyle = .none
+            cell.backgroundColor = GlobalStruct.baseDarkTint
+            return cell
         }
-        
-        return cell
     }
     
     @objc func switchMentions(_ sender: UISwitch!) {
@@ -204,6 +237,19 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             self.updateRegister()
         } else {
             UserDefaults.standard.set(false, forKey: "pnfollows")
+            self.updateRegister()
+        }
+    }
+    
+    @objc func switchBanners(_ sender: UISwitch!) {
+        print("table row switch Changed \(sender.tag)")
+        print("The switch is \(sender.isOn ? "ON" : "OFF")")
+        
+        if sender.isOn {
+            UserDefaults.standard.set(true, forKey: "switchbanners")
+            self.updateRegister()
+        } else {
+            UserDefaults.standard.set(false, forKey: "switchbanners")
             self.updateRegister()
         }
     }

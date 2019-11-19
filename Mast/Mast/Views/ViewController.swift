@@ -118,18 +118,20 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func showNotifBanner(_ title: String, subtitle: String, style: BannerStyle) {
-        let banner = FloatingNotificationBanner(title: title, subtitle: subtitle, style: style)
-        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-            banner.haptic = .medium
-        } else {
-            banner.haptic = .none
+        if UserDefaults.standard.value(forKey: "switchbanners") as? Int == 0 {
+            let banner = FloatingNotificationBanner(title: title, subtitle: subtitle, style: style)
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                banner.haptic = .medium
+            } else {
+                banner.haptic = .none
+            }
+            banner.show(bannerPosition: .top,
+                        queue: NotificationBannerQueue(maxBannersOnScreenSimultaneously: 1),
+                        cornerRadius: 8,
+                        shadowColor: UIColor.black.withAlphaComponent(0.25),
+                        shadowBlurRadius: 14,
+                        shadowEdgeInsets: UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8))
         }
-        banner.show(bannerPosition: .top,
-                    queue: NotificationBannerQueue(maxBannersOnScreenSimultaneously: 1),
-                    cornerRadius: 8,
-                    shadowColor: UIColor.black.withAlphaComponent(0.25),
-                    shadowBlurRadius: 14,
-                    shadowEdgeInsets: UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8))
     }
     
     override func viewDidLoad() {

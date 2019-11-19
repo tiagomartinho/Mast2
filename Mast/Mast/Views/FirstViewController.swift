@@ -304,6 +304,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.value(forKey: "sync-startDarkTint") == nil {
             UserDefaults.standard.set(0, forKey: "sync-startDarkTint")
         }
+        if UserDefaults.standard.value(forKey: "switchbanners") == nil {
+            UserDefaults.standard.set(0, forKey: "switchbanners")
+        }
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
         let item00 = UIApplicationShortcutItem(type: "com.shi.Mast.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
