@@ -68,7 +68,7 @@ open class BaseNotificationBanner: UIView {
     public internal(set) var titleLabel: UILabel?
 
     /// The time before the notificaiton is automatically dismissed
-    public var duration: TimeInterval = 5.0 {
+    public var duration: TimeInterval = 2.0 {
         didSet {
             updateMarqueeLabelsDurations()
         }
@@ -153,7 +153,7 @@ open class BaseNotificationBanner: UIView {
             return UIApplication.shared.connectedScenes
                 .first { $0.activationState == .foregroundActive }
                 .map { $0 as? UIWindowScene }
-                .map { $0?.windows.first } ?? UIApplication.shared.delegate?.window ?? nil
+                .map { $0?.windows.last } ?? UIApplication.shared.delegate?.window ?? nil
         }
 
         return UIApplication.shared.delegate?.window ?? nil

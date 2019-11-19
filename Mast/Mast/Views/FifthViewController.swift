@@ -804,6 +804,15 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 let request = Accounts.mute(id: self.profileStatuses.first?.account.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     print("muted")
+                    DispatchQueue.main.async {
+                        let banner = FloatingNotificationBanner(title: "Muted".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: .info)
+                        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                            banner.haptic = .medium
+                        } else {
+                            banner.haptic = .none
+                        }
+                        banner.show()
+                    }
                 }
             })
             op8.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
