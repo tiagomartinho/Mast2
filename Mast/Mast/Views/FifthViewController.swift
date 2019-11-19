@@ -1108,7 +1108,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op12.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 //        alert.addAction(op12)
         let op13 = UIAlertAction(title: lockText, style: .default , handler:{ (UIAlertAction) in
-
+            if isItGoingToLock {
+                ViewController().showNotifBanner("Updated".localized, subtitle: "Locked profile".localized, style: BannerStyle.info)
+            } else {
+                ViewController().showNotifBanner("Updated".localized, subtitle: "Unlocked profile".localized, style: BannerStyle.info)
+            }
             let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: nil, locked: isItGoingToLock)
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {

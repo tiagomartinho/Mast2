@@ -679,6 +679,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
             let op2 = UIAlertAction(title: "Mute Conversation".localized, style: .default , handler:{ (UIAlertAction) in
+                ViewController().showNotifBanner("Muted".localized, subtitle: "Conversation".localized, style: BannerStyle.info)
                 let request = Statuses.mute(id: self.pickedStatusesHome.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     print("muted")
