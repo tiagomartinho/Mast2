@@ -204,6 +204,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView2.tableFooterView = UIView()
         self.tableView2.alpha = 0
         self.view.addSubview(self.tableView2)
+        self.tableView2.reloadData()
         
         // Top buttons
         let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
