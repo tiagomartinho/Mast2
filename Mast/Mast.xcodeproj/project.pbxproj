@@ -279,6 +279,8 @@
 		53733DC523842EF9006F260E /* LinePlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733DB323842EF9006F260E /* LinePlot.swift */; };
 		53733DC623842EF9006F260E /* DotPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733DB423842EF9006F260E /* DotPlot.swift */; };
 		53733DC823842FDD006F260E /* GraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733DC723842FDD006F260E /* GraphCell.swift */; };
+		53733DCA23843F2D006F260E /* TKRadarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733DC923843F2D006F260E /* TKRadarChart.swift */; };
+		53733DCC23844009006F260E /* GraphCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733DCB23844009006F260E /* GraphCell2.swift */; };
 		5379F4112331115B00DC1F33 /* TootCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4102331115B00DC1F33 /* TootCell.swift */; };
 		5379F4132331122100DC1F33 /* Spring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4122331122100DC1F33 /* Spring.swift */; };
 		5379F41523311A5700DC1F33 /* StripHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F41423311A5700DC1F33 /* StripHTML.swift */; };
@@ -865,6 +867,8 @@
 		53733DB323842EF9006F260E /* LinePlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinePlot.swift; sourceTree = "<group>"; };
 		53733DB423842EF9006F260E /* DotPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotPlot.swift; sourceTree = "<group>"; };
 		53733DC723842FDD006F260E /* GraphCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCell.swift; sourceTree = "<group>"; };
+		53733DC923843F2D006F260E /* TKRadarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TKRadarChart.swift; sourceTree = "<group>"; };
+		53733DCB23844009006F260E /* GraphCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCell2.swift; sourceTree = "<group>"; };
 		5379F4102331115B00DC1F33 /* TootCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TootCell.swift; sourceTree = "<group>"; };
 		5379F4122331122100DC1F33 /* Spring.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spring.swift; sourceTree = "<group>"; };
 		5379F41423311A5700DC1F33 /* StripHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripHTML.swift; sourceTree = "<group>"; };
@@ -1709,6 +1713,7 @@
 				5379F427233271D800DC1F33 /* Date.swift */,
 				5379F42F2333C3B500DC1F33 /* ColumnFlowLayout.swift */,
 				53AF4507237567EE001A3574 /* GSImageViewerController.swift */,
+				53733DC923843F2D006F260E /* TKRadarChart.swift */,
 				53733D5C238301A5006F260E /* TOCropViewController */,
 				53733D5A2382FF1F006F260E /* CropViewController.swift */,
 				53AF450F2375B39F001A3574 /* AccountExtension.swift */,
@@ -1746,6 +1751,7 @@
 				53381EE2237B16320000E287 /* PollOptionCell.swift */,
 				53381EE4237B16570000E287 /* PollOptionCellToggle.swift */,
 				53733DC723842FDD006F260E /* GraphCell.swift */,
+				53733DCB23844009006F260E /* GraphCell2.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2506,6 +2512,7 @@
 				53449DDA23294C1000A470E2 /* RequestRange.swift in Sources */,
 				53A4F4482376E59200EC12C6 /* Label.swift in Sources */,
 				53633DCA237AD4F800541F13 /* CoreChartViewDataSource.swift in Sources */,
+				53733DCC23844009006F260E /* GraphCell2.swift in Sources */,
 				53381EE9237C1E9A0000E287 /* FollowRequestsViewController.swift in Sources */,
 				53633DC7237AD4F800541F13 /* CoreChartEntry.swift in Sources */,
 				53449DB023294C1000A470E2 /* CardType.swift in Sources */,
@@ -2708,6 +2715,7 @@
 				53AF45102375B39F001A3574 /* AccountExtension.swift in Sources */,
 				53449DC623294C1000A470E2 /* Instances.swift in Sources */,
 				53A4F5162377325000EC12C6 /* ImageCell2.swift in Sources */,
+				53733DCA23843F2D006F260E /* TKRadarChart.swift in Sources */,
 				53733DC323842EF9006F260E /* GraphPoint.swift in Sources */,
 				53449DB723294C1000A470E2 /* Instance.swift in Sources */,
 				53A4F4132376E59200EC12C6 /* UISearchBar+Extensions.swift in Sources */,

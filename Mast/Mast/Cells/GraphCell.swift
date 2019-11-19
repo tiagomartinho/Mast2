@@ -127,14 +127,5 @@ class GraphCell: UITableViewCell, ScrollableGraphViewDataSource {
         
         contentView.addSubview(self.graphView)
     }
-    
-    func getTopMostViewController() -> UIViewController? {
-        var topMostViewController = UIApplication.shared.keyWindow?.rootViewController
-        while let presentedViewController = topMostViewController?.presentedViewController {
-            topMostViewController = presentedViewController
-        }
-        return topMostViewController
-    }
-    
 }
 

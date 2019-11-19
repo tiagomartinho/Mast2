@@ -191,6 +191,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.tableView2 = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView2.register(GraphCell.self, forCellReuseIdentifier: "GraphCell")
+        self.tableView2.register(GraphCell2.self, forCellReuseIdentifier: "GraphCell2")
         self.tableView2.delegate = self
         self.tableView2.dataSource = self
         self.tableView2.separatorStyle = .singleLine
@@ -420,6 +421,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if tableView == self.tableView {
+            return 1
+        } else {
+            return 2
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView {
             return GlobalStruct.notifications.count
@@ -512,14 +521,24 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell", for: indexPath) as! GraphCell
-            cell.configure()
-            cell.backgroundColor = GlobalStruct.baseDarkTint
-            cell.graphView.alpha = 1
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = .clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
+            if indexPath.section == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell", for: indexPath) as! GraphCell
+                cell.configure()
+                cell.backgroundColor = GlobalStruct.baseDarkTint
+                cell.graphView.alpha = 1
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = .clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell2", for: indexPath) as! GraphCell2
+                cell.configure()
+                cell.backgroundColor = GlobalStruct.baseDarkTint
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = .clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            }
         }
     }
     
