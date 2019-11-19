@@ -101,6 +101,7 @@ class GraphCell: UITableViewCell, ScrollableGraphViewDataSource {
         self.graphView.shouldAnimateOnStartup = false
         self.graphView.shouldAnimateOnAdapt = false
         self.graphView.alpha = 1
+        self.graphView.dataPointSpacing = ((self.bounds.width - 30) / 5)
         
         let barPlot = BarPlot(identifier: "bar")
         barPlot.barWidth = 8

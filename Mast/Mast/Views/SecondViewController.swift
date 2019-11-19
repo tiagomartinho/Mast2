@@ -515,7 +515,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell", for: indexPath) as! GraphCell
             cell.configure()
             cell.backgroundColor = GlobalStruct.baseDarkTint
-            cell.graphView.dataPointSpacing = (self.view.bounds.width / 5) - 30
             cell.graphView.alpha = 1
             let bgColorView = UIView()
             bgColorView.backgroundColor = .clear
