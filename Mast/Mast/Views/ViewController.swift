@@ -35,7 +35,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
     }
     
     func openLink() {
@@ -123,7 +122,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         UINavigationBar.appearance().shadowImage = UIImage()
-//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.startHaptics), name: NSNotification.Name(rawValue: "startHaptics"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
@@ -132,9 +131,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewMessages), name: NSNotification.Name(rawValue: "viewMessages"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewProfile), name: NSNotification.Name(rawValue: "viewProfile"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
-        
-        statusBarView.backgroundColor = UIColor(named: "baseWhite")!
-        self.view.addSubview(statusBarView)
         
         self.createTabBar()
         self.tabBar.barTintColor = GlobalStruct.baseDarkTint
@@ -281,6 +277,10 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        let statusBar = UIView(frame: (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame)!)
+        statusBar.backgroundColor = GlobalStruct.baseDarkTint
+        UIApplication.shared.keyWindow?.addSubview(statusBar)
         
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         do {
