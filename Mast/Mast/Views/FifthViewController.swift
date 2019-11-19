@@ -768,6 +768,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             alert.addAction(op3)
             let op5 = UIAlertAction(title: " \(friendText)", style: .default , handler:{ (UIAlertAction) in
                 if GlobalStruct.isFollowing {
+                    ViewController().showNotifBanner("Unfollowed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                     let request = Accounts.unfollow(id: self.pickedCurrentUser.id)
                     GlobalStruct.client.run(request) { (statuses) in
                         DispatchQueue.main.async {
@@ -778,6 +779,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         }
                     }
                 } else {
+                    ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                     let request = Accounts.follow(id: self.pickedCurrentUser.id, reblogs: true)
                     GlobalStruct.client.run(request) { (statuses) in
                         DispatchQueue.main.async {
@@ -1204,6 +1206,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op6 = UIAlertAction(title: "Endorse".localized, style: .default , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Endorsed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
             let request = Accounts.endorse(id: self.profileStatuses.first?.account.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 print("endorsed")
@@ -1270,6 +1273,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             alert.addOneTextField(configuration: config)
             alert.addAction(title: "Create and Add".localized, style: .default) { action in
+                ViewController().showNotifBanner("Added to List".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                 let request = Lists.create(title: self.txt)
                 GlobalStruct.client.run(request) { (statuses) in
                     if let stat = (statuses.value) {
@@ -1313,6 +1317,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 alert.addOneTextField(configuration: config)
                 alert.addAction(title: "Create and Add".localized, style: .default) { action in
+                    ViewController().showNotifBanner("Added to List".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                     let request = Lists.create(title: self.txt)
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
@@ -1338,6 +1343,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             alert.addAction(op11)
             for x in GlobalStruct.allLists {
                 let op1 = UIAlertAction(title: x.title, style: .default , handler:{ (UIAlertAction) in
+                    ViewController().showNotifBanner("Added to List".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                     let request = Lists.add(accountIDs: [self.pickedCurrentUser.id], toList: x.id)
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
