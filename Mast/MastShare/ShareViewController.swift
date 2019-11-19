@@ -149,19 +149,19 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         self.textView.inputAccessoryView = formatToolbar
         self.textView.becomeFirstResponder()
         
-        let layout = ColumnFlowLayout(
+        let layout = ColumnFlowLayout3(
             cellsPerRow: 4,
             minimumInteritemSpacing: 15,
             minimumLineSpacing: 15,
             sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         )
         layout.scrollDirection = .horizontal
-        collectionView1 = UICollectionView(frame: CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 145), collectionViewLayout: layout)
+        collectionView1 = UICollectionView(frame: CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 105), collectionViewLayout: layout)
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self
         collectionView1.showsHorizontalScrollIndicator = false
-        collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
+        collectionView1.register(ComposeImageCell.self, forCellWithReuseIdentifier: "ComposeImageCell")
         self.view.addSubview(collectionView1)
         
         for y in extensionContext!.inputItems {
@@ -212,7 +212,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
         if self.images.isEmpty {} else {
             cell.configure()
             cell.image.contentMode = .scaleAspectFill
@@ -222,10 +222,10 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
             cell.image.backgroundColor = .clear
             cell.image.layer.cornerRadius = 5
             cell.image.layer.masksToBounds = true
-            cell.image.layer.borderColor = UIColor.black.cgColor
-            cell.image.frame.size.width = 160
-            cell.image.frame.size.height = 120
-            cell.bgImage.layer.masksToBounds = false
+//            cell.image.layer.borderColor = UIColor.black.cgColor
+//            cell.image.frame.size.width = 160
+//            cell.image.frame.size.height = 120
+//            cell.bgImage.layer.masksToBounds = false
         }
         cell.backgroundColor = UIColor.clear
         return cell

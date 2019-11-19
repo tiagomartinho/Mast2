@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 
-class CollectionImageCell: UICollectionViewCell {
+class ComposeImageCell: UICollectionViewCell {
     
-    var bgImage = UIImageView()
     var image = UIImageView()
     var videoOverlay = UIImageView()
     
@@ -24,22 +23,21 @@ class CollectionImageCell: UICollectionViewCell {
     }
     
     public func configure() {
-        self.bgImage.backgroundColor = .clear
-        self.bgImage.frame = CGRect(x: 0, y: 0, width: 144, height: 120)
-        self.bgImage.layer.cornerRadius = 5
-        contentView.addSubview(bgImage)
-        
         self.image.layer.borderWidth = 0.4
         self.layer.borderColor = UIColor.black.cgColor
         
         self.image.frame.origin.x = 0
-        self.image.frame.origin.y = 0
-        self.image.frame.size.width = 160
-        self.image.frame.size.height = 120
+        self.image.frame.origin.y = 20
+        self.image.frame.size.width = 110
+        self.image.frame.size.height = 80
         self.image.backgroundColor = UIColor.clear
         self.image.layer.cornerRadius = 5
         contentView.addSubview(image)
         
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+        self.videoOverlay.frame = CGRect(x: 35, y: 20, width: 40, height: 40)
+        self.videoOverlay.contentMode = .scaleAspectFit
+//        self.videoOverlay.image = UIImage(systemName: "play.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
         self.videoOverlay.alpha = 0
 
         self.videoOverlay.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
@@ -50,4 +48,5 @@ class CollectionImageCell: UICollectionViewCell {
         contentView.addSubview(videoOverlay)
     }
 }
+
 

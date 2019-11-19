@@ -280,7 +280,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         
         let statusBar = UIView(frame: (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame)!)
         statusBar.backgroundColor = GlobalStruct.baseDarkTint
-        UIApplication.shared.keyWindow?.addSubview(statusBar)
+        self.view.addSubview(statusBar)
         
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         do {

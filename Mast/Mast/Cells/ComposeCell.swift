@@ -37,20 +37,20 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         self.textView.textContainerInset = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
         contentView.addSubview(self.textView)
         
-        let layout = ColumnFlowLayout(
+        let layout = ColumnFlowLayout3(
             cellsPerRow: 4,
             minimumInteritemSpacing: 15,
             minimumLineSpacing: 15,
             sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         )
         layout.scrollDirection = .horizontal
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-10), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
+        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(138)), collectionViewLayout: layout)
         collectionView1.translatesAutoresizingMaskIntoConstraints = false
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self
         collectionView1.showsHorizontalScrollIndicator = false
-        collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
+        collectionView1.register(ComposeImageCell.self, forCellWithReuseIdentifier: "ComposeImageCell")
         contentView.addSubview(collectionView1)
         
         let viewsDict = [
@@ -78,7 +78,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         self.collectionView1.reloadData()
         
         self.collectionView1.removeConstraint(heightConstraint)
-        heightConstraint = NSLayoutConstraint(item: self.collectionView1!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(145))
+        heightConstraint = NSLayoutConstraint(item: self.collectionView1!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(105))
         self.collectionView1.addConstraint(heightConstraint)
         contentView.layoutIfNeeded()
     }
@@ -88,7 +88,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ComposeImageCell", for: indexPath) as! ComposeImageCell
         if self.images.isEmpty {} else {
             cell.configure()
             cell.image.contentMode = .scaleAspectFill
@@ -102,10 +102,10 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             cell.image.backgroundColor = GlobalStruct.baseDarkTint
             cell.image.layer.cornerRadius = 5
             cell.image.layer.masksToBounds = true
-            cell.image.layer.borderColor = UIColor.black.cgColor
-            cell.image.frame.size.width = 160
-            cell.image.frame.size.height = 120
-            cell.bgImage.layer.masksToBounds = false
+//            cell.image.layer.borderColor = UIColor.black.cgColor
+//            cell.image.frame.size.width = 160
+//            cell.image.frame.size.height = 120
+//            cell.bgImage.layer.masksToBounds = false
         }
         cell.backgroundColor = UIColor.clear
         return cell
@@ -121,7 +121,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             }
         } else {
             let imageInfo = GSImageInfo(image: self.images[indexPath.item], imageMode: .aspectFit, imageHD: nil, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
-            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! ComposeImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
         }
