@@ -811,6 +811,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op8.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op8)
             let op9 = UIAlertAction(title: " \("Block".localized)", style: .default , handler:{ (UIAlertAction) in
+                ViewController().showNotifBanner("Blocked".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                 let request = Accounts.block(id: self.profileStatuses.first?.account.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     print("blocked")
