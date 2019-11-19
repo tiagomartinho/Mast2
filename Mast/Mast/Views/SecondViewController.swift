@@ -189,12 +189,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
         self.tableView.addSubview(self.refreshControl)
         
-        self.tableView2.register(DirectCell.self, forCellReuseIdentifier: "DirectCell")
+        self.tableView2 = UITableView(frame: .zero, style: .insetGrouped)
+        self.tableView2.register(GraphCell.self, forCellReuseIdentifier: "GraphCell")
         self.tableView2.delegate = self
         self.tableView2.dataSource = self
         self.tableView2.separatorStyle = .singleLine
         self.tableView2.separatorColor = UIColor(named: "baseBlack")?.withAlphaComponent(0.24)
-        self.tableView2.backgroundColor = UIColor.clear
+        self.tableView2.backgroundColor = UIColor(named: "lighterBaseWhite")!
         self.tableView2.layer.masksToBounds = true
         self.tableView2.estimatedRowHeight = UITableView.automaticDimension
         self.tableView2.rowHeight = UITableView.automaticDimension
@@ -272,6 +273,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                 }
             }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if tableView == self.tableView2 {
+            return 230
+        } else {
+            return UITableView.automaticDimension
         }
     }
     
@@ -415,7 +424,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         if tableView == self.tableView {
             return GlobalStruct.notifications.count
         } else {
-            return 0
+            return 1
         }
     }
     
@@ -503,11 +512,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell
-            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell", for: indexPath) as! GraphCell
+            cell.configure()
             cell.backgroundColor = GlobalStruct.baseDarkTint
+            cell.graphView.dataPointSpacing = (self.view.bounds.width / 5) - 30
+            cell.graphView.alpha = 1
             let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
+            bgColorView.backgroundColor = .clear
             cell.selectedBackgroundView = bgColorView
             return cell
         }
