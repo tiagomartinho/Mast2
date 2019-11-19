@@ -650,6 +650,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             op6.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op6)
             let op5 = UIAlertAction(title: " \("Delete".localized)", style: .destructive , handler:{ (UIAlertAction) in
+                ViewController().showNotifBanner("Deleted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 let request = Statuses.delete(id: self.pickedStatusesHome[0].id)
                 GlobalStruct.client.run(request) { (statuses) in
                     DispatchQueue.main.async {
