@@ -1494,18 +1494,22 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.show(UINavigationController(rootViewController: vc), sender: self)
         }
         var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
+            ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
             self.toggleBoostOn(status)
         }
         if status.first?.reblogged ?? false {
             boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
+                ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 self.toggleBoostOff(status)
             }
         }
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
+            ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
             self.toggleLikeOn(status)
         }
         if status.first?.favourited ?? false {
             like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
+                ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 self.toggleLikeOff(status)
             }
         }
@@ -1516,6 +1520,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.translateThis(status)
         }
         let mute = UIAction(title: "Mute Conversation".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
+            ViewController().showNotifBanner("Muted".localized, subtitle: "Conversation".localized, style: BannerStyle.info)
             let request = Statuses.mute(id: status.first?.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 print("muted")
@@ -1530,6 +1535,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         delete.attributes = .destructive
         
         let repo1 = UIAction(title: "Harassment".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Harassment".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Harassment")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -1537,6 +1543,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         repo1.attributes = .destructive
         let repo2 = UIAction(title: "No Content Warning".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "No Content Warning".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "No Content Warning")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -1544,6 +1551,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         repo2.attributes = .destructive
         let repo3 = UIAction(title: "Spam".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Spam".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Spam")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -1556,9 +1564,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if GlobalStruct.currentUser.id == (status.first?.account.id ?? "") {
             
             let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 self.pinToot(status.first!)
             }
             let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 self.unpinToot(status.first!)
             }
             let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
@@ -1573,6 +1583,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
             del1.attributes = .destructive
             let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+                ViewController().showNotifBanner("Deleted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 let request = Statuses.delete(id: status[indexPath.row].id)
                 GlobalStruct.client.run(request) { (statuses) in
                     DispatchQueue.main.async {

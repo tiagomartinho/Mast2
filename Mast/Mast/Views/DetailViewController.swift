@@ -526,11 +526,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func boostTapped() {
         if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleBoostOff(self.pickedStatusesHome[0])
                 self.isBoosted = false
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleBoostOn(self.pickedStatusesHome[0])
                 self.isBoosted = true
             }
@@ -540,11 +542,13 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func likeTapped() {
         if self.pickedStatusesHome.first?.favourited ?? false || self.isLiked {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleLikeOff(self.pickedStatusesHome[0])
                 self.isLiked = false
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleLikeOn(self.pickedStatusesHome[0])
                 self.isLiked = true
             }
@@ -616,6 +620,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             if GlobalStruct.allPinned.contains(self.pickedStatusesHome.first!) {
                 let op1 = UIAlertAction(title: " \("Unpin".localized)", style: .default , handler:{ (UIAlertAction) in
+                    ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                     self.unpinToot()
                 })
                 op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
@@ -623,6 +628,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 alert.addAction(op1)
             } else {
                 let op1 = UIAlertAction(title: " \("Pin".localized)", style: .default , handler:{ (UIAlertAction) in
+                    ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                     self.pinToot()
                 })
                 op1.setValue(UIImage(systemName: "pin")!, forKey: "image")
@@ -774,6 +780,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func reportThis() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Harassment".localized, style: .destructive , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Harassment".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "Harassment")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -783,6 +790,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
         let op2 = UIAlertAction(title: "No Content Warning".localized, style: .destructive , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "No Content Warning".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "No Content Warning")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -792,6 +800,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
         let op3 = UIAlertAction(title: "Spam".localized, style: .destructive , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Spam".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: self.pickedStatusesHome.first?.account.id ?? "", statusIDs: [self.pickedStatusesHome.first?.id ?? ""], reason: "Spam")
             GlobalStruct.client.run(request) { (statuses) in
                 
