@@ -801,18 +801,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op4.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op4)
             let op8 = UIAlertAction(title: "Mute".localized, style: .default , handler:{ (UIAlertAction) in
+                ViewController().showNotifBanner("Muted".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                 let request = Accounts.mute(id: self.profileStatuses.first?.account.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     print("muted")
-                    DispatchQueue.main.async {
-                        let banner = FloatingNotificationBanner(title: "Muted".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: .info)
-                        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                            banner.haptic = .medium
-                        } else {
-                            banner.haptic = .none
-                        }
-                        banner.show()
-                    }
                 }
             })
             op8.setValue(UIImage(systemName: "eye.slash")!, forKey: "image")
