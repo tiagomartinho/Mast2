@@ -907,6 +907,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         alert.addOneTextField(configuration: config)
         alert.addAction(title: "Update".localized, style: .default) { action in
+            ViewController().showNotifBanner("Updated".localized, subtitle: "Display name".localized, style: BannerStyle.info)
             let request = Accounts.updateCurrentUser(displayName: self.txt, note: nil, avatar: nil, header: nil, locked: nil)
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {
@@ -948,6 +949,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         alert.addOneTextField(configuration: config)
         alert.addAction(title: "Update".localized, style: .default) { action in
+        ViewController().showNotifBanner("Updated".localized, subtitle: "Bio".localized, style: BannerStyle.info)
         let request = Accounts.updateCurrentUser(displayName: nil, note: self.txt, avatar: nil, header: nil, locked: nil)
             GlobalStruct.client.run(request) { (statuses) in
                 if let stat = (statuses.value) {
@@ -978,6 +980,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.photoPickerView.dismiss(animated: false, completion: nil)
         if self.editType == 0 {
             GlobalStruct.medType = 1
+            ViewController().showNotifBanner("Updated".localized, subtitle: "Avatar".localized, style: BannerStyle.info)
             let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: .jpeg(image.jpegData(compressionQuality: 1)), header: nil)
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
@@ -986,6 +989,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         } else {
             GlobalStruct.medType = 2
+            ViewController().showNotifBanner("Updated".localized, subtitle: "Header".localized, style: BannerStyle.info)
             let request = Accounts.updateCurrentUser(displayName: nil, note: nil, avatar: nil, header: .jpeg(image.jpegData(compressionQuality: 1)))
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
