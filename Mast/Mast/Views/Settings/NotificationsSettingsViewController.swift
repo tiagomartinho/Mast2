@@ -161,13 +161,9 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             
             return cell
         } else {
-            
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell1", for: indexPath)
-            cell.textLabel?.text = "In-App Banners"
-            cell.imageView?.image = UIImage(systemName: "bolt", withConfiguration: symbolConfig) ?? UIImage()
+            cell.textLabel?.text = "In-App Banners".localized
             let switchView = UISwitch(frame: .zero)
-            
             if UserDefaults.standard.value(forKey: "switchbanners") as? Int != nil {
                 if UserDefaults.standard.value(forKey: "switchbanners") as? Int == 0 {
                     switchView.setOn(true, animated: false)
@@ -177,7 +173,6 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             } else {
                 switchView.setOn(true, animated: false)
             }
-            
             switchView.onTintColor = GlobalStruct.baseTint
             switchView.tintColor = GlobalStruct.baseTint
             switchView.tag = indexPath.row
