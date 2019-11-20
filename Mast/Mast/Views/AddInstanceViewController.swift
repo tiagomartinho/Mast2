@@ -267,7 +267,7 @@ class AddInstanceViewController: UIViewController, UITextFieldDelegate, UITableV
         
         self.textField.backgroundColor = UIColor(named: "baseWhite")!
         self.textField.borderStyle = .none
-        self.textField.layer.cornerRadius = 8
+        self.textField.layer.cornerRadius = 10
         self.textField.layer.cornerCurve = .continuous
         self.textField.textColor = UIColor(named: "baseBlack")
         self.textField.spellCheckingType = .no

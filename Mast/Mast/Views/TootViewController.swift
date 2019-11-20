@@ -584,7 +584,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             textField.backgroundColor = nil
             textField.keyboardAppearance = .default
             textField.keyboardType = .default
-            textField.autocapitalizationType = .none
             textField.isSecureTextEntry = false
             textField.returnKeyType = .default
             textField.action { textField in

@@ -20,12 +20,15 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     var formatToolbar = UIToolbar()
     var x1 = UIBarButtonItem()
     var x2 = UIBarButtonItem()
+    var x3 = UIBarButtonItem()
     var maxChars = 500
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
     let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
     var collectionView1: UICollectionView!
     var images: [UIImage] = []
+    var txt = ""
+    var contentWarning = ""
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return .default
@@ -92,9 +95,9 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     
     func textViewDidChange(_ textView: UITextView) {
         let maxChars = self.maxChars - (self.textView.text?.count ?? 0)
-        self.x2 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
-        self.x2.accessibilityLabel = "Characters".localized
-        self.formatToolbar.items?[2] = self.x2
+        self.x3 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+        self.x3.accessibilityLabel = "Characters".localized
+        self.formatToolbar.items?[4] = self.x3
         
         if textView.text == "" {
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -135,15 +138,19 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         } else {
             visibilityIcon = "paperplane"
         }
-        
+
         x1 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
         x1.accessibilityLabel = "Visibility".localized
-        x2 = UIBarButtonItem(title: "\(self.maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
-        x2.accessibilityLabel = "Characters".localized
+        x2 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+        x2.accessibilityLabel = "Spoiler Text".localized
+        x3 = UIBarButtonItem(title: "\(self.maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+        x3.accessibilityLabel = "Characters".localized
         formatToolbar.items = [
             x1,
+            fixedS,
+            x2,
             UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
-            x2
+            x3
         ]
         formatToolbar.sizeToFit()
         self.textView.inputAccessoryView = formatToolbar
@@ -195,9 +202,9 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
                                 if let shareURL = url as? NSURL {
                                     self.textView.text = "\(theText)\n\n\(shareURL)"
                                     let maxChars = self.maxChars - (self.textView.text?.count ?? 0)
-                                    self.x2 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
-                                    self.x2.accessibilityLabel = "Characters".localized
-                                    self.formatToolbar.items?[2] = self.x2
+                                    self.x3 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+                                    self.x3.accessibilityLabel = "Characters".localized
+                                    self.formatToolbar.items?[4] = self.x3
                                 }
                             }
                         }
@@ -205,6 +212,72 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
                 }
             }
         }
+    }
+    
+    @objc func contentTap() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
+        let alert = UIAlertController(style: .actionSheet, title: nil)
+        let config: TextField1.Config = { textField in
+            textField.becomeFirstResponder()
+            textField.textColor = UIColor(named: "baseBlack")!
+            if self.contentWarning == "" {
+                textField.placeholder = "Content warning...".localized
+            } else {
+                textField.text = self.contentWarning
+            }
+            textField.layer.borderWidth = 0
+            textField.layer.cornerRadius = 8
+            textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+            textField.backgroundColor = nil
+            textField.keyboardAppearance = .default
+            textField.keyboardType = .default
+            textField.isSecureTextEntry = false
+            textField.returnKeyType = .default
+            textField.action { textField in
+                self.txt = textField.text ?? ""
+            }
+        }
+        alert.addOneTextField(configuration: config)
+        if self.contentWarning == "" {
+            alert.addAction(title: "Add".localized, style: .default) { action in
+                self.contentWarning = self.txt
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x2 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                self.x2.accessibilityLabel = "Spoiler Text".localized
+                self.formatToolbar.items?[2] = self.x2
+            }
+        } else {
+            alert.addAction(title: "Update".localized, style: .default) { action in
+                self.contentWarning = self.txt
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x2 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield.fill", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                self.x2.accessibilityLabel = "Spoiler Text".localized
+                self.formatToolbar.items?[2] = self.x2
+            }
+            alert.addAction(title: "Remove".localized, style: .destructive) { action in
+                self.contentWarning = ""
+                
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                self.x2 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                self.x2.accessibilityLabel = "Spoiler Text".localized
+                self.formatToolbar.items?[2] = self.x2
+            }
+        }
+        alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+            
+        }
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.x2.value(forKey: "view") as? UIView
+            presenter.sourceRect = (self.x2.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
+        }
+//        alert.show()
+        self.present(alert, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -315,7 +388,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
             )
         }
         if self.images.isEmpty {
-            let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: false, spoilerText: nil, visibility: self.defaultVisibility)
+            let request = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: [], sensitive: false, spoilerText: self.contentWarning, visibility: self.defaultVisibility)
             client.run(request) { (statuses) in
                 if let _ = (statuses.value) {
                     DispatchQueue.main.async {
@@ -331,7 +404,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
                     if let stat = (statuses.value) {
                         mediaIDs.append(stat.id)
                         if x == self.images.count - 1 {
-                            let request2 = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: mediaIDs, sensitive: false, spoilerText: nil, visibility: self.defaultVisibility)
+                            let request2 = Statuses.create(status: self.textView.text, replyToID: nil, mediaIDs: mediaIDs, sensitive: false, spoilerText: self.contentWarning, visibility: self.defaultVisibility)
                             client.run(request2) { (statuses) in
                                 if let _ = (statuses.value) {
                                     DispatchQueue.main.async {
