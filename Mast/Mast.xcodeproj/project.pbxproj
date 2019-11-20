@@ -82,6 +82,7 @@
 		53123316238584390096BFD6 /* BiometricAuthenticationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123312238584380096BFD6 /* BiometricAuthenticationConstants.swift */; };
 		53123317238584390096BFD6 /* BioMetricAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123314238584380096BFD6 /* BioMetricAuthenticator.swift */; };
 		53123318238584390096BFD6 /* AuthenticationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123315238584380096BFD6 /* AuthenticationErrors.swift */; };
+		5312331A238587D30096BFD6 /* ShortcutsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123319238587D30096BFD6 /* ShortcutsSettingsViewController.swift */; };
 		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
 		53381EE1237B14DC0000E287 /* NewPollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE0237B14DC0000E287 /* NewPollViewController.swift */; };
 		53381EE3237B16320000E287 /* PollOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE2237B16320000E287 /* PollOptionCell.swift */; };
@@ -757,6 +758,7 @@
 		53123312238584380096BFD6 /* BiometricAuthenticationConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricAuthenticationConstants.swift; sourceTree = "<group>"; };
 		53123314238584380096BFD6 /* BioMetricAuthenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioMetricAuthenticator.swift; sourceTree = "<group>"; };
 		53123315238584380096BFD6 /* AuthenticationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationErrors.swift; sourceTree = "<group>"; };
+		53123319238587D30096BFD6 /* ShortcutsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsSettingsViewController.swift; sourceTree = "<group>"; };
 		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
 		53381EE0237B14DC0000E287 /* NewPollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPollViewController.swift; sourceTree = "<group>"; };
 		53381EE2237B16320000E287 /* PollOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionCell.swift; sourceTree = "<group>"; };
@@ -2606,6 +2608,7 @@
 				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
 				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
 				53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */,
+				53123319238587D30096BFD6 /* ShortcutsSettingsViewController.swift */,
 				5312330E238583550096BFD6 /* LockSettingsViewController.swift */,
 				53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */,
 				53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */,
@@ -3234,6 +3237,7 @@
 				53633DC5237AD4F800541F13 /* HCoreBarChart.swift in Sources */,
 				53733E3723844FE5006F260E /* MarqueeLabel.swift in Sources */,
 				53449DD723294C1000A470E2 /* Pagination.swift in Sources */,
+				5312331A238587D30096BFD6 /* ShortcutsSettingsViewController.swift in Sources */,
 				53449DBA23294C1000A470E2 /* Application.swift in Sources */,
 				5395A7582372DE7E002253A8 /* BlockedViewController.swift in Sources */,
 				53955D792374887700522101 /* BrowserSettingsViewController.swift in Sources */,

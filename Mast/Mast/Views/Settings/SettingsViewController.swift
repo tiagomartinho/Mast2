@@ -30,6 +30,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
     
@@ -131,7 +132,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 return self.firstSection.count
             }
         } else if section == 2 {
+            #if targetEnvironment(macCatalyst)
+            return self.secondSectionMac.count
+            #elseif !targetEnvironment(macCatalyst)
             return self.secondSection.count
+            #endif
         } else if section == 3 {
             return self.accountSection.count
         } else {
@@ -359,7 +364,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             if indexPath.row == 5 {
-                
+                let vc = ShortcutsSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             if indexPath.row == 6 {
                 let vc = LockSettingsViewController()
