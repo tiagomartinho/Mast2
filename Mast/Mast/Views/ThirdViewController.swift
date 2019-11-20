@@ -187,7 +187,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         GlobalStruct.client.run(request5) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    GlobalStruct.notificationsDirect = stat
                     self.tableView.reloadData()
                 }
             }
