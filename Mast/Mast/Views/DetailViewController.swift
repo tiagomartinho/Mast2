@@ -518,12 +518,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func replyTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let vc = TootViewController()
         vc.replyStatus = self.pickedStatusesHome
         self.show(UINavigationController(rootViewController: vc), sender: self)
     }
     
     @objc func boostTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                 ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
@@ -540,6 +550,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func likeTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if self.pickedStatusesHome.first?.favourited ?? false || self.isLiked {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
@@ -556,6 +571,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func shareTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: " \("Share Content".localized)", style: .default , handler:{ (UIAlertAction) in
             let textToShare = [self.pickedStatusesHome.first?.content.stripHTML() ?? ""]
@@ -616,6 +636,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func moreTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if GlobalStruct.currentUser.id == (self.pickedStatusesHome.first?.account.id ?? "") {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             if GlobalStruct.allPinned.contains(self.pickedStatusesHome.first!) {
