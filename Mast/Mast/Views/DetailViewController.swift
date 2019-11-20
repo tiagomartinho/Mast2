@@ -479,6 +479,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func metricsTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let vc = LikedBoostedViewController()
         vc.theStatus = self.pickedStatusesHome
         self.navigationController?.pushViewController(vc, animated: true)

@@ -99,6 +99,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @objc func crossTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         self.dismiss(animated: true, completion: nil)
     }
     

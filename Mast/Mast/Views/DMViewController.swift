@@ -264,6 +264,11 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     }
     
     @objc func didTouchSend(sender: UIButton) {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         guard let thText = self.messageInputBar.inputTextView.text else { return }
         let sender = Sender(id: "1", displayName: "\(GlobalStruct.currentUser.acct)")
         let x = MockMessage.init(text: thText, sender: sender, messageId: "18982", date: Date())
