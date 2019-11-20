@@ -77,7 +77,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
+        self.view.backgroundColor = UIColor(named: "baseWhite")!
         self.title = "Mast Pro".localized
         
         if self.shouldShowX {
@@ -105,7 +105,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
         
-        self.bgView.backgroundColor = UIColor(named: "baseWhite")!
+        self.bgView.backgroundColor = UIColor(named: "lighterBaseWhite")!
         self.view.addSubview(self.bgView)
         let border = UIView()
         border.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.28)
