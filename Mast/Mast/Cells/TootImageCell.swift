@@ -205,14 +205,18 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         }
         
         if stat.reblog?.sensitive ?? stat.sensitive ?? false {
-            self.cwOverlay.alpha = 1
-            if stat.reblog?.spoilerText ?? stat.spoilerText == "" {
-                self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
+            if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
+                self.cwOverlay.alpha = 1
+                if stat.reblog?.spoilerText ?? stat.spoilerText == "" {
+                    self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
+                } else {
+                    self.cwOverlay.setTitle(stat.reblog?.spoilerText ?? stat.spoilerText, for: .normal)
+                }
+                self.cwOverlay.setTitleColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.85), for: .normal)
+                self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             } else {
-                self.cwOverlay.setTitle(stat.reblog?.spoilerText ?? stat.spoilerText, for: .normal)
+                self.cwOverlay.alpha = 0
             }
-            self.cwOverlay.setTitleColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.85), for: .normal)
-            self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         } else {
             self.cwOverlay.alpha = 0
         }

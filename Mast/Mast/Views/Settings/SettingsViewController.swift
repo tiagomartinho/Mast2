@@ -29,7 +29,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
-    let secondSection = ["Hide Sensitive Media".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
     

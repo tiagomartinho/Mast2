@@ -199,14 +199,18 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
         }
         
         if noti.status?.sensitive ?? false {
-            self.cwOverlay.alpha = 1
-            if noti.status?.spoilerText ?? "" == "" {
-                self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
+            if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
+                self.cwOverlay.alpha = 1
+                if noti.status?.spoilerText ?? "" == "" {
+                    self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
+                } else {
+                    self.cwOverlay.setTitle(noti.status?.spoilerText ?? "Content Warning", for: .normal)
+                }
+                self.cwOverlay.setTitleColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.85), for: .normal)
+                self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             } else {
-                self.cwOverlay.setTitle(noti.status?.spoilerText ?? "Content Warning", for: .normal)
+                self.cwOverlay.alpha = 0
             }
-            self.cwOverlay.setTitleColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.85), for: .normal)
-            self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         } else {
             self.cwOverlay.alpha = 0
         }
