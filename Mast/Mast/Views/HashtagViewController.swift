@@ -302,19 +302,35 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
             self.show(UINavigationController(rootViewController: vc), sender: self)
         }
         var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
-            self.toggleBoostOn(status)
+            ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+            let request = Statuses.reblog(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
         if status.first?.reblogged ?? false {
             boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
-                self.toggleBoostOff(status)
+                ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.unreblog(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
             }
         }
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
-            self.toggleLikeOn(status)
+            ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+            let request = Statuses.favourite(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
         if status.first?.favourited ?? false {
             like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
-                self.toggleLikeOff(status)
+                ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.unfavourite(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
             }
         }
         let shar = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
@@ -323,52 +339,107 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         let tran = UIAction(title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
             self.translateThis(status)
         }
-        let mute = UIAction(title: "Mute".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
-            self.muteThis(status)
-        }
-        let bloc = UIAction(title: "Block".localized, image: UIImage(systemName: "hand.raised"), identifier: nil) { action in
-            self.blockThis(status)
+        let mute = UIAction(title: "Mute Conversation".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
+            ViewController().showNotifBanner("Muted".localized, subtitle: "Conversation".localized, style: BannerStyle.info)
+            let request = Statuses.mute(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                print("muted")
+            }
         }
         let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
-            self.duplicateThis(status)
-        }
-        let repo = UIAction(title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
-            self.reportThis(status)
+            let vc = TootViewController()
+            vc.duplicateStatus = status
+            self.show(UINavigationController(rootViewController: vc), sender: self)
         }
         let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
             
         }
         delete.attributes = .destructive
-        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, bloc, dupl, repo])
         
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
-    }
-    
-    func toggleBoostOn(_ stat: [Status]) {
-        let request = Statuses.reblog(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
+        let repo1 = UIAction(title: "Harassment".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Harassment".localized, style: BannerStyle.info)
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Harassment")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
-    }
-    
-    func toggleBoostOff(_ stat: [Status]) {
-        let request = Statuses.unreblog(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
+        repo1.attributes = .destructive
+        let repo2 = UIAction(title: "No Content Warning".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "No Content Warning".localized, style: BannerStyle.info)
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "No Content Warning")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
-    }
-    
-    func toggleLikeOn(_ stat: [Status]) {
-        let request = Statuses.favourite(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
+        repo2.attributes = .destructive
+        let repo3 = UIAction(title: "Spam".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Spam".localized, style: BannerStyle.info)
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Spam")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
-    }
-    
-    func toggleLikeOff(_ stat: [Status]) {
-        let request = Statuses.unfavourite(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
+        repo3.attributes = .destructive
+        
+        let rep = UIMenu(__title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil, options: [.destructive], children: [repo1, repo2, repo3])
+        
+        if GlobalStruct.currentUser.id == (status.first?.account.id ?? "") {
             
+            let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.pin(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = statuses.value {
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
+            }
+            let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.unpin(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = statuses.value {
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
+            }
+            let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
+                let request = Statuses.delete(id: status[indexPath.row].id)
+                GlobalStruct.client.run(request) { (statuses) in
+                    DispatchQueue.main.async {
+                        let vc = TootViewController()
+                        vc.duplicateStatus = [status[indexPath.row]]
+                        self.show(UINavigationController(rootViewController: vc), sender: self)
+                    }
+                }
+            }
+            del1.attributes = .destructive
+            let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+                ViewController().showNotifBanner("Deleted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.delete(id: status[indexPath.row].id)
+                GlobalStruct.client.run(request) { (statuses) in
+                    DispatchQueue.main.async {
+                    
+                    }
+                }
+            }
+            del2.attributes = .destructive
+            
+            if GlobalStruct.allPinned.contains(status.first!) {
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2])
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            } else {
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2])
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            }
+            
+        } else {
+            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
+            return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
         }
     }
     
@@ -455,21 +526,10 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         task.resume()
     }
     
-    func muteThis(_ stat: [Status]) {
-        
-    }
-    
-    func blockThis(_ stat: [Status]) {
-        
-    }
-    
-    func duplicateThis(_ stat: [Status]) {
-        
-    }
-    
     func reportThis(_ stat: [Status]) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: "Harassment".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: "Harassment".localized, style: .destructive , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Harassment".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Harassment")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -478,7 +538,8 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         op1.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .default , handler:{ (UIAlertAction) in
+        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .destructive , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "No Content Warning".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "No Content Warning")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -487,7 +548,8 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         op2.setValue(UIImage(systemName: "flag")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
-        let op3 = UIAlertAction(title: "Spam".localized, style: .default , handler:{ (UIAlertAction) in
+        let op3 = UIAlertAction(title: "Spam".localized, style: .destructive , handler:{ (UIAlertAction) in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Spam".localized, style: BannerStyle.info)
             let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Spam")
             GlobalStruct.client.run(request) { (statuses) in
                 

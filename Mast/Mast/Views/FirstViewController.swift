@@ -1582,7 +1582,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
             let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
                 ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.pin(id: status.first.id ?? "")
+                let request = Statuses.pin(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     if let stat = statuses.value {
                         DispatchQueue.main.async {
@@ -1593,7 +1593,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
             let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
                 ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.unpin(id: status.first.id ?? "")
+                let request = Statuses.unpin(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     if let stat = statuses.value {
                         DispatchQueue.main.async {
