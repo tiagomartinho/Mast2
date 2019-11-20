@@ -172,6 +172,10 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
     }
     
     @objc func hideOverlay() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+            selectionFeedbackGenerator.selectionChanged()
+        }
         self.cwOverlay.alpha = 0
     }
     
