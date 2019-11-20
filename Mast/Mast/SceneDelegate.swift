@@ -93,6 +93,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        if userActivity.activityType == "com.shi.Mast.newToot" {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+        }
+        if userActivity.activityType == "com.shi.Mast.viewNotifs" {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewNotifications"), object: self)
+        }
+        if userActivity.activityType == "com.shi.Mast.viewMessages" {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "viewMessages"), object: self)
+        }
+    }
+    
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = (URLContexts.first?.url ?? URL(string: "www.google.com")) {
             if url.host == "success" {

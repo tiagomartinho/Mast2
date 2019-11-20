@@ -15,7 +15,7 @@ import MobileCoreServices
 class ShortcutsSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, INUIAddVoiceShortcutViewControllerDelegate {
     
     var tableView = UITableView()
-    let firstSection = ["Create Toot".localized, "View Notifications".localized]
+    let firstSection = ["Create Toot".localized, "View Notifications".localized, "View Messages".localized]
     var latestTapped = 0
     
     override func viewDidLayoutSubviews() {
@@ -139,6 +139,23 @@ class ShortcutsSettingsViewController: UIViewController, UITableViewDataSource, 
             activity1.isEligibleForPrediction = true
             activity1.persistentIdentifier = "com.shi.Mast.viewNotifs"
             activity1.suggestedInvocationPhrase = "View your notifications".localized
+            activity1.persistentIdentifier = String(button.tag)
+            self.view.userActivity = activity1
+            activity1.becomeCurrent()
+            let shortcut = INShortcut(userActivity: activity1)
+            let vc = INUIAddVoiceShortcutViewController(shortcut: shortcut)
+            vc.delegate = self
+            present(vc, animated: true, completion: nil)
+        } else if self.latestTapped == 2 {
+            let activity1 = NSUserActivity(activityType: "com.shi.Mast.viewMessages")
+            activity1.title = "View your messages".localized
+            let attributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
+            attributes.contentDescription = "View your messages.".localized
+            activity1.contentAttributeSet = attributes
+            activity1.isEligibleForSearch = true
+            activity1.isEligibleForPrediction = true
+            activity1.persistentIdentifier = "com.shi.Mast.viewMessages"
+            activity1.suggestedInvocationPhrase = "View your messages".localized
             activity1.persistentIdentifier = String(button.tag)
             self.view.userActivity = activity1
             activity1.becomeCurrent()
