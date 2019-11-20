@@ -50,17 +50,17 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             self.tandc.frame = CGRect(x: 25, y: 95, width: (self.view.bounds.width - 50), height: 100 - self.view.safeAreaInsets.bottom)
-            self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 155, width: 150, height: 40)
-            self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 155, width: 150, height: 40)
+            self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 158, width: 150, height: 40)
+            self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 158, width: 150, height: 40)
         } else {
             if self.view.safeAreaInsets.bottom > 0 {
                 self.tandc.frame = CGRect(x: 25, y: 90, width: (self.view.bounds.width - 50), height: 120 - self.view.safeAreaInsets.bottom)
-                self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 145, width: 150, height: 40)
-                self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 145, width: 150, height: 40)
+                self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 148, width: 150, height: 40)
+                self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 148, width: 150, height: 40)
             } else {
                 self.tandc.frame = CGRect(x: 25, y: 81, width: (self.view.bounds.width - 50), height: 120 - self.view.safeAreaInsets.bottom)
-                self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 155, width: 150, height: 40)
-                self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 155, width: 150, height: 40)
+                self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 158, width: 150, height: 40)
+                self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 158, width: 150, height: 40)
             }
         }
         
