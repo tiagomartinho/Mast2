@@ -11,6 +11,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let blurEffect = UIBlurEffect(style: .systemChromeMaterial)
+    var blurredEffectView = UIVisualEffectView()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -124,14 +126,75 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.tintColor = UIColor(named: "baseBlack")!
         NotificationCenter.default.post(name: Notification.Name(rawValue: "startHaptics"), object: self)
         
-//        do {
-//            StoreStruct.currentUser = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)use.json", from: .documents, as: Account.self)
-//            StoreStruct.statusesHome = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)home.json", from: .documents, as: [Status].self)
-//            StoreStruct.statusesLocal = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)local.json", from: .documents, as: [Status].self)
-//            StoreStruct.statusesFederated = try Disk.retrieve("\(StoreStruct.currentInstance.clientID)fed.json", from: .documents, as: [Status].self)
-//        } catch {
-//            print("Couldn't load")
-//        }
+        self.showBioLock()
+    }
+    
+    func showBioLock() {
+        if UserDefaults.standard.value(forKey: "sync-lock") as? Int == 1 {
+            self.blurredEffectView = UIVisualEffectView(effect: blurEffect)
+            self.blurredEffectView.frame = UIApplication.shared.windows.last?.bounds ?? UIWindow().bounds
+            window?.addSubview(self.blurredEffectView)
+            
+            if UserDefaults.standard.value(forKey: "sync-lockTime") as? Int == 0 {
+                BioMetricAuthenticator.shared.allowableReuseDuration = 1
+            } else if UserDefaults.standard.value(forKey: "sync-lockTime") as? Int == 1 {
+                BioMetricAuthenticator.shared.allowableReuseDuration = 60
+            } else if UserDefaults.standard.value(forKey: "sync-lockTime") as? Int == 2 {
+                BioMetricAuthenticator.shared.allowableReuseDuration = 300
+            } else if UserDefaults.standard.value(forKey: "sync-lockTime") as? Int == 3 {
+                BioMetricAuthenticator.shared.allowableReuseDuration = 900
+            } else if UserDefaults.standard.value(forKey: "sync-lockTime") as? Int == 4 {
+                BioMetricAuthenticator.shared.allowableReuseDuration = 3600
+            }
+            
+            if BioMetricAuthenticator.canAuthenticate() {
+                BioMetricAuthenticator.authenticateWithBioMetrics(reason: "") { [weak self] (result) in
+                    switch result {
+                    case .success( _):
+                        self?.blurredEffectView.removeFromSuperview()
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "becomeFirst"), object: self)
+                    case .failure(let error):
+                        switch error {
+                        case .biometryNotAvailable:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        case .biometryNotEnrolled:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        case .fallback:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        case .biometryLockedout:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        case .canceledBySystem:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        case .canceledByUser:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        default:
+                            self?.blurredEffectView.removeFromSuperview()
+                            self?.showBioLock()
+                        }
+                    }
+                }
+            } else {
+                self.showBioLock()
+            }
+        }
+    }
+    
+    func showPasscodeAuthentication(message: String) {
+        BioMetricAuthenticator.authenticateWithPasscode(reason: message) { [weak self] (result) in
+            switch result {
+            case .success( _):
+                self?.blurredEffectView.removeFromSuperview()
+            case .failure(let error):
+                self?.showBioLock()
+                print(error.message())
+            }
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

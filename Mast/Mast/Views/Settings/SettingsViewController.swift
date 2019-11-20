@@ -358,6 +358,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 let vc = ScanSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+            if indexPath.row == 5 {
+                
+            }
+            if indexPath.row == 6 {
+                let vc = LockSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if indexPath.section == 3 {
             if indexPath.row == 0 {
                 let vc = AccountsSettingsViewController()

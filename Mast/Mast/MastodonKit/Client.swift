@@ -28,7 +28,7 @@ public struct Client: ClientType {
         self.accessToken = accessToken
     }
 
-    public func run<Model>(_ request: Request<Model>, completion: @escaping (Result<Model>) -> Void) {
+    public func run<Model>(_ request: Request<Model>, completion: @escaping (Result1<Model>) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
         guard
             let components = URLComponents(baseURL: self.baseURL, request: request),

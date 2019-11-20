@@ -8,14 +8,14 @@
 
 import Foundation
 
-public enum Result<Model> {
+public enum Result1<Model> {
     /// Success wraps a model and an optional pagination
     case success(Model, Pagination?)
     /// Failure wraps an ErrorType
     case failure(Error)
 }
 
-extension Result {
+extension Result1 {
     /// Convenience getter for the value.
     public var value: Model? {
         switch self {
