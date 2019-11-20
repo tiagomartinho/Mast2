@@ -186,6 +186,11 @@ class ScheduledViewController: UIViewController, UITextFieldDelegate, UITableVie
             }
 
             cell.content.handleMentionTap { (string) in
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
                 let vc = FifthViewController()
                 vc.isYou = false
                 vc.isTapped = true
@@ -193,11 +198,21 @@ class ScheduledViewController: UIViewController, UITextFieldDelegate, UITableVie
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             cell.content.handleHashtagTap { (string) in
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
                 let vc = HashtagViewController()
                 vc.theHashtag = string
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             cell.content.handleURLTap { (string) in
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
                 GlobalStruct.tappedURL = string
                 ViewController().openLink()
             }
@@ -217,6 +232,11 @@ class ScheduledViewController: UIViewController, UITextFieldDelegate, UITableVie
             }
 
             cell.content.handleMentionTap { (string) in
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
                 let vc = FifthViewController()
                 vc.isYou = false
                 vc.isTapped = true
@@ -224,11 +244,21 @@ class ScheduledViewController: UIViewController, UITextFieldDelegate, UITableVie
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             cell.content.handleHashtagTap { (string) in
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
                 let vc = HashtagViewController()
                 vc.theHashtag = string
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             cell.content.handleURLTap { (string) in
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
                 GlobalStruct.tappedURL = string
                 ViewController().openLink()
             }
