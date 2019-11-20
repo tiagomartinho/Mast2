@@ -59,6 +59,7 @@ final class LocalePickerViewController: UIViewController {
     fileprivate lazy var searchView: UIView = UIView()
     
     fileprivate lazy var searchController: UISearchController = { [unowned self] in
+        $0.searchBar.backgroundColor = UIColor(named: "baseWhite")!
         $0.searchResultsUpdater = self
         $0.searchBar.delegate = self
         $0.searchBar.showsCancelButton = false
