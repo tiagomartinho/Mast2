@@ -1875,6 +1875,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     for x in json.instances {
                         self.altInstances.append(x.name)
                     }
+                    self.altInstances.insert("social.nofftopia.com", at: 0)
                     self.altInstances.insert("mastodon.technology", at: 0)
                     self.altInstances.insert("mastodon.social", at: 0)
                     self.tableViewIntro.reloadData()

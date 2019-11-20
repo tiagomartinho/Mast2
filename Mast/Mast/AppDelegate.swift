@@ -63,7 +63,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deviceToken = PushNotificationDeviceToken(deviceToken: deviceToken)
         state = PushNotificationState(receiver: receiver, subscription: subscription, deviceToken: deviceToken)
         PushNotificationReceiver.setState(state: state)
-        let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1-dev.your.org/relay-to/production/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
+        #if DEBUG
+        let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1-dev.your.org/relay-to/development/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
+        #else
+        let requestParams = PushNotificationSubscriptionRequest(endpoint: "https://pushrelay-mast1.your.org/relay-to/production/\(token)", receiver: receiver, alerts: PushNotificationAlerts.init(favourite: UserDefaults.standard.object(forKey: "pnlikes") as? Bool ?? true, follow: UserDefaults.standard.object(forKey: "pnfollows") as? Bool ?? true, mention: UserDefaults.standard.object(forKey: "pnmentions") as? Bool ?? true, reblog: UserDefaults.standard.object(forKey: "pnboosts") as? Bool ?? true))
+        #endif
         let url = URL(string: "https://\(GlobalStruct.currentInstance.returnedText)/api/v1/push/subscription")!
         let session = URLSession.shared
         var request = URLRequest(url: url)

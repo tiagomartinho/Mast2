@@ -563,7 +563,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
             textField.backgroundColor = nil
             textField.keyboardAppearance = .default
-            textField.keyboardType = .URL
+            textField.keyboardType = .default
             textField.autocapitalizationType = .none
             textField.isSecureTextEntry = false
             textField.returnKeyType = .default
@@ -704,7 +704,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         if self.replyStatus.isEmpty {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 if !self.duplicateStatus.isEmpty {
-                    let theText = "\(self.duplicateStatus.first?.content ?? "")"
+                    let theText = "\(self.duplicateStatus.first?.content.stripHTML() ?? "")"
                     cell.textView.text = theText
                     let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
                     self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)

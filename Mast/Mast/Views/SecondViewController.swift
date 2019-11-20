@@ -523,16 +523,19 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             if indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell", for: indexPath) as! GraphCell
-                cell.configure()
+                if GlobalStruct.notifications.isEmpty {} else {
+                    cell.configure()
+                }
                 cell.backgroundColor = GlobalStruct.baseDarkTint
-                cell.graphView.alpha = 1
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = .clear
                 cell.selectedBackgroundView = bgColorView
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell2", for: indexPath) as! GraphCell2
-                cell.configure()
+                if GlobalStruct.notifications.isEmpty {} else {
+                    cell.configure()
+                }
                 cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = .clear
