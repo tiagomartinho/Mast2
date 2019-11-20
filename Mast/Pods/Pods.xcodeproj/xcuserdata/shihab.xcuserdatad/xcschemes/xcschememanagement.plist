@@ -9,14 +9,14 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>0</integer>
 		</dict>
 		<key>InputBarAccessoryView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 		<key>MessageKit-MessageKitAssets.xcscheme</key>
 		<dict>
@@ -65,7 +65,7 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>11</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
