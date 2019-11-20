@@ -1498,22 +1498,34 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-            self.toggleBoostOn(status)
+            let request = Statuses.reblog(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
         if status.first?.reblogged ?? false {
             boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                self.toggleBoostOff(status)
+                let request = Statuses.unreblog(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
             }
         }
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-            self.toggleLikeOn(status)
+            let request = Statuses.favourite(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
         }
         if status.first?.favourited ?? false {
             like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                self.toggleLikeOff(status)
+                let request = Statuses.unfavourite(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
             }
         }
         let shar = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
@@ -1530,7 +1542,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
-            self.duplicateThis(status)
+            let vc = TootViewController()
+            vc.duplicateStatus = status
+            self.show(UINavigationController(rootViewController: vc), sender: self)
         }
         let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
             
@@ -1568,11 +1582,25 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
             let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
                 ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                self.pinToot(status.first!)
+                let request = Statuses.pin(id: status.first.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = statuses.value {
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
             }
             let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
                 ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                self.unpinToot(status.first!)
+                let request = Statuses.unpin(id: status.first.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = statuses.value {
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
             }
             let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
                 let request = Statuses.delete(id: status[indexPath.row].id)
@@ -1607,56 +1635,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         } else {
             let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
             return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
-        }
-    }
-    
-    func pinToot(_ status: Status) {
-        let request = Statuses.pin(id: status.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = statuses.value {
-                DispatchQueue.main.async {
-                    
-                }
-            }
-        }
-    }
-    
-    func unpinToot(_ status: Status) {
-        let request = Statuses.unpin(id: status.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = statuses.value {
-                DispatchQueue.main.async {
-                    
-                }
-            }
-        }
-    }
-    
-    func toggleBoostOn(_ stat: [Status]) {
-        let request = Statuses.reblog(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
-        }
-    }
-    
-    func toggleBoostOff(_ stat: [Status]) {
-        let request = Statuses.unreblog(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
-        }
-    }
-    
-    func toggleLikeOn(_ stat: [Status]) {
-        let request = Statuses.favourite(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
-        }
-    }
-    
-    func toggleLikeOff(_ stat: [Status]) {
-        let request = Statuses.unfavourite(id: stat.first?.id ?? "")
-        GlobalStruct.client.run(request) { (statuses) in
-            
         }
     }
     
@@ -1741,12 +1719,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         task.resume()
-    }
-    
-    func duplicateThis(_ stat: [Status]) {
-        let vc = TootViewController()
-        vc.duplicateStatus = stat
-        self.show(UINavigationController(rootViewController: vc), sender: self)
     }
     
     func reportThis(_ stat: [Status]) {
