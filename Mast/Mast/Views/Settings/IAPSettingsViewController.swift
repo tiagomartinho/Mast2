@@ -16,7 +16,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     var tableView = UITableView()
     var bgView = UIView()
     let firstSection = ["30+ App Icons".localized, "10+ App Tints".localized, "Siri Shortcuts".localized, "Biometric Locks".localized, "Variety of Settings".localized]
-    let firstSectionDescriptions = ["Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create notes, view lists, and more.".localized, "Lock your notes and ideas from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
+    let firstSectionDescriptions = ["Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create toots, view notifications, and more.".localized, "Lock the app from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
     let firstSectionImage = ["square", "paintbrush", "mic", "lock", "gear"]
     var button1 = UIButton()
     var button1Title = UILabel()
