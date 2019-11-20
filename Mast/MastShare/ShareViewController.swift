@@ -42,6 +42,8 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        UIView.appearance().tintColor = UIColor(named: "baseBlack")!
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")!
         self.view.tintColor = UIColor(named: "baseBlack")!
         
@@ -215,6 +217,9 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     }
     
     @objc func contentTap() {
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
         if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
             let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
             impactFeedbackgenerator.prepare()
@@ -309,6 +314,9 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     }
     
     @objc func visibilityTap() {
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
         let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Public".localized, style: .default , handler:{ (UIAlertAction) in
@@ -362,8 +370,9 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     }
     
     @objc func crossTapped() {
-        let impact = UIImpactFeedbackGenerator(style: .light)
-        impact.impactOccurred()
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
         textView.resignFirstResponder()
         UIView.animate(withDuration: 0.3,
                        delay: 0,
@@ -378,6 +387,9 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     }
     
     @objc func tickTapped() {
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackgenerator.prepare()
+        impactFeedbackgenerator.impactOccurred()
         var client = Client(baseURL: "")
         if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
             let value1 = userDefaults.string(forKey: "key1")
