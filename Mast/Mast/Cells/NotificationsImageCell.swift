@@ -30,6 +30,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     var player = AVPlayer()
     var pollView = UIView()
     var barChart: HCoreBarChart = HCoreBarChart()
+    var cwOverlay = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -143,6 +144,13 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
         contentView.addSubview(collectionView1)
         
+        cwOverlay.translatesAutoresizingMaskIntoConstraints = false
+        cwOverlay.backgroundColor = UIColor(named: "lighterBaseWhite")!
+        cwOverlay.layer.cornerRadius = 4
+        cwOverlay.alpha = 0
+        cwOverlay.addTarget(self, action: #selector(self.hideOverlay), for: .touchUpInside)
+        contentView.addSubview(cwOverlay)
+        
         let viewsDict = [
             "containerView" : containerView,
             "typeOf" : typeOf,
@@ -156,6 +164,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             "collectionView" : collectionView1,
             "heart" : heart,
             "pollView" : pollView,
+            "cwOverlay" : cwOverlay,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
@@ -176,10 +185,17 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[username]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[usertag]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[title]-4-[timestamp]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
+        
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-96-[cwOverlay]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[cwOverlay]-8-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func hideOverlay() {
+        self.cwOverlay.alpha = 0
     }
     
     var currentStat: Status!
@@ -209,6 +225,20 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         } else if noti.type == .follow {
             self.typeOf.image = UIImage(systemName: "person.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemOrange, renderingMode: .alwaysOriginal)
         }
+        
+        if noti.status?.sensitive ?? false {
+            self.cwOverlay.alpha = 1
+            if noti.status?.spoilerText ?? "" == "" {
+                self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
+            } else {
+                self.cwOverlay.setTitle(noti.status?.spoilerText ?? "Content Warning", for: .normal)
+            }
+            self.cwOverlay.setTitleColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.85), for: .normal)
+            self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        } else {
+            self.cwOverlay.alpha = 0
+        }
+        
         if noti.type == .follow {
             self.title.text = "New follower".localized
             self.username.text = noti.account.displayName

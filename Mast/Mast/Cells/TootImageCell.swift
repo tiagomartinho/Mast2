@@ -28,6 +28,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     var player = AVPlayer()
     var pollView = UIView()
     var barChart: HCoreBarChart = HCoreBarChart()
+    var cwOverlay = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -127,6 +128,13 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
         contentView.addSubview(collectionView1)
         
+        cwOverlay.translatesAutoresizingMaskIntoConstraints = false
+        cwOverlay.backgroundColor = UIColor(named: "lighterBaseWhite")!
+        cwOverlay.layer.cornerRadius = 4
+        cwOverlay.alpha = 0
+        cwOverlay.addTarget(self, action: #selector(self.hideOverlay), for: .touchUpInside)
+        contentView.addSubview(cwOverlay)
+        
         let viewsDict = [
             "containerView" : containerView,
             "profile" : profile,
@@ -138,6 +146,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             "collectionView" : collectionView1,
             "heart" : heart,
             "pollView" : pollView,
+            "cwOverlay" : cwOverlay,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
@@ -157,10 +166,17 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[timestamp]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
+        
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-66-[cwOverlay]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[cwOverlay]-8-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func hideOverlay() {
+        self.cwOverlay.alpha = 0
     }
     
     var currentStat: Status!
@@ -186,6 +202,19 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             guard let imageURL2 = URL(string: stat.account.avatar) else { return }
             self.profile2.sd_setImage(with: imageURL2, completed: nil)
             self.profile2.layer.masksToBounds = true
+        }
+        
+        if stat.reblog?.sensitive ?? stat.sensitive ?? false {
+            self.cwOverlay.alpha = 1
+            if stat.reblog?.spoilerText ?? stat.spoilerText == "" {
+                self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
+            } else {
+                self.cwOverlay.setTitle(stat.reblog?.spoilerText ?? stat.spoilerText, for: .normal)
+            }
+            self.cwOverlay.setTitleColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.85), for: .normal)
+            self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        } else {
+            self.cwOverlay.alpha = 0
         }
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
