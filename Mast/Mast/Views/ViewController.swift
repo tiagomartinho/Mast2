@@ -9,6 +9,7 @@
 import UIKit
 import CoreHaptics
 import SafariServices
+import SwiftyStoreKit
 
 class ViewController: UITabBarController, UITabBarControllerDelegate {
     
