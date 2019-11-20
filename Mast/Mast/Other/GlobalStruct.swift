@@ -48,6 +48,7 @@ class GlobalStruct {
     static var totalsHidden = false
     
     static var siriPhrases: [String] = []
+    static var iapPurchased: Bool = false
     
     static var gifVidDataToAttachArray: [Data] = []
     static var photoToAttachArray: [Data] = []

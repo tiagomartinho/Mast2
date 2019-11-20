@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import StoreKit
 
 class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -32,7 +33,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized]
     let accountSection = ["\("Accounts".localized)"]
-    let thirdSection = ["Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")", "Get in Touch".localized]
+    let thirdSection = ["Get in Touch".localized]
     
     override func viewDidLayoutSubviews() {
         self.tableView.frame = CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height)
@@ -301,15 +302,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell4", for: indexPath)
             cell.accessoryType = .none
-            if indexPath.row == 0 {
-                cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell4")
-                cell.textLabel?.text = self.thirdSection[indexPath.row]
-                cell.detailTextLabel?.text = "\("Designed and hand-crafted with \u{2665} by".localized) Shihab"
-                cell.accessoryType = .disclosureIndicator
-            } else {
-                cell.textLabel?.text = self.thirdSection[indexPath.row]
-                cell.accessoryType = .disclosureIndicator
-            }
+            cell.textLabel?.text = self.thirdSection[indexPath.row]
+            cell.accessoryType = .disclosureIndicator
             cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         }
@@ -318,21 +312,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
-//            if GlobalStruct.iapPurchased {
-//                SKStoreReviewController.requestReview()
-//            } else {
-//                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int != nil {
-//                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-//                        let imp = UIImpactFeedbackGenerator(style: .medium)
-//                        imp.impactOccurred()
-//                    }
-//                } else {
-//                    let imp = UIImpactFeedbackGenerator(style: .medium)
-//                    imp.impactOccurred()
-//                }
-//                let vc = IAPSetttingsViewController()
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
+            if GlobalStruct.iapPurchased {
+                SKStoreReviewController.requestReview()
+            } else {
+                let vc = IAPSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 let vc = IconSettingsViewController()
@@ -377,12 +362,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else {
-            if indexPath.row == 0 {
-                
-            } else {
-                let vc = GetInTouchSettingsViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+            let vc = GetInTouchSettingsViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

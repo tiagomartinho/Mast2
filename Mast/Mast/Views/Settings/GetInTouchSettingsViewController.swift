@@ -14,8 +14,8 @@ import MessageUI
 class GetInTouchSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
     var tableView = UITableView()
-    let firstSection = ["Mast Twitter", "Developer Twitter"]
-    let secondSection = ["Mast Website", "Developer Website"]
+    let firstSection = ["\("Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")") Twitter", "Developer Twitter"]
+    let secondSection = ["\("Mast \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? "")") Website", "Developer Website"]
     let thirdSection = ["Email"]
     var safariVC: SFSafariViewController?
     

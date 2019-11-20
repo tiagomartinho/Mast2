@@ -83,6 +83,8 @@
 		53123317238584390096BFD6 /* BioMetricAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123314238584380096BFD6 /* BioMetricAuthenticator.swift */; };
 		53123318238584390096BFD6 /* AuthenticationErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123315238584380096BFD6 /* AuthenticationErrors.swift */; };
 		5312331A238587D30096BFD6 /* ShortcutsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53123319238587D30096BFD6 /* ShortcutsSettingsViewController.swift */; };
+		5312331C238592900096BFD6 /* IAPSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5312331B238592900096BFD6 /* IAPSettingsViewController.swift */; };
+		53123320238595BD0096BFD6 /* IAPOptionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5312331F238595BD0096BFD6 /* IAPOptionsCell.swift */; };
 		532DF3C0233A71D900AA14E8 /* ComposeImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */; };
 		53381EE1237B14DC0000E287 /* NewPollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE0237B14DC0000E287 /* NewPollViewController.swift */; };
 		53381EE3237B16320000E287 /* PollOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53381EE2237B16320000E287 /* PollOptionCell.swift */; };
@@ -759,6 +761,8 @@
 		53123314238584380096BFD6 /* BioMetricAuthenticator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BioMetricAuthenticator.swift; sourceTree = "<group>"; };
 		53123315238584380096BFD6 /* AuthenticationErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationErrors.swift; sourceTree = "<group>"; };
 		53123319238587D30096BFD6 /* ShortcutsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsSettingsViewController.swift; sourceTree = "<group>"; };
+		5312331B238592900096BFD6 /* IAPSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPSettingsViewController.swift; sourceTree = "<group>"; };
+		5312331F238595BD0096BFD6 /* IAPOptionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPOptionsCell.swift; sourceTree = "<group>"; };
 		532DF3BF233A71D900AA14E8 /* ComposeImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeImageCell.swift; sourceTree = "<group>"; };
 		53381EE0237B14DC0000E287 /* NewPollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPollViewController.swift; sourceTree = "<group>"; };
 		53381EE2237B16320000E287 /* PollOptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollOptionCell.swift; sourceTree = "<group>"; };
@@ -2266,6 +2270,7 @@
 				53381EE4237B16570000E287 /* PollOptionCellToggle.swift */,
 				53733DC723842FDD006F260E /* GraphCell.swift */,
 				53733DCB23844009006F260E /* GraphCell2.swift */,
+				5312331F238595BD0096BFD6 /* IAPOptionsCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2612,6 +2617,7 @@
 				5312330E238583550096BFD6 /* LockSettingsViewController.swift */,
 				53AF45092375A73E001A3574 /* AccountsSettingsViewController.swift */,
 				53AF450B2375AC2A001A3574 /* GetInTouchSettingsViewController.swift */,
+				5312331B238592900096BFD6 /* IAPSettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3078,6 +3084,7 @@
 				5344C0BA233790AC00EB3363 /* TootImageCell.swift in Sources */,
 				53A4F4212376E59200EC12C6 /* UtilityFunctions.swift in Sources */,
 				5379F4362334CAE800DC1F33 /* ListCell.swift in Sources */,
+				53123320238595BD0096BFD6 /* IAPOptionsCell.swift in Sources */,
 				53B5F204233E63C80099B170 /* ColumnViewController.swift in Sources */,
 				53449DC223294C1000A470E2 /* NotificationType.swift in Sources */,
 				53A4F40A2376E59200EC12C6 /* UISegmentedControl+Extensions.swift in Sources */,
@@ -3218,6 +3225,7 @@
 				53733DB523842EF9006F260E /* ReferenceLineDrawingView.swift in Sources */,
 				53449DB923294C1000A470E2 /* Notification.swift in Sources */,
 				53449DC523294C1000A470E2 /* Mutes.swift in Sources */,
+				5312331C238592900096BFD6 /* IAPSettingsViewController.swift in Sources */,
 				53A4F4232376E59200EC12C6 /* ItemController.swift in Sources */,
 				53A4F4322376E59200EC12C6 /* UIButton.swift in Sources */,
 				53123316238584390096BFD6 /* BiometricAuthenticationConstants.swift in Sources */,

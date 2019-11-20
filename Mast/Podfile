@@ -9,6 +9,7 @@ target 'Mast' do
 pod 'MessageKit'
 pod 'SDWebImage'
 pod 'ActiveLabel'
+pod 'SwiftyStoreKit'
 
 end
 

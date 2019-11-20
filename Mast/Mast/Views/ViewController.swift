@@ -149,6 +149,80 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    func receiptValidation() {
+        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: "43b5e274d35e4357b706e1ecfd7fa17a")
+        SwiftyStoreKit.verifyReceipt(using: appleValidator, forceRefresh: false) { result in
+            switch result {
+            case .success(let receipt):
+                print("Verify receipt success")
+                
+                let purchaseResult0 = SwiftyStoreKit.verifySubscription(
+                    ofType: .autoRenewable,
+                    productId: "com.shi.Mast.months",
+                    inReceipt: receipt)
+                switch purchaseResult0 {
+                case .purchased(let expiryDate, let items):
+                    print("is valid until \(expiryDate)\n\(items)\n")
+                    GlobalStruct.iapPurchased = true
+                case .expired(let expiryDate, let items):
+                    print("is expired since \(expiryDate)\n\(items)\n")
+                case .notPurchased:
+                    print("The user has never purchased")
+                }
+                
+                let purchaseResult2 = SwiftyStoreKit.verifyPurchase(
+                    productId: "com.shi.Mast.lifes",
+                    inReceipt: receipt)
+                switch purchaseResult2 {
+                case .purchased:
+                    print("purchased")
+                    GlobalStruct.iapPurchased = true
+                case .notPurchased:
+                    print("The user has never purchased")
+                }
+                
+            case .error(let error):
+                print("Verify receipt failed: \(error)")
+                let appleValidator2 = AppleReceiptValidator(service: .sandbox, sharedSecret: "43b5e274d35e4357b706e1ecfd7fa17a")
+                SwiftyStoreKit.verifyReceipt(using: appleValidator2, forceRefresh: false) { result in
+                    switch result {
+                    case .success(let receipt):
+                        print("Verify receipt success sandbox")
+                        
+                        let purchaseResult0 = SwiftyStoreKit.verifySubscription(
+                            ofType: .autoRenewable,
+                            productId: "com.shi.Mast.months",
+                            inReceipt: receipt)
+                        switch purchaseResult0 {
+                        case .purchased(let expiryDate, let items):
+                            print("is valid until \(expiryDate)\n\(items)\n")
+                            GlobalStruct.iapPurchased = true
+                        case .expired(let expiryDate, let items):
+                            print("is expired since \(expiryDate)\n\(items)\n")
+                        case .notPurchased:
+                            print("The user has never purchased")
+                        }
+                        
+                        let purchaseResult2 = SwiftyStoreKit.verifyPurchase(
+                            productId: "com.shi.Mast.lifes",
+                            inReceipt: receipt)
+                        switch purchaseResult2 {
+                        case .purchased:
+                            print("purchased")
+                            GlobalStruct.iapPurchased = true
+                        case .notPurchased:
+                            print("The user has never purchased")
+                        }
+                        
+                    case .error(let error):
+                        print("Verify receipt failed: \(error)")
+                        GlobalStruct.iapPurchased = false
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -311,6 +385,10 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        if UserDefaults.standard.value(forKey: "firstIAP") as? Int == 1 {
+            self.receiptValidation()
+        }
         
         let statusBar = UIView(frame: (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame)!)
         statusBar.backgroundColor = GlobalStruct.baseDarkTint

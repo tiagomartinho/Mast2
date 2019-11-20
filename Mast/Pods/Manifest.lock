@@ -6,11 +6,13 @@ PODS:
   - SDWebImage (5.3.0):
     - SDWebImage/Core (= 5.3.0)
   - SDWebImage/Core (5.3.0)
+  - SwiftyStoreKit (0.15.0)
 
 DEPENDENCIES:
   - ActiveLabel
   - MessageKit
   - SDWebImage
+  - SwiftyStoreKit
 
 SPEC REPOS:
   trunk:
@@ -18,13 +20,15 @@ SPEC REPOS:
     - InputBarAccessoryView
     - MessageKit
     - SDWebImage
+    - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
   MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
   SDWebImage: f1afa74b86587c2c63f4e80dfd39b21e3c17b45b
+  SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: 8a8ed518e4d3ae1f49f2fd13f0f5a382d7170a60
+PODFILE CHECKSUM: 46d076760f5b3ff3c379fad49ae2ba5c64436d41
 
 COCOAPODS: 1.8.3
