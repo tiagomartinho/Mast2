@@ -280,6 +280,25 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             self.reloadInputViews()
         }
         
+        if noti.status?.account.emojis.isEmpty ?? false {
+            
+        } else {
+            let attributedString = NSMutableAttributedString(string: "\(noti.status?.account.displayName ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            let z = noti.status?.account.emojis ?? []
+            let _ = z.map({
+                let textAttachment = NSTextAttachment()
+                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight))
+                let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+                while attributedString.mutableString.contains(":\($0.shortcode):") {
+                    let range: NSRange = (attributedString.mutableString as NSString).range(of: ":\($0.shortcode):")
+                    attributedString.replaceCharacters(in: range, with: attrStringWithImage)
+                }
+            })
+            self.username.attributedText = attributedString
+            self.reloadInputViews()
+        }
+        
         let _ = self.images.map {_ in
             self.images2.append(UIImageView())
             self.images3.append("")
