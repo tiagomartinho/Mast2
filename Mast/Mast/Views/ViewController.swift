@@ -12,6 +12,21 @@ import SafariServices
 
 class ViewController: UITabBarController, UITabBarControllerDelegate {
     
+    public var isSplitOrSlideOver: Bool {
+        let windows = UIApplication.shared.windows
+        for x in windows {
+            if let z = self.view.window {
+                if x == z {
+                    if x.frame.width == x.screen.bounds.width || x.frame.width == x.screen.bounds.height {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
     var engine: CHHapticEngine?
     
     var tabOne = UINavigationController()

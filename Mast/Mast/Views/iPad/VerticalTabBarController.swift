@@ -55,7 +55,10 @@ class VerticalTabBarController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
-        self.navigationController?.navigationBar.backgroundColor = UIColor(named: "lighterBaseWhite")
+//        self.navigationController?.navigationBar.backgroundColor = UIColor(named: "lighterBaseWhite")
+
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc func settings() {
