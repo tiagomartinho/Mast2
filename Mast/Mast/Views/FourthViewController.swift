@@ -213,10 +213,20 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func settingsTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         self.show(UINavigationController(rootViewController: SettingsViewController()), sender: self)
     }
     
     @objc func searchTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(style: .actionSheet, message: nil)
         alert.addLocalePicker(type: .country) { info in
             // action with selected object

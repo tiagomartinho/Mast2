@@ -657,6 +657,11 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     }
     
     @objc func moreTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "View List Members".localized, style: .default , handler:{ (UIAlertAction) in
             let vc = ListMembersViewController()

@@ -263,10 +263,20 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func settingsTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         self.show(UINavigationController(rootViewController: SettingsViewController()), sender: self)
     }
     
     @objc func addTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     
@@ -305,6 +315,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func viewGallery() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let vc = GalleryMediaViewController()
         if self.isYou {
             vc.chosenUser = GlobalStruct.currentUser
@@ -662,6 +677,11 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func moreTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if self.isYou {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let op1 = UIAlertAction(title: " \("Pinned".localized)", style: .default , handler:{ (UIAlertAction) in

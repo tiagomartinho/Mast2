@@ -251,10 +251,20 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func settingsTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         self.show(UINavigationController(rootViewController: SettingsViewController()), sender: self)
     }
     
     @objc func addTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     

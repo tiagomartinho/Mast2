@@ -52,11 +52,21 @@ class NewPollViewController: UIViewController, UITextFieldDelegate, UITableViewD
     }
     
     @objc func crossTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         NotificationCenter.default.post(name: Notification.Name(rawValue: "becomeFirst"), object: self)
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func tickTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if self.currentOptions.count >= 2 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "becomeFirst"), object: self)
             NotificationCenter.default.post(name: Notification.Name(rawValue: "pollAdded"), object: self)

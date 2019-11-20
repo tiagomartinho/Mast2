@@ -453,10 +453,20 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func addPoll() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         self.show(UINavigationController(rootViewController: NewPollViewController()), sender: self)
     }
     
     @objc func viewDrafts() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if GlobalStruct.allDrafts.isEmpty {
             let alert = UIAlertController(title: "No Drafts".localized, message: nil, preferredStyle: .actionSheet)
             alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
@@ -500,6 +510,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func visibilityTap() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "Public".localized, style: .default , handler:{ (UIAlertAction) in
@@ -549,6 +564,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func contentTap() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(style: .actionSheet, title: nil)
         let config: TextField1.Config = { textField in
             textField.becomeFirstResponder()
@@ -629,6 +649,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func smileyTap() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(style: .actionSheet, message: nil)
         alert.addEmoticonPicker(type: .country) { info in
             // action with selected object
@@ -656,6 +681,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func scheduleTap() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(style: .actionSheet, title: nil)
         alert.addDatePicker(mode: .dateAndTime, date: Date().adjust(.minute, offset: 5), minimumDate: Date().adjust(.minute, offset: 5), maximumDate: Date().adjust(.year, offset: 10)) { date in
             self.txt = date.iso8601String
@@ -855,6 +885,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             if cell.textView.text == "" {
                 
             } else {
+                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                    impactFeedbackgenerator.prepare()
+                    impactFeedbackgenerator.impactOccurred()
+                }
                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 let op9 = UIAlertAction(title: "Clear All".localized, style: .destructive , handler:{ (UIAlertAction) in
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
@@ -880,6 +915,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func tickTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if self.containsMedia == false {
             self.dismiss(animated: true, completion: nil)
         }
@@ -957,6 +997,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func crossTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         self.saveToDrafts()
     }
     
@@ -1268,6 +1313,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func cameraPicker() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if UIDevice.current.userInterfaceIdiom == .phone {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 cell.textView.resignFirstResponder()

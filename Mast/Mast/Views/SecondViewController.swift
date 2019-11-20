@@ -322,6 +322,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func sortTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
             self.notTypes = []
@@ -418,6 +423,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func addTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
     }
     
