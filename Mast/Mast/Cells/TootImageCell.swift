@@ -366,6 +366,10 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     
     var sta: Status!
     func didTouch(entryData: CoreChartEntry) {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+            selectionFeedbackGenerator.selectionChanged()
+        }
         if self.sta.account.id == GlobalStruct.currentUser.id {
             
         } else {

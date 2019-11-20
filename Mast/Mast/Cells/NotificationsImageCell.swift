@@ -428,6 +428,10 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     
     var notif: Notificationt!
     func didTouch(entryData: CoreChartEntry) {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+            selectionFeedbackGenerator.selectionChanged()
+        }
         if self.notif.account.id == GlobalStruct.currentUser.id {
             
         } else {

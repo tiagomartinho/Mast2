@@ -399,6 +399,10 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
     var notif: Notificationt!
     var doOnce: Bool = true
     func didTouch(entryData: CoreChartEntry) {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+            selectionFeedbackGenerator.selectionChanged()
+        }
         if self.doOnce {
             self.doOnce = false
         if self.notif.account.id == GlobalStruct.currentUser.id {
