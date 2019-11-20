@@ -434,7 +434,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func fetchAvailableProducts()  {
-        SwiftyStoreKit.retrieveProductsInfo(["com.shi.Mast.years"]) { result in
+        SwiftyStoreKit.retrieveProductsInfo(["com.shi.Mast.lifes"]) { result in
             let numberFormatter = NumberFormatter()
             numberFormatter.formatterBehavior = .behavior10_4
             numberFormatter.numberStyle = .currency
@@ -445,7 +445,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 print("Product: \(product.localizedDescription), price: \(priceString)")
                 numberFormatter.locale = product.priceLocale
                 DispatchQueue.main.async {
-                    self.button2Title2.text = "\(priceString)/yr".localized
+                    self.button2Title2.text = "\(priceString)".localized
                 }
             } else if let invalidProductId = result.invalidProductIDs.first {
                 print("Invalid product identifier: \(invalidProductId)")
