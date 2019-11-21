@@ -477,8 +477,8 @@ open class BaseNotificationBanner: UIView {
         let newY = (bannerPosition == .top) ? (frame.origin.y) : (window.height - bannerHeight + edgeInsets.top - edgeInsets.bottom)
         
         if UIDevice.current.userInterfaceIdiom == .pad {
-            frame = CGRect(x: frame.origin.x + 30,
-                           y: newY + (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0),
+            frame = CGRect(x: frame.origin.x,
+                           y: newY,
                            width: 260 - edgeInsets.left - edgeInsets.right,
                            height: bannerHeight)
 

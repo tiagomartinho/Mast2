@@ -64,10 +64,17 @@ class BannerPositionFrame: NSObject {
                           width: bannerWidth - edgeInsets.left - edgeInsets.right,
                           height: bannerHeight)
         case .top:
-            return CGRect(x: edgeInsets.left,
-                          y: -bannerHeight,
-                          width: bannerWidth - edgeInsets.left - edgeInsets.right,
-                          height: bannerHeight)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return CGRect(x: edgeInsets.left + 30,
+                              y: -bannerHeight + (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0),
+                              width: bannerWidth - edgeInsets.left - edgeInsets.right,
+                              height: bannerHeight)
+            } else {
+                return CGRect(x: edgeInsets.left,
+                              y: -bannerHeight,
+                              width: bannerWidth - edgeInsets.left - edgeInsets.right,
+                              height: bannerHeight)
+            }
 
         }
     }
@@ -97,10 +104,17 @@ class BannerPositionFrame: NSObject {
                           width: startFrame.width,
                           height: startFrame.height)
         case .top:
-            return CGRect(x: edgeInsets.left,
-                          y: edgeInsets.top + finishYOffset,
-                          width: startFrame.width,
-                          height: startFrame.height)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                return CGRect(x: edgeInsets.left + 30,
+                              y: edgeInsets.top + finishYOffset + (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0),
+                              width: startFrame.width,
+                              height: startFrame.height)
+            } else {
+                return CGRect(x: edgeInsets.left,
+                              y: edgeInsets.top + finishYOffset,
+                              width: startFrame.width,
+                              height: startFrame.height)
+            }
         }
     }
 
