@@ -626,7 +626,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
-                        GlobalStruct.isFollowing = true
+                        if self.pickedCurrentUser.locked {
+                            ViewController().showNotifBanner("Sent Follow Request".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                        } else {
+                            GlobalStruct.isFollowing = true
+                            ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                        }
                         cell.configure(self.pickedCurrentUser)
                     }
                 }
@@ -869,12 +874,16 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         }
                     }
                 } else {
-                    ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
                     let request = Accounts.follow(id: self.pickedCurrentUser.id, reblogs: true)
                     GlobalStruct.client.run(request) { (statuses) in
                         DispatchQueue.main.async {
                             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
-                                GlobalStruct.isFollowing = true
+                                if self.pickedCurrentUser.locked {
+                                    ViewController().showNotifBanner("Sent Follow Request".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                                } else {
+                                    GlobalStruct.isFollowing = true
+                                    ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                                }
                                 cell.configure(self.pickedCurrentUser)
                             }
                         }
