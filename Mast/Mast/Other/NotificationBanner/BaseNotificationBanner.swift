@@ -286,12 +286,21 @@ open class BaseNotificationBanner: UIView {
     
     internal func updateBannerPositionFrames() {
         guard let window = appWindow else { return }
-        bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
-                                                  bannerWidth: window.width,
-                                                  bannerHeight: bannerHeight,
-                                                  maxY: maximumYPosition(),
-                                                  finishYOffset: finishBannerYOffset(),
-                                                  edgeInsets: bannerEdgeInsets)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
+                                                      bannerWidth: 260,
+                                                      bannerHeight: bannerHeight,
+                                                      maxY: maximumYPosition(),
+                                                      finishYOffset: finishBannerYOffset(),
+                                                      edgeInsets: bannerEdgeInsets)
+        } else {
+            bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
+                                                      bannerWidth: window.width,
+                                                      bannerHeight: bannerHeight,
+                                                      maxY: maximumYPosition(),
+                                                      finishYOffset: finishBannerYOffset(),
+                                                      edgeInsets: bannerEdgeInsets)
+        }
     }
 
     internal func animateUpdatedBannerPositionFrames() {
@@ -466,17 +475,32 @@ open class BaseNotificationBanner: UIView {
         let edgeInsets = bannerEdgeInsets ?? .zero
 
         let newY = (bannerPosition == .top) ? (frame.origin.y) : (window.height - bannerHeight + edgeInsets.top - edgeInsets.bottom)
-        frame = CGRect(x: frame.origin.x,
-                       y: newY,
-                       width: window.width - edgeInsets.left - edgeInsets.right,
-                       height: bannerHeight)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            frame = CGRect(x: frame.origin.x + 30,
+                           y: newY + (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0),
+                           width: 260 - edgeInsets.left - edgeInsets.right,
+                           height: bannerHeight)
 
-        bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
-                                                  bannerWidth: window.width,
-                                                  bannerHeight: bannerHeight,
-                                                  maxY: maximumYPosition(),
-                                                  finishYOffset: finishBannerYOffset(),
-                                                  edgeInsets: bannerEdgeInsets)
+            bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
+                                                      bannerWidth: 260,
+                                                      bannerHeight: bannerHeight,
+                                                      maxY: maximumYPosition(),
+                                                      finishYOffset: finishBannerYOffset(),
+                                                      edgeInsets: bannerEdgeInsets)
+        } else {
+            frame = CGRect(x: frame.origin.x,
+                           y: newY,
+                           width: window.width - edgeInsets.left - edgeInsets.right,
+                           height: bannerHeight)
+
+            bannerPositionFrame = BannerPositionFrame(bannerPosition: bannerPosition,
+                                                      bannerWidth: window.width,
+                                                      bannerHeight: bannerHeight,
+                                                      maxY: maximumYPosition(),
+                                                      finishYOffset: finishBannerYOffset(),
+                                                      edgeInsets: bannerEdgeInsets)
+        }
     }
 
     /**
