@@ -635,11 +635,21 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func followersTapped() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let vc = FollowersViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func followersTapped2() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         let vc = FollowersViewController()
         vc.userId = self.profileStatuses.first?.account.id ?? ""
         self.navigationController?.pushViewController(vc, animated: true)

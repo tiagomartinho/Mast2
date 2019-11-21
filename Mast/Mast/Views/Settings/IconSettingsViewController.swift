@@ -13,7 +13,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
     
     var collectionView: UICollectionView!
     var appArrayIcons = ["icon1", "icon2", "icon3", "icon4", "icon5", "icon6", "icon7", "icon8", "icon9", "icon10", "icon11", "icon12", "icon29", "icon30", "icon31", "icon32", "icon13", "icon14", "icon15", "icon16", "icon17", "icon18", "icon19", "icon20", "icon21", "icon22", "icon23", "icon24", "icon25", "icon26", "icon27", "icon28"]
-    var appArray = ["AppIcon-1", "AppIcon-2", "AppIcon-3", "AppIcon-4", "AppIcon-5", "AppIcon-6", "AppIcon-7", "AppIcon-8", "AppIcon-9", "AppIcon-10", "AppIcon-11", "AppIcon-12", "AppIcon-29", "AppIcon-30", "AppIcon-31", "AppIcon-32", "AppIcon-13", "AppIcon-14", "AppIcon-15", "AppIcon-16", "AppIcon-17", "AppIcon-18", "AppIcon-19", "AppIcon-21", "AppIcon-22", "AppIcon-23", "AppIcon-24", "AppIcon-25", "AppIcon-26", "AppIcon-27", "AppIcon-28"]
+    var appArray = ["AppIcon-1", "AppIcon-2", "AppIcon-3", "AppIcon-4", "AppIcon-5", "AppIcon-6", "AppIcon-7", "AppIcon-8", "AppIcon-9", "AppIcon-10", "AppIcon-11", "AppIcon-12", "AppIcon-29", "AppIcon-30", "AppIcon-31", "AppIcon-32", "AppIcon-13", "AppIcon-14", "AppIcon-15", "AppIcon-16", "AppIcon-17", "AppIcon-18", "AppIcon-19", "AppIcon-20", "AppIcon-21", "AppIcon-22", "AppIcon-23", "AppIcon-24", "AppIcon-25", "AppIcon-26", "AppIcon-27", "AppIcon-28"]
     
     override func viewDidLayoutSubviews() {
         self.collectionView.frame = CGRect(x: self.view.safeAreaInsets.left, y: 0, width: self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right, height: self.view.bounds.height)

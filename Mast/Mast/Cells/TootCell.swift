@@ -111,6 +111,7 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
         cwOverlay.backgroundColor = UIColor(named: "lighterBaseWhite")!
         cwOverlay.layer.cornerRadius = 4
         cwOverlay.alpha = 0
+        cwOverlay.titleLabel?.numberOfLines = 0
         cwOverlay.addTarget(self, action: #selector(self.hideOverlay), for: .touchUpInside)
         contentView.addSubview(cwOverlay)
         

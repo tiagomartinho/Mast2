@@ -300,7 +300,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell4", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell4", for: indexPath)
+            cell.imageView?.image = UIImage(systemName: "hand.point.right", withConfiguration: symbolConfig) ?? UIImage()
             cell.accessoryType = .none
             cell.textLabel?.text = self.thirdSection[indexPath.row]
             cell.accessoryType = .disclosureIndicator
