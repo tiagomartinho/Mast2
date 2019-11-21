@@ -15,9 +15,9 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     
     var tableView = UITableView()
     var bgView = UIView()
-    let firstSection = ["30+ App Icons".localized, "10+ App Tints".localized, "Siri Shortcuts".localized, "Biometric Locks".localized, "Variety of Settings".localized]
-    let firstSectionDescriptions = ["Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create toots, view notifications, and more.".localized, "Lock the app from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
-    let firstSectionImage = ["square", "paintbrush", "mic", "lock", "gear"]
+    let firstSection = ["Multiple Accounts".localized, "30+ App Icons".localized, "10+ App Tints".localized, "Siri Shortcuts".localized, "Biometric Locks".localized, "Variety of Settings".localized]
+    let firstSectionDescriptions = ["Add multiple user accounts to the app from a variety of instances, and quickly switch between them.".localized, "Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create toots, view notifications, and more.".localized, "Lock the app from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
+    let firstSectionImage = ["person.and.person", "square", "paintbrush", "mic", "lock", "gear"]
     var button1 = UIButton()
     var button1Title = UILabel()
     var button1Title2 = UILabel()
@@ -49,7 +49,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         self.starButton.frame = CGRect(x: self.button2.frame.width - 22, y: -10, width: 30, height: 30)
         
         if UIDevice.current.userInterfaceIdiom == .pad {
-            self.tandc.frame = CGRect(x: 25, y: 95, width: (self.view.bounds.width - 50), height: 100 - self.view.safeAreaInsets.bottom)
+            self.tandc.frame = CGRect(x: 25, y: 91, width: (self.view.bounds.width - 50), height: 100 - self.view.safeAreaInsets.bottom)
             self.button4.frame = CGRect(x: (self.view.bounds.width/3) - 75, y: 158, width: 150, height: 40)
             self.button5.frame = CGRect(x: ((self.view.bounds.width/3)*2) - 75, y: 158, width: 150, height: 40)
         } else {
