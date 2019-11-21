@@ -91,7 +91,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
         btn1.accessibilityLabel = "New Window".localized
         let addButton = UIBarButtonItem(customView: btn1)
-        self.navigationItem.setRightBarButton(addButton, animated: true)
+//        self.navigationItem.setRightBarButton(addButton, animated: true)
         #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             let btn1 = UIButton(type: .custom)
@@ -100,7 +100,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             btn1.addTarget(self, action: #selector(self.newWindow), for: .touchUpInside)
             btn1.accessibilityLabel = "New Window".localized
             let addButton = UIBarButtonItem(customView: btn1)
-            self.navigationItem.setRightBarButton(addButton, animated: true)
+//            self.navigationItem.setRightBarButton(addButton, animated: true)
         } else {
             let btn1 = UIButton(type: .custom)
             btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
