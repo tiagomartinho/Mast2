@@ -184,6 +184,8 @@
 		5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BD23379A4300EB3363 /* DetailImageCell.swift */; };
 		5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */; };
 		534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534B278523466CC700A9042E /* TintSettingsViewController.swift */; };
+		5355A24B238830F10043F852 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A24A238830F10043F852 /* Markers.swift */; };
+		5355A24D238832B60043F852 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A24C238832B60043F852 /* Marker.swift */; };
 		53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */; };
 		53633DC3237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */; };
 		53633DC4237AD4F800541F13 /* VCoreBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBC237AD4F800541F13 /* VCoreBarChart.swift */; };
@@ -874,6 +876,8 @@
 		5344C0BD23379A4300EB3363 /* DetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageCell.swift; sourceTree = "<group>"; };
 		5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCell.swift; sourceTree = "<group>"; };
 		534B278523466CC700A9042E /* TintSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintSettingsViewController.swift; sourceTree = "<group>"; };
+		5355A24A238830F10043F852 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
+		5355A24C238832B60043F852 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBarChartsDisplayConfig.swift; sourceTree = "<group>"; };
 		53633DBC237AD4F800541F13 /* VCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCoreBarChart.swift; sourceTree = "<group>"; };
@@ -1770,6 +1774,7 @@
 				53449D7A23294C0F00A470E2 /* Account.swift */,
 				53449D7B23294C0F00A470E2 /* NotificationType.swift */,
 				53449D7C23294C0F00A470E2 /* RequestError.swift */,
+				5355A24C238832B60043F852 /* Marker.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1795,6 +1800,7 @@
 				53449D8E23294C0F00A470E2 /* DomainBlocks.swift */,
 				53449D8F23294C0F00A470E2 /* Search.swift */,
 				53449D9023294C0F00A470E2 /* Timelines.swift */,
+				5355A24A238830F10043F852 /* Markers.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -3071,6 +3077,7 @@
 				53A4F43D2376E59200EC12C6 /* GalleryItem.swift in Sources */,
 				53B5F200233E63370099B170 /* ScrollMainViewController.swift in Sources */,
 				53B5F1EE233BC5600099B170 /* DecryptNotification.swift in Sources */,
+				5355A24D238832B60043F852 /* Marker.swift in Sources */,
 				53A4F43A2376E59200EC12C6 /* UISlider.swift in Sources */,
 				53449DB423294C1000A470E2 /* Results.swift in Sources */,
 				53CC76CD23798689005B4CF7 /* EmoticonPickerViewController.swift in Sources */,
@@ -3230,6 +3237,7 @@
 				53449D4B23293F4100A470E2 /* FifthViewController.swift in Sources */,
 				53733E1323844E74006F260E /* ConstraintDescription.swift in Sources */,
 				53A4F4282376E59200EC12C6 /* ThumbnailCell.swift in Sources */,
+				5355A24B238830F10043F852 /* Markers.swift in Sources */,
 				53733DBC23842EF9006F260E /* ScrollableGraphView.swift in Sources */,
 				53AF450A2375A73E001A3574 /* AccountsSettingsViewController.swift in Sources */,
 				53733DDF23844DB4006F260E /* BannerStyle.swift in Sources */,

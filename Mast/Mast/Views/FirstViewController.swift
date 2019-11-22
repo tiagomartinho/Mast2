@@ -629,6 +629,59 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if let x = UserDefaults.standard.value(forKey: "sync-customInstances") as? [String] {
             GlobalStruct.allCustomInstances = x
         }
+        
+        // markers test
+        
+        self.markersPost()
+    }
+    
+    func markersPost() {
+        let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers"
+        let url: URL = URL(string: urlStr)!
+        var request01 = URLRequest(url: url)
+        request01.httpMethod = "POST"
+        request01.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request01.addValue("application/json", forHTTPHeaderField: "Accept")
+        request01.addValue("Bearer \(GlobalStruct.client.accessToken ?? "")", forHTTPHeaderField: "Authorization")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        
+        let para0: [String: Any?] = [
+            "last_read_id": "9289120"
+        ]
+        let para1: [String: Any?] = [
+            "last_read_id": "9289120"
+        ]
+        let params: [String: Any?] = [
+            "home": para0,
+            "notifications": para1
+        ]
+        do {
+            request01.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        let task = session.dataTask(with: request01) { data, response, err in
+            print("markers - \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
+            self.markersGet()
+        }
+        task.resume()
+    }
+    
+    func markersGet() {
+        let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers/?timeline=home"
+        let url: URL = URL(string: urlStr)!
+        var request01 = URLRequest(url: url)
+        request01.httpMethod = "GET"
+        request01.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request01.addValue("application/json", forHTTPHeaderField: "Accept")
+        request01.addValue("Bearer \(GlobalStruct.client.accessToken ?? "")", forHTTPHeaderField: "Authorization")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let task = session.dataTask(with: request01) { data, response, err in
+            print("markers2 - \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
+        }
+        task.resume()
     }
     
     @objc func refresh(_ sender: AnyObject) {
