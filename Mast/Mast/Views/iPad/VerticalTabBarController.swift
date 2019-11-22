@@ -52,6 +52,15 @@ class VerticalTabBarController: UIViewController {
         self.view.addSubview(self.button3)
     }
     
+    override var keyCommands: [UIKeyCommand]? {
+        let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(compose), discoverabilityTitle: "New Toot".localized)
+        let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(search), discoverabilityTitle: "Search".localized)
+        let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(settings), discoverabilityTitle: "Settings".localized)
+        return [
+            newToot, search, settings
+        ]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
