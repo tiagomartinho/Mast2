@@ -321,19 +321,6 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         let imp = UIImpactFeedbackGenerator(style: .medium)
         imp.impactOccurred()
         
-        if let ann = self.annualProduct {
-            if self.canMakePurchases() {
-                makePurchase(ann)
-            } else {
-                self.purchaseError()
-            }
-        }
-    }
-    
-    @objc func b3Tap() {
-        let imp = UIImpactFeedbackGenerator(style: .medium)
-        imp.impactOccurred()
-        
         if let lif = self.lifetimeProduct {
             if self.canMakePurchases() {
                 makePurchase(lif)
