@@ -250,6 +250,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(self.compose), discoverabilityTitle: "New Toot".localized)
         let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(self.search), discoverabilityTitle: "Search".localized)
         let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(self.settings), discoverabilityTitle: "Settings".localized)
+        let leftA = UIKeyCommand(input: UIKeyCommand.inputLeftArrow, modifierFlags: .command, action: #selector(self.leftA), discoverabilityTitle: "Scroll to Left".localized)
+        let rightA = UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: .command, action: #selector(self.rightA), discoverabilityTitle: "Scroll to Right".localized)
         return [
             newToot, search, settings
         ]
@@ -265,6 +267,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func settings() {
         NotificationCenter.default.post(name: Notification.Name(rawValue: "settingsa"), object: nil)
+    }
+    
+    @objc func leftA() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "leftAr"), object: nil)
+    }
+    
+    @objc func rightA() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "rightAr"), object: nil)
     }
     
     override func viewDidLoad() {
