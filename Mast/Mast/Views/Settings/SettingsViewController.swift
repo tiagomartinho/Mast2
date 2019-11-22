@@ -338,24 +338,74 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         } else if indexPath.section == 2 {
             if indexPath.row == 2 {
+                #if !targetEnvironment(macCatalyst)
+                if GlobalStruct.iapPurchased {
+                    let vc = VisibilitySettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                #elseif targetEnvironment(macCatalyst)
                 let vc = VisibilitySettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
+                #endif
             }
             if indexPath.row == 3 {
+                #if !targetEnvironment(macCatalyst)
+                if GlobalStruct.iapPurchased {
+                    let vc = BrowserSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                #elseif targetEnvironment(macCatalyst)
                 let vc = BrowserSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
+                #endif
             }
             if indexPath.row == 4 {
+                #if !targetEnvironment(macCatalyst)
+                if GlobalStruct.iapPurchased {
+                    let vc = ScanSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                #elseif targetEnvironment(macCatalyst)
                 let vc = ScanSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
+                #endif
             }
             if indexPath.row == 5 {
+                #if !targetEnvironment(macCatalyst)
+                if GlobalStruct.iapPurchased {
+                    let vc = ShortcutsSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                #elseif targetEnvironment(macCatalyst)
                 let vc = ShortcutsSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
+                #endif
             }
             if indexPath.row == 6 {
+                #if !targetEnvironment(macCatalyst)
+                if GlobalStruct.iapPurchased {
+                    let vc = LockSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                #elseif targetEnvironment(macCatalyst)
                 let vc = LockSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
+                #endif
             }
         } else if indexPath.section == 3 {
             if indexPath.row == 0 {
