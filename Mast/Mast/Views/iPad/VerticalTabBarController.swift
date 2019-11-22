@@ -52,20 +52,15 @@ class VerticalTabBarController: UIViewController {
         self.view.addSubview(self.button3)
     }
     
-    override var keyCommands: [UIKeyCommand]? {
-        let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(self.compose), discoverabilityTitle: "New Toot".localized)
-        let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(self.search), discoverabilityTitle: "Search".localized)
-        let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(self.settings), discoverabilityTitle: "Settings".localized)
-        return [
-            newToot, search, settings
-        ]
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.compose), name: NSNotification.Name(rawValue: "composea"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.search), name: NSNotification.Name(rawValue: "searcha"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.settings), name: NSNotification.Name(rawValue: "settingsa"), object: nil)
     }
     
     @objc func settings() {

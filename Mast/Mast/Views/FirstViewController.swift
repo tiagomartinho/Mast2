@@ -242,6 +242,31 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override var keyCommands: [UIKeyCommand]? {
+        let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(self.compose), discoverabilityTitle: "New Toot".localized)
+        let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(self.search), discoverabilityTitle: "Search".localized)
+        let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(self.settings), discoverabilityTitle: "Settings".localized)
+        return [
+            newToot, search, settings
+        ]
+    }
+    
+    @objc func compose() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "composea"), object: nil)
+    }
+    
+    @objc func search() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "searcha"), object: nil)
+    }
+    
+    @objc func settings() {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "settingsa"), object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
