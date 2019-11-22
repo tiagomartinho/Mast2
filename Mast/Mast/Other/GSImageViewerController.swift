@@ -262,7 +262,7 @@ open class GSImageViewerController: UIViewController {
         detailText.textColor = UIColor.white
         detailText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         detailText.isUserInteractionEnabled = false
-//        detailText.numberOfLines = 4
+        detailText.numberOfLines = 8
         detailText.sizeToFit()
         if #available(iOS 13.0, *) {
             detailText.frame.origin.y = self.view.bounds.height - detailText.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
