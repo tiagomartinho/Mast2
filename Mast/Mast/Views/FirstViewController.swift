@@ -629,13 +629,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if let x = UserDefaults.standard.value(forKey: "sync-customInstances") as? [String] {
             GlobalStruct.allCustomInstances = x
         }
-        
-        // markers test
-        
-        self.markersPost()
     }
     
-    func markersPost() {
+    func markersPost(_ homeID: String, notificationsID: String) {
         let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers"
         let url: URL = URL(string: urlStr)!
         var request01 = URLRequest(url: url)
@@ -645,15 +641,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         request01.addValue("Bearer \(GlobalStruct.client.accessToken ?? "")", forHTTPHeaderField: "Authorization")
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
-        let para0: [String: Any?] = [
-            "last_read_id": "9289120"
+        let paraHome: [String: Any?] = [
+            "last_read_id": homeID
         ]
-        let para1: [String: Any?] = [
-            "last_read_id": "9289120"
+        let paraNotifications: [String: Any?] = [
+            "last_read_id": notificationsID
         ]
         let params: [String: Any?] = [
-            "home": para0,
-            "notifications": para1
+            "home": paraHome,
+            "notifications": paraNotifications
         ]
         do {
             request01.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
