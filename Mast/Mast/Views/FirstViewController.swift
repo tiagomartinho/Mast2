@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import SafariServices
+import WatchConnectivity
 
-class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
+class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, WCSessionDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -53,6 +54,27 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var altInstances: [String] = []
     var fullWid = UIScreen.main.bounds.width
     var fullHe = UIScreen.main.bounds.height
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("active: \(activationState)")
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("inactive")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("deactivate")
+    }
+    
+    var watchSession: WCSession? {
+        didSet {
+            if let session = watchSession {
+                session.delegate = self
+                session.activate()
+            }
+        }
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -508,6 +530,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             userDefaults.set(GlobalStruct.currentInstance.returnedText, forKey: "key2")
             userDefaults.synchronize()
         }
+        let applicationContext = [GlobalStruct.currentInstance.accessToken: GlobalStruct.currentInstance.returnedText]
+        WatchSessionManager.sharedManager.transferUserInfo(userInfo: applicationContext as [String: AnyObject])
         
         let request0 = Accounts.currentUser()
         GlobalStruct.client.run(request0) { (statuses) in

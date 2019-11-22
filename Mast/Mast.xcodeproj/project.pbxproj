@@ -538,6 +538,8 @@
 		539359562388665500D77FD1 /* waitIndicatorGraphic-16@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 539358FA2388665400D77FD1 /* waitIndicatorGraphic-16@2x.png */; };
 		539359572388665500D77FD1 /* waitIndicatorGraphic-20@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 539358FB2388665400D77FD1 /* waitIndicatorGraphic-20@2x.png */; };
 		5393595A238866B400D77FD1 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53935958238866B400D77FD1 /* Interface.storyboard */; };
+		5393595E23886B6400D77FD1 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5393595D23886B6400D77FD1 /* WatchSessionManager.swift */; };
+		5393595F23886B7500D77FD1 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5393595D23886B6400D77FD1 /* WatchSessionManager.swift */; };
 		53955D7723746F0400522101 /* HashtagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53955D7623746F0400522101 /* HashtagViewController.swift */; };
 		53955D792374887700522101 /* BrowserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53955D782374887700522101 /* BrowserSettingsViewController.swift */; };
 		5395A7542372D63C002253A8 /* MutedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7532372D63C002253A8 /* MutedViewController.swift */; };
@@ -1418,6 +1420,7 @@
 		53935959238866B400D77FD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		5393595B238867B600D77FD1 /* MastWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MastWatch.entitlements; sourceTree = "<group>"; };
 		5393595C238867C200D77FD1 /* MastWatch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "MastWatch Extension.entitlements"; sourceTree = "<group>"; };
+		5393595D23886B6400D77FD1 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		53955D7623746F0400522101 /* HashtagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagViewController.swift; sourceTree = "<group>"; };
 		53955D782374887700522101 /* BrowserSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSettingsViewController.swift; sourceTree = "<group>"; };
 		5395A7532372D63C002253A8 /* MutedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutedViewController.swift; sourceTree = "<group>"; };
@@ -2521,6 +2524,7 @@
 				53AF4507237567EE001A3574 /* GSImageViewerController.swift */,
 				53733E3623844FE4006F260E /* MarqueeLabel.swift */,
 				53733DC923843F2D006F260E /* TKRadarChart.swift */,
+				5393595D23886B6400D77FD1 /* WatchSessionManager.swift */,
 				53733D5C238301A5006F260E /* TOCropViewController */,
 				53733D5A2382FF1F006F260E /* CropViewController.swift */,
 				53AF450F2375B39F001A3574 /* AccountExtension.swift */,
@@ -3753,6 +3757,7 @@
 				53449DCE23294C1000A470E2 /* FilterToots.swift in Sources */,
 				53449D9923294C1000A470E2 /* ClientType.swift in Sources */,
 				53733E2E23844E74006F260E /* Debugging.swift in Sources */,
+				5393595E23886B6400D77FD1 /* WatchSessionManager.swift in Sources */,
 				53A4F43B2376E59200EC12C6 /* CAShapeLayer.swift in Sources */,
 				53733E2F23844E74006F260E /* ConstraintRelatableTarget.swift in Sources */,
 				53449DDD23294C1000A470E2 /* MediaAttachment.swift in Sources */,
@@ -4176,6 +4181,7 @@
 				5393590C2388665400D77FD1 /* Visibility.swift in Sources */,
 				539359202388665400D77FD1 /* HTTPMethod.swift in Sources */,
 				539358922388664000D77FD1 /* DetailController.swift in Sources */,
+				5393595F23886B7500D77FD1 /* WatchSessionManager.swift in Sources */,
 				5393590E2388665400D77FD1 /* Empty.swift in Sources */,
 				539359362388665500D77FD1 /* Payload.swift in Sources */,
 				5393591F2388665400D77FD1 /* RequestError.swift in Sources */,
