@@ -53,9 +53,9 @@ class VerticalTabBarController: UIViewController {
     }
     
     override var keyCommands: [UIKeyCommand]? {
-        let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(compose), discoverabilityTitle: "New Toot".localized)
-        let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(search), discoverabilityTitle: "Search".localized)
-        let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(settings), discoverabilityTitle: "Settings".localized)
+        let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(self.compose), discoverabilityTitle: "New Toot".localized)
+        let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(self.search), discoverabilityTitle: "Search".localized)
+        let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(self.settings), discoverabilityTitle: "Settings".localized)
         return [
             newToot, search, settings
         ]
