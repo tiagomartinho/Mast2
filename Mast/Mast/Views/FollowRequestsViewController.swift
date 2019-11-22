@@ -147,11 +147,36 @@ class FollowRequestsViewController: UIViewController, UITextFieldDelegate, UITab
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
+                    if stat.isEmpty {
+                        self.createEmptyState()
+                    }
                     self.statusesRequests = stat
                     self.tableView.reloadData()
                 }
             }
         }
+    }
+    
+    func createEmptyState() {
+        let emptyView = UIView()
+        emptyView.backgroundColor = .clear
+        emptyView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        emptyView.center = self.view.center
+        self.view.addSubview(emptyView)
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular)
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(systemName: "wind", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.14), renderingMode: .alwaysOriginal)
+        emptyImage.frame = CGRect(x: 30, y: 10, width: 140, height: 140)
+        emptyView.addSubview(emptyImage)
+        
+        let emptyText = UILabel()
+        emptyText.text = "Nothing to see here".localized
+        emptyText.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.14)
+        emptyText.textAlignment = .center
+        emptyText.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        emptyText.frame = CGRect(x: 0, y: 150, width: 200, height: 50)
+        emptyView.addSubview(emptyText)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
