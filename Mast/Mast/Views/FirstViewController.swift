@@ -636,14 +636,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        print("ended scrolling")
         if let cell = self.tableView.indexPathsForVisibleRows?.first {
-            let theID = GlobalStruct.statusesHome[cell.row].id
-            self.markersPost(theID, notificationsID: "")
+            self.markersPost(GlobalStruct.statusesHome[cell.row].id)
         }
     }
     
-    func markersPost(_ homeID: String, notificationsID: String) {
+    func markersPost(_ homeID: String) {
         let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers"
         let url: URL = URL(string: urlStr)!
         var request01 = URLRequest(url: url)
@@ -656,12 +654,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let paraHome: [String: Any?] = [
             "last_read_id": homeID
         ]
-//        let paraNotifications: [String: Any?] = [
-//            "last_read_id": notificationsID
-//        ]
         let params: [String: Any?] = [
             "home": paraHome,
-//            "notifications": paraNotifications
         ]
         do {
             request01.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
