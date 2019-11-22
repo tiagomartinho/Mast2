@@ -645,7 +645,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         request01.addValue("Bearer \(GlobalStruct.client.accessToken ?? "")", forHTTPHeaderField: "Authorization")
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
-        
         let para0: [String: Any?] = [
             "last_read_id": "9289120"
         ]
@@ -662,8 +661,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             print(error.localizedDescription)
         }
         let task = session.dataTask(with: request01) { data, response, err in
-            print("markers - \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
-            self.markersGet()
+            do {
+                let model = try JSONDecoder().decode(Marker.self, from: data ?? Data())
+                print("marker1 - \(model.home?.lastReadID ?? "")")
+            } catch {
+                print("error")
+            }
         }
         task.resume()
     }
@@ -679,7 +682,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         let task = session.dataTask(with: request01) { data, response, err in
-            print("markers2 - \(String(describing: String(data: data ?? Data(), encoding: .utf8)))")
+            do {
+                let model = try JSONDecoder().decode(Marker.self, from: data ?? Data())
+                print("marker2 - \(model.home?.lastReadID ?? "")")
+            } catch {
+                print("error")
+            }
         }
         task.resume()
     }
