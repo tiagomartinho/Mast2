@@ -533,16 +533,20 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 }
             }
         }
-        let request = Timelines.home()
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                DispatchQueue.main.async {
-                    GlobalStruct.statusesHome = stat
-                    self.tableView.reloadData()
-                    self.statusesHome = stat
-                }
-            }
-        }
+        
+//        let request = Timelines.home()
+//        GlobalStruct.client.run(request) { (statuses) in
+//            if let stat = (statuses.value) {
+//                DispatchQueue.main.async {
+//                    GlobalStruct.statusesHome = stat
+//                    self.tableView.reloadData()
+//                    self.statusesHome = stat
+//                }
+//            }
+//        }
+        
+        self.markersGet()
+        
         let request2 = Timelines.public(local: true, range: .default)
         GlobalStruct.client.run(request2) { (statuses) in
             if let stat = (statuses.value) {
@@ -631,6 +635,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        print("ended scrolling")
+        if let cell = self.tableView.indexPathsForVisibleRows?.first {
+            let theID = GlobalStruct.statusesHome[cell.row].id
+            self.markersPost(theID, notificationsID: "")
+        }
+    }
+    
     func markersPost(_ homeID: String, notificationsID: String) {
         let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers"
         let url: URL = URL(string: urlStr)!
@@ -644,12 +656,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let paraHome: [String: Any?] = [
             "last_read_id": homeID
         ]
-        let paraNotifications: [String: Any?] = [
-            "last_read_id": notificationsID
-        ]
+//        let paraNotifications: [String: Any?] = [
+//            "last_read_id": notificationsID
+//        ]
         let params: [String: Any?] = [
             "home": paraHome,
-            "notifications": paraNotifications
+//            "notifications": paraNotifications
         ]
         do {
             request01.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
@@ -680,7 +692,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let task = session.dataTask(with: request01) { data, response, err in
             do {
                 let model = try JSONDecoder().decode(Marker.self, from: data ?? Data())
-                print("marker2 - \(model.home?.lastReadID ?? "")")
+                let request = Timelines.home(range: .max(id: model.home?.lastReadID ?? "", limit: 5000))
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            GlobalStruct.statusesHome = stat
+                            self.tableView.reloadData()
+                            self.statusesHome = stat
+                        }
+                    }
+                }
             } catch {
                 print("error")
             }
