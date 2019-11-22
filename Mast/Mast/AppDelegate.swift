@@ -40,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor(named: "baseBlack")
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]
         
+        WatchSessionManager.sharedManager.startSession()
+        
         return true
     }
     
