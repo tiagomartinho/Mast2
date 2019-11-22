@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14490.70" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch38" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15400" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch38"/>
     <dependencies>
-        <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14490.21"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15400"/>
     </dependencies>
     <scenes>
         <!--InterfaceController-->
@@ -51,22 +48,22 @@
                     </items>
                     <menu key="menu" id="Nhs-4y-fCI">
                         <items>
-                            <menuItem title="New Toot" image="toot" id="qVJ-3X-rBU">
+                            <menuItem title="New Toot" icon="add" id="qVJ-3X-rBU">
                                 <connections>
                                     <action selector="tappedNewToot" destination="AgC-eL-Hgc" id="zSl-ba-6FA"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Local" image="list" id="J9l-HM-B3t">
+                            <menuItem title="Local" icon="more" id="J9l-HM-B3t">
                                 <connections>
                                     <action selector="tappedLocal" destination="AgC-eL-Hgc" id="37e-RV-U4Q"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="All" image="list" id="bsX-1j-3b0">
+                            <menuItem title="All" icon="more" id="bsX-1j-3b0">
                                 <connections>
                                     <action selector="tappedFederated" destination="AgC-eL-Hgc" id="Dgf-7u-buO"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Profile" image="profile" id="IBg-WA-BPE">
+                            <menuItem title="Profile" icon="more" id="IBg-WA-BPE">
                                 <connections>
                                     <action selector="tappedProfile" destination="AgC-eL-Hgc" id="Lds-YC-qcU"/>
                                 </connections>
@@ -108,7 +105,7 @@
                                                     <label alignment="left" text="Toot" textAlignment="left" numberOfLines="0" id="oTU-7M-KEQ">
                                                         <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                                     </label>
-                                                    <group alignment="left" radius="10" spacing="0.0" id="JU9-l6-lE5">
+                                                    <group alignment="left" radius="4" spacing="0.0" id="JU9-l6-lE5">
                                                         <items>
                                                             <imageView width="1" height="110" alignment="left" contentMode="scaleAspectFill" id="1io-Db-2MM"/>
                                                         </items>
@@ -231,7 +228,7 @@
                                 <group alignment="left" layout="vertical" id="i4L-x4-mwb">
                                     <items>
                                         <button width="1" alignment="left" title="Toot" id="Xyb-zf-0B7">
-                                            <color key="backgroundColor" red="0.42972260713577271" green="0.60532981157302856" blue="0.97204834222793579" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="backgroundColor" red="0.61176470588235299" green="0.5607843137254902" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <connections>
                                                 <action selector="tappedToot" destination="Jve-Ql-iki" id="ypg-aX-LOy"/>
                                             </connections>
@@ -458,4 +455,12 @@
             <point key="canvasLocation" x="220" y="345"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="boost" width="16" height="16"/>
+        <image name="like" width="16" height="16"/>
+        <image name="list" width="16" height="16"/>
+        <image name="profile" width="16" height="16"/>
+        <image name="reply" width="16" height="16"/>
+        <image name="toot" width="16" height="16"/>
+    </resources>
 </document>

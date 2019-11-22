@@ -96,14 +96,15 @@ class DetailController: WKInterfaceController {
             self.allThings = StoreStruct.allStatsProfile
         }
         
-        replyB.setBackgroundImageNamed("reply")
-        likeB.setBackgroundImageNamed("likeW")
-        boostB.setBackgroundImageNamed("boostW")
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+        replyB.setBackgroundImage(UIImage(systemName: "arrowshape.turn.up.left.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal))
+        likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal))
+        boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.4), renderingMode: .alwaysOriginal))
         if self.allThings[StoreStruct.currentRow].reblog?.favourited ?? self.allThings[StoreStruct.currentRow].favourited ?? true {
-            likeB.setBackgroundImageNamed("like")
+            likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
         }
         if self.allThings[StoreStruct.currentRow].reblog?.reblogged ?? self.allThings[StoreStruct.currentRow].reblogged ?? true {
-            boostB.setBackgroundImageNamed("boost")
+            boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
         }
         
         self.tableView.setNumberOfRows(1, withRowType: "DetailRow")

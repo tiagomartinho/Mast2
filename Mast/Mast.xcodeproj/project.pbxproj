@@ -540,6 +540,7 @@
 		5393595A238866B400D77FD1 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53935958238866B400D77FD1 /* Interface.storyboard */; };
 		5393595E23886B6400D77FD1 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5393595D23886B6400D77FD1 /* WatchSessionManager.swift */; };
 		5393595F23886B7500D77FD1 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5393595D23886B6400D77FD1 /* WatchSessionManager.swift */; };
+		5393596023886D6D00D77FD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3923293E3700A470E2 /* Assets.xcassets */; };
 		53955D7723746F0400522101 /* HashtagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53955D7623746F0400522101 /* HashtagViewController.swift */; };
 		53955D792374887700522101 /* BrowserSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53955D782374887700522101 /* BrowserSettingsViewController.swift */; };
 		5395A7542372D63C002253A8 /* MutedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7532372D63C002253A8 /* MutedViewController.swift */; };
@@ -3520,6 +3521,7 @@
 				539359472388665500D77FD1 /* waitIndicatorGraphic-17@2x.png in Resources */,
 				539359432388665500D77FD1 /* waitIndicatorGraphic-23@2x.png in Resources */,
 				539359532388665500D77FD1 /* waitIndicatorGraphic-22@2x.png in Resources */,
+				5393596023886D6D00D77FD1 /* Assets.xcassets in Resources */,
 				5393594F2388665500D77FD1 /* waitIndicatorGraphic-8@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
