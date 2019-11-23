@@ -2,5 +2,4 @@ ${PODS_ROOT}/Target Support Files/Pods-Mast/Pods-Mast-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework
 ${BUILT_PRODUCTS_DIR}/InputBarAccessoryView/InputBarAccessoryView.framework
 ${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework
-${BUILT_PRODUCTS_DIR}/SDWebImage-iOS13.0/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/SwiftyStoreKit/SwiftyStoreKit.framework

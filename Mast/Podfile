@@ -7,16 +7,7 @@ target 'Mast' do
 
   # Pods for Mast
 pod 'MessageKit'
-pod 'SDWebImage'
 pod 'ActiveLabel'
 pod 'SwiftyStoreKit'
-
-end
-
-target 'MastExtension' do
-
-  use_frameworks!
-
-pod 'SDWebImage'
 
 end
