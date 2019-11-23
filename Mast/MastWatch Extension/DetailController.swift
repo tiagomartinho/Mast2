@@ -112,7 +112,6 @@ class DetailController: WKInterfaceController {
         self.tableView.setNumberOfRows(1, withRowType: "DetailRow")
         let controller = self.tableView.rowController(at: 0) as! DetailRow
         
-        controller.imageView.setImageNamed("icon")
         controller.imageView.setWidth(20)
         
         controller.userName.setText("@\(self.allThings[StoreStruct.currentRow].reblog?.account.username ?? self.allThings[StoreStruct.currentRow].account.username)")

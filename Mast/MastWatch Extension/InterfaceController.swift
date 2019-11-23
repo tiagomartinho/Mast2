@@ -84,7 +84,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                                 let controller = self.tableView.rowController(at: index) as! TimelineRow
                                 controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                                 controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                                controller.imageView.setImageNamed("icon")
                                 controller.imageView.setWidth(20)
                                 controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                                 
@@ -163,7 +162,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                     let controller = self.tableView.rowController(at: index) as! TimelineRow
                     controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                     controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                    controller.imageView.setImageNamed("icon")
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                     
@@ -213,7 +211,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                     let controller = self.tableView.rowController(at: index) as! TimelineRow
                     controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                     controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                    controller.imageView.setImageNamed("icon")
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                     
@@ -248,7 +245,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                     let controller = self.tableView.rowController(at: index) as! TimelineRow
                     controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                     controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                    controller.imageView.setImageNamed("icon")
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                     
