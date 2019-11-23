@@ -143,7 +143,8 @@
                             <items>
                                 <group alignment="center" radius="19" spacing="8" id="igt-4G-2Nj">
                                     <items>
-                                        <button width="38" height="38" alignment="left" backgroundImage="reply" id="zAX-Vb-dXa">
+                                        <button width="38" height="38" alignment="left" id="zAX-Vb-dXa">
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
                                                 <action selector="replyTap" destination="udb-zt-uXz" id="As0-rK-sG6"/>
                                             </connections>
@@ -153,7 +154,8 @@
                                 </group>
                                 <group alignment="center" radius="19" spacing="8" id="Gva-BN-AOl">
                                     <items>
-                                        <button width="38" height="38" alignment="left" backgroundImage="like" id="9sb-po-lBP">
+                                        <button width="38" height="38" alignment="left" id="9sb-po-lBP">
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
                                                 <action selector="likeTap" destination="udb-zt-uXz" id="32l-u3-CVb"/>
                                             </connections>
@@ -163,7 +165,8 @@
                                 </group>
                                 <group alignment="center" radius="19" spacing="8" id="jqq-U2-rPD">
                                     <items>
-                                        <button width="38" height="38" alignment="left" backgroundImage="boost" id="TBn-Cf-3te">
+                                        <button width="38" height="38" alignment="left" id="TBn-Cf-3te">
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
                                                 <action selector="boostTap" destination="udb-zt-uXz" id="3oB-EX-7l2"/>
                                             </connections>
@@ -456,11 +459,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="boost" width="16" height="16"/>
-        <image name="like" width="16" height="16"/>
         <image name="list" width="16" height="16"/>
         <image name="profile" width="16" height="16"/>
-        <image name="reply" width="16" height="16"/>
         <image name="toot" width="16" height="16"/>
     </resources>
 </document>
