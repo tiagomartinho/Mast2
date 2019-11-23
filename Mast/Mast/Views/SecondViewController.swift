@@ -170,6 +170,24 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
+        if GlobalStruct.notifications.isEmpty {
+            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+            GlobalStruct.client.run(request4) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        GlobalStruct.notifications = stat
+                        #if targetEnvironment(macCatalyst)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                        #elseif !targetEnvironment(macCatalyst)
+                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                        }
+                        #endif
+                    }
+                }
+            }
+        }
+        
         // Table
         self.tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
         self.tableView.register(NotificationsImageCell.self, forCellReuseIdentifier: "NotificationsImageCell")
@@ -219,24 +237,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
         self.top1.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top1)
-        
-        if GlobalStruct.notifications.isEmpty {
-            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
-            GlobalStruct.client.run(request4) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        GlobalStruct.notifications = stat
-                        #if targetEnvironment(macCatalyst)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-                        #elseif !targetEnvironment(macCatalyst)
-                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-                        }
-                        #endif
-                    }
-                }
-            }
-        }
     }
     
     @objc func didTouchTop1() {
