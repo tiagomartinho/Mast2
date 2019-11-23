@@ -177,6 +177,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 1
         
+        let applicationContext = [GlobalStruct.currentInstance.accessToken: GlobalStruct.currentInstance.returnedText]
+        WatchSessionManager.sharedManager.transferUserInfo(userInfo: applicationContext as [String: AnyObject])
+        
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
