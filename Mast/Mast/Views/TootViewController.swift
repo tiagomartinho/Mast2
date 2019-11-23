@@ -779,13 +779,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            if GlobalStruct.photoToAttachArrayImage.isEmpty {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
-            } else {
-                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-            }
-        }
+//        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+//            if GlobalStruct.photoToAttachArrayImage.isEmpty {
+//                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
+//            } else {
+//                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
+//            }
+//        }
         if textView.text == "" {
             self.placeholderLabel.isHidden = false
             self.placeholderLabel.alpha = 1
