@@ -714,9 +714,22 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 GlobalStruct.client.run(request) { (statuses) in
                     if let stat = (statuses.value) {
                         DispatchQueue.main.async {
-                            GlobalStruct.statusesHome = stat
-                            self.tableView.reloadData()
-                            self.statusesHome = stat
+                            if stat.isEmpty {
+                                let request = Timelines.home()
+                                GlobalStruct.client.run(request) { (statuses) in
+                                    if let stat = (statuses.value) {
+                                        DispatchQueue.main.async {
+                                            GlobalStruct.statusesHome = stat
+                                            self.tableView.reloadData()
+                                            self.statusesHome = stat
+                                        }
+                                    }
+                                }
+                            } else {
+                                GlobalStruct.statusesHome = stat
+                                self.tableView.reloadData()
+                                self.statusesHome = stat
+                            }
                         }
                     }
                 }
