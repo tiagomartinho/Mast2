@@ -44,6 +44,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     var statusBarView = UIView()
     var safariVC: SFSafariViewController?
+    var statusBar = UIView()
     
     @objc func notifChangeTint() {
         self.createTabBar()
@@ -51,6 +52,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        statusBar.frame = UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect(x: 0, y: 0, width: 0, height: 0)
     }
     
     func openLink() {
@@ -391,7 +393,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
             self.receiptValidation()
         }
         
-        let statusBar = UIView(frame: (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame)!)
+        statusBar.frame = UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect(x: 0, y: 0, width: 0, height: 0)
         statusBar.backgroundColor = GlobalStruct.baseDarkTint
         self.view.addSubview(statusBar)
     }
