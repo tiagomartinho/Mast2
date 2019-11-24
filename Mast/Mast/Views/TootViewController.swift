@@ -61,6 +61,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var x6 = UIBarButtonItem()
     var x7 = UIBarButtonItem()
     var containsMedia = false
+    var theAcc = ""
+    var searchedUsers: [Account] = []
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -778,14 +780,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    @objc func tapAcc() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            cell.textView.text = cell.textView.text.replacingOccurrences(of: self.theAcc, with: "@")
+            cell.textView.text = cell.textView.text + (self.searchedUsers.first?.acct ?? "") + " "
+        }
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
-//        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-//            if GlobalStruct.photoToAttachArrayImage.isEmpty {
-//                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
-//            } else {
-//                cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
-//            }
-//        }
         if textView.text == "" {
             self.placeholderLabel.isHidden = false
             self.placeholderLabel.alpha = 1
@@ -799,17 +801,92 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
             self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         }
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            let maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
-            self.x7 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
-            self.x7.accessibilityLabel = "Characters".localized
-            self.formatToolbar.items?[14] = self.x7
-            if cell.textView.text.isEmpty {
-                self.isModalInPresentation = false
-                btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
-            } else {
-                self.isModalInPresentation = true
+        
+        let arr = textView.text.components(separatedBy: " ")
+        let x11 = arr.last
+        let chara: Character = "."
+        if x11?.first ?? chara == "@" && (x11?.count ?? 0) > 1 {
+            self.theAcc = x11 ?? ""
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
+                fixedS.width = 6
+                let request = Accounts.search(query: x11 ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            self.searchedUsers = stat
+                            let x0 = UIBarButtonItem(title: "@\(stat.first?.acct ?? "")", style: .plain, target: self, action: #selector(self.tapAcc))
+                            x0.accessibilityLabel = "@\(stat.first?.acct ?? "")"
+                            self.formatToolbar.items = [x0]
+                            self.formatToolbar.sizeToFit()
+                            cell.textView.inputAccessoryView = self.formatToolbar
+                        }
+                    }
+                }
+                
+            }
+        } else {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
+                let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
+                fixedS.width = 6
+                var visibilityIcon = "globe"
+                if self.defaultVisibility == .public {
+                    visibilityIcon = "globe"
+                } else if self.defaultVisibility == .unlisted {
+                    visibilityIcon = "lock.open"
+                } else if self.defaultVisibility == .private {
+                    visibilityIcon = "lock"
+                } else {
+                    visibilityIcon = "paperplane"
+                }
+                x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
+                x1.accessibilityLabel = "Add Media".localized
+                x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+                x2.accessibilityLabel = "Visibility".localized
+                x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                x3.accessibilityLabel = "Spoiler Text".localized
+                x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
+                x4.accessibilityLabel = "Emoticons".localized
+                x42 = UIBarButtonItem(image: UIImage(systemName: "chart.bar", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.addPoll))
+                x42.accessibilityLabel = "Add Poll".localized
+                x5 = UIBarButtonItem(image: UIImage(systemName: "clock", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.scheduleTap))
+                x5.accessibilityLabel = "Schedule Toot".localized
+                x6 = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.viewDrafts))
+                x6.accessibilityLabel = "Drafts".localized
+                x7 = UIBarButtonItem(title: "\(GlobalStruct.maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+                x7.accessibilityLabel = "Characters".localized
+                formatToolbar.items = [
+                    x1,
+                    fixedS,
+                    x2,
+                    fixedS,
+                    x3,
+                    fixedS,
+                    x4,
+                    fixedS,
+                    x42,
+                    fixedS,
+                    x5,
+                    fixedS,
+                    x6,
+                    UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
+                    x7
+                ]
+                formatToolbar.sizeToFit()
+                cell.textView.inputAccessoryView = formatToolbar
+
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+                let maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
+                self.x7 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
+                self.x7.accessibilityLabel = "Characters".localized
+                self.formatToolbar.items?[14] = self.x7
+                if cell.textView.text.isEmpty {
+                    self.isModalInPresentation = false
+                    btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+                } else {
+                    self.isModalInPresentation = true
+                }
             }
         }
 
