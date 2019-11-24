@@ -791,7 +791,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             cell.textView.text = cell.textView.text + (self.searchedUsers.first?.acct ?? "") + " "
             
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-            let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemI   tem.fixedSpace, target: nil, action: nil)
+            let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
             fixedS.width = 6
             var visibilityIcon = "globe"
             if self.defaultVisibility == .public {
