@@ -58,8 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         if application.applicationState == .inactive {
             if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
                 if userDefaults.value(forKey: "notidpush") != nil {
