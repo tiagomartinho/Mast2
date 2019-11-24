@@ -158,7 +158,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         let vc = FifthViewController()
                         vc.isYou = false
                         vc.isTapped = true
-                        vc.userID = x.account.id
+                        vc.userID = stat.account.id
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
