@@ -40,6 +40,7 @@ class GlobalStruct {
     static var emoticonToAdd: String = ""
     static var allDrafts: [String] = []
     static var currentDraft: String = ""
+    static var curIDNoti = ""
     
     static var newPollPost: [Any]? = []
     static var isFollowing: Bool = false

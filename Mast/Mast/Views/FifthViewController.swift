@@ -150,6 +150,28 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.tableView.reloadData()
     }
     
+    @objc func goToIDNoti() {
+        sleep(2)
+        let request = Notifications.notification(id: GlobalStruct.curIDNoti)
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    if let x = stat.status {
+                        let vc = DetailViewController()
+                        vc.pickedStatusesHome = [x]
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    } else {
+                        let vc = FifthViewController()
+                        vc.isYou = false
+                        vc.isTapped = true
+                        vc.userID = stat.account.id
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -162,6 +184,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail5"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti5"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

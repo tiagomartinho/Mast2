@@ -63,6 +63,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if application.applicationState == .inactive {
             if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
                 if userDefaults.value(forKey: "notidpush") != nil {
+                    if let id = userDefaults.value(forKey: "notidpush") as? Int64 {
+                        GlobalStruct.curIDNoti = "\(id)"
+                        if GlobalStruct.currentTab == 1 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti1"), object: self)
+                        } else if GlobalStruct.currentTab == 2 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti2"), object: self)
+                        } else if GlobalStruct.currentTab == 3 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti3"), object: self)
+                        } else if GlobalStruct.currentTab == 4 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti4"), object: self)
+                        } else if GlobalStruct.currentTab == 5 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti5"), object: self)
+                        }
+                    }
                     userDefaults.set(nil, forKey: "notidpush")
                 }
             }
