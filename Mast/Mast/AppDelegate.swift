@@ -8,12 +8,15 @@
 
 import UIKit
 import SwiftyStoreKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        UNUserNotificationCenter.current().delegate = self
         
         #if !targetEnvironment(macCatalyst)
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
@@ -86,6 +89,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if application.applicationState == .inactive || application.applicationState == .background {
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
         }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+      
+    // This function will be called right after user tap on the notification
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let application = UIApplication.shared
+        if application.applicationState == .inactive {
+            if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
+                if userDefaults.value(forKey: "notidpush") != nil {
+                    if let id = userDefaults.value(forKey: "notidpush") as? Int64 {
+                        GlobalStruct.curIDNoti = "\(id)"
+                        if GlobalStruct.currentTab == 1 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti1"), object: self)
+                        } else if GlobalStruct.currentTab == 2 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti2"), object: self)
+                        } else if GlobalStruct.currentTab == 3 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti3"), object: self)
+                        } else if GlobalStruct.currentTab == 4 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti4"), object: self)
+                        } else if GlobalStruct.currentTab == 5 {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "gotoidnoti5"), object: self)
+                        }
+                    }
+                    userDefaults.set(nil, forKey: "notidpush")
+                }
+            }
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "refpush1"), object: nil)
+        
+        if application.applicationState == .inactive || application.applicationState == .background {
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        }
+        completionHandler()
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
