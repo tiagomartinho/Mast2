@@ -781,12 +781,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func tapAcc() {
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             cell.textView.text = cell.textView.text.replacingOccurrences(of: self.theAcc, with: "@")
             cell.textView.text = cell.textView.text + (self.searchedUsers.first?.acct ?? "") + " "
             
             let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-            let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
+            let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemI   tem.fixedSpace, target: nil, action: nil)
             fixedS.width = 6
             var visibilityIcon = "globe"
             if self.defaultVisibility == .public {
