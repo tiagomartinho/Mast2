@@ -1,0 +1,93 @@
+
+/* Class = "WKInterfaceMenuItem"; title = "New Toot"; ObjectID = "243-Dm-qFP"; */
+"243-Dm-qFP.title" = "New Toot";
+
+/* Class = "WKInterfaceLabel"; text = "Username"; ObjectID = "3fV-Fg-AnM"; */
+"3fV-Fg-AnM.text" = "Username";
+
+/* Class = "WKInterfaceLabel"; text = "Username"; ObjectID = "4D0-ny-WwH"; */
+"4D0-ny-WwH.text" = "Username";
+
+/* Class = "WKInterfaceLabel"; text = "Username"; ObjectID = "69i-Vj-8E0"; */
+"69i-Vj-8E0.text" = "Username";
+
+/* Class = "WKInterfaceLabel"; text = "Toot"; ObjectID = "6GH-gs-iNN"; */
+"6GH-gs-iNN.text" = "Toot";
+
+/* Class = "WKInterfaceButton"; title = "Cancel"; ObjectID = "7ni-7S-YoA"; */
+"7ni-7S-YoA.title" = "Cancel";
+
+/* Class = "WKInterfaceLabel"; text = "00:00"; ObjectID = "9i2-wn-Wpo"; */
+"9i2-wn-Wpo.text" = "00:00";
+
+/* Class = "WKInterfaceLabel"; text = "Screen name"; ObjectID = "EbK-MU-qM1"; */
+"EbK-MU-qM1.text" = "Screen name";
+
+/* Class = "WKInterfaceMenuItem"; title = "Profile"; ObjectID = "FUf-ap-VbB"; */
+"FUf-ap-VbB.title" = "Profile";
+
+/* Class = "WKInterfaceMenuItem"; title = "New Toot"; ObjectID = "GfI-kw-GOI"; */
+"GfI-kw-GOI.title" = "New Toot";
+
+/* Class = "WKInterfaceMenuItem"; title = "Profile"; ObjectID = "IBg-WA-BPE"; */
+"IBg-WA-BPE.title" = "Profile";
+
+/* Class = "WKInterfaceLabel"; text = "Toot"; ObjectID = "IUa-0Z-paz"; */
+"IUa-0Z-paz.text" = "Toot";
+
+/* Class = "WKInterfaceLabel"; text = "Alert Label"; ObjectID = "IdU-wH-bcW"; */
+"IdU-wH-bcW.text" = "Alert Label";
+
+/* Class = "WKInterfaceMenuItem"; title = "Local"; ObjectID = "J9l-HM-B3t"; */
+"J9l-HM-B3t.title" = "Local";
+
+/* Class = "WKInterfaceLabel"; text = "Text to Toot"; ObjectID = "P0G-rd-gVu"; */
+"P0G-rd-gVu.text" = "Text to Toot";
+
+/* Class = "WKInterfaceMenuItem"; title = "Federated"; ObjectID = "VAs-Bk-lj9"; */
+"VAs-Bk-lj9.title" = "Federated";
+
+/* Class = "WKInterfaceMenuItem"; title = "New Toot"; ObjectID = "VcB-Hg-UVY"; */
+"VcB-Hg-UVY.title" = "New Toot";
+
+/* Class = "WKInterfaceButton"; title = "Toot"; ObjectID = "Xyb-zf-0B7"; */
+"Xyb-zf-0B7.title" = "Toot";
+
+/* Class = "WKInterfaceMenuItem"; title = "Local"; ObjectID = "ZCl-Fx-U8s"; */
+"ZCl-Fx-U8s.title" = "Local";
+
+/* Class = "WKInterfaceLabel"; text = "Username"; ObjectID = "b3x-cM-6iw"; */
+"b3x-cM-6iw.text" = "Username";
+
+/* Class = "WKInterfaceMenuItem"; title = "All"; ObjectID = "bsX-1j-3b0"; */
+"bsX-1j-3b0.title" = "All";
+
+/* Class = "WKInterfaceLabel"; text = "Toot"; ObjectID = "dIm-R2-xDM"; */
+"dIm-R2-xDM.text" = "Toot";
+
+/* Class = "WKInterfaceMenuItem"; title = "Profile"; ObjectID = "hSP-Ji-w6e"; */
+"hSP-Ji-w6e.title" = "Profile";
+
+/* Class = "WKInterfaceLabel"; text = "Username"; ObjectID = "jMb-4M-YjG"; */
+"jMb-4M-YjG.text" = "Username";
+
+/* Class = "WKInterfaceLabel"; text = "Toot"; ObjectID = "oTU-7M-KEQ"; */
+"oTU-7M-KEQ.text" = "Toot";
+
+/* Class = "WKInterfaceLabel"; text = "Toot"; ObjectID = "qEz-7Z-HMc"; */
+"qEz-7Z-HMc.text" = "Toot";
+
+/* Class = "WKInterfaceMenuItem"; title = "Federated"; ObjectID = "qOK-gn-RtO"; */
+"qOK-gn-RtO.title" = "Federated";
+
+/* Class = "WKInterfaceMenuItem"; title = "New Toot"; ObjectID = "qVJ-3X-rBU"; */
+"qVJ-3X-rBU.title" = "New Toot";
+
+/* Class = "WKInterfaceLabel"; text = "0 Boosts"; ObjectID = "uZK-dc-ixS"; */
+"uZK-dc-ixS.text" = "0 Boosts";
+
+/* Class = "WKInterfaceLabel"; text = "0 Likes"; ObjectID = "wwZ-xp-hlb"; */
+"wwZ-xp-hlb.text" = "0 Likes";
+
+/* Class = "WKInterfaceMenuItem"; title = "Local"; ObjectID = "ydp-hF-zEl"; */
+"ydp-hF-zEl.title" = "Local";
