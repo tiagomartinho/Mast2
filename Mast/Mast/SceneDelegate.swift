@@ -43,8 +43,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         #if targetEnvironment(macCatalyst)
-        if GlobalStruct.macWindow {
+        if GlobalStruct.macWindow == 1 {
             let vc = TootViewController()
+            self.window?.rootViewController = vc
+            self.window!.makeKeyAndVisible()
+            if let windowScene = scene as? UIWindowScene {
+                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 650, height: 400)
+                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 650, height: 400)
+                if let titlebar = windowScene.titlebar {
+                    let toolbar = NSToolbar(identifier: "testToolbar")
+                    toolbar.delegate = vc.self
+                    toolbar.allowsUserCustomization = false
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"), at: 0)
+                    titlebar.toolbar = toolbar
+                }
+            }
+        } else if GlobalStruct.macWindow == 2 {
+            let vc = TootViewController()
+            vc.replyStatus = GlobalStruct.macReply
             self.window?.rootViewController = vc
             self.window!.makeKeyAndVisible()
             if let windowScene = scene as? UIWindowScene {

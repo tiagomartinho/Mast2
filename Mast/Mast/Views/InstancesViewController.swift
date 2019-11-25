@@ -446,9 +446,18 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
     
     func makeContextMenu(_ status: [Status], indexPath: IndexPath) -> UIMenu {
         let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
+        #if targetEnvironment(macCatalyst)
+        GlobalStruct.macWindow = 2
+        GlobalStruct.macReply = status
+        let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer2")
+        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
+          print("error", e)
+        }
+        #elseif !targetEnvironment(macCatalyst)
             let vc = TootViewController()
             vc.replyStatus = status
             self.show(UINavigationController(rootViewController: vc), sender: self)
+            #endif
         }
         var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)

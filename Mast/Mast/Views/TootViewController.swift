@@ -285,8 +285,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.title = "New Toot".localized
 //        self.removeTabbarItemsText()
         
-        GlobalStruct.macWindow = false
-        
+        GlobalStruct.macWindow = 0
         GlobalStruct.medType = 0
         
         self.navigationController?.presentationController?.delegate = self

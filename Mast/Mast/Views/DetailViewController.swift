@@ -618,9 +618,18 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             impactFeedbackgenerator.prepare()
             impactFeedbackgenerator.impactOccurred()
         }
+        #if targetEnvironment(macCatalyst)
+        GlobalStruct.macWindow = 2
+        GlobalStruct.macReply = self.pickedStatusesHome
+        let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer2")
+        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
+          print("error", e)
+        }
+        #elseif !targetEnvironment(macCatalyst)
         let vc = TootViewController()
         vc.replyStatus = self.pickedStatusesHome
         self.show(UINavigationController(rootViewController: vc), sender: self)
+        #endif
     }
     
     @objc func boostTapped() {

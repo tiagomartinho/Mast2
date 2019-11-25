@@ -83,7 +83,7 @@ class VerticalTabBarController: UIViewController {
     
     @objc func compose() {
         #if targetEnvironment(macCatalyst)
-        GlobalStruct.macWindow = true
+        GlobalStruct.macWindow = 1
         let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer")
         UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
           print("error", e)

@@ -45,7 +45,8 @@ class GlobalStruct {
     static var newPollPost: [Any]? = []
     static var isFollowing: Bool = false
     
-    static var macWindow: Bool = false
+    static var macWindow: Int = 0
+    static var macReply: [Status] = []
     
     static var allowsMultiple = false
     static var totalsHidden = false
