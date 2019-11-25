@@ -56,6 +56,9 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func openLink() {
+//        #if targetEnvironment(macCatalyst)
+//        NSWorkspace.shared.openURL(GlobalStruct.tappedURL!)
+//        #elseif !targetEnvironment(macCatalyst)
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") as? Int == 0 {
             UIApplication.shared.openURL(GlobalStruct.tappedURL!)
         }
@@ -105,6 +108,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
                 getTopMostViewController()?.present(self.safariVC!, animated: true, completion: nil)
             }
         }
+//        #endif
     }
     
     func getTopMostViewController() -> UIViewController? {

@@ -1027,6 +1027,7 @@
 		5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCell.swift; sourceTree = "<group>"; };
 		534B278523466CC700A9042E /* TintSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintSettingsViewController.swift; sourceTree = "<group>"; };
 		5355A24C238832B60043F852 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
+		5355A258238C452A0043F852 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBarChartsDisplayConfig.swift; sourceTree = "<group>"; };
 		53633DBC237AD4F800541F13 /* VCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCoreBarChart.swift; sourceTree = "<group>"; };
@@ -1937,6 +1938,7 @@
 				5393584E2385C46D00D77FD1 /* MastStickers */,
 				5393585B238865B900D77FD1 /* MastWatch */,
 				5393586A238865BB00D77FD1 /* MastWatch Extension */,
+				5355A257238C452A0043F852 /* macBundle */,
 				53449D2E23293E3600A470E2 /* Products */,
 				A9F1E35F02DDE5B7E0BEC433 /* Pods */,
 				DFF9E889BA3C59F8B8C4094A /* Frameworks */,
@@ -2077,6 +2079,14 @@
 				53449D9023294C0F00A470E2 /* Timelines.swift */,
 			);
 			path = Requests;
+			sourceTree = "<group>";
+		};
+		5355A257238C452A0043F852 /* macBundle */ = {
+			isa = PBXGroup;
+			children = (
+				5355A258238C452A0043F852 /* Info.plist */,
+			);
+			path = macBundle;
 			sourceTree = "<group>";
 		};
 		53633DB9237AD4F800541F13 /* CoreCharts */ = {
