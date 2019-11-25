@@ -50,6 +50,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var statusesHome: [Status] = []
     var statusesLocal: [Status] = []
     var statusesFed: [Status] = []
+    var statusesHomeTemp: [Status] = []
+    var statusesLocalTemp: [Status] = []
+    var statusesFedTemp: [Status] = []
     var keyHeight: CGFloat = 0
     var altInstances: [String] = []
     var fullWid = UIScreen.main.bounds.width
@@ -589,9 +592,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
 //        GlobalStruct.client.run(request) { (statuses) in
 //            if let stat = (statuses.value) {
 //                DispatchQueue.main.async {
-//                    GlobalStruct.statusesHome = stat
-//                    self.tableView.reloadData()
 //                    self.statusesHome = stat
+//                    self.tableView.reloadData()
+//                    self.statusesHomeTemp = stat
 //                }
 //            }
 //        }
@@ -602,9 +605,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         GlobalStruct.client.run(request2) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.statusesLocal = stat
-                    self.tableViewL.reloadData()
                     self.statusesLocal = stat
+                    self.tableViewL.reloadData()
+                    self.statusesLocalTemp = stat
                 }
             }
         }
@@ -612,9 +615,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         GlobalStruct.client.run(request3) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.statusesFed = stat
-                    self.tableViewF.reloadData()
                     self.statusesFed = stat
+                    self.tableViewF.reloadData()
+                    self.statusesFedTemp = stat
                 }
             }
         }
@@ -688,7 +691,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let cell = self.tableView.indexPathsForVisibleRows?.first {
-            self.markersPost(GlobalStruct.statusesHome[cell.row].id)
+            self.markersPost(self.statusesHome[cell.row].id)
         }
     }
     
@@ -746,16 +749,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                                 GlobalStruct.client.run(request) { (statuses) in
                                     if let stat = (statuses.value) {
                                         DispatchQueue.main.async {
-                                            GlobalStruct.statusesHome = stat
-                                            self.tableView.reloadData()
                                             self.statusesHome = stat
+                                            self.tableView.reloadData()
+                                            self.statusesHomeTemp = stat
                                         }
                                     }
                                 }
                             } else {
-                                GlobalStruct.statusesHome = stat
-                                self.tableView.reloadData()
                                 self.statusesHome = stat
+                                self.tableView.reloadData()
+                                self.statusesHomeTemp = stat
                             }
                         }
                     }
@@ -768,7 +771,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Timelines.home(range: .since(id: GlobalStruct.statusesHome.first?.id ?? "", limit: nil))
+        let request = Timelines.home(range: .since(id: self.statusesHome.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -787,7 +790,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesHome = stat + GlobalStruct.statusesHome
+                        self.statusesHome = stat + self.statusesHome
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -802,7 +805,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         UIView.setAnimationsEnabled(true)
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
                                 if stat.reblog == nil {
                                     return false
                                 } else {
@@ -812,7 +815,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.tableView.reloadData()
                         }
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
                                 if stat.mediaAttachments.isEmpty {
                                     return false
                                 } else {
@@ -829,7 +832,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refreshL(_ sender: AnyObject) {
-        let request = Timelines.public(local: true, range: .since(id: GlobalStruct.statusesLocal.first?.id ?? "", limit: nil))
+        let request = Timelines.public(local: true, range: .since(id: self.statusesLocal.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -848,7 +851,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesLocal = stat + GlobalStruct.statusesLocal
+                        self.statusesLocal = stat + self.statusesLocal
                         self.tableViewL.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -863,7 +866,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         UIView.setAnimationsEnabled(true)
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                            self.statusesLocal = self.statusesLocal.filter({ (stat) -> Bool in
                                 if stat.reblog == nil {
                                     return false
                                 } else {
@@ -873,7 +876,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.tableView.reloadData()
                         }
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                            self.statusesLocal = self.statusesLocal.filter({ (stat) -> Bool in
                                 if stat.mediaAttachments.isEmpty {
                                     return false
                                 } else {
@@ -890,7 +893,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refreshF(_ sender: AnyObject) {
-        let request = Timelines.public(local: false, range: .since(id: GlobalStruct.statusesFed.first?.id ?? "", limit: nil))
+        let request = Timelines.public(local: false, range: .since(id: self.statusesFed.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -909,7 +912,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesFed = stat + GlobalStruct.statusesFed
+                        self.statusesFed = stat + self.statusesFed
                         self.tableViewF.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -924,7 +927,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         UIView.setAnimationsEnabled(true)
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                            self.statusesFed = self.statusesFed.filter({ (stat) -> Bool in
                                 if stat.reblog == nil {
                                     return false
                                 } else {
@@ -934,7 +937,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.tableView.reloadData()
                         }
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                            self.statusesFed = self.statusesFed.filter({ (stat) -> Bool in
                                 if stat.mediaAttachments.isEmpty {
                                     return false
                                 } else {
@@ -999,11 +1002,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let op1 = UIAlertAction(title: "All".localized, style: .default , handler:{ (UIAlertAction) in
             UserDefaults.standard.set(0, forKey: "filterTimelines")
             DispatchQueue.main.async {
-                GlobalStruct.statusesHome = self.statusesHome
+                self.statusesHome = self.statusesHomeTemp
                 self.tableView.reloadData()
-                GlobalStruct.statusesLocal = self.statusesLocal
+                self.statusesLocal = self.statusesLocalTemp
                 self.tableViewL.reloadData()
-                GlobalStruct.statusesFed = self.statusesFed
+                self.statusesFed = self.statusesFedTemp
                 self.tableViewF.reloadData()
             }
         })
@@ -1017,8 +1020,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let op2 = UIAlertAction(title: "Boosted".localized, style: .default , handler:{ (UIAlertAction) in
             UserDefaults.standard.set(1, forKey: "filterTimelines")
             DispatchQueue.main.async {
-                GlobalStruct.statusesHome = self.statusesHome
-                GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                self.statusesHome = self.statusesHomeTemp
+                self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
                     if stat.reblog == nil {
                         return false
                     } else {
@@ -1026,8 +1029,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                 })
                 self.tableView.reloadData()
-                GlobalStruct.statusesLocal = self.statusesLocal
-                GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                self.statusesLocal = self.statusesLocalTemp
+                self.statusesLocal = self.statusesLocal.filter({ (stat) -> Bool in
                     if stat.reblog == nil {
                         return false
                     } else {
@@ -1035,8 +1038,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                 })
                 self.tableViewL.reloadData()
-                GlobalStruct.statusesFed = self.statusesFed
-                GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                self.statusesFed = self.statusesFedTemp
+                self.statusesFed = self.statusesFed.filter({ (stat) -> Bool in
                     if stat.reblog == nil {
                         return false
                     } else {
@@ -1056,8 +1059,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let op3 = UIAlertAction(title: "Contains Media".localized, style: .default , handler:{ (UIAlertAction) in
             UserDefaults.standard.set(2, forKey: "filterTimelines")
             DispatchQueue.main.async {
-                GlobalStruct.statusesHome = self.statusesHome
-                GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                self.statusesHome = self.statusesHomeTemp
+                self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
                     if stat.mediaAttachments.isEmpty {
                         return false
                     } else {
@@ -1065,8 +1068,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                 })
                 self.tableView.reloadData()
-                GlobalStruct.statusesLocal = self.statusesLocal
-                GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                self.statusesLocal = self.statusesLocalTemp
+                self.statusesLocal = self.statusesLocal.filter({ (stat) -> Bool in
                     if stat.mediaAttachments.isEmpty {
                         return false
                     } else {
@@ -1074,8 +1077,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                 })
                 self.tableViewL.reloadData()
-                GlobalStruct.statusesFed = self.statusesFed
-                GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                self.statusesFed = self.statusesFedTemp
+                self.statusesFed = self.statusesFed.filter({ (stat) -> Bool in
                     if stat.mediaAttachments.isEmpty {
                         return false
                     } else {
@@ -1106,11 +1109,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if tableView == self.tableViewIntro {
             return self.altInstances.count
         } else if tableView == self.tableView {
-            return GlobalStruct.statusesHome.count
+            return self.statusesHome.count
         } else if tableView == self.tableViewL {
-            return GlobalStruct.statusesLocal.count
+            return self.statusesLocal.count
         } else {
-            return GlobalStruct.statusesFed.count
+            return self.statusesFed.count
         }
     }
     
@@ -1125,17 +1128,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             cell.selectedBackgroundView = bgColorView
             return cell
         } else if tableView == self.tableView {
-            if GlobalStruct.statusesHome[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesHome[indexPath.row].mediaAttachments.isEmpty {
+            if self.statusesHome[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesHome[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-                if GlobalStruct.statusesHome.isEmpty {} else {
-                    cell.configure(GlobalStruct.statusesHome[indexPath.row])
+                if self.statusesHome.isEmpty {} else {
+                    cell.configure(self.statusesHome[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.statusesHome.count - 10 {
+                    if indexPath.row == self.statusesHome.count - 10 {
                         self.fetchMoreHome()
                     }
                 }
@@ -1179,15 +1182,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
-                if GlobalStruct.statusesHome.isEmpty {} else {
-                    cell.configure(GlobalStruct.statusesHome[indexPath.row])
+                if self.statusesHome.isEmpty {} else {
+                    cell.configure(self.statusesHome[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.statusesHome.count - 10 {
+                    if indexPath.row == self.statusesHome.count - 10 {
                         self.fetchMoreHome()
                     }
                 }
@@ -1231,19 +1234,19 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             }
         } else if tableView == self.tableViewL {
-//            if (GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty) || (GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.first?.type ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.first?.type == .audio)  {
+//            if (self.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesLocal[indexPath.row].mediaAttachments.isEmpty) || (self.statusesLocal[indexPath.row].reblog?.mediaAttachments.first?.type ?? self.statusesLocal[indexPath.row].mediaAttachments.first?.type == .audio)  {
 
-            if (GlobalStruct.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesLocal[indexPath.row].mediaAttachments.isEmpty)  {
+            if (self.statusesLocal[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesLocal[indexPath.row].mediaAttachments.isEmpty)  {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellL", for: indexPath) as! TootCell
-                if GlobalStruct.statusesLocal.isEmpty {} else {
-                    cell.configure(GlobalStruct.statusesLocal[indexPath.row])
+                if self.statusesLocal.isEmpty {} else {
+                    cell.configure(self.statusesLocal[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
+                    if indexPath.row == self.statusesLocal.count - 10 {
                         self.fetchMoreLocal()
                     }
                 }
@@ -1287,15 +1290,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCellL", for: indexPath) as! TootImageCell
-                if GlobalStruct.statusesLocal.isEmpty {} else {
-                    cell.configure(GlobalStruct.statusesLocal[indexPath.row])
+                if self.statusesLocal.isEmpty {} else {
+                    cell.configure(self.statusesLocal[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.statusesLocal.count - 10 {
+                    if indexPath.row == self.statusesLocal.count - 10 {
                         self.fetchMoreLocal()
                     }
                 }
@@ -1339,17 +1342,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             }
         } else {
-            if GlobalStruct.statusesFed[indexPath.row].reblog?.mediaAttachments.isEmpty ?? GlobalStruct.statusesFed[indexPath.row].mediaAttachments.isEmpty {
+            if self.statusesFed[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesFed[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCellF", for: indexPath) as! TootCell
-                if GlobalStruct.statusesFed.isEmpty {} else {
-                    cell.configure(GlobalStruct.statusesFed[indexPath.row])
+                if self.statusesFed.isEmpty {} else {
+                    cell.configure(self.statusesFed[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.statusesFed.count - 10 {
+                    if indexPath.row == self.statusesFed.count - 10 {
                         self.fetchMoreFed()
                     }
                 }
@@ -1393,15 +1396,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCellF", for: indexPath) as! TootImageCell
-                if GlobalStruct.statusesFed.isEmpty {} else {
-                    cell.configure(GlobalStruct.statusesFed[indexPath.row])
+                if self.statusesFed.isEmpty {} else {
+                    cell.configure(self.statusesFed[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.statusesFed.count - 10 {
+                    if indexPath.row == self.statusesFed.count - 10 {
                         self.fetchMoreFed()
                     }
                 }
@@ -1450,28 +1453,28 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         if self.tableView.alpha == 1 {
-            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].reblog?.account.id ?? GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+            if GlobalStruct.currentUser.id == (self.statusesHome[gesture.view!.tag].reblog?.account.id ?? self.statusesHome[gesture.view!.tag].account.id) {
                 vc.isYou = true
             } else {
                 vc.isYou = false
             }
-            vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesHome[gesture.view!.tag].account
+            vc.pickedCurrentUser = self.statusesHome[gesture.view!.tag].reblog?.account ?? self.statusesHome[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewL.alpha == 1 {
-            if GlobalStruct.currentUser.id == (GlobalStruct.statusesLocal[gesture.view!.tag].reblog?.account.id ?? GlobalStruct.statusesLocal[gesture.view!.tag].account.id) {
+            if GlobalStruct.currentUser.id == (self.statusesLocal[gesture.view!.tag].reblog?.account.id ?? self.statusesLocal[gesture.view!.tag].account.id) {
                 vc.isYou = true
             } else {
                 vc.isYou = false
             }
-            vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesLocal[gesture.view!.tag].account
+            vc.pickedCurrentUser = self.statusesLocal[gesture.view!.tag].reblog?.account ?? self.statusesLocal[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewF.alpha == 1 {
-            if GlobalStruct.currentUser.id == (GlobalStruct.statusesFed[gesture.view!.tag].reblog?.account.id ?? GlobalStruct.statusesFed[gesture.view!.tag].account.id) {
+            if GlobalStruct.currentUser.id == (self.statusesFed[gesture.view!.tag].reblog?.account.id ?? self.statusesFed[gesture.view!.tag].account.id) {
                 vc.isYou = true
             } else {
                 vc.isYou = false
             }
-            vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].reblog?.account ?? GlobalStruct.statusesFed[gesture.view!.tag].account
+            vc.pickedCurrentUser = self.statusesFed[gesture.view!.tag].reblog?.account ?? self.statusesFed[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -1479,48 +1482,48 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         if self.tableView.alpha == 1 {
-            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+            if GlobalStruct.currentUser.id == (self.statusesHome[gesture.view!.tag].account.id) {
                 vc.isYou = true
             } else {
                 vc.isYou = false
             }
-            vc.pickedCurrentUser = GlobalStruct.statusesHome[gesture.view!.tag].account
+            vc.pickedCurrentUser = self.statusesHome[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewL.alpha == 1 {
-            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+            if GlobalStruct.currentUser.id == (self.statusesHome[gesture.view!.tag].account.id) {
                 vc.isYou = true
             } else {
                 vc.isYou = false
             }
-            vc.pickedCurrentUser = GlobalStruct.statusesLocal[gesture.view!.tag].account
+            vc.pickedCurrentUser = self.statusesLocal[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         } else if self.tableViewF.alpha == 1 {
-            if GlobalStruct.currentUser.id == (GlobalStruct.statusesHome[gesture.view!.tag].account.id) {
+            if GlobalStruct.currentUser.id == (self.statusesHome[gesture.view!.tag].account.id) {
                 vc.isYou = true
             } else {
                 vc.isYou = false
             }
-            vc.pickedCurrentUser = GlobalStruct.statusesFed[gesture.view!.tag].account
+            vc.pickedCurrentUser = self.statusesFed[gesture.view!.tag].account
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     func fetchMoreHome() {
-        let request = Timelines.home(range: .max(id: GlobalStruct.statusesHome.last?.id ?? "", limit: nil))
+        let request = Timelines.home(range: .max(id: self.statusesHome.last?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.statusesHome.count)..<(GlobalStruct.statusesHome.count + stat.count)).map {
+                        let indexPaths = ((self.statusesHome.count)..<(self.statusesHome.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesHome.append(contentsOf: stat)
+                        self.statusesHome.append(contentsOf: stat)
                         self.tableView.beginUpdates()
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.endUpdates()
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
                                 if stat.reblog == nil {
                                     return false
                                 } else {
@@ -1530,7 +1533,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.tableView.reloadData()
                         }
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            GlobalStruct.statusesHome = GlobalStruct.statusesHome.filter({ (stat) -> Bool in
+                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
                                 if stat.mediaAttachments.isEmpty {
                                     return false
                                 } else {
@@ -1547,21 +1550,21 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func fetchMoreLocal() {
-        let request = Timelines.public(local: true, range: .max(id: GlobalStruct.statusesLocal.last?.id ?? "", limit: nil))
+        let request = Timelines.public(local: true, range: .max(id: self.statusesLocal.last?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.statusesLocal.count)..<(GlobalStruct.statusesLocal.count + stat.count)).map {
+                        let indexPaths = ((self.statusesLocal.count)..<(self.statusesLocal.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesLocal.append(contentsOf: stat)
+                        self.statusesLocal.append(contentsOf: stat)
                         self.tableViewL.beginUpdates()
                         self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewL.endUpdates()
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                            self.statusesLocal = self.statusesLocal.filter({ (stat) -> Bool in
                                 if stat.reblog == nil {
                                     return false
                                 } else {
@@ -1571,7 +1574,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.tableView.reloadData()
                         }
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            GlobalStruct.statusesLocal = GlobalStruct.statusesLocal.filter({ (stat) -> Bool in
+                            self.statusesLocal = self.statusesLocal.filter({ (stat) -> Bool in
                                 if stat.mediaAttachments.isEmpty {
                                     return false
                                 } else {
@@ -1588,21 +1591,21 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func fetchMoreFed() {
-        let request = Timelines.public(local: false, range: .max(id: GlobalStruct.statusesFed.last?.id ?? "", limit: nil))
+        let request = Timelines.public(local: false, range: .max(id: self.statusesFed.last?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.statusesFed.count)..<(GlobalStruct.statusesFed.count + stat.count)).map {
+                        let indexPaths = ((self.statusesFed.count)..<(self.statusesFed.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.statusesFed.append(contentsOf: stat)
+                        self.statusesFed.append(contentsOf: stat)
                         self.tableViewF.beginUpdates()
                         self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewF.endUpdates()
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                            self.statusesFed = self.statusesFed.filter({ (stat) -> Bool in
                                 if stat.reblog == nil {
                                     return false
                                 } else {
@@ -1612,7 +1615,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.tableView.reloadData()
                         }
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            GlobalStruct.statusesFed = GlobalStruct.statusesFed.filter({ (stat) -> Bool in
+                            self.statusesFed = self.statusesFed.filter({ (stat) -> Bool in
                                 if stat.mediaAttachments.isEmpty {
                                     return false
                                 } else {
@@ -1687,15 +1690,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
         } else if tableView == self.tableView {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         } else if tableView == self.tableViewL {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = DetailViewController()
-            vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]]
+            vc.pickedStatusesHome = [self.statusesFed[indexPath.row].reblog ?? self.statusesFed[indexPath.row]]
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -1717,15 +1720,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             guard let indexPath = configuration.identifier as? IndexPath else { return }
             if tableView == self.tableView {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
+                vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
                 self.navigationController?.pushViewController(vc, animated: true)
             } else if tableView == self.tableViewL {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]]
+                vc.pickedStatusesHome = [self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]]
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]]
+                vc.pickedStatusesHome = [self.statusesFed[indexPath.row].reblog ?? self.statusesFed[indexPath.row]]
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -1738,26 +1741,26 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if tableView == self.tableView {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
-                vc.pickedStatusesHome = [GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]]
+                vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
                 return vc
             } else if tableView == self.tableViewL {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
-                vc.pickedStatusesHome = [GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]]
+                vc.pickedStatusesHome = [self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]]
                 return vc
             } else {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
-                vc.pickedStatusesHome = [GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]]
+                vc.pickedStatusesHome = [self.statusesFed[indexPath.row].reblog ?? self.statusesFed[indexPath.row]]
                 return vc
             }
         }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
-                return self.makeContextMenu([GlobalStruct.statusesHome[indexPath.row].reblog ?? GlobalStruct.statusesHome[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath)
             } else if tableView == self.tableViewL {
-                return self.makeContextMenu([GlobalStruct.statusesLocal[indexPath.row].reblog ?? GlobalStruct.statusesLocal[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]], indexPath: indexPath)
             } else {
-                return self.makeContextMenu([GlobalStruct.statusesFed[indexPath.row].reblog ?? GlobalStruct.statusesFed[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesFed[indexPath.row].reblog ?? self.statusesFed[indexPath.row]], indexPath: indexPath)
             }
         })
     }

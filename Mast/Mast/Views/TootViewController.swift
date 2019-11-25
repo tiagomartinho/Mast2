@@ -258,11 +258,21 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             toolbarItem.target = self
             return toolbarItem
         }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "tick")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"))
+            toolbarItem.label = "Post".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "checkmark")
+            toolbarItem.action = #selector(self.tickTapped)
+            toolbarItem.target = self
+            return toolbarItem
+        }
         return nil
     }
         
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier(rawValue: "visibility"), NSToolbarItem.Identifier(rawValue: "spoiler"), NSToolbarItem.Identifier(rawValue: "emo"), NSToolbarItem.Identifier(rawValue: "poll"), NSToolbarItem.Identifier(rawValue: "schedule"), NSToolbarItem.Identifier(rawValue: "drafts")]
+        return [NSToolbarItem.Identifier(rawValue: "drafts"), NSToolbarItem.Identifier(rawValue: "schedule"), NSToolbarItem.Identifier(rawValue: "poll"), NSToolbarItem.Identifier(rawValue: "emo"), NSToolbarItem.Identifier(rawValue: "spoiler"), NSToolbarItem.Identifier(rawValue: "visibility"), NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier.flexibleSpace, NSToolbarItem.Identifier(rawValue: "tick")]
     }
         
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {

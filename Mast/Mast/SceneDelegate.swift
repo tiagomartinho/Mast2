@@ -53,13 +53,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     let toolbar = NSToolbar(identifier: "testToolbar")
                     toolbar.delegate = vc.self
                     toolbar.allowsUserCustomization = false
-                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"), at: 0)
-                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"), at: 0)
-                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"), at: 0)
-                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"), at: 0)
-                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"), at: 0)
-                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"), at: 0)
                     toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"), at: 0)
                     titlebar.toolbar = toolbar
                 }
             }

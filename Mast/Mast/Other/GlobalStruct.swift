@@ -59,10 +59,6 @@ class GlobalStruct {
     static var photoToAttachArrayImage: [UIImage] = []
     static var mediaIDs: [String] = []
     
-    static var statusesHome: [Status] = []
-    static var statusesLocal: [Status] = []
-    static var statusesFed: [Status] = []
-    
     static var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
     static var notifications: [Notificationt] = []
     static var notificationsMentions: [Notificationt] = []
