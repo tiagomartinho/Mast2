@@ -83,6 +83,16 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 5
         
+        if self.self.profileStatuses.isEmpty {
+            if self.isTapped {
+                self.initialLoad()
+            } else {
+                self.fetchMedia()
+                self.fetchUserData()
+                self.fetchLists()
+            }
+        }
+        
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
         let btn1 = UIButton(type: .custom)
