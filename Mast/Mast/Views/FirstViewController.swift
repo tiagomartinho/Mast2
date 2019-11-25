@@ -399,16 +399,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         let icon00 = UIApplicationShortcutIcon(systemImageName: "plus")
         let item00 = UIApplicationShortcutItem(type: "com.shi.Mast.NewToot", localizedTitle: "New Toot".localized, localizedSubtitle: nil, icon: icon00, userInfo: nil)
-        item00.accessibilityLabel = "New Toot"
+        item00.accessibilityLabel = "New Toot".localized
         let icon0 = UIApplicationShortcutIcon(systemImageName: "bell")
         let item0 = UIApplicationShortcutItem(type: "com.shi.Mast.Notifications", localizedTitle: "View Notifications".localized, localizedSubtitle: nil, icon: icon0, userInfo: nil)
-        item0.accessibilityLabel = "View Notifications"
+        item0.accessibilityLabel = "View Notifications".localized
         let icon1 = UIApplicationShortcutIcon(systemImageName: "paperplane")
         let item1 = UIApplicationShortcutItem(type: "com.shi.Mast.Messages", localizedTitle: "View Messages".localized, localizedSubtitle: nil, icon: icon1, userInfo: nil)
-        item1.accessibilityLabel = "View Messages"
+        item1.accessibilityLabel = "View Messages".localized
         let icon2 = UIApplicationShortcutIcon(systemImageName: "person.crop.circle")
         let item2 = UIApplicationShortcutItem(type: "com.shi.Mast.Profile", localizedTitle: "View Profile".localized, localizedSubtitle: nil, icon: icon2, userInfo: nil)
-        item2.accessibilityLabel = "View Profile"
+        item2.accessibilityLabel = "View Profile".localized
         UIApplication.shared.shortcutItems = [item00, item0, item1, item2]
         
         // Segmented control
@@ -1911,7 +1911,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     func shareThis(_ stat: [Status]) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let op1 = UIAlertAction(title: " Share Content".localized, style: .default , handler:{ (UIAlertAction) in
+        let op1 = UIAlertAction(title: " \("Share Content".localized)", style: .default , handler:{ (UIAlertAction) in
             let textToShare = [stat.first?.content.stripHTML() ?? ""]
             let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {

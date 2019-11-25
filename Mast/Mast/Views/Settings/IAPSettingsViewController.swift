@@ -28,7 +28,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     var button4 = UIButton()
     var button5 = UIButton()
     let starButton = UIButton()
-    let tandctext = "Mast Pro is enabled via an auto-renewing subscription. Subscription automatically renews and will be charged for the renewal unless auto-renew is turned off at least 24 hours before the end of the current period. Payment will be charged to iTunes Account at confirmation of purchase. Auto-renewal may be turned off by the user by going to the user's Account Settings after purchase. The duration and price of each subscription is displayed on the purchase screen, and updated at the time of purchase."
+    let tandctext = "Mast Pro is enabled via an auto-renewing subscription. Subscription automatically renews and will be charged for the renewal unless auto-renew is turned off at least 24 hours before the end of the current period. Payment will be charged to iTunes Account at confirmation of purchase. Auto-renewal may be turned off by the user by going to the user's Account Settings after purchase. The duration and price of each subscription is displayed on the purchase screen, and updated at the time of purchase.".localized
     
     var productID = ""
     var lifetimeProduct : SKProduct?
@@ -152,7 +152,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         self.button2Title.textAlignment = .center
         self.button2.addSubview(self.button2Title)
         
-        self.button2Title2.text = "\(self.price2)/yr".localized
+        self.button2Title2.text = "\(self.price2)".localized
         self.button2Title2.textColor = UIColor(named: "alwaysWhite")!
         self.button2Title2.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         self.button2Title2.textAlignment = .center

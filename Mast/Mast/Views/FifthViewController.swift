@@ -392,12 +392,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             let formattedNumber = numberFormatter.string(from: NSNumber(value: theUser?.statusesCount ?? 0))
             
             if self.isYou {
-                title.text = "\(formattedNumber ?? "0") Toots".localized
+                title.text = "\(formattedNumber ?? "0") \("Toots".localized)"
             } else {
                 if theUser?.locked ?? false {
                     title.text = "Locked Account".localized
                 } else {
-                    title.text = "\(formattedNumber ?? "0") Toots".localized
+                    title.text = "\(formattedNumber ?? "0") \("Toots".localized)"
                 }
             }
             title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)

@@ -116,7 +116,7 @@ class ShortcutsSettingsViewController: UIViewController, UITableViewDataSource, 
             let activity1 = NSUserActivity(activityType: "com.shi.Mast.newToot")
             activity1.title = "Create a new toot".localized
             let attributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
-            attributes.contentDescription = "Create a new toot.".localized
+            attributes.contentDescription = "Create a new toot".localized
             activity1.contentAttributeSet = attributes
             activity1.isEligibleForSearch = true
             activity1.isEligibleForPrediction = true
@@ -133,7 +133,7 @@ class ShortcutsSettingsViewController: UIViewController, UITableViewDataSource, 
             let activity1 = NSUserActivity(activityType: "com.shi.Mast.viewNotifs")
             activity1.title = "View your notifications".localized
             let attributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
-            attributes.contentDescription = "View your notifications.".localized
+            attributes.contentDescription = "View your notifications".localized
             activity1.contentAttributeSet = attributes
             activity1.isEligibleForSearch = true
             activity1.isEligibleForPrediction = true
@@ -150,7 +150,7 @@ class ShortcutsSettingsViewController: UIViewController, UITableViewDataSource, 
             let activity1 = NSUserActivity(activityType: "com.shi.Mast.viewMessages")
             activity1.title = "View your messages".localized
             let attributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
-            attributes.contentDescription = "View your messages.".localized
+            attributes.contentDescription = "View your messages".localized
             activity1.contentAttributeSet = attributes
             activity1.isEligibleForSearch = true
             activity1.isEligibleForPrediction = true
