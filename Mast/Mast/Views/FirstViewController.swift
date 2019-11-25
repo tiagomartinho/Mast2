@@ -568,6 +568,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     GlobalStruct.currentUser = stat
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "initialTimelineLoads1"), object: nil)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "refProf"), object: nil)
                     
                     #if targetEnvironment(macCatalyst)
@@ -622,21 +623,21 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         
-        if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
-            self.notTypes = []
-        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
-            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
-        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
-            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
-        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
-            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
-        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
-            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
-        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
-            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
-        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
-            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
-        }
+//        if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
+//            self.notTypes = []
+//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
+//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
+//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
+//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
+//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
+//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
+//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
+//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
+//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
+//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
+//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
+//        }
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: "initialTimelineLoads"), object: nil)
         

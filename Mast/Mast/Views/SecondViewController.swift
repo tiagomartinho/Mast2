@@ -32,7 +32,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
-    var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
+    var notTypes: [NotificationType] = []
     var notifications: [Notificationt] = []
     
     override func viewDidLayoutSubviews() {
@@ -192,15 +192,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func initialTimelineLoads() {
-        if self.notifications.isEmpty {
-            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
-            GlobalStruct.client.run(request4) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        self.notifications = stat
-                        self.tableView.reloadData()
-                        self.tableView2.reloadData()
-                    }
+        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+        GlobalStruct.client.run(request4) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    print("notifstat - \(stat)")
+                    self.notifications = stat
+                    self.tableView.reloadData()
+                    self.tableView2.reloadData()
                 }
             }
         }
