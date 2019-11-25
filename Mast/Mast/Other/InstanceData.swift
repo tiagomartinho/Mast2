@@ -58,9 +58,6 @@ class InstanceData: Codable {
         
         GlobalStruct.newClient = Client(baseURL: "")
         GlobalStruct.newInstance = nil
-        GlobalStruct.notifications = []
-        GlobalStruct.notificationsMentions = []
-        GlobalStruct.notificationsDirect = []
         GlobalStruct.currentInstance = instance
     }
     

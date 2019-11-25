@@ -14,6 +14,7 @@ class GraphCell2: UITableViewCell, TKRadarChartDataSource, TKRadarChartDelegate 
     var allVals: [Int] = []
     var chart = TKRadarChart()
     let labels = ["Mentions".localized, "Direct".localized, "Boosts".localized, "Likes".localized, "Follows".localized]
+    var notifications: [Notificationt] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,28 +24,29 @@ class GraphCell2: UITableViewCell, TKRadarChartDataSource, TKRadarChartDelegate 
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    func configure(_ notifications: [Notificationt]) {
+        self.notifications = notifications
         self.allVals = []
-        let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x = notifications.filter({ (item) -> Bool in
             item.type == .mention
         })
         self.allVals.append(x.count)
-        let x2 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x2 = notifications.filter({ (item) -> Bool in
             item.type == .mention
         })
         let y2 = x2.filter({ (item) -> Bool in
             item.status?.visibility == .direct
         })
         self.allVals.append(y2.count)
-        let x3 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x3 = notifications.filter({ (item) -> Bool in
             item.type == .reblog
         })
         self.allVals.append(x3.count)
-        let x4 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x4 = notifications.filter({ (item) -> Bool in
             item.type == .favourite
         })
         self.allVals.append(x4.count)
-        let x5 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x5 = notifications.filter({ (item) -> Bool in
             item.type == .follow
         })
         self.allVals.append(x5.count)
@@ -81,12 +83,12 @@ class GraphCell2: UITableViewCell, TKRadarChartDataSource, TKRadarChartDelegate 
     
     func valueOfSectionForRadarChart(withRow row: Int, section: Int) -> CGFloat {
         if row == 0 {
-            let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x = self.notifications.filter({ (item) -> Bool in
                 item.type == .mention
             })
             return CGFloat(x.count)
         } else if row == 1 {
-            let x2 = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x2 = self.notifications.filter({ (item) -> Bool in
                 item.type == .mention
             })
             let y2 = x2.filter({ (item) -> Bool in
@@ -94,17 +96,17 @@ class GraphCell2: UITableViewCell, TKRadarChartDataSource, TKRadarChartDelegate 
             })
             return CGFloat(y2.count)
         } else if row == 2 {
-            let x3 = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x3 = self.notifications.filter({ (item) -> Bool in
                 item.type == .reblog
             })
             return CGFloat(x3.count)
         } else if row == 3 {
-            let x4 = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x4 = self.notifications.filter({ (item) -> Bool in
                 item.type == .favourite
             })
             return CGFloat(x4.count)
         } else {
-            let x5 = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x5 = self.notifications.filter({ (item) -> Bool in
                 item.type == .follow
             })
             return CGFloat(x5.count)

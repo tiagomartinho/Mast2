@@ -29,6 +29,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     var tableView = UITableView()
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
+    var notificationsDirect: [Conversation] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -60,6 +61,10 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidAppear(true)
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 3
+        
+        if self.notificationsDirect.isEmpty {
+            self.initialFetches()
+        }
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
@@ -184,7 +189,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.view.addSubview(self.tableView)
         self.tableView.reloadData()
         
-        if GlobalStruct.notificationsDirect.isEmpty {
+        if self.notificationsDirect.isEmpty {
             self.initialFetches()
         }
         
@@ -206,14 +211,14 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func initialFetches() {
-        let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        let request5 = Timelines.conversations(range: .max(id: self.notificationsDirect.last?.id ?? "", limit: 5000))
         GlobalStruct.client.run(request5) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     if stat.isEmpty {
                         self.createEmptyState()
                     }
-                    GlobalStruct.notificationsDirect = stat
+                    self.notificationsDirect = stat
                     self.tableView.reloadData()
                 }
             }
@@ -260,7 +265,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Timelines.conversations(range: .since(id: GlobalStruct.notificationsDirect.first?.id ?? "", limit: nil))
+        let request = Timelines.conversations(range: .since(id: self.notificationsDirect.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -279,7 +284,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.notificationsDirect = stat + GlobalStruct.notificationsDirect
+                        self.notificationsDirect = stat + self.notificationsDirect
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -317,19 +322,19 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalStruct.notificationsDirect.count
+        return self.notificationsDirect.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DirectCell", for: indexPath) as! DirectCell
-        if GlobalStruct.notificationsDirect.isEmpty {
+        if self.notificationsDirect.isEmpty {
             self.fetchDirect()
         } else {
-            cell.configure(GlobalStruct.notificationsDirect[indexPath.row])
+            cell.configure(self.notificationsDirect[indexPath.row])
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
             cell.profile.tag = indexPath.row
             cell.profile.addGestureRecognizer(tap)
-            if indexPath.row == GlobalStruct.notificationsDirect.count - 10 {
+            if indexPath.row == self.notificationsDirect.count - 10 {
                 self.fetchMoreNotificationsDirect()
             }
 
@@ -374,11 +379,11 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func fetchDirect() {
-        let request = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        let request = Timelines.conversations(range: .max(id: self.notificationsDirect.last?.id ?? "", limit: 5000))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    self.notificationsDirect = self.notificationsDirect + stat
                     self.tableView.reloadData()
                 }
             }
@@ -386,15 +391,15 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func fetchMoreNotificationsDirect() {
-        let request = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        let request = Timelines.conversations(range: .max(id: self.notificationsDirect.last?.id ?? "", limit: 5000))
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.notificationsDirect.count)..<(GlobalStruct.notificationsDirect.count + stat.count)).map {
+                        let indexPaths = ((self.notificationsDirect.count)..<(self.notificationsDirect.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.notificationsDirect.append(contentsOf: stat)
+                        self.notificationsDirect.append(contentsOf: stat)
                         self.tableView.beginUpdates()
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.endUpdates()
@@ -406,12 +411,12 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        if GlobalStruct.currentUser.id == (GlobalStruct.notificationsDirect[gesture.view!.tag].lastStatus!.account.id) {
+        if GlobalStruct.currentUser.id == (self.notificationsDirect[gesture.view!.tag].lastStatus!.account.id) {
             vc.isYou = true
         } else {
             vc.isYou = false
         }
-        vc.pickedCurrentUser = GlobalStruct.notificationsDirect[gesture.view!.tag].lastStatus!.account
+        vc.pickedCurrentUser = self.notificationsDirect[gesture.view!.tag].lastStatus!.account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -419,13 +424,13 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
 
         let controller = DMViewController()
-        controller.mainStatus.append(GlobalStruct.notificationsDirect[indexPath.row].lastStatus!)
+        controller.mainStatus.append(self.notificationsDirect[indexPath.row].lastStatus!)
         self.navigationController?.pushViewController(controller, animated: true)
         
-        let request = Timelines.markRead(id: GlobalStruct.notificationsDirect[indexPath.row].id)
+        let request = Timelines.markRead(id: self.notificationsDirect[indexPath.row].id)
         GlobalStruct.client.run(request) { (statuses) in
             DispatchQueue.main.async {
-                GlobalStruct.markedReadIDs.append(GlobalStruct.notificationsDirect[indexPath.row].id)
+                GlobalStruct.markedReadIDs.append(self.notificationsDirect[indexPath.row].id)
                 self.tableView.reloadData()
             }
         }

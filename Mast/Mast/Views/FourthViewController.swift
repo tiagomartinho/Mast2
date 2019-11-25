@@ -62,6 +62,11 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 4
         
+        if self.statusesSuggested.isEmpty {
+            self.fetchLists()
+            self.initialFetches()
+        }
+        
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
         let btn1 = UIButton(type: .custom)

@@ -45,8 +45,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #if targetEnvironment(macCatalyst)
         if GlobalStruct.macWindow {
             let vc = TootViewController()
+            self.window?.clipsToBounds = true
             self.window?.rootViewController = vc
             self.window!.makeKeyAndVisible()
+            vc.view.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
             
             if let windowScene = scene as? UIWindowScene {
                 if let titlebar = windowScene.titlebar {

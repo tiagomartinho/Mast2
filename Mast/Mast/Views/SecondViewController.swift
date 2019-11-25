@@ -33,6 +33,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
     var notTypes: [NotificationType] = []
+    var notifications: [Notificationt] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -82,6 +83,24 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidAppear(true)
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 2
+        
+        if self.notifications.isEmpty {
+            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+            GlobalStruct.client.run(request4) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        self.notifications = stat
+                        #if targetEnvironment(macCatalyst)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                        #elseif !targetEnvironment(macCatalyst)
+                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                        }
+                        #endif
+                    }
+                }
+            }
+        }
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
@@ -193,12 +212,12 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
-        if GlobalStruct.notifications.isEmpty {
+        if self.notifications.isEmpty {
             let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
             GlobalStruct.client.run(request4) { (statuses) in
                 if let stat = (statuses.value) {
                     DispatchQueue.main.async {
-                        GlobalStruct.notifications = stat
+                        self.notifications = stat
                         #if targetEnvironment(macCatalyst)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
                         #elseif !targetEnvironment(macCatalyst)
@@ -280,7 +299,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Notifications.all(range: .since(id: GlobalStruct.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
+        let request = Notifications.all(range: .since(id: self.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {
@@ -299,7 +318,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.notifications = stat + GlobalStruct.notifications
+                        self.notifications = stat + self.notifications
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
@@ -346,14 +365,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     func filterNots() {
         DispatchQueue.main.async {
-            GlobalStruct.notifications = []
+            self.notifications = []
             self.tableView.reloadData()
         }
         let request = Notifications.all(range: .default, typesToExclude: self.notTypes)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.notifications = stat
+                    self.notifications = stat
                     if stat.count > 0 {
                         self.tableView.reloadData()
                     }
@@ -482,7 +501,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == self.tableView {
-            return GlobalStruct.notifications.count
+            return self.notifications.count
         } else {
             return 1
         }
@@ -490,7 +509,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
-            if GlobalStruct.notifications.isEmpty {
+            if self.notifications.isEmpty {
                 self.fetchNotifications()
                 let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
                 cell.backgroundColor = GlobalStruct.baseDarkTint
@@ -499,16 +518,16 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.selectedBackgroundView = bgColorView
                 return cell
             } else {
-                if GlobalStruct.notifications[indexPath.row].status?.mediaAttachments.isEmpty ?? true {
+                if self.notifications[indexPath.row].status?.mediaAttachments.isEmpty ?? true {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
-                    cell.configure(GlobalStruct.notifications[indexPath.row])
+                    cell.configure(self.notifications[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.notifications.count - 10 {
+                    if indexPath.row == self.notifications.count - 10 {
                         self.fetchMoreNotifications()
                     }
 
@@ -551,14 +570,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsImageCell", for: indexPath) as! NotificationsImageCell
-                    cell.configure(GlobalStruct.notifications[indexPath.row])
+                    cell.configure(self.notifications[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
                     cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
                     cell.profile2.addGestureRecognizer(tap2)
-                    if indexPath.row == GlobalStruct.notifications.count - 10 {
+                    if indexPath.row == self.notifications.count - 10 {
                         self.fetchMoreNotifications()
                     }
 
@@ -604,8 +623,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             if indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell", for: indexPath) as! GraphCell
-                if GlobalStruct.notifications.isEmpty {} else {
-                    cell.configure()
+                if self.notifications.isEmpty {} else {
+                    cell.configure(self.notifications)
                 }
                 cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
@@ -614,8 +633,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCell2", for: indexPath) as! GraphCell2
-                if GlobalStruct.notifications.isEmpty {} else {
-                    cell.configure()
+                if self.notifications.isEmpty {} else {
+                    cell.configure(self.notifications)
                 }
                 cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
@@ -631,7 +650,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    GlobalStruct.notifications = stat
+                    self.notifications = stat
                     self.tableView.reloadData()
                 }
             }
@@ -639,15 +658,15 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func fetchMoreNotifications() {
-        let request = Notifications.all(range: .max(id: GlobalStruct.notifications.last?.id ?? "", limit: nil), typesToExclude: self.notTypes)
+        let request = Notifications.all(range: .max(id: self.notifications.last?.id ?? "", limit: nil), typesToExclude: self.notTypes)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 if stat.isEmpty {} else {
                     DispatchQueue.main.async {
-                        let indexPaths = ((GlobalStruct.notifications.count)..<(GlobalStruct.notifications.count + stat.count)).map {
+                        let indexPaths = ((self.notifications.count)..<(self.notifications.count + stat.count)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        GlobalStruct.notifications.append(contentsOf: stat)
+                        self.notifications.append(contentsOf: stat)
                         self.tableView.beginUpdates()
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.endUpdates()
@@ -660,7 +679,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func viewProfile(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
         if self.tableView.alpha == 1 {
-            if let stat = GlobalStruct.notifications[gesture.view!.tag].status {
+            if let stat = self.notifications[gesture.view!.tag].status {
                 if GlobalStruct.currentUser.id == (stat.account.id) {
                     vc.isYou = true
                 } else {
@@ -669,12 +688,12 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 vc.pickedCurrentUser = stat.account
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
-                if GlobalStruct.currentUser.id == (GlobalStruct.notifications[gesture.view!.tag].account.id) {
+                if GlobalStruct.currentUser.id == (self.notifications[gesture.view!.tag].account.id) {
                     vc.isYou = true
                 } else {
                     vc.isYou = false
                 }
-                vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
+                vc.pickedCurrentUser = self.notifications[gesture.view!.tag].account
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -682,28 +701,28 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func viewProfile2(_ gesture: UIGestureRecognizer) {
         let vc = FifthViewController()
-        if GlobalStruct.currentUser.id == (GlobalStruct.notifications[gesture.view!.tag].account.id) {
+        if GlobalStruct.currentUser.id == (self.notifications[gesture.view!.tag].account.id) {
             vc.isYou = true
         } else {
             vc.isYou = false
         }
-        vc.pickedCurrentUser = GlobalStruct.notifications[gesture.view!.tag].account
+        vc.pickedCurrentUser = self.notifications[gesture.view!.tag].account
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableView {
-            if GlobalStruct.notifications[indexPath.row].type == .direct {
+            if self.notifications[indexPath.row].type == .direct {
                 
-            } else if GlobalStruct.notifications[indexPath.row].type == .follow {
+            } else if self.notifications[indexPath.row].type == .follow {
                 let vc = FifthViewController()
                 vc.isYou = false
-                vc.pickedCurrentUser = GlobalStruct.notifications[indexPath.row].account
+                vc.pickedCurrentUser = self.notifications[indexPath.row].account
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = DetailViewController()
-                vc.pickedStatusesHome = [GlobalStruct.notifications[indexPath.row].status!]
+                vc.pickedStatusesHome = [self.notifications[indexPath.row].status!]
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else {

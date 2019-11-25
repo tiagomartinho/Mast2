@@ -60,9 +60,6 @@ class GlobalStruct {
     static var mediaIDs: [String] = []
     
     static var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
-    static var notifications: [Notificationt] = []
-    static var notificationsMentions: [Notificationt] = []
-    static var notificationsDirect: [Conversation] = []
     
     static var statusSearch: [Status] = []
     static var statusSearch2: [Account] = []

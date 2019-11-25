@@ -12,16 +12,17 @@ import UIKit
 class GraphCell: UITableViewCell, ScrollableGraphViewDataSource {
     
     var allVals: [Int] = []
+    var notifications: [Notificationt] = []
     func value(forPlot plot: Plot, atIndex pointIndex: Int) -> Double {
         self.allVals = []
         if pointIndex == 0 {
-            let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x = self.notifications.filter({ (item) -> Bool in
                 item.type == .mention
             })
             self.allVals.append(x.count)
             return Double(x.count)
         } else if pointIndex == 1 {
-            let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x = self.notifications.filter({ (item) -> Bool in
                 item.type == .mention
             })
             let y = x.filter({ (item) -> Bool in
@@ -30,19 +31,19 @@ class GraphCell: UITableViewCell, ScrollableGraphViewDataSource {
             self.allVals.append(y.count)
             return Double(y.count)
         } else if pointIndex == 2 {
-            let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x = self.notifications.filter({ (item) -> Bool in
                 item.type == .reblog
             })
             self.allVals.append(x.count)
             return Double(x.count)
         } else if pointIndex == 3 {
-            let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x = self.notifications.filter({ (item) -> Bool in
                 item.type == .favourite
             })
             self.allVals.append(x.count)
             return Double(x.count)
         } else {
-            let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+            let x = self.notifications.filter({ (item) -> Bool in
                 item.type == .follow
             })
             self.allVals.append(x.count)
@@ -69,28 +70,29 @@ class GraphCell: UITableViewCell, ScrollableGraphViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    func configure(_ notifications: [Notificationt]) {
+        self.notifications = notifications
         self.allVals = []
-        let x = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x = notifications.filter({ (item) -> Bool in
             item.type == .mention
         })
         self.allVals.append(x.count)
-        let x2 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x2 = notifications.filter({ (item) -> Bool in
             item.type == .mention
         })
         let y2 = x2.filter({ (item) -> Bool in
             item.status?.visibility == .direct
         })
         self.allVals.append(y2.count)
-        let x3 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x3 = notifications.filter({ (item) -> Bool in
             item.type == .reblog
         })
         self.allVals.append(x3.count)
-        let x4 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x4 = notifications.filter({ (item) -> Bool in
             item.type == .favourite
         })
         self.allVals.append(x4.count)
-        let x5 = GlobalStruct.notifications.filter({ (item) -> Bool in
+        let x5 = notifications.filter({ (item) -> Bool in
             item.type == .follow
         })
         self.allVals.append(x5.count)
