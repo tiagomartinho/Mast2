@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
-    let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
+    let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized]
     let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized]
     let accountSection = ["\("Accounts".localized)"]
@@ -179,9 +179,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .headline).pointSize)
         var firstSectionToUse = self.firstSection
+        #if targetEnvironment(macCatalyst)
+        firstSectionToUse = self.firstSectionMac
+        #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
             firstSectionToUse = self.firstSectionPad
         }
+        #endif
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
             if GlobalStruct.iapPurchased {
