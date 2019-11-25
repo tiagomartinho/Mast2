@@ -120,9 +120,11 @@ class FollowersCell: UITableViewCell {
                 }
             })
             let attributedString2 = NSMutableAttributedString(string: "\(status.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
+            #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
     }
     

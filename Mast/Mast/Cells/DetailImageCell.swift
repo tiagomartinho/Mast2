@@ -242,8 +242,31 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             })
             let attributedString2 = NSMutableAttributedString(string: "\(stat.account.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
             self.username.attributedText = attributedString2
+            #if !targetEnvironment(macCatalyst)
             self.content.attributedText = attributedString
             self.reloadInputViews()
+            #endif
+        }
+        
+        if stat.account.emojis.isEmpty {
+            
+        } else {
+            let attributedString = NSMutableAttributedString(string: "\(stat.reblog?.account.displayName ?? stat.account.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            let z = stat.account.emojis
+            let _ = z.map({
+                let textAttachment = NSTextAttachment()
+                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight))
+                let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+                while attributedString.mutableString.contains(":\($0.shortcode):") {
+                    let range: NSRange = (attributedString.mutableString as NSString).range(of: ":\($0.shortcode):")
+                    attributedString.replaceCharacters(in: range, with: attrStringWithImage)
+                }
+            })
+            #if !targetEnvironment(macCatalyst)
+            self.username.attributedText = attributedString
+            self.reloadInputViews()
+            #endif
         }
         
         let _ = self.images.map {_ in

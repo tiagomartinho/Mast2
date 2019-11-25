@@ -100,8 +100,10 @@ class MuteBlockCell: UITableViewCell {
                     attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                 }
             })
+            #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
     }
     

@@ -2329,7 +2329,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                     
                     self.initialFetches()
-                    
+
                     let center = UNUserNotificationCenter.current()
                     center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
                         DispatchQueue.main.async {

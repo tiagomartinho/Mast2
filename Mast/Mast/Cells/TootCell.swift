@@ -229,8 +229,10 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
                     attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                 }
             })
+            #if !targetEnvironment(macCatalyst)
             self.content.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
         
         if stat.reblog?.account.emojis.isEmpty ?? stat.account.emojis.isEmpty {
@@ -248,8 +250,10 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
                     attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                 }
             })
+            #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
 
         var pollHeight = (self.pollOptions.count * 24) + (self.pollOptions.count * 10)

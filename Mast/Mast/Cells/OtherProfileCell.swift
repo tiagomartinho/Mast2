@@ -251,9 +251,11 @@ class OtherProfileCell: UITableViewCell {
                 }
             })
             let attributedString2 = NSMutableAttributedString(string: "\(acc.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
+            #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
         
         let request = Accounts.relationships(ids: [GlobalStruct.currentUser.id, acc.id])

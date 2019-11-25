@@ -184,6 +184,8 @@
 		5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */; };
 		534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534B278523466CC700A9042E /* TintSettingsViewController.swift */; };
 		5355A24D238832B60043F852 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A24C238832B60043F852 /* Marker.swift */; };
+		5355A24F238BFC030043F852 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A24E238BFC030043F852 /* SDWebImage */; settings = {ATTRIBUTES = (Required, ); }; };
+		5355A251238BFC030043F852 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A250238BFC030043F852 /* SDWebImageMapKit */; settings = {ATTRIBUTES = (Required, ); }; };
 		53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */; };
 		53633DC3237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */; };
 		53633DC4237AD4F800541F13 /* VCoreBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBC237AD4F800541F13 /* VCoreBarChart.swift */; };
@@ -540,8 +542,6 @@
 		5393595E23886B6400D77FD1 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5393595D23886B6400D77FD1 /* WatchSessionManager.swift */; };
 		5393595F23886B7500D77FD1 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5393595D23886B6400D77FD1 /* WatchSessionManager.swift */; };
 		5393596023886D6D00D77FD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3923293E3700A470E2 /* Assets.xcassets */; };
-		53935AFC238969EA00D77FD1 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 53935AFB238969EA00D77FD1 /* SDWebImage */; };
-		53935AFE238969EA00D77FD1 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53935AFD238969EA00D77FD1 /* SDWebImageMapKit */; };
 		53935B00238969F600D77FD1 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 53935AFF238969F600D77FD1 /* SDWebImage */; };
 		53935B02238969F600D77FD1 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 53935B01238969F600D77FD1 /* SDWebImageMapKit */; };
 		53935B10238AF94C00D77FD1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 53935B12238AF94C00D77FD1 /* Localizable.strings */; };
@@ -1633,8 +1633,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53935AFC238969EA00D77FD1 /* SDWebImage in Frameworks */,
-				53935AFE238969EA00D77FD1 /* SDWebImageMapKit in Frameworks */,
+				5355A24F238BFC030043F852 /* SDWebImage in Frameworks */,
+				5355A251238BFC030043F852 /* SDWebImageMapKit in Frameworks */,
 				6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3154,8 +3154,8 @@
 			);
 			name = Mast;
 			packageProductDependencies = (
-				53935AFB238969EA00D77FD1 /* SDWebImage */,
-				53935AFD238969EA00D77FD1 /* SDWebImageMapKit */,
+				5355A24E238BFC030043F852 /* SDWebImage */,
+				5355A250238BFC030043F852 /* SDWebImageMapKit */,
 			);
 			productName = Mast;
 			productReference = 53449D2D23293E3600A470E2 /* Mast.app */;
@@ -4441,6 +4441,19 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"ActiveLabel\"",
+					"-framework",
+					"\"InputBarAccessoryView\"",
+					"-framework",
+					"\"MessageKit\"",
+					"-framework",
+					"\"SwiftyStoreKit\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -4467,6 +4480,19 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"ActiveLabel\"",
+					"-framework",
+					"\"InputBarAccessoryView\"",
+					"-framework",
+					"\"MessageKit\"",
+					"-framework",
+					"\"SwiftyStoreKit\"",
+					"-framework",
+					"\"UIKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -4853,12 +4879,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		53935AFB238969EA00D77FD1 /* SDWebImage */ = {
+		5355A24E238BFC030043F852 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 53935AFA238969EA00D77FD1 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
 		};
-		53935AFD238969EA00D77FD1 /* SDWebImageMapKit */ = {
+		5355A250238BFC030043F852 /* SDWebImageMapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 53935AFA238969EA00D77FD1 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;

@@ -314,9 +314,11 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 }
             })
             let attributedString2 = NSMutableAttributedString(string: "\(noti.status?.account.displayName ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
+            #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
         
         if noti.status?.account.emojis.isEmpty ?? false {
@@ -334,8 +336,10 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                     attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                 }
             })
+            #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString
             self.reloadInputViews()
+            #endif
         }
         
         let _ = self.images.map {_ in

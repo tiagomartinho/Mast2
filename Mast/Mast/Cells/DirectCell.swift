@@ -151,8 +151,10 @@ class DirectCell: UITableViewCell {
                         attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                     }
                 })
+                #if !targetEnvironment(macCatalyst)
                 self.content.attributedText = attributedString
                 self.reloadInputViews()
+                #endif
             }
         }
         
@@ -171,8 +173,10 @@ class DirectCell: UITableViewCell {
                         attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                     }
                 })
+                #if !targetEnvironment(macCatalyst)
                 self.username.attributedText = attributedString
                 self.reloadInputViews()
+                #endif
             }
         }
     }
