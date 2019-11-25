@@ -45,12 +45,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         #if targetEnvironment(macCatalyst)
         if GlobalStruct.macWindow {
             let vc = TootViewController()
-            self.window?.clipsToBounds = true
             self.window?.rootViewController = vc
             self.window!.makeKeyAndVisible()
-            vc.view.frame = CGRect(x: 0, y: 0, width: 400, height: 200)
-            
             if let windowScene = scene as? UIWindowScene {
+                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 650, height: 400)
+                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 650, height: 400)
                 if let titlebar = windowScene.titlebar {
                     let toolbar = NSToolbar(identifier: "testToolbar")
                     toolbar.delegate = vc.self
