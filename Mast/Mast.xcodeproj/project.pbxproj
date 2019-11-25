@@ -196,7 +196,7 @@
 		53733C0D2382B3E9006F260E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53733C0C2382B3E9006F260E /* NotificationCenter.framework */; };
 		53733C102382B3E9006F260E /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733C0F2382B3E9006F260E /* TodayViewController.swift */; };
 		53733C132382B3E9006F260E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53733C112382B3E9006F260E /* MainInterface.storyboard */; };
-		53733C172382B3E9006F260E /* MastExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53733C0B2382B3E9006F260E /* MastExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		53733C172382B3E9006F260E /* MastExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53733C0B2382B3E9006F260E /* MastExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53733C5B2382C066006F260E /* PaginationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733C1C2382C065006F260E /* PaginationItem.swift */; };
 		53733C5C2382C066006F260E /* ClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733C1D2382C065006F260E /* ClientType.swift */; };
 		53733C5D2382C066006F260E /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733C1E2382C065006F260E /* Parameter.swift */; };
@@ -262,7 +262,7 @@
 		53733C9C2382C8E4006F260E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53449D3923293E3700A470E2 /* Assets.xcassets */; };
 		53733CCB2382DC50006F260E /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733CCA2382DC50006F260E /* ShareViewController.swift */; };
 		53733CCE2382DC50006F260E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53733CCC2382DC50006F260E /* MainInterface.storyboard */; };
-		53733CD22382DC50006F260E /* MastShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53733CC82382DC50006F260E /* MastShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		53733CD22382DC50006F260E /* MastShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53733CC82382DC50006F260E /* MastShare.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53733D172382DDF5006F260E /* PaginationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733CD82382DDF5006F260E /* PaginationItem.swift */; };
 		53733D182382DDF5006F260E /* ClientType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733CD92382DDF5006F260E /* ClientType.swift */; };
 		53733D192382DDF5006F260E /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53733CDA2382DDF5006F260E /* Parameter.swift */; };
@@ -427,11 +427,11 @@
 		5379F4342333C4AC00DC1F33 /* CollectionImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4332333C4AB00DC1F33 /* CollectionImageCell.swift */; };
 		5379F4362334CAE800DC1F33 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5379F4352334CAE800DC1F33 /* ListCell.swift */; };
 		539358502385C47200D77FD1 /* Stickers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5393584F2385C47200D77FD1 /* Stickers.xcassets */; };
-		539358542385C47200D77FD1 /* MastStickers.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5393584D2385C46D00D77FD1 /* MastStickers.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		539358542385C47200D77FD1 /* MastStickers.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5393584D2385C46D00D77FD1 /* MastStickers.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53935860238865BB00D77FD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5393585F238865BB00D77FD1 /* Assets.xcassets */; };
 		53935867238865BB00D77FD1 /* MastWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 53935866238865BB00D77FD1 /* MastWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		53935872238865BC00D77FD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53935871238865BC00D77FD1 /* Assets.xcassets */; };
-		53935877238865BC00D77FD1 /* MastWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 5393585A238865B800D77FD1 /* MastWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		53935877238865BC00D77FD1 /* MastWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 5393585A238865B800D77FD1 /* MastWatch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5393588D2388664000D77FD1 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539358812388663D00D77FD1 /* InterfaceController.swift */; };
 		5393588E2388664000D77FD1 /* FedTimelineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539358822388663E00D77FD1 /* FedTimelineController.swift */; };
 		5393588F2388664000D77FD1 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539358832388663E00D77FD1 /* Date.swift */; };
@@ -833,7 +833,7 @@
 		};
 		53B5F1E3233BC4BA0099B170 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
@@ -4207,16 +4207,19 @@
 /* Begin PBXTargetDependency section */
 		53733C162382B3E9006F260E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 53733C0A2382B3E9006F260E /* MastExtension */;
 			targetProxy = 53733C152382B3E9006F260E /* PBXContainerItemProxy */;
 		};
 		53733CD12382DC50006F260E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 53733CC72382DC50006F260E /* MastShare */;
 			targetProxy = 53733CD02382DC50006F260E /* PBXContainerItemProxy */;
 		};
 		539358532385C47200D77FD1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 5393584C2385C46D00D77FD1 /* MastStickers */;
 			targetProxy = 539358522385C47200D77FD1 /* PBXContainerItemProxy */;
 		};
@@ -4227,6 +4230,7 @@
 		};
 		53935876238865BC00D77FD1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 53935859238865B800D77FD1 /* MastWatch */;
 			targetProxy = 53935875238865BC00D77FD1 /* PBXContainerItemProxy */;
 		};
