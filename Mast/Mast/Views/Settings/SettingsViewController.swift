@@ -30,6 +30,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     var tableView = UITableView()
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
+    let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized]
     let accountSection = ["\("Accounts".localized)"]
@@ -125,13 +126,21 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+            #if targetEnvironment(macCatalyst)
+            return 0
+            #elseif !targetEnvironment(macCatalyst)
             return 1
+            #endif
         } else if section == 1 {
+            #if targetEnvironment(macCatalyst)
+            return self.firstSectionMac.count
+            #elseif !targetEnvironment(macCatalyst)
             if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
                 return self.firstSectionPad.count
             } else {
                 return self.firstSection.count
             }
+            #endif
         } else if section == 2 {
             #if targetEnvironment(macCatalyst)
             return self.secondSectionMac.count
@@ -192,21 +201,20 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.selectionStyle = .none
             }
             return cell
-            
-//            if GlobalStruct.iapPurchased {
-//                let cell = tableView.dequeueReusableCell(withIdentifier: "IAPCell2", for: indexPath) as! IAPCell2
-//                cell.selectionStyle = .none
-//                cell.backgroundColor = GlobalStruct.baseDarkTint
-//                return cell
-//            } else {
-//                let cell = tableView.dequeueReusableCell(withIdentifier: "IAPCell", for: indexPath) as! IAPCell
-//                cell.selectionStyle = .none
-//                cell.backgroundColor = GlobalStruct.baseDarkTint
-//                return cell
-//            }
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
             cell.textLabel?.text = firstSectionToUse[indexPath.row]
+            #if targetEnvironment(macCatalyst)
+            if indexPath.row == 0 {
+                cell.imageView?.image = UIImage(systemName: "paintbrush", withConfiguration: symbolConfig) ?? UIImage()
+            } else if indexPath.row == 1 {
+                cell.imageView?.image = UIImage(systemName: "moon.circle", withConfiguration: symbolConfig) ?? UIImage()
+            } else if indexPath.row == 2 {
+                cell.imageView?.image = UIImage(systemName: "app.badge", withConfiguration: symbolConfig) ?? UIImage()
+            } else {
+                cell.accessoryType = .none
+            }
+            #elseif !targetEnvironment(macCatalyst)
             if indexPath.row == 0 {
                 cell.imageView?.image = UIImage(systemName: "app", withConfiguration: symbolConfig) ?? UIImage()
             } else if indexPath.row == 1 {
@@ -238,6 +246,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             } else {
                 cell.accessoryType = .none
             }
+            #endif
             cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         } else if indexPath.section == 2 {
@@ -330,6 +339,20 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         } else if indexPath.section == 1 {
+            #if targetEnvironment(macCatalyst)
+            if indexPath.row == 0 {
+                let vc = TintSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            if indexPath.row == 1 {
+                let vc = DarkModeSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            if indexPath.row == 2 {
+                let vc = NotificationsSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            #elseif !targetEnvironment(macCatalyst)
             if indexPath.row == 0 {
                 let vc = IconSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -346,6 +369,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 let vc = NotificationsSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+            #endif
         } else if indexPath.section == 2 {
             if indexPath.row == 2 {
                 #if !targetEnvironment(macCatalyst)
