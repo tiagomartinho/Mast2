@@ -16,7 +16,7 @@ import Vision
 import VisionKit
 import MediaPlayer
 
-class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, NSToolbarDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -187,11 +187,59 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "addMedia")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"))
+            toolbarItem.label = "Add Media".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.action = #selector(self.cameraPicker)
+            toolbarItem.target = self
+            toolbarItem.image = UIImage(systemName: "plus.circle")
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "visibility")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"))
+            toolbarItem.label = "Visibility".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "globe")
+            toolbarItem.action = #selector(self.visibilityTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        return nil
+    }
+        
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier(rawValue: "visibility")]
+    }
+        
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return self.toolbarDefaultItemIdentifiers(toolbar)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "New Toot".localized
 //        self.removeTabbarItemsText()
+
+        #if targetEnvironment(macCatalyst)
+        let scene = UIApplication.shared.connectedScenes
+        .first { $0.activationState == .foregroundActive }
+        .map { $0 as? UIWindowScene }
+        if let windowScene = scene as? UIWindowScene {
+            if let titlebar = windowScene.titlebar {
+                let toolbar = NSToolbar(identifier: "testToolbar")
+                toolbar.delegate = self
+                toolbar.allowsUserCustomization = false
+                toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"), at: 0)
+                toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"), at: 0)
+                titlebar.toolbar = toolbar
+            }
+        }
+        #endif
         
         GlobalStruct.medType = 0
         

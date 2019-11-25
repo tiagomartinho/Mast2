@@ -4,3 +4,4 @@
 
 #import "CommonCrypto/CommonCrypto.h"
 #import "TOCropViewController.h"
+#import <UIKit/NSToolbar+UIKitAdditions.h>
