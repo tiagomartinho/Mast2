@@ -208,11 +208,61 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             toolbarItem.target = self
             return toolbarItem
         }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "spoiler")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"))
+            toolbarItem.label = "Spoiler Text".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "exclamationmark.shield")
+            toolbarItem.action = #selector(self.contentTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "emo")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"))
+            toolbarItem.label = "Emoticons".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "smiley")
+            toolbarItem.action = #selector(self.smileyTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "poll")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"))
+            toolbarItem.label = "Add Poll".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "chart.bar")
+            toolbarItem.action = #selector(self.addPoll)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "schedule")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"))
+            toolbarItem.label = "Schedule Toot".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "clock")
+            toolbarItem.action = #selector(self.scheduleTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "drafts")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"))
+            toolbarItem.label = "Drafts".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "doc.text")
+            toolbarItem.action = #selector(self.viewDrafts)
+            toolbarItem.target = self
+            return toolbarItem
+        }
         return nil
     }
         
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier(rawValue: "visibility")]
+        return [NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier(rawValue: "visibility"), NSToolbarItem.Identifier(rawValue: "spoiler"), NSToolbarItem.Identifier(rawValue: "emo"), NSToolbarItem.Identifier(rawValue: "poll"), NSToolbarItem.Identifier(rawValue: "schedule"), NSToolbarItem.Identifier(rawValue: "drafts")]
     }
         
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
@@ -224,22 +274,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "New Toot".localized
 //        self.removeTabbarItemsText()
-
-        #if targetEnvironment(macCatalyst)
-        let scene = UIApplication.shared.connectedScenes
-        .first { $0.activationState == .foregroundActive }
-        .map { $0 as? UIWindowScene }
-        if let windowScene = scene as? UIWindowScene {
-            if let titlebar = windowScene.titlebar {
-                let toolbar = NSToolbar(identifier: "testToolbar")
-                toolbar.delegate = self
-                toolbar.allowsUserCustomization = false
-                toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"), at: 0)
-                toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"), at: 0)
-                titlebar.toolbar = toolbar
-            }
-        }
-        #endif
+        
+        GlobalStruct.macWindow = false
         
         GlobalStruct.medType = 0
         

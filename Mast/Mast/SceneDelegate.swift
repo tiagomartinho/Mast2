@@ -43,20 +43,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         #if targetEnvironment(macCatalyst)
-        let rootController = ColumnViewController()
-        let nav0 = VerticalTabBarController()
-        let nav1 = ScrollMainViewController()
-
-        let nav01 = UINavigationController(rootViewController: FirstViewController())
-        let nav02 = UINavigationController(rootViewController: SecondViewController())
-        let nav03 = UINavigationController(rootViewController: ThirdViewController())
-        let nav04 = UINavigationController(rootViewController: FourthViewController())
-        let nav05 = UINavigationController(rootViewController: FifthViewController())
-        nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
-
-        rootController.viewControllers = [nav0, nav1]
-        self.window?.rootViewController = rootController
-        self.window!.makeKeyAndVisible()
+        if GlobalStruct.macWindow {
+            let vc = TootViewController()
+            self.window?.rootViewController = vc
+            self.window!.makeKeyAndVisible()
+            
+            if let windowScene = scene as? UIWindowScene {
+                if let titlebar = windowScene.titlebar {
+                    let toolbar = NSToolbar(identifier: "testToolbar")
+                    toolbar.delegate = vc.self
+                    toolbar.allowsUserCustomization = false
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"), at: 0)
+                    toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"), at: 0)
+                    titlebar.toolbar = toolbar
+                }
+            }
+        } else {
+            let rootController = ColumnViewController()
+            let nav0 = VerticalTabBarController()
+            let nav1 = ScrollMainViewController()
+            
+            let nav01 = UINavigationController(rootViewController: FirstViewController())
+            let nav02 = UINavigationController(rootViewController: SecondViewController())
+            let nav03 = UINavigationController(rootViewController: ThirdViewController())
+            let nav04 = UINavigationController(rootViewController: FourthViewController())
+            let nav05 = UINavigationController(rootViewController: FifthViewController())
+            nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+            
+            rootController.viewControllers = [nav0, nav1]
+            self.window?.rootViewController = rootController
+            self.window!.makeKeyAndVisible()
+        }
         #elseif !targetEnvironment(macCatalyst)
         if UIDevice.current.userInterfaceIdiom == .pad && isSplitOrSlideOver == false {
             let rootController = ColumnViewController()

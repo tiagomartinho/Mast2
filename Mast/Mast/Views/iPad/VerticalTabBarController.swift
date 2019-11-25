@@ -82,7 +82,15 @@ class VerticalTabBarController: UIViewController {
     }
     
     @objc func compose() {
+        #if targetEnvironment(macCatalyst)
+        GlobalStruct.macWindow = true
+        let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer")
+        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
+          print("error", e)
+        }
+        #elseif !targetEnvironment(macCatalyst)
         let vc = TootViewController()
         self.show(UINavigationController(rootViewController: vc), sender: self)
+        #endif
     }
 }
