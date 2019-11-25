@@ -149,6 +149,12 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    @objc func initialTimelineLoads() {
+        if self.notificationsDirect.isEmpty {
+            self.initialFetches()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -161,6 +167,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail3"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti3"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.initialTimelineLoads), name: NSNotification.Name(rawValue: "initialTimelineLoads"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

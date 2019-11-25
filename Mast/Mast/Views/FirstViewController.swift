@@ -638,6 +638,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
         }
         
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "initialTimelineLoads"), object: nil)
+        
 //        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
 //        GlobalStruct.client.run(request4) { (statuses) in
 //            if let stat = (statuses.value) {

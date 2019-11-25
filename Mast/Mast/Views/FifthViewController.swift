@@ -182,6 +182,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    @objc func initialTimelineLoads() {
+        if self.self.profileStatuses.isEmpty {
+            if self.isTapped {
+                self.initialLoad()
+            } else {
+                self.fetchMedia()
+                self.fetchUserData()
+                self.fetchLists()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -195,6 +207,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail5"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti5"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.initialTimelineLoads), name: NSNotification.Name(rawValue: "initialTimelineLoads"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

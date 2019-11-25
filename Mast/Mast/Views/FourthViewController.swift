@@ -156,6 +156,13 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    @objc func initialTimelineLoads() {
+        if self.statusesSuggested.isEmpty {
+            self.fetchLists()
+            self.initialFetches()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -172,6 +179,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.searchTapped), name: NSNotification.Name(rawValue: "searchTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti4"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.initialTimelineLoads), name: NSNotification.Name(rawValue: "initialTimelineLoads"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)

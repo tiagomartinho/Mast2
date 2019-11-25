@@ -191,6 +191,21 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    @objc func initialTimelineLoads() {
+        if self.notifications.isEmpty {
+            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+            GlobalStruct.client.run(request4) { (statuses) in
+                if let stat = (statuses.value) {
+                    DispatchQueue.main.async {
+                        self.notifications = stat
+                        self.tableView.reloadData()
+                        self.tableView2.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -203,6 +218,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail2"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti2"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.initialTimelineLoads), name: NSNotification.Name(rawValue: "initialTimelineLoads"), object: nil)
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0
@@ -242,13 +258,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         self.notifications = stat
                         self.tableView.reloadData()
                         self.tableView2.reloadData()
-//                        #if targetEnvironment(macCatalyst)
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                        #elseif !targetEnvironment(macCatalyst)
-//                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-//                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                        }
-//                        #endif
                     }
                 }
             }
