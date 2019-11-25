@@ -211,7 +211,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func initialFetches() {
-        let request5 = Timelines.conversations(range: .max(id: self.notificationsDirect.last?.id ?? "", limit: 5000))
+        let request5 = Timelines.conversations(range: .default)
         GlobalStruct.client.run(request5) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {

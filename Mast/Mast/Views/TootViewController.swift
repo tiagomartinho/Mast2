@@ -16,7 +16,7 @@ import Vision
 import VisionKit
 import MediaPlayer
 
-class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, NSToolbarDelegate {
+class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerControllerDelegate, UIDocumentPickerDelegate, UINavigationControllerDelegate, VNDocumentCameraViewControllerDelegate, UIAdaptivePresentationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -200,98 +200,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
             }
         }
-    }
-    
-    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "addMedia")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"))
-            toolbarItem.label = "Add Media".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.action = #selector(self.galleryView)
-            toolbarItem.target = self
-            toolbarItem.image = UIImage(systemName: "plus.circle")
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "visibility")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"))
-            toolbarItem.label = "Visibility".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "globe")
-            toolbarItem.action = #selector(self.visibilityTap)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "spoiler")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"))
-            toolbarItem.label = "Spoiler Text".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "exclamationmark.shield")
-            toolbarItem.action = #selector(self.contentTap)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "emo")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"))
-            toolbarItem.label = "Emoticons".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "smiley")
-            toolbarItem.action = #selector(self.smileyTap)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "poll")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"))
-            toolbarItem.label = "Add Poll".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "chart.bar")
-            toolbarItem.action = #selector(self.addPoll)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "schedule")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"))
-            toolbarItem.label = "Schedule Toot".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "clock")
-            toolbarItem.action = #selector(self.scheduleTap)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "drafts")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"))
-            toolbarItem.label = "Drafts".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "doc.text")
-            toolbarItem.action = #selector(self.viewDrafts)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "tick")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"))
-            toolbarItem.label = "Post".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "checkmark")
-            toolbarItem.action = #selector(self.tickTapped)
-            toolbarItem.target = self
-            return toolbarItem
-        }
-        return nil
-    }
-        
-    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [NSToolbarItem.Identifier(rawValue: "drafts"), NSToolbarItem.Identifier(rawValue: "schedule"), NSToolbarItem.Identifier(rawValue: "poll"), NSToolbarItem.Identifier(rawValue: "emo"), NSToolbarItem.Identifier(rawValue: "spoiler"), NSToolbarItem.Identifier(rawValue: "visibility"), NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier.flexibleSpace, NSToolbarItem.Identifier(rawValue: "tick")]
-    }
-        
-    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return self.toolbarDefaultItemIdentifiers(toolbar)
     }
     
     override func viewDidLoad() {
@@ -1778,3 +1686,99 @@ extension PHAsset {
         }
     }
 }
+
+#if targetEnvironment(macCatalyst)
+extension TootViewController: NSToolbarDelegate {
+    func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "addMedia")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"))
+            toolbarItem.label = "Add Media".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.action = #selector(self.galleryView)
+            toolbarItem.target = self
+            toolbarItem.image = UIImage(systemName: "plus.circle")
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "visibility")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"))
+            toolbarItem.label = "Visibility".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "globe")
+            toolbarItem.action = #selector(self.visibilityTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "spoiler")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"))
+            toolbarItem.label = "Spoiler Text".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "exclamationmark.shield")
+            toolbarItem.action = #selector(self.contentTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "emo")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"))
+            toolbarItem.label = "Emoticons".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "smiley")
+            toolbarItem.action = #selector(self.smileyTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "poll")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"))
+            toolbarItem.label = "Add Poll".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "chart.bar")
+            toolbarItem.action = #selector(self.addPoll)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "schedule")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"))
+            toolbarItem.label = "Schedule Toot".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "clock")
+            toolbarItem.action = #selector(self.scheduleTap)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "drafts")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"))
+            toolbarItem.label = "Drafts".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "doc.text")
+            toolbarItem.action = #selector(self.viewDrafts)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "tick")) {
+            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"))
+            toolbarItem.label = "Post".localized
+            toolbarItem.isBordered = true
+            toolbarItem.isEnabled = true
+            toolbarItem.image = UIImage(systemName: "checkmark")
+            toolbarItem.action = #selector(self.tickTapped)
+            toolbarItem.target = self
+            return toolbarItem
+        }
+        return nil
+    }
+        
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [NSToolbarItem.Identifier(rawValue: "drafts"), NSToolbarItem.Identifier(rawValue: "schedule"), NSToolbarItem.Identifier(rawValue: "poll"), NSToolbarItem.Identifier(rawValue: "emo"), NSToolbarItem.Identifier(rawValue: "spoiler"), NSToolbarItem.Identifier(rawValue: "visibility"), NSToolbarItem.Identifier(rawValue: "addMedia"), NSToolbarItem.Identifier.flexibleSpace, NSToolbarItem.Identifier(rawValue: "tick")]
+    }
+        
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return self.toolbarDefaultItemIdentifiers(toolbar)
+    }
+}
+#endif

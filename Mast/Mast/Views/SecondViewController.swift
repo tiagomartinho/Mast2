@@ -32,7 +32,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
-    var notTypes: [NotificationType] = []
+    var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
     var notifications: [Notificationt] = []
     
     override func viewDidLayoutSubviews() {
@@ -67,11 +67,15 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func scrollTop2() {
         if self.tableView.alpha == 1 {
-            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-                self.top1.alpha = 0
-                self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-            }) { (completed: Bool) in
+            if self.notifications.isEmpty {
+                
+            } else {
+                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                    self.top1.alpha = 0
+                    self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                }) { (completed: Bool) in
+                }
             }
         }
         if self.tableView2.alpha == 1 {
@@ -90,13 +94,15 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 if let stat = (statuses.value) {
                     DispatchQueue.main.async {
                         self.notifications = stat
-                        #if targetEnvironment(macCatalyst)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-                        #elseif !targetEnvironment(macCatalyst)
-                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-                        }
-                        #endif
+                        self.tableView.reloadData()
+                        self.tableView2.reloadData()
+//                        #if targetEnvironment(macCatalyst)
+//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+//                        #elseif !targetEnvironment(macCatalyst)
+//                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+//                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+//                        }
+//                        #endif
                     }
                 }
             }
@@ -212,19 +218,37 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         
+        if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
+            self.notTypes = []
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
+        }
+        
         if self.notifications.isEmpty {
             let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
             GlobalStruct.client.run(request4) { (statuses) in
                 if let stat = (statuses.value) {
                     DispatchQueue.main.async {
                         self.notifications = stat
-                        #if targetEnvironment(macCatalyst)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-                        #elseif !targetEnvironment(macCatalyst)
-                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-                        }
-                        #endif
+                        self.tableView.reloadData()
+                        self.tableView2.reloadData()
+//                        #if targetEnvironment(macCatalyst)
+//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+//                        #elseif !targetEnvironment(macCatalyst)
+//                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+//                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+//                        }
+//                        #endif
                     }
                 }
             }
