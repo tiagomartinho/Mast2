@@ -187,13 +187,28 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    @objc func galleryView() {
+        AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
+            if response {
+                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                    DispatchQueue.main.async {
+                        self.photoPickerView.delegate = self
+                        self.photoPickerView.sourceType = .photoLibrary
+                        self.photoPickerView.mediaTypes = [kUTTypeMovie as String, kUTTypeImage as String]
+                        self.present(self.photoPickerView, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+    }
+    
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "addMedia")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"))
             toolbarItem.label = "Add Media".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
-            toolbarItem.action = #selector(self.cameraPicker)
+            toolbarItem.action = #selector(self.galleryView)
             toolbarItem.target = self
             toolbarItem.image = UIImage(systemName: "plus.circle")
             return toolbarItem
@@ -580,7 +595,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             )
             alert.setValue(messageText, forKey: "attributedTitle")
             if let presenter = alert.popoverPresentationController {
-                presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+                presenter.sourceView = self.x6.value(forKey: "view") as? UIView ?? self.view
                 presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
             }
             self.present(alert, animated: true, completion: nil)
@@ -652,7 +667,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             
         }))
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x2.value(forKey: "view") as? UIView
+            presenter.sourceView = self.x2.value(forKey: "view") as? UIView ?? self.view
             presenter.sourceRect = (self.x2.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         self.present(alert, animated: true, completion: nil)
@@ -717,7 +732,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             
         }
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x3.value(forKey: "view") as? UIView
+            presenter.sourceView = self.x3.value(forKey: "view") as? UIView ?? self.view
             presenter.sourceRect = (self.x3.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
@@ -753,7 +768,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             // action with selected object
         }
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x4.value(forKey: "view") as? UIView
+            presenter.sourceView = self.x4.value(forKey: "view") as? UIView ?? self.view
             presenter.sourceRect = (self.x4.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         alert.addAction(title: "Dismiss", style: .cancel)
@@ -806,7 +821,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             
         }
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x5.value(forKey: "view") as? UIView
+            presenter.sourceView = self.x5.value(forKey: "view") as? UIView ?? self.view
             presenter.sourceRect = (self.x5.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
@@ -1660,7 +1675,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }))
         
         if let presenter = alert.popoverPresentationController {
-            presenter.sourceView = self.x1.value(forKey: "view") as? UIView
+            presenter.sourceView = self.x1.value(forKey: "view") as? UIView ?? self.view
             presenter.sourceRect = (self.x1.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
         self.present(alert, animated: true, completion: nil)
