@@ -90,6 +90,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         
         #if targetEnvironment(macCatalyst)
+        let part1 = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 210 + self.keyHeight
         let theWid = self.view.bounds.width - self.view.safeAreaInsets.left - self.view.safeAreaInsets.right
         self.loginBG.frame = UIApplication.applicationWindow.screen.bounds
         self.loginLogo.frame = CGRect(x: self.fullWid/2 - 40, y: (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + 40, width: 80, height: 80)
