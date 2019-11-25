@@ -48,8 +48,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = vc
             self.window!.makeKeyAndVisible()
             if let windowScene = scene as? UIWindowScene {
-                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 650, height: 400)
-                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 650, height: 400)
+                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 680, height: 440)
+                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 680, height: 440)
                 if let titlebar = windowScene.titlebar {
                     let toolbar = NSToolbar(identifier: "testToolbar")
                     toolbar.delegate = vc.self
@@ -71,8 +71,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = vc
             self.window!.makeKeyAndVisible()
             if let windowScene = scene as? UIWindowScene {
-                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 650, height: 400)
-                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 650, height: 400)
+                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 680, height: 440)
+                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 680, height: 440)
                 if let titlebar = windowScene.titlebar {
                     let toolbar = NSToolbar(identifier: "testToolbar")
                     toolbar.delegate = vc.self
