@@ -32,7 +32,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized]
     let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
-    let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized]
+    let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Get in Touch".localized]
     
