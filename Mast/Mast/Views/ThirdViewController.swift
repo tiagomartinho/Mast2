@@ -281,17 +281,20 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                 } else {
                     DispatchQueue.main.async {
+                        let sta = (stat.filter {!self.notificationsDirect.contains($0)}).removeDuplicates()
                         self.refreshControl.endRefreshing()
-                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-                            self.top1.alpha = 1
-                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
-                        }) { (completed: Bool) in
+                        if sta.isEmpty {} else {
+                            self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                                self.top1.alpha = 1
+                                self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                            }) { (completed: Bool) in
+                            }
                         }
-                        let indexPaths = (0..<stat.count).map {
+                        let indexPaths = (0..<sta.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        self.notificationsDirect = stat
+                        self.notificationsDirect = sta + self.notificationsDirect
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
