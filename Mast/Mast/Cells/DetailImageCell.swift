@@ -458,6 +458,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.images3[indexPath.row] == "" {} else {
         if images[indexPath.row].type == .video || images[indexPath.row].type == .gifv || images[indexPath.row].type == .audio {
             if let ur = URL(string: images[indexPath.row].url) {
                 self.player = AVPlayer(url: ur)
@@ -473,6 +474,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             let win = UIApplication.shared.keyWindow?.rootViewController
             win?.present(imageViewer, animated: true, completion: nil)
+        }
         }
     }
     

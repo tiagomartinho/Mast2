@@ -291,7 +291,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        self.notificationsDirect = stat + self.notificationsDirect
+                        self.notificationsDirect = stat
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0

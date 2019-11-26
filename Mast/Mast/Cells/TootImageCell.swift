@@ -481,6 +481,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.images3[indexPath.row] == "" {} else {
         if images[indexPath.row].type == .video || images[indexPath.row].type == .gifv || images[indexPath.row].type == .audio {
             if let ur = URL(string: images[indexPath.row].url) {
                 self.player = AVPlayer(url: ur)
@@ -494,6 +495,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+        }
         }
     }
     
