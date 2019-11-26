@@ -64,6 +64,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var theAcc = ""
     var searchedUsers: [Account] = []
     
+    var buffer: NSMutableData = NSMutableData()
+    var expectedContentLength = 0
+    
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
     }
@@ -1361,14 +1364,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     } else {
                         GlobalStruct.mediaIDs = []
                     }
-//                    for x in GlobalStruct.photoToAttachArray {
-                        let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
-                        GlobalStruct.client.run(request) { (statuses) in
-                            if let stat = (statuses.value) {
-                                GlobalStruct.mediaIDs.append(stat.id)
-                            }
+                    let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    GlobalStruct.client.run(request) { (statuses) in
+                        if let stat = (statuses.value) {
+                            GlobalStruct.mediaIDs.append(stat.id)
                         }
-//                    }
+                    }
                 }
             }
         }
@@ -1782,3 +1783,17 @@ extension TootViewController: NSToolbarDelegate {
     }
 }
 #endif
+
+extension TootViewController: URLSessionDelegate, URLSessionTaskDelegate, URLSessionDataDelegate {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: (URLSession.ResponseDisposition) -> Void) {
+        self.expectedContentLength = Int(response.expectedContentLength)
+        print(expectedContentLength)
+        completionHandler(.allow)
+    }
+
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        buffer.append(data)
+        let percentageDownloaded = Float(buffer.length) / Float(expectedContentLength)
+        print("progress - \(percentageDownloaded)")
+    }
+}

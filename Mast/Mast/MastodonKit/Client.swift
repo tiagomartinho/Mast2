@@ -15,10 +15,7 @@ public struct Client: ClientType {
 //        case sessionID = "com.shi.Mast.bgSession"
 //    }
 //    var session: URLSession = {
-//        let config = URLSessionConfiguration.background(withIdentifier: Constant.sessionID.rawValue)
-//        config.isDiscretionary = true
-//        config.sessionSendsLaunchEvents = true
-//        return URLSession(configuration: config, delegate: nil, delegateQueue: nil)
+//        return URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: .main)
 //    }()
     public var accessToken: String?
 
