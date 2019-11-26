@@ -369,12 +369,22 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             if indexPath.row == 2 {
-                let vc = DarkModeSettingsViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
+                if GlobalStruct.iapPurchased {
+                    let vc = DarkModeSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             if indexPath.row == 3 {
-                let vc = NotificationsSettingsViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
+                if GlobalStruct.iapPurchased {
+                    let vc = NotificationsSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             #endif
         } else if indexPath.section == 2 {

@@ -242,10 +242,8 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
         
         if sender.isOn {
             UserDefaults.standard.set(true, forKey: "switchbanners")
-            self.updateRegister()
         } else {
             UserDefaults.standard.set(false, forKey: "switchbanners")
-            self.updateRegister()
         }
     }
     

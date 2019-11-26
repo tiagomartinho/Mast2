@@ -15,9 +15,9 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     
     var tableView = UITableView()
     var bgView = UIView()
-    let firstSection = ["Multiple Accounts".localized, "30+ App Icons".localized, "10+ App Tints".localized, "Siri Shortcuts".localized, "Biometric Locks".localized, "Variety of Settings".localized]
-    let firstSectionDescriptions = ["Add multiple user accounts to the app from a variety of instances, and quickly switch between them.".localized, "Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create toots, view notifications, and more.".localized, "Lock the app from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
-    let firstSectionImage = ["person.and.person", "square", "paintbrush", "mic", "lock", "gear"]
+    let firstSection = ["Push Notifications".localized, "Multiple Accounts".localized, "30+ App Icons".localized, "10+ App Tints".localized, "Siri Shortcuts".localized, "Biometric Locks".localized, "Variety of Settings".localized]
+    let firstSectionDescriptions = ["Get notified immediately.".localized, "Add multiple user accounts to the app from a variety of instances, and quickly switch between them.".localized, "Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create toots, view notifications, and more.".localized, "Lock the app from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
+    let firstSectionImage = ["app.badge", "person.and.person", "square", "paintbrush", "mic", "lock", "gear"]
     var button1 = UIButton()
     var button1Title = UILabel()
     var button1Title2 = UILabel()
@@ -243,6 +243,18 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 
                 let alert = UIAlertController(title: "Mast Pro Unlocked!".localized, message: "Mast just got even more awesome. I hope you enjoy using Mast Pro and all of its great features.".localized, preferredStyle: .actionSheet)
                 alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                    
+                    let center = UNUserNotificationCenter.current()
+                    center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(true, forKey: "pnmentions")
+                            UserDefaults.standard.set(true, forKey: "pnlikes")
+                            UserDefaults.standard.set(true, forKey: "pnboosts")
+                            UserDefaults.standard.set(true, forKey: "pnfollows")
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
+                    }
+                    
                     self.dismiss(animated: true, completion: nil)
                 }))
                 let paragraphStyle = NSMutableParagraphStyle()
@@ -366,6 +378,18 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 
                 let alert = UIAlertController(title: "Mast Pro Unlocked!".localized, message: "Mast just got even more awesome. I hope you enjoy using Mast Pro and all of its great features.".localized, preferredStyle: .actionSheet)
                 alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                    
+                    let center = UNUserNotificationCenter.current()
+                    center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(true, forKey: "pnmentions")
+                            UserDefaults.standard.set(true, forKey: "pnlikes")
+                            UserDefaults.standard.set(true, forKey: "pnboosts")
+                            UserDefaults.standard.set(true, forKey: "pnfollows")
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
+                    }
+                    
                     self.dismiss(animated: true, completion: nil)
                 }))
                 let paragraphStyle = NSMutableParagraphStyle()

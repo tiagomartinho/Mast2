@@ -2347,18 +2347,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                     
                     self.initialFetches()
-
-                    let center = UNUserNotificationCenter.current()
-                    center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-                        DispatchQueue.main.async {
-                            UserDefaults.standard.set(true, forKey: "pnmentions")
-                            UserDefaults.standard.set(true, forKey: "pnlikes")
-                            UserDefaults.standard.set(true, forKey: "pnboosts")
-                            UserDefaults.standard.set(true, forKey: "pnfollows")
-                            UIApplication.shared.registerForRemoteNotifications()
-                        }
-                    }
-                    
                 }
             } catch let error {
                 print(error.localizedDescription)
