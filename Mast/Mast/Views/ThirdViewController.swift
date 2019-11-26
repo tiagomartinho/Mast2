@@ -443,6 +443,30 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
+            if self.notificationsDirect[indexPath.row].unread {
+                return self.makeContextMenu([self.notificationsDirect[indexPath.row]], indexPath: indexPath)
+            } else {
+                return nil
+            }
+        })
+    }
+    
+    func makeContextMenu(_ status: [Conversation], indexPath: IndexPath) -> UIMenu {
+        let op1 = UIAction(title: "Mark Read".localized, image: UIImage(systemName: "checkmark"), identifier: nil) { action in
+            let request = Timelines.markRead(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [op1])
+    }
+    
     func removeTabbarItemsText() {
         if let items = self.tabBarController?.tabBar.items {
             for item in items {
