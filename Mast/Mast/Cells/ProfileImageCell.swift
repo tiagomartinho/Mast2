@@ -136,6 +136,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if self.images3[indexPath.row] == "" {} else {
         if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .audio {
             if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
                 self.player = AVPlayer(url: ur)
@@ -149,6 +150,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
             let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+        }
         }
     }
     
