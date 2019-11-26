@@ -31,7 +31,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized]
-    let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Keyboard".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let secondSection = [" \("Hide Sensitive Content".localized)", " \("Upload Videos as GIFs".localized)", " \("Default Visibility".localized)", "Default Keyboard".localized, " \("Default Browser".localized)", " \("Default Scan Mode".localized)", " \("Siri Shortcuts".localized)", " \("App Lock".localized)"]
     let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Get in Touch".localized]
@@ -298,10 +298,10 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.accessoryView = switchView
                 cell.selectionStyle = .none
             } else if indexPath.row == 2 {
-                cell.imageView?.image = UIImage(systemName: "keyboard", withConfiguration: symbolConfig) ?? UIImage()
+                cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else if indexPath.row == 3 {
-                cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
+                cell.imageView?.image = UIImage(systemName: "keyboard", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else if indexPath.row == 4 {
                 cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
@@ -395,7 +395,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             if indexPath.row == 3 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
-                    let vc = BrowserSettingsViewController()
+                    let vc = KeyboardSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     let vc = IAPSettingsViewController()
@@ -409,7 +409,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             if indexPath.row == 4 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
-                    let vc = KeyboardSettingsViewController()
+                    let vc = BrowserSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
                     let vc = IAPSettingsViewController()
