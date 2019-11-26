@@ -460,7 +460,10 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
             let request = Timelines.markRead(id: status.first?.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    if let cell = self.tableView.cellForRow(at: indexPath) as? DirectCell {
+                        GlobalStruct.markedReadIDs.append(status.first?.id ?? "")
+                        cell.configure2(false, id: self.notificationsDirect[indexPath.row].id)
+                    }
                 }
             }
         }

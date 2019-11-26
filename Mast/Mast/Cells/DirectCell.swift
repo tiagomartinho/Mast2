@@ -181,6 +181,18 @@ class DirectCell: UITableViewCell {
         }
     }
     
+    func configure2(_ unread: Bool, id: String) {
+        if GlobalStruct.markedReadIDs.contains(id) {
+            self.unread.alpha = 0
+        } else {
+            if unread {
+                self.unread.alpha = 1
+            } else {
+                self.unread.alpha = 0
+            }
+        }
+    }
+    
     func highlightCell() {
         springWithDelay(duration: 0.3, delay: 0, animations: {
             self.containerView.alpha = 1
