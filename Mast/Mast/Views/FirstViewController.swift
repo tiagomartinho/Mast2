@@ -528,6 +528,19 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.top3.addTarget(self, action: #selector(self.didTouchTop3), for: .touchUpInside)
         self.top3.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top3)
+        
+        if GlobalStruct.iapPurchased {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                DispatchQueue.main.async {
+                    UserDefaults.standard.set(true, forKey: "pnmentions")
+                    UserDefaults.standard.set(true, forKey: "pnlikes")
+                    UserDefaults.standard.set(true, forKey: "pnboosts")
+                    UserDefaults.standard.set(true, forKey: "pnfollows")
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        }
     }
     
     @objc func didTouchTop1() {

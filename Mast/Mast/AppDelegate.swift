@@ -27,6 +27,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         SwiftyStoreKit.finishTransaction(purchase.transaction)
                     }
                     GlobalStruct.iapPurchased = true
+                    let center = UNUserNotificationCenter.current()
+                    center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+                        DispatchQueue.main.async {
+                            UserDefaults.standard.set(true, forKey: "pnmentions")
+                            UserDefaults.standard.set(true, forKey: "pnlikes")
+                            UserDefaults.standard.set(true, forKey: "pnboosts")
+                            UserDefaults.standard.set(true, forKey: "pnfollows")
+                            UIApplication.shared.registerForRemoteNotifications()
+                        }
+                    }
                 case .failed, .purchasing, .deferred:
                     break
                 @unknown default:
