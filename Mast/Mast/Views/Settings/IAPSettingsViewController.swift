@@ -451,7 +451,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
             numberFormatter.numberStyle = .currency
 
             if let product = result.retrievedProducts.first {
-                self.annualProduct = product
+                self.lifetimeProduct = product
                 let priceString = product.localizedPrice!
                 print("Product: \(product.localizedDescription), price: \(priceString)")
                 numberFormatter.locale = product.priceLocale
