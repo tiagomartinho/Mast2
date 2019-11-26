@@ -156,7 +156,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            cell.accessoryType = .disclosureIndicator
+            if GlobalStruct.iapPurchased {
+                cell.accessoryType = .none
+            } else {
+                cell.accessoryType = .disclosureIndicator
+            }
         } else if indexPath.section == 1 && indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 1 && indexPath.row == 1 {
