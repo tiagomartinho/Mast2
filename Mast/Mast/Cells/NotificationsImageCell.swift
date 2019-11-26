@@ -219,7 +219,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             } else {
                 self.typeOf.image = UIImage(systemName: "arrowshape.turn.up.left.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemBlue, renderingMode: .alwaysOriginal)
             }
-        } else if noti.type == .favourite {
+        } else if noti.type == .favourite || GlobalStruct.allLikedStatuses.contains(noti.status?.id ?? "") {
             self.typeOf.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         } else if noti.type == .reblog {
             self.typeOf.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen, renderingMode: .alwaysOriginal)

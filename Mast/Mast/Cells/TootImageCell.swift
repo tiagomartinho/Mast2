@@ -227,7 +227,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         }
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
-        if stat.reblog?.favourited ?? stat.favourited ?? false {
+        if stat.reblog?.favourited ?? stat.favourited ?? false || GlobalStruct.allLikedStatuses.contains(stat.reblog?.id ?? stat.id) {
             self.heart.alpha = 1
             self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
         } else if stat.reblog?.visibility ?? stat.visibility == .direct {

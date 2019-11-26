@@ -1817,6 +1817,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+//            GlobalStruct.allLikedStatuses.append(status.first?.id ?? "")
+//            if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
+//
+//            } else if let cell = self.tableView.cellForRow(at: indexPath) as? TootImageCell {
+//
+//            }
             let request = Statuses.favourite(id: status.first?.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 
