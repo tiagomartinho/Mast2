@@ -186,6 +186,7 @@
 		5355A24D238832B60043F852 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A24C238832B60043F852 /* Marker.swift */; };
 		5355A24F238BFC030043F852 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A24E238BFC030043F852 /* SDWebImage */; settings = {ATTRIBUTES = (Required, ); }; };
 		5355A251238BFC030043F852 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A250238BFC030043F852 /* SDWebImageMapKit */; settings = {ATTRIBUTES = (Required, ); }; };
+		5355A274238D65020043F852 /* KeyboardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A273238D65020043F852 /* KeyboardSettingsViewController.swift */; };
 		53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */; };
 		53633DC3237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */; };
 		53633DC4237AD4F800541F13 /* VCoreBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBC237AD4F800541F13 /* VCoreBarChart.swift */; };
@@ -1028,6 +1029,20 @@
 		534B278523466CC700A9042E /* TintSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintSettingsViewController.swift; sourceTree = "<group>"; };
 		5355A24C238832B60043F852 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		5355A258238C452A0043F852 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5355A261238D632A0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Main.strings; sourceTree = "<group>"; };
+		5355A262238D632A0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		5355A263238D632A0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		5355A264238D632B0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		5355A265238D632B0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Interface.strings; sourceTree = "<group>"; };
+		5355A266238D632B0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5355A267238D632B0043F852 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/TOCropViewControllerLocalizable.strings; sourceTree = "<group>"; };
+		5355A26D238D63630043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainInterface.strings"; sourceTree = "<group>"; };
+		5355A26E238D63640043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainInterface.strings"; sourceTree = "<group>"; };
+		5355A26F238D63640043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Interface.strings"; sourceTree = "<group>"; };
+		5355A270238D636A0043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		5355A271238D636A0043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		5355A272238D636A0043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5355A273238D65020043F852 /* KeyboardSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBarChartsDisplayConfig.swift; sourceTree = "<group>"; };
 		53633DBC237AD4F800541F13 /* VCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCoreBarChart.swift; sourceTree = "<group>"; };
@@ -3110,6 +3125,7 @@
 				53381F1E237C70310000E287 /* NotificationsSettingsViewController.swift */,
 				53CC76C123796D55005B4CF7 /* VisibilitySettingsViewController.swift */,
 				53955D782374887700522101 /* BrowserSettingsViewController.swift */,
+				5355A273238D65020043F852 /* KeyboardSettingsViewController.swift */,
 				53CC76E72379C5E0005B4CF7 /* ScanSettingsViewController.swift */,
 				53123319238587D30096BFD6 /* ShortcutsSettingsViewController.swift */,
 				5312330E238583550096BFD6 /* LockSettingsViewController.swift */,
@@ -3320,6 +3336,8 @@
 				en,
 				Base,
 				"en-GB",
+				hi,
+				"zh-Hans",
 			);
 			mainGroup = 53449D2423293E3600A470E2;
 			packageReferences = (
@@ -3797,6 +3815,7 @@
 				53633DC8237AD4F800541F13 /* CoreChartOrientation.swift in Sources */,
 				5379F41C23313B1700DC1F33 /* SettingsViewController.swift in Sources */,
 				53449DD023294C1000A470E2 /* Accounts.swift in Sources */,
+				5355A274238D65020043F852 /* KeyboardSettingsViewController.swift in Sources */,
 				53A4F4452376E59200EC12C6 /* ImageFadeInHandler.swift in Sources */,
 				53381EE1237B14DC0000E287 /* NewPollViewController.swift in Sources */,
 				53449DC423294C1000A470E2 /* HTTPMethod.swift in Sources */,
@@ -4257,6 +4276,8 @@
 			children = (
 				53449D3723293E3600A470E2 /* Base */,
 				53935B13238AF95900D77FD1 /* en-GB */,
+				5355A261238D632A0043F852 /* hi */,
+				5355A270238D636A0043F852 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -4266,6 +4287,8 @@
 			children = (
 				53449D3C23293E3700A470E2 /* Base */,
 				53935B14238AF95900D77FD1 /* en-GB */,
+				5355A262238D632A0043F852 /* hi */,
+				5355A271238D636A0043F852 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -4275,6 +4298,8 @@
 			children = (
 				53733C122382B3E9006F260E /* Base */,
 				53935B15238AF95A00D77FD1 /* en-GB */,
+				5355A263238D632A0043F852 /* hi */,
+				5355A26D238D63630043F852 /* zh-Hans */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -4284,6 +4309,8 @@
 			children = (
 				53733CCD2382DC50006F260E /* Base */,
 				53935B16238AF95A00D77FD1 /* en-GB */,
+				5355A264238D632B0043F852 /* hi */,
+				5355A26E238D63640043F852 /* zh-Hans */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -4293,6 +4320,7 @@
 			children = (
 				53733D66238301A5006F260E /* en */,
 				53733D6B238301A5006F260E /* Base */,
+				5355A267238D632B0043F852 /* hi */,
 			);
 			name = TOCropViewControllerLocalizable.strings;
 			sourceTree = "<group>";
@@ -4302,6 +4330,8 @@
 			children = (
 				53935959238866B400D77FD1 /* Base */,
 				53935B17238AF95A00D77FD1 /* en-GB */,
+				5355A265238D632B0043F852 /* hi */,
+				5355A26F238D63640043F852 /* zh-Hans */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";
@@ -4311,6 +4341,8 @@
 			children = (
 				53935B11238AF94C00D77FD1 /* en */,
 				53935B18238AF95C00D77FD1 /* en-GB */,
+				5355A266238D632B0043F852 /* hi */,
+				5355A272238D636A0043F852 /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

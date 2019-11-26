@@ -376,6 +376,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
         }
+        if UserDefaults.standard.value(forKey: "sync-chosenKeyboard") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-chosenKeyboard")
+        }
         if UserDefaults.standard.value(forKey: "filterTimelines") == nil {
             UserDefaults.standard.set(0, forKey: "filterTimelines")
         }

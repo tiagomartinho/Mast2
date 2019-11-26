@@ -35,7 +35,11 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         self.textView.isUserInteractionEnabled = true
         self.textView.isScrollEnabled = true
         self.textView.textContainerInset = UIEdgeInsets(top: 10, left: 18, bottom: 10, right: 18)
-        self.textView.keyboardType = .twitter
+        if UserDefaults.standard.value(forKey: "sync-chosenKeyboard") as? Int == 0 {
+            self.textView.keyboardType = .default
+        } else {
+            self.textView.keyboardType = .twitter
+        }
         contentView.addSubview(self.textView)
         
         let layout = ColumnFlowLayout3(

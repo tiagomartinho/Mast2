@@ -31,7 +31,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized]
-    let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
+    let secondSection = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized, "Default Keyboard".localized, "Default Browser".localized, "Default Scan Mode".localized, "Siri Shortcuts".localized, "\("App Lock".localized)"]
     let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Get in Touch".localized]
@@ -298,15 +298,18 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.accessoryView = switchView
                 cell.selectionStyle = .none
             } else if indexPath.row == 2 {
-                cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
+                cell.imageView?.image = UIImage(systemName: "keyboard", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else if indexPath.row == 3 {
-                cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
+                cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else if indexPath.row == 4 {
-                cell.imageView?.image = UIImage(systemName: "doc.text.viewfinder", withConfiguration: symbolConfig) ?? UIImage()
+                cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else if indexPath.row == 5 {
+                cell.imageView?.image = UIImage(systemName: "doc.text.viewfinder", withConfiguration: symbolConfig) ?? UIImage()
+                cell.accessoryType = .none
+            } else if indexPath.row == 6 {
                 cell.imageView?.image = UIImage(systemName: "mic", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else {
@@ -406,6 +409,20 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             if indexPath.row == 4 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
+                    let vc = KeyboardSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = IAPSettingsViewController()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                #elseif targetEnvironment(macCatalyst)
+                let vc = KeyboardSettingsViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+                #endif
+            }
+            if indexPath.row == 5 {
+                #if !targetEnvironment(macCatalyst)
+                if GlobalStruct.iapPurchased {
                     let vc = ScanSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
@@ -417,7 +434,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
                 #endif
             }
-            if indexPath.row == 5 {
+            if indexPath.row == 6 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
                     let vc = ShortcutsSettingsViewController()
@@ -431,7 +448,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
                 #endif
             }
-            if indexPath.row == 6 {
+            if indexPath.row == 7 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
                     let vc = LockSettingsViewController()

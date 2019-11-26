@@ -120,7 +120,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         textView.font = UIFont.systemFont(ofSize: 16)
         textView.backgroundColor = UIColor(named: "lighterBaseWhite")!
         textView.delegate = self
-        textView.keyboardType = .twitter
+        textView.keyboardType = .default
         self.view.addSubview(textView)
         
         let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
