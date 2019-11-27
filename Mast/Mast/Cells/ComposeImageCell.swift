@@ -46,12 +46,12 @@ class ComposeImageCell: UICollectionViewCell {
         self.videoOverlay.layer.shadowOpacity = 0.18
         contentView.addSubview(videoOverlay)
         
-        self.percentage.frame = CGRect(x: -10, y: -10, width: 26, height: 26)
+        self.percentage.frame = CGRect(x: -10, y: -10, width: 28, height: 28)
         self.percentage.setTitle("0", for: .normal)
         self.percentage.setTitleColor(GlobalStruct.baseTint, for: .normal)
         self.percentage.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .heavy)
         self.percentage.backgroundColor = GlobalStruct.baseDarkTint
-        self.percentage.layer.cornerRadius = 13
+        self.percentage.layer.cornerRadius = 14
         self.percentage.alpha = 0
         contentView.addSubview(percentage)
     }
