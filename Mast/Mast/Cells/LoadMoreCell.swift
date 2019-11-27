@@ -25,6 +25,7 @@ class LoadMoreCell: UITableViewCell {
         
         content.translatesAutoresizingMaskIntoConstraints = false
         content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.34)
+        content.text = "Load More".localized
         content.textAlignment = .center
         content.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
         content.isUserInteractionEnabled = false

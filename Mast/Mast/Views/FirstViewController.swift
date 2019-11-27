@@ -1887,7 +1887,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
-                if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+                if self.statusesHome[indexPath.row].id == "loadmorehere" {
                     return nil
                 }
                 return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath, tableView: self.tableView)
