@@ -2048,11 +2048,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 }
             }
             let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
-                let request = Statuses.delete(id: status[indexPath.row].id)
+                let request = Statuses.delete(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     DispatchQueue.main.async {
                         let vc = TootViewController()
-                        vc.duplicateStatus = [status[indexPath.row]]
+                        vc.duplicateStatus = [status.first!]
                         self.show(UINavigationController(rootViewController: vc), sender: self)
                     }
                 }
@@ -2060,7 +2060,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             del1.attributes = .destructive
             let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
                 ViewController().showNotifBanner("Deleted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.delete(id: status[indexPath.row].id)
+                let request = Statuses.delete(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     DispatchQueue.main.async {
                     
