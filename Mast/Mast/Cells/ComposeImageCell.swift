@@ -60,7 +60,7 @@ class ComposeImageCell: UICollectionViewCell {
         let perc = percent * 100
         if perc == 100 {
             self.percentage.setTitle("100", for: .normal)
-            UIView.animate(withDuration: 0.2, delay: 0.25, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.16, delay: 0.3, options: .curveEaseOut, animations: {
                 self.percentage.alpha = 0
             }) { (completed: Bool) in
             }
