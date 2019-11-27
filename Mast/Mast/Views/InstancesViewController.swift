@@ -459,38 +459,6 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
             self.show(UINavigationController(rootViewController: vc), sender: self)
             #endif
         }
-        var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
-            ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-            let request = Statuses.reblog(id: status.first?.id ?? "")
-            GlobalStruct.client.run(request) { (statuses) in
-                
-            }
-        }
-        if status.first?.reblogged ?? false {
-            boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
-                ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.unreblog(id: status.first?.id ?? "")
-                GlobalStruct.client.run(request) { (statuses) in
-                    
-                }
-            }
-        }
-        var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
-            ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-            let request = Statuses.favourite(id: status.first?.id ?? "")
-            GlobalStruct.client.run(request) { (statuses) in
-                
-            }
-        }
-        if status.first?.favourited ?? false {
-            like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
-                ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.unfavourite(id: status.first?.id ?? "")
-                GlobalStruct.client.run(request) { (statuses) in
-                    
-                }
-            }
-        }
         let shar = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
             self.shareThis(status)
         }
@@ -540,65 +508,8 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         repo3.attributes = .destructive
         
         let rep = UIMenu(__title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil, options: [.destructive], children: [repo1, repo2, repo3])
-        
-        if GlobalStruct.currentUser.id == (status.first?.account.id ?? "") {
-            
-            let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
-                ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.pin(id: status.first?.id ?? "")
-                GlobalStruct.client.run(request) { (statuses) in
-                    if let stat = statuses.value {
-                        DispatchQueue.main.async {
-                            
-                        }
-                    }
-                }
-            }
-            let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
-                ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.unpin(id: status.first?.id ?? "")
-                GlobalStruct.client.run(request) { (statuses) in
-                    if let stat = statuses.value {
-                        DispatchQueue.main.async {
-                            
-                        }
-                    }
-                }
-            }
-            let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
-                let request = Statuses.delete(id: status[indexPath.row].id)
-                GlobalStruct.client.run(request) { (statuses) in
-                    DispatchQueue.main.async {
-                        let vc = TootViewController()
-                        vc.duplicateStatus = [status[indexPath.row]]
-                        self.show(UINavigationController(rootViewController: vc), sender: self)
-                    }
-                }
-            }
-            del1.attributes = .destructive
-            let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-                ViewController().showNotifBanner("Deleted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                let request = Statuses.delete(id: status[indexPath.row].id)
-                GlobalStruct.client.run(request) { (statuses) in
-                    DispatchQueue.main.async {
-                    
-                    }
-                }
-            }
-            del2.attributes = .destructive
-            
-            if GlobalStruct.allPinned.contains(status.first!) {
-                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2])
-                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
-            } else {
-                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2])
-                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
-            }
-            
-        } else {
-            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
-            return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
-        }
+        let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, shar, more])
     }
     
     func shareThis(_ stat: [Status]) {
