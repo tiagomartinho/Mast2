@@ -13,6 +13,7 @@ class ComposeImageCell: UICollectionViewCell {
     
     var image = UIImageView()
     var videoOverlay = UIImageView()
+    var percentage = UIButton()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,12 +40,30 @@ class ComposeImageCell: UICollectionViewCell {
         self.videoOverlay.contentMode = .scaleAspectFit
         self.videoOverlay.image = UIImage(systemName: "play.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
         self.videoOverlay.alpha = 0
-
         self.videoOverlay.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
         self.videoOverlay.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.videoOverlay.layer.shadowRadius = 14
         self.videoOverlay.layer.shadowOpacity = 0.18
-        
         contentView.addSubview(videoOverlay)
+        
+        self.percentage.frame = CGRect(x: -10, y: -10, width: 28, height: 28)
+        self.percentage.setTitle("0%", for: .normal)
+        self.percentage.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
+        self.percentage.titleLabel?.font = UIFont.boldSystemFont(ofSize: 11)
+        self.percentage.backgroundColor = GlobalStruct.baseTint
+        self.percentage.layer.cornerRadius = 14
+        self.percentage.alpha = 0
+        contentView.addSubview(percentage)
+    }
+    
+    public func configurePercent(_ percent: Double) {
+        let perc = percent * 100
+        if perc == 100 {
+            self.percentage.setTitle("100%", for: .normal)
+            self.percentage.alpha = 0
+        } else {
+            self.percentage.setTitle("\(Int(perc))%", for: .normal)
+            self.percentage.alpha = 1
+        }
     }
 }

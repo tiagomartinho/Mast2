@@ -202,6 +202,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    @objc func imagePercentage() {
+        DispatchQueue.main.async {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                if let ce = cell.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {
+                    print(GlobalStruct.imagePercentage)
+                    ce.configurePercent(GlobalStruct.imagePercentage)
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
@@ -226,6 +237,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.becomeFirst), name: NSNotification.Name(rawValue: "becomeFirst"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.pollAdded), name: NSNotification.Name(rawValue: "pollAdded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.imagePercentage), name: NSNotification.Name(rawValue: "imagePercentage"), object: nil)
         
         if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
             GlobalStruct.allDrafts = x

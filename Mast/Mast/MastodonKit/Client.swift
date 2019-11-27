@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Client: ClientType {
+public class Client: ClientType {
     let baseURL: String
     let session: URLSession
 //    enum Constant: String {
@@ -19,7 +19,12 @@ public struct Client: ClientType {
 //    }()
     public var accessToken: String?
 
-    public init(baseURL: String, accessToken: String? = nil, session: URLSession = .shared) {
+    private var observation: NSKeyValueObservation?
+    deinit {
+      observation?.invalidate()
+    }
+
+    required public init(baseURL: String, accessToken: String? = nil, session: URLSession = .shared) {
         self.baseURL = baseURL
         self.session = session
         self.accessToken = accessToken
@@ -63,6 +68,11 @@ public struct Client: ClientType {
             }
 
             completion(.success(model, httpResponse.pagination))
+        }
+            
+        self.observation = task.progress.observe(\.fractionCompleted) { progress, _ in
+            GlobalStruct.imagePercentage = progress.fractionCompleted
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "imagePercentage"), object: self)
         }
 
         task.resume()

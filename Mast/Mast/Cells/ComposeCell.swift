@@ -107,10 +107,6 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             cell.image.backgroundColor = GlobalStruct.baseDarkTint
             cell.image.layer.cornerRadius = 5
             cell.image.layer.masksToBounds = true
-//            cell.image.layer.borderColor = UIColor.black.cgColor
-//            cell.image.frame.size.width = 160
-//            cell.image.frame.size.height = 120
-//            cell.bgImage.layer.masksToBounds = false
         }
         cell.backgroundColor = UIColor.clear
         return cell
