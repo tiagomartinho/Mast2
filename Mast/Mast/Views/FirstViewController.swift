@@ -1775,16 +1775,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
-                return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath, tableView: self.tableView)
             } else if tableView == self.tableViewL {
-                return self.makeContextMenu([self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]], indexPath: indexPath, tableView: self.tableViewL)
             } else {
-                return self.makeContextMenu([self.statusesFed[indexPath.row].reblog ?? self.statusesFed[indexPath.row]], indexPath: indexPath)
+                return self.makeContextMenu([self.statusesFed[indexPath.row].reblog ?? self.statusesFed[indexPath.row]], indexPath: indexPath, tableView: self.tableViewF)
             }
         })
     }
     
-    func makeContextMenu(_ status: [Status], indexPath: IndexPath) -> UIMenu {
+    func makeContextMenu(_ status: [Status], indexPath: IndexPath, tableView: UITableView) -> UIMenu {
         let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
         #if targetEnvironment(macCatalyst)
         GlobalStruct.macWindow = 2
@@ -1817,20 +1817,26 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-//            GlobalStruct.allLikedStatuses.append(status.first?.id ?? "")
-//            if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
-//
-//            } else if let cell = self.tableView.cellForRow(at: indexPath) as? TootImageCell {
-//
-//            }
+            GlobalStruct.allLikedStatuses.append(status.first?.id ?? "")
+            if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
+                cell.configure(status.first!)
+            } else if let cell = tableView.cellForRow(at: indexPath) as? TootImageCell {
+                cell.configure(status.first!)
+            }
             let request = Statuses.favourite(id: status.first?.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 
             }
         }
-        if status.first?.favourited ?? false {
+        if status.first?.favourited ?? false || GlobalStruct.allLikedStatuses.contains(status.first?.reblog?.id ?? status.first?.id ?? "") {
             like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                GlobalStruct.allLikedStatuses = GlobalStruct.allLikedStatuses.filter{$0 != status.first?.id ?? ""}
+                if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
+                    cell.configure(status.first!)
+                } else if let cell = tableView.cellForRow(at: indexPath) as? TootImageCell {
+                    cell.configure(status.first!)
+                }
                 let request = Statuses.unfavourite(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     
