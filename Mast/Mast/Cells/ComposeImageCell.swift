@@ -46,26 +46,34 @@ class ComposeImageCell: UICollectionViewCell {
         self.videoOverlay.layer.shadowOpacity = 0.18
         contentView.addSubview(videoOverlay)
         
-        self.percentage.frame = CGRect(x: -10, y: -10, width: 28, height: 28)
-        self.percentage.setTitle("0", for: .normal)
-        self.percentage.setTitleColor(GlobalStruct.baseTint, for: .normal)
-        self.percentage.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .heavy)
-        self.percentage.backgroundColor = GlobalStruct.baseDarkTint
-        self.percentage.layer.cornerRadius = 14
+//        self.percentage.frame = CGRect(x: -10, y: -10, width: 28, height: 28)
+        self.percentage.frame = self.image.frame
+        self.percentage.setTitle("0%", for: .normal)
+        self.percentage.setTitleColor(UIColor.white, for: .normal)
+        self.percentage.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
+        self.percentage.titleLabel?.textAlignment = .center
+        self.percentage.contentHorizontalAlignment = .center
+        self.percentage.backgroundColor = GlobalStruct.baseTint.withAlphaComponent(0.4)
+        self.percentage.layer.cornerRadius = 5
         self.percentage.alpha = 0
+        self.percentage.titleLabel?.layer.shadowRadius = 8
+        self.percentage.titleLabel?.layer.shadowColor = UIColor.black.cgColor
+        self.percentage.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 4)
+        self.percentage.titleLabel?.layer.shadowOpacity = 0.3
+        self.percentage.titleLabel?.layer.masksToBounds = false
         contentView.addSubview(percentage)
     }
     
     public func configurePercent(_ percent: Double) {
         let perc = percent * 100
         if perc == 100 {
-            self.percentage.setTitle("100", for: .normal)
+            self.percentage.setTitle("100%", for: .normal)
             UIView.animate(withDuration: 0.16, delay: 0.3, options: .curveEaseOut, animations: {
                 self.percentage.alpha = 0
             }) { (completed: Bool) in
             }
         } else {
-            self.percentage.setTitle("\(Int(perc))", for: .normal)
+            self.percentage.setTitle("\(Int(perc))%", for: .normal)
             self.percentage.alpha = 1
         }
     }
