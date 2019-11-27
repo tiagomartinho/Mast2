@@ -46,7 +46,6 @@ class ComposeImageCell: UICollectionViewCell {
         self.videoOverlay.layer.shadowOpacity = 0.18
         contentView.addSubview(videoOverlay)
         
-//        self.percentage.frame = CGRect(x: -10, y: -10, width: 28, height: 28)
         self.percentage.frame = self.image.frame
         self.percentage.setTitle("0%", for: .normal)
         self.percentage.setTitleColor(UIColor.white, for: .normal)
