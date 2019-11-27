@@ -828,6 +828,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
                                 heights += cell.bounds.height
                             }
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
+                                heights += cell.bounds.height
+                            }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
@@ -879,10 +882,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         }) { (completed: Bool) in
                         }
                         
-                        self.gapLastID = stat.last?.id ?? ""
-                        let z = stat.last!
-                        z.id = "loadmorehere"
-                        self.gapLastStat = z
+                        if self.statusesHome.contains(stat.last!) {
+                            
+                        } else {
+                            self.gapLastID = stat.last?.id ?? ""
+                            let z = stat.last!
+                            z.id = "loadmorehere"
+                            self.gapLastStat = z
+                        }
                         
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
@@ -893,6 +900,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         var heights: CGFloat = 0
                         let _ = indexPaths.map {
                             if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
+                                heights += cell.bounds.height
+                            }
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
                                 heights += cell.bounds.height
                             }
                         }
@@ -956,6 +966,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             if let cell = self.tableViewL.cellForRow(at: $0) as? TootCell {
                                 heights += cell.bounds.height
                             }
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
+                                heights += cell.bounds.height
+                            }
                         }
                         self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
@@ -1015,6 +1028,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         var heights: CGFloat = 0
                         let _ = indexPaths.map {
                             if let cell = self.tableViewF.cellForRow(at: $0) as? TootCell {
+                                heights += cell.bounds.height
+                            }
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
                                 heights += cell.bounds.height
                             }
                         }

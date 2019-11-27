@@ -358,6 +358,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                             if let cell = self.tableView.cellForRow(at: $0) as? NotificationsCell {
                                 heights += cell.bounds.height
                             }
+                            if let cell = self.tableView.cellForRow(at: $0) as? NotificationsImageCell {
+                                heights += cell.bounds.height
+                            }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)

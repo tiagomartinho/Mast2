@@ -210,6 +210,9 @@ class BlockedViewController: UIViewController, UITextFieldDelegate, UITableViewD
                             if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
                                 heights += cell.bounds.height
                             }
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
+                                heights += cell.bounds.height
+                            }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
                         self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
