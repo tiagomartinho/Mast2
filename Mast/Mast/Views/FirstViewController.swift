@@ -812,10 +812,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         
                         let y = self.statusesHome.split(separator: self.gapLastStat ?? self.statusesHome.last!)
                         
-                        self.gapLastID = stat.last?.id ?? ""
-                        let z = stat.last!
-                        z.id = "loadmorehere"
-                        self.gapLastStat = z
+                        if self.statusesHome.contains(stat.last!) || stat.count < 19 {
+                            
+                        } else {
+                            self.gapLastID = stat.last?.id ?? ""
+                            let z = stat.last!
+                            z.id = "loadmorehere"
+                            self.gapLastStat = z
+                        }
                         
                         let indexPaths = ((y.first?.count ?? 0)..<(stat.count + (y.first?.count ?? 0) - 1)).map {
                             IndexPath(row: $0, section: 0)
@@ -885,7 +889,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         }) { (completed: Bool) in
                         }
                         
-                        if self.statusesHome.contains(stat.last!) {
+                        if self.statusesHome.contains(stat.last!) || stat.count < 19 {
                             
                         } else {
                             self.gapLastID = stat.last?.id ?? ""

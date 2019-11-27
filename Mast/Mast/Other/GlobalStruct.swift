@@ -86,6 +86,7 @@ class GlobalStruct {
     static var thePassedID = ""
     
     static var imagePercentage: Double = 0
+    static var isImageUploading: Bool = false
 }
 
 class PaddedTextField: UITextField {

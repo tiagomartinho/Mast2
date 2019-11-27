@@ -177,8 +177,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
 //                for x in GlobalStruct.photoToAttachArray {
                     let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
+                            GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }
@@ -1240,8 +1242,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
 //                for x in GlobalStruct.gifVidDataToAttachArray {
                     let request = Media.upload(media: .mp3(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
+                    GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
+                            GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }
@@ -1272,8 +1276,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
 //                for x in GlobalStruct.photoToAttachArray {
                     let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
+                            GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }
@@ -1326,23 +1332,29 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if UserDefaults.standard.value(forKey: "sync-uploadgif") as? Int != nil {
                         if UserDefaults.standard.value(forKey: "sync-uploadgif") as? Int == 0 {
                             let request = Media.upload(media: .gif(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
+                            GlobalStruct.isImageUploading = true
                             GlobalStruct.client.run(request) { (statuses) in
                                 if let stat = (statuses.value) {
+                                    GlobalStruct.isImageUploading = false
                                     GlobalStruct.mediaIDs.append(stat.id)
                                 }
                             }
                         } else {
                             let request = Media.upload(media: .video(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
+                            GlobalStruct.isImageUploading = true
                             GlobalStruct.client.run(request) { (statuses) in
                                 if let stat = (statuses.value) {
+                                    GlobalStruct.isImageUploading = false
                                     GlobalStruct.mediaIDs.append(stat.id)
                                 }
                             }
                         }
                     } else {
                         let request = Media.upload(media: .gif(GlobalStruct.gifVidDataToAttachArray.last ?? Data()))
+                        GlobalStruct.isImageUploading = true
                         GlobalStruct.client.run(request) { (statuses) in
                             if let stat = (statuses.value) {
+                                GlobalStruct.isImageUploading = false
                                 GlobalStruct.mediaIDs.append(stat.id)
                             }
                         }
@@ -1374,8 +1386,10 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         GlobalStruct.mediaIDs = []
                     }
                     let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
+                            GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
                         }
                     }

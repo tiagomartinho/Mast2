@@ -11,71 +11,75 @@ import Foundation
 public class Client: ClientType {
     let baseURL: String
     let session: URLSession
-//    enum Constant: String {
-//        case sessionID = "com.shi.Mast.bgSession"
-//    }
-//    var session: URLSession = {
-//        return URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: .main)
-//    }()
+    //    enum Constant: String {
+    //        case sessionID = "com.shi.Mast.bgSession"
+    //    }
+    //    var session: URLSession = {
+    //        return URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: .main)
+    //    }()
     public var accessToken: String?
-
+    
     private var observation: NSKeyValueObservation?
     deinit {
-      observation?.invalidate()
+        observation?.invalidate()
     }
-
+    
     required public init(baseURL: String, accessToken: String? = nil, session: URLSession = .shared) {
         self.baseURL = baseURL
         self.session = session
         self.accessToken = accessToken
     }
-
+    
     public func run<Model>(_ request: Request<Model>, completion: @escaping (Result1<Model>) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
-        guard
-            let components = URLComponents(baseURL: self.baseURL, request: request),
-            let url = components.url
-            else {
-                completion(.failure(ClientError.malformedURL))
-                return
-        }
-
-        let urlRequest = URLRequest(url: url, request: request, accessToken: self.accessToken)
-        let task = self.session.dataTask(with: urlRequest) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(ClientError.malformedJSON))
-                return
-            }
-
             guard
-                let httpResponse = response as? HTTPURLResponse,
-                httpResponse.statusCode == 200
+                let components = URLComponents(baseURL: self.baseURL, request: request),
+                let url = components.url
                 else {
-                    let mastodonError = try? MastodonError.decode(data: data)
-                    let error: ClientError = mastodonError.map { .mastodonError($0.description) } ?? .genericError
-                    completion(.failure(error))
+                    completion(.failure(ClientError.malformedURL))
                     return
             }
-
-            guard let model = try? Model.decode(data: data) else {
-                completion(.failure(ClientError.invalidModel))
-                return
-            }
-
-            completion(.success(model, httpResponse.pagination))
-        }
             
-        self.observation = task.progress.observe(\.fractionCompleted) { progress, _ in
-            GlobalStruct.imagePercentage = progress.fractionCompleted
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "imagePercentage"), object: self)
-        }
-
-        task.resume()
+            let urlRequest = URLRequest(url: url, request: request, accessToken: self.accessToken)
+            let task = self.session.dataTask(with: urlRequest) { data, response, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(ClientError.malformedJSON))
+                    return
+                }
+                
+                guard
+                    let httpResponse = response as? HTTPURLResponse,
+                    httpResponse.statusCode == 200
+                    else {
+                        let mastodonError = try? MastodonError.decode(data: data)
+                        let error: ClientError = mastodonError.map { .mastodonError($0.description) } ?? .genericError
+                        completion(.failure(error))
+                        return
+                }
+                
+                guard let model = try? Model.decode(data: data) else {
+                    completion(.failure(ClientError.invalidModel))
+                    return
+                }
+                
+                completion(.success(model, httpResponse.pagination))
+            }
+            
+            if GlobalStruct.isImageUploading {
+                self.observation = task.progress.observe(\.fractionCompleted) { progress, _ in
+                    if GlobalStruct.isImageUploading {
+                        GlobalStruct.imagePercentage = progress.fractionCompleted
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "imagePercentage"), object: self)
+                    }
+                }
+            }
+            
+            task.resume()
         }
     }
 }
