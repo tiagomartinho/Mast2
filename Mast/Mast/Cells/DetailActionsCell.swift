@@ -98,7 +98,7 @@ class DetailActionsCell: UITableViewCell {
         }
         
         if stat.visibility == .private {
-            button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.15), renderingMode: .alwaysOriginal), for: .normal)
+            button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.2), renderingMode: .alwaysOriginal), for: .normal)
         }
     }
     
