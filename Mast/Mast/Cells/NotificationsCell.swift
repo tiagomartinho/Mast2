@@ -206,6 +206,7 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
         if noti.status?.sensitive ?? false {
             if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
                 self.cwOverlay.alpha = 1
+                self.cwOverlay.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 if noti.status?.spoilerText ?? "" == "" {
                     self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
                 } else {

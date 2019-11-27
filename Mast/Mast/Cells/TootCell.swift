@@ -183,6 +183,7 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
         if stat.reblog?.sensitive ?? stat.sensitive ?? false {
             if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
                 self.cwOverlay.alpha = 1
+                self.cwOverlay.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 if stat.reblog?.spoilerText ?? stat.spoilerText == "" {
                     self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
                 } else {
