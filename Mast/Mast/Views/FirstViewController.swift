@@ -896,7 +896,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             let z = stat.last!
                             z.id = "loadmorehere"
                             self.gapLastStat = z
-                            print("lmh - \(z.id)")
                         }
                         
                         let indexPaths = (0..<stat.count).map {
