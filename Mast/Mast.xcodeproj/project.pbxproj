@@ -1045,6 +1045,12 @@
 		5355A272238D636A0043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5355A273238D65020043F852 /* KeyboardSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSettingsViewController.swift; sourceTree = "<group>"; };
 		5355A275238E8F260043F852 /* LoadMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreCell.swift; sourceTree = "<group>"; };
+		5355A277238E94ED0043F852 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		5355A278238E94EE0043F852 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		5355A279238E94EE0043F852 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		5355A27A238E94EE0043F852 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		5355A27B238E94EF0043F852 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Interface.strings; sourceTree = "<group>"; };
+		5355A27C238E94F20043F852 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBarChartsDisplayConfig.swift; sourceTree = "<group>"; };
 		53633DBC237AD4F800541F13 /* VCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCoreBarChart.swift; sourceTree = "<group>"; };
@@ -3341,6 +3347,7 @@
 				"en-GB",
 				hi,
 				"zh-Hans",
+				de,
 			);
 			mainGroup = 53449D2423293E3600A470E2;
 			packageReferences = (
@@ -4282,6 +4289,7 @@
 				53935B13238AF95900D77FD1 /* en-GB */,
 				5355A261238D632A0043F852 /* hi */,
 				5355A270238D636A0043F852 /* zh-Hans */,
+				5355A277238E94ED0043F852 /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -4293,6 +4301,7 @@
 				53935B14238AF95900D77FD1 /* en-GB */,
 				5355A262238D632A0043F852 /* hi */,
 				5355A271238D636A0043F852 /* zh-Hans */,
+				5355A278238E94EE0043F852 /* de */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -4304,6 +4313,7 @@
 				53935B15238AF95A00D77FD1 /* en-GB */,
 				5355A263238D632A0043F852 /* hi */,
 				5355A26D238D63630043F852 /* zh-Hans */,
+				5355A279238E94EE0043F852 /* de */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -4315,6 +4325,7 @@
 				53935B16238AF95A00D77FD1 /* en-GB */,
 				5355A264238D632B0043F852 /* hi */,
 				5355A26E238D63640043F852 /* zh-Hans */,
+				5355A27A238E94EE0043F852 /* de */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -4336,6 +4347,7 @@
 				53935B17238AF95A00D77FD1 /* en-GB */,
 				5355A265238D632B0043F852 /* hi */,
 				5355A26F238D63640043F852 /* zh-Hans */,
+				5355A27B238E94EF0043F852 /* de */,
 			);
 			name = Interface.storyboard;
 			sourceTree = "<group>";
@@ -4347,6 +4359,7 @@
 				53935B18238AF95C00D77FD1 /* en-GB */,
 				5355A266238D632B0043F852 /* hi */,
 				5355A272238D636A0043F852 /* zh-Hans */,
+				5355A27C238E94F20043F852 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
