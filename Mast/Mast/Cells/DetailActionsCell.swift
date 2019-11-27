@@ -96,6 +96,10 @@ class DetailActionsCell: UITableViewCell {
         if stat.reblogged ?? false {
             button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         }
+        
+        if stat.visibility == .private {
+            button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.15), renderingMode: .alwaysOriginal), for: .normal)
+        }
     }
     
     func toggleLikeOn(_ stat: Status) {

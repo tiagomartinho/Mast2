@@ -633,22 +633,26 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func boostTapped() {
-        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-            impactFeedbackgenerator.prepare()
-            impactFeedbackgenerator.impactOccurred()
-        }
-        if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                cell.toggleBoostOff(self.pickedStatusesHome[0])
-                self.isBoosted = false
-            }
+        if self.pickedStatusesHome[0].visibility == .private {
+            
         } else {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                cell.toggleBoostOn(self.pickedStatusesHome[0])
-                self.isBoosted = true
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
+            if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                    ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                    cell.toggleBoostOff(self.pickedStatusesHome[0])
+                    self.isBoosted = false
+                }
+            } else {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                    ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                    cell.toggleBoostOn(self.pickedStatusesHome[0])
+                    self.isBoosted = true
+                }
             }
         }
     }
@@ -1169,15 +1173,27 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             
             if GlobalStruct.allPinned.contains(status.first!) {
                 let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2])
-                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                if status.first!.visibility == .private {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+                } else {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                }
             } else {
                 let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2])
-                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                if status.first!.visibility == .private {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+                } else {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                }
             }
             
         } else {
             let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
-            return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            if status.first!.visibility == .private {
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+            } else {
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            }
         }
     }
     

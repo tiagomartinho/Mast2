@@ -2068,18 +2068,29 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 }
             }
             del2.attributes = .destructive
-            
             if GlobalStruct.allPinned.contains(status.first!) {
                 let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2])
-                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                if status.first!.visibility == .private {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+                } else {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                }
             } else {
                 let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2])
-                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                if status.first!.visibility == .private {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+                } else {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                }
             }
             
         } else {
             let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
-            return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            if status.first!.visibility == .private {
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+            } else {
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            }
         }
     }
     
