@@ -111,6 +111,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         GlobalStruct.gifVidDataToAttachArrayImage = []
         GlobalStruct.photoToAttachArrayImage = []
         GlobalStruct.mediaIDs = []
+        GlobalStruct.isImageUploading = false
     }
     
     @objc func pollAdded() {
@@ -205,11 +206,13 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func imagePercentage() {
-        DispatchQueue.main.async {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if let ce = cell.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {
-                    print(GlobalStruct.imagePercentage)
-                    ce.configurePercent(GlobalStruct.imagePercentage)
+        if GlobalStruct.isImageUploading {
+            DispatchQueue.main.async {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                    if let ce = cell.collectionView1.cellForItem(at: IndexPath(item: 0, section: 0)) as? ComposeImageCell {
+                        print(GlobalStruct.imagePercentage)
+                        ce.configurePercent(GlobalStruct.imagePercentage)
+                    }
                 }
             }
         }
