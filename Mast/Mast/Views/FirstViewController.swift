@@ -1870,10 +1870,14 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
             if tableView == self.tableView {
-                let vc = DetailViewController()
-                vc.fromContextMenu = true
-                vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
-                return vc
+                if self.statusesHome[indexPath.row].id == "loadmorehere" {
+                    return nil
+                } else {
+                    let vc = DetailViewController()
+                    vc.fromContextMenu = true
+                    vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
+                    return vc
+                }
             } else if tableView == self.tableViewL {
                 let vc = DetailViewController()
                 vc.fromContextMenu = true
@@ -1889,8 +1893,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             if tableView == self.tableView {
                 if self.statusesHome[indexPath.row].id == "loadmorehere" {
                     return nil
+                } else {
+                    return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath, tableView: self.tableView)
                 }
-                return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath, tableView: self.tableView)
             } else if tableView == self.tableViewL {
                 return self.makeContextMenu([self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]], indexPath: indexPath, tableView: self.tableViewL)
             } else {
