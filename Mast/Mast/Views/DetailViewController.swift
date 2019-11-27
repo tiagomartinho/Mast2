@@ -661,12 +661,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
         if self.pickedStatusesHome.first?.favourited ?? false || self.isLiked {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                GlobalStruct.allLikedStatuses = GlobalStruct.allLikedStatuses.filter{$0 != self.pickedStatusesHome.first?.id ?? ""}
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleLikeOff(self.pickedStatusesHome[0])
                 self.isLiked = false
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                GlobalStruct.allLikedStatuses.append(self.pickedStatusesHome.first?.id ?? "")
                 ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleLikeOn(self.pickedStatusesHome[0])
                 self.isLiked = true
