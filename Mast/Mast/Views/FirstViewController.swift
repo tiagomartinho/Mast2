@@ -57,6 +57,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var altInstances: [String] = []
     var fullWid = UIScreen.main.bounds.width
     var fullHe = UIScreen.main.bounds.height
+    var gapLastID = ""
+    var gapLastStat: Status? = nil
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("active: \(activationState)")
@@ -446,6 +448,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "loadmore")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -789,6 +792,75 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         task.resume()
     }
     
+    func fetchGap() {
+        let request = Timelines.home(range: .max(id: self.gapLastID, limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top1.alpha = 1
+                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
+                        
+                        let y = self.statusesHome.split(separator: self.gapLastStat ?? self.statusesHome.last!)
+                        
+                        self.gapLastID = stat.last?.id ?? ""
+                        let z = stat.last!
+                        z.id = "loadmorehere"
+                        self.gapLastStat = z
+                        
+                        let indexPaths = ((y.first?.count ?? 0)..<(stat.count + (y.first?.count ?? 0) - 1)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        self.statusesHome = y.first! + stat + y.last!
+                        self.tableView.beginUpdates()
+                        UIView.setAnimationsEnabled(false)
+                        var heights: CGFloat = 0
+                        let _ = indexPaths.map {
+                            if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
+                                heights += cell.bounds.height
+                            }
+                        }
+                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableView.endUpdates()
+                        UIView.setAnimationsEnabled(true)
+
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
+                                if stat.reblog == nil {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
+                                if stat.mediaAttachments.isEmpty {
+                                    return false
+                                } else {
+                                    return true
+                                }
+                            })
+                            self.tableView.reloadData()
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
     @objc func refresh(_ sender: AnyObject) {
         let request = Timelines.home(range: .since(id: self.statusesHome.first?.id ?? "", limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
@@ -806,6 +878,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
                         }) { (completed: Bool) in
                         }
+                        
+                        self.gapLastID = stat.last?.id ?? ""
+                        let z = stat.last!
+                        z.id = "loadmorehere"
+                        self.gapLastStat = z
+                        
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
@@ -1147,7 +1225,18 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             cell.selectedBackgroundView = bgColorView
             return cell
         } else if tableView == self.tableView {
-            if self.statusesHome[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesHome[indexPath.row].mediaAttachments.isEmpty {
+            if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+
+                let cell = tableView.dequeueReusableCell(withIdentifier: "loadmore", for: indexPath)
+                cell.backgroundColor = UIColor(named: "lighterBaseWhite")!
+                let descriptionSideString = NSMutableAttributedString(string: "Load More", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.3), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.textLabel?.attributedText = descriptionSideString
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+                
+            } else if self.statusesHome[indexPath.row].reblog?.mediaAttachments.isEmpty ?? self.statusesHome[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
                 if self.statusesHome.isEmpty {} else {
                     cell.configure(self.statusesHome[indexPath.row])
@@ -1708,9 +1797,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
             
         } else if tableView == self.tableView {
-            let vc = DetailViewController()
-            vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
-            self.navigationController?.pushViewController(vc, animated: true)
+            if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+                self.fetchGap()
+            } else {
+                let vc = DetailViewController()
+                vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         } else if tableView == self.tableViewL {
             let vc = DetailViewController()
             vc.pickedStatusesHome = [self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]]
@@ -1775,6 +1868,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
+                if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+                    return nil
+                }
                 return self.makeContextMenu([self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]], indexPath: indexPath, tableView: self.tableView)
             } else if tableView == self.tableViewL {
                 return self.makeContextMenu([self.statusesLocal[indexPath.row].reblog ?? self.statusesLocal[indexPath.row]], indexPath: indexPath, tableView: self.tableViewL)
