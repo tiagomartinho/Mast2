@@ -1372,12 +1372,12 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         op7.setValue(UIImage(systemName: "text.badge.plus")!, forKey: "image")
         op7.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op7)
-//        let op10 = UIAlertAction(title: "Disable Boosts".localized, style: .default , handler:{ (UIAlertAction) in
-//
-//        })
-//        op10.setValue(UIImage(systemName: "xmark")!, forKey: "image")
-//        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-//        alert.addAction(op10)
+        let op10 = UIAlertAction(title: "Translate".localized, style: .default , handler:{ (UIAlertAction) in
+            self.translateThis()
+        })
+        op10.setValue(UIImage(systemName: "globe")!, forKey: "image")
+        op10.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op10)
         let op11 = UIAlertAction(title: "Share Account".localized, style: .default , handler:{ (UIAlertAction) in
             let textToShare = [self.pickedCurrentUser.url]
             let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
@@ -1880,6 +1880,61 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func translateThis() {
+        let unreserved = "-._~/?"
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: unreserved)
+        let bodyText = self.pickedCurrentUser.note.stripHTML() ?? ""
+        let unreservedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+        let unreservedCharset = NSCharacterSet(charactersIn: unreservedChars)
+        var trans = bodyText.addingPercentEncoding(withAllowedCharacters: unreservedCharset as CharacterSet)
+        trans = trans!.replacingOccurrences(of: "\n\n", with: "%20")
+        let langStr = Locale.current.languageCode
+        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=\(langStr ?? "en")&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
+        guard let requestUrl = URL(string:urlString) else {
+            return
+        }
+        let request = URLRequest(url:requestUrl)
+        let task = URLSession.shared.dataTask(with: request) {
+            (data, response, error) in
+            if error == nil, let usableData = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
+                    var translatedText = ""
+                    for i in (json[0] as! [Any]) {
+                        translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                    }
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: nil, message: translatedText as? String ?? "Could not translate toot", preferredStyle: .actionSheet)
+                        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                            
+                        }))
+                        let paragraphStyle = NSMutableParagraphStyle()
+                        paragraphStyle.alignment = NSTextAlignment.left
+                        let messageText = NSMutableAttributedString(
+                            string: translatedText as? String ?? "Could not translate toot",
+                            attributes: [
+                                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                            ]
+                        )
+                        alert.setValue(messageText, forKey: "attributedMessage")
+                        if let presenter = alert.popoverPresentationController {
+                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                                presenter.sourceView = cell.button5
+                                presenter.sourceRect = cell.button5.bounds
+                            }
+                        }
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+        }
+        task.resume()
     }
     
     func translateThis(_ stat: [Status]) {
