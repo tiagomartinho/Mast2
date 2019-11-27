@@ -187,6 +187,7 @@
 		5355A24F238BFC030043F852 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A24E238BFC030043F852 /* SDWebImage */; settings = {ATTRIBUTES = (Required, ); }; };
 		5355A251238BFC030043F852 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A250238BFC030043F852 /* SDWebImageMapKit */; settings = {ATTRIBUTES = (Required, ); }; };
 		5355A274238D65020043F852 /* KeyboardSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A273238D65020043F852 /* KeyboardSettingsViewController.swift */; };
+		5355A276238E8F260043F852 /* LoadMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A275238E8F260043F852 /* LoadMoreCell.swift */; };
 		53633DB8237AB2B300541F13 /* DarkModeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */; };
 		53633DC3237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */; };
 		53633DC4237AD4F800541F13 /* VCoreBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53633DBC237AD4F800541F13 /* VCoreBarChart.swift */; };
@@ -1043,6 +1044,7 @@
 		5355A271238D636A0043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		5355A272238D636A0043F852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		5355A273238D65020043F852 /* KeyboardSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSettingsViewController.swift; sourceTree = "<group>"; };
+		5355A275238E8F260043F852 /* LoadMoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMoreCell.swift; sourceTree = "<group>"; };
 		53633DB7237AB2B300541F13 /* DarkModeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSettingsViewController.swift; sourceTree = "<group>"; };
 		53633DBB237AD4F800541F13 /* CoreBarChartsDisplayConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreBarChartsDisplayConfig.swift; sourceTree = "<group>"; };
 		53633DBC237AD4F800541F13 /* VCoreBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCoreBarChart.swift; sourceTree = "<group>"; };
@@ -2566,6 +2568,7 @@
 			children = (
 				5379F4102331115B00DC1F33 /* TootCell.swift */,
 				5344C0B9233790AC00EB3363 /* TootImageCell.swift */,
+				5355A275238E8F260043F852 /* LoadMoreCell.swift */,
 				53CC76C823797EE0005B4CF7 /* ScheduleCell.swift */,
 				53CC76CA23797EFE005B4CF7 /* ScheduleImageCell.swift */,
 				5379F41F2332346700DC1F33 /* DetailCell.swift */,
@@ -3702,6 +3705,7 @@
 				53733E1F23844E74006F260E /* ConstraintConfig.swift in Sources */,
 				5379F4222332349500DC1F33 /* DetailActionsCell.swift in Sources */,
 				53733D9A238301A5006F260E /* TOCropOverlayView.m in Sources */,
+				5355A276238E8F260043F852 /* LoadMoreCell.swift in Sources */,
 				53CC76C223796D55005B4CF7 /* VisibilitySettingsViewController.swift in Sources */,
 				53AF450423742F05001A3574 /* ListViewController.swift in Sources */,
 				53449DBF23294C1000A470E2 /* Tag.swift in Sources */,

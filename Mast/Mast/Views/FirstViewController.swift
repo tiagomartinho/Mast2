@@ -448,7 +448,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCell")
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "loadmore")
+        self.tableView.register(LoadMoreCell.self, forCellReuseIdentifier: "LoadMoreCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -1242,11 +1242,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             return cell
         } else if tableView == self.tableView {
             if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
-
-                let cell = tableView.dequeueReusableCell(withIdentifier: "loadmore", for: indexPath)
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreCell
                 cell.backgroundColor = UIColor(named: "lighterBaseWhite")!
-                let descriptionSideString = NSMutableAttributedString(string: "Load More", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.3), .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
-                cell.textLabel?.attributedText = descriptionSideString
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
                 cell.selectedBackgroundView = bgColorView
@@ -1814,6 +1812,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             
         } else if tableView == self.tableView {
             if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                    impactFeedbackgenerator.prepare()
+                    impactFeedbackgenerator.impactOccurred()
+                }
                 self.fetchGap()
             } else {
                 let vc = DetailViewController()
