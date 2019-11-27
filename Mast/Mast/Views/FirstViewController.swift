@@ -896,6 +896,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             let z = stat.last!
                             z.id = "loadmorehere"
                             self.gapLastStat = z
+                            print("lmh - \(z.id)")
                         }
                         
                         let indexPaths = (0..<stat.count).map {
@@ -1251,7 +1252,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             cell.selectedBackgroundView = bgColorView
             return cell
         } else if tableView == self.tableView {
-            if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+            if self.statusesHome[indexPath.row].id == "loadmorehere" {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreCell
                 cell.backgroundColor = UIColor(named: "lighterBaseWhite")!
@@ -1821,7 +1822,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
             
         } else if tableView == self.tableView {
-            if self.statusesHome[indexPath.row].reblog?.id ?? self.statusesHome[indexPath.row].id == "loadmorehere" {
+            if self.statusesHome[indexPath.row].id == "loadmorehere" {
                 if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
                     let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
                     impactFeedbackgenerator.prepare()
