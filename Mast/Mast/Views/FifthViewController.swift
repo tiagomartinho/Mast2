@@ -276,11 +276,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    self.pickedCurrentUser = stat.first!
-                    self.tableView.reloadSections(IndexSet([0]), with: .none)
-                    self.fetchMedia()
-                    self.fetchUserData()
-                    self.fetchLists()
+                    if let z = stat.first {
+                        self.pickedCurrentUser = z
+                        self.tableView.reloadSections(IndexSet([0]), with: .none)
+                        self.fetchMedia()
+                        self.fetchUserData()
+                        self.fetchLists()
+                    } else {
+                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
+                            cell.more.alpha = 0
+                            cell.following.alpha = 0
+                        }
+                    }
                 }
             }
         }
