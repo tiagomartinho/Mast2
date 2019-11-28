@@ -63,7 +63,7 @@ class ComposeImageCell: UICollectionViewCell {
         contentView.addSubview(percentage)
     }
     
-    public func configurePercent(_ percent: Double) {
+    public func configurePercent(_ percent: Float) {
         let perc = percent * 100
         if perc == 100 {
             self.percentage.setTitle("100%", for: .normal)

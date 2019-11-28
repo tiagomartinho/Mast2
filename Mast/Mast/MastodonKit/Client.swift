@@ -19,10 +19,10 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
         }()
     public var accessToken: String?
     
-    private var observation: NSKeyValueObservation?
-    deinit {
-        observation?.invalidate()
-    }
+//    private var observation: NSKeyValueObservation?
+//    deinit {
+//        observation?.invalidate()
+//    }
     
     required public init(baseURL: String, accessToken: String? = nil, session: URLSession = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: nil)) {
         self.baseURL = baseURL
@@ -93,8 +93,6 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
         if GlobalStruct.isImageUploading {
             GlobalStruct.imagePercentage = uploadProgress
             NotificationCenter.default.post(name: Notification.Name(rawValue: "imagePercentage"), object: self)
-        } else {
-            self.observation?.invalidate()
         }
     }
 }

@@ -85,7 +85,7 @@ class GlobalStruct {
     static var tappedImageText = ""
     static var thePassedID = ""
     
-    static var imagePercentage: Double = 0
+    static var imagePercentage: Float = 0
     static var isImageUploading: Bool = false
     
     static var tempListIndex = 0
