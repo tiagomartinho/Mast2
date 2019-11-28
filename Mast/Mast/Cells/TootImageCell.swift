@@ -12,7 +12,6 @@ import SDWebImage
 import AVKit
 import AVFoundation
 import ActiveLabel
-import SKPhotoBrowser
 
 class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource, SKPhotoBrowserDelegate {
     
@@ -513,7 +512,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 }
                 if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
                     let originImage = cell.image.image
-                    let browser = SKPhotoBrowser(originImage: originImage ?? UIImage(), photos: images, animatedFromView: cell)
+                    let browser = SKPhotoBrowser(originImage: originImage ?? UIImage(), photos: images, animatedFromView: cell, imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
                     browser.delegate = self
                     SKPhotoBrowserOptions.displayCounterLabel = false
                     SKPhotoBrowserOptions.displayBackAndForwardButton = false
@@ -521,6 +520,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                     SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
                     SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                     SKPhotoBrowserOptions.displayCloseButton = false
+                    SKPhotoBrowserOptions.displayStatusbar = false
                     browser.initializePageIndex(indexPath.row)
                     getTopMostViewController()?.present(browser, animated: true, completion: {})
                 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 public let SKPHOTO_LOADING_DID_END_NOTIFICATION = "photoLoadingDidEndNotification"
 
@@ -28,14 +29,14 @@ open class SKPhotoBrowser: UIViewController {
     // child component
     fileprivate var actionView: SKActionView!
     fileprivate(set) var paginationView: SKPaginationView!
-    var toolbar: SKToolbar!
+//    var toolbar: SKToolbar!
 
     // actions
     fileprivate var activityViewController: UIActivityViewController!
     fileprivate var panGesture: UIPanGestureRecognizer?
 
     // for status check property
-    fileprivate var isEndAnimationByToolBar: Bool = true
+//    fileprivate var isEndAnimationByToolBar: Bool = true
     fileprivate var isViewActive: Bool = false
     fileprivate var isPerformingLayout: Bool = false
     
@@ -54,6 +55,14 @@ open class SKPhotoBrowser: UIViewController {
     
     // strings
     open var cancelTitle = "Cancel"
+    
+    fileprivate let detailView = UIButton()
+    fileprivate let detailText = ActiveLabel()
+    fileprivate let detailView2 = UIButton()
+    fileprivate var imageText : String? = ""
+    fileprivate var imageText2 : Int? = 0
+    fileprivate var imageText3 : Int? = 0
+    fileprivate var imageText4 : String? = ""
 
     // MARK: - Initializer
     required public init?(coder aDecoder: NSCoder) {
@@ -71,12 +80,17 @@ open class SKPhotoBrowser: UIViewController {
     }
     
     @available(*, deprecated)
-    public convenience init(originImage: UIImage, photos: [SKPhotoProtocol], animatedFromView: UIView) {
+    public convenience init(originImage: UIImage, photos: [SKPhotoProtocol], animatedFromView: UIView, imageText: String, imageText2: Int, imageText3: Int, imageText4: String) {
         self.init(nibName: nil, bundle: nil)
         self.photos = photos
         self.photos.forEach { $0.checkCache() }
         animator.senderOriginImage = originImage
         animator.senderViewForAnimation = animatedFromView
+        
+        self.imageText = imageText
+        self.imageText2 = imageText2
+        self.imageText3 = imageText3
+        self.imageText4 = imageText4
     }
     
     public convenience init(photos: [SKPhotoProtocol], initialPageIndex: Int) {
@@ -134,7 +148,7 @@ open class SKPhotoBrowser: UIViewController {
         delegate?.didShowPhotoAtIndex?(self, index: currentPageIndex)
 
         // toolbar
-        toolbar.frame = frameForToolbarAtOrientation()
+//        toolbar.frame = frameForToolbarAtOrientation()
         
         // action
         actionView.updateFrame(frame: view.frame)
@@ -257,7 +271,7 @@ open class SKPhotoBrowser: UIViewController {
         } else {
             activityViewController.modalPresentationStyle = .popover
             let popover: UIPopoverPresentationController! = activityViewController.popoverPresentationController
-            popover.barButtonItem = toolbar.toolActionButton
+//            popover.barButtonItem = toolbar.toolActionButton
             present(activityViewController, animated: true, completion: nil)
         }
     }
@@ -294,10 +308,10 @@ public extension SKPhotoBrowser {
     
     func jumpToPageAtIndex(_ index: Int) {
         if index < photos.count {
-            if !isEndAnimationByToolBar {
-                return
-            }
-            isEndAnimationByToolBar = false
+//            if !isEndAnimationByToolBar {
+//                return
+//            }
+//            isEndAnimationByToolBar = false
 
             let pageFrame = frameForPageAtIndex(index)
             pagingScrollView.jumpToPageAtIndex(pageFrame)
@@ -436,6 +450,18 @@ internal extension SKPhotoBrowser {
             firstX = zoomingScrollView.center.x
             firstY = zoomingScrollView.center.y
             
+
+            UIView.animate(withDuration: 0.2,
+                           animations: {
+                            self.detailView.alpha = 0
+                            self.detailView2.alpha = 0
+                            self.detailText.alpha = 0
+            },
+                           completion: { _ in
+                            
+            }
+            )
+            
             hideControls()
             setNeedsStatusBarAppearanceUpdate()
         }
@@ -474,6 +500,17 @@ internal extension SKPhotoBrowser {
                 UIView.setAnimationCurve(UIView.AnimationCurve.easeIn)
                 zoomingScrollView.center = CGPoint(x: finalX, y: finalY)
                 UIView.commitAnimations()
+
+                UIView.animate(withDuration: 0.2,
+                               animations: {
+                                self.detailView.alpha = 1
+                                self.detailView2.alpha = 1
+                                self.detailText.alpha = 1
+                },
+                               completion: { _ in
+                                
+                }
+                )
             }
         }
     }
@@ -502,7 +539,7 @@ internal extension SKPhotoBrowser {
                 
                 if let popoverController = actionSheetController.popoverPresentationController {
                     popoverController.sourceView = self.view
-                    popoverController.barButtonItem = toolbar.toolActionButton
+//                    popoverController.barButtonItem = toolbar.toolActionButton
                 }
                 
                 present(actionSheetController, animated: true, completion: { () -> Void in
@@ -573,9 +610,140 @@ private extension SKPhotoBrowser {
         view.addSubview(paginationView)
     }
     
+    @objc func viewTootTapped() {
+        dismiss(animated: true, completion: {
+            GlobalStruct.thePassedID = self.imageText4 ?? ""
+            self.delegate?.willDismissAtPageIndex?(self.currentPageIndex)
+            if GlobalStruct.currentTab == 1 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail1"), object: nil)
+            }
+            if GlobalStruct.currentTab == 2 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail2"), object: nil)
+            }
+            if GlobalStruct.currentTab == 3 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail3"), object: nil)
+            }
+            if GlobalStruct.currentTab == 4 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail4"), object: nil)
+            }
+            if GlobalStruct.currentTab == 5 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail5"), object: nil)
+            }
+            if GlobalStruct.currentTab == 999 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail6"), object: nil)
+            }
+            if GlobalStruct.currentTab == 998 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail7"), object: nil)
+            }
+            if GlobalStruct.currentTab == 997 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail8"), object: nil)
+            }
+            if GlobalStruct.currentTab == 996 {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail9"), object: nil)
+            }
+        })
+    }
+    
     func configureToolbar() {
-        toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
-        view.addSubview(toolbar)
+//        toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
+//        view.addSubview(toolbar)
+        
+        detailView.layer.cornerRadius = 8
+        if #available(iOS 13.0, *) {
+            detailView.backgroundColor = UIColor(named: "darkGray")!
+            detailView.layer.cornerCurve = .continuous
+        }
+        detailView.addTarget(self, action: #selector(self.viewTootTapped), for: .touchUpInside)
+        self.view.addSubview(detailView)
+        
+        if #available(iOS 11.0, *) {
+            detailText.frame = CGRect(x: 30, y: self.view.bounds.height - 60 - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0), width: self.view.bounds.width - 60, height: 50)
+        }
+        detailText.textAlignment = .left
+        detailText.text = self.imageText
+        detailText.textColor = UIColor.white
+        detailText.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+        detailText.isUserInteractionEnabled = false
+        detailText.numberOfLines = 8
+        detailText.sizeToFit()
+        if #available(iOS 13.0, *) {
+            detailText.frame.origin.y = self.view.bounds.height - detailText.frame.height - (UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) - 5
+        }
+        detailText.enabledTypes = [.mention, .hashtag, .url]
+        detailText.mentionColor = GlobalStruct.baseTint
+        detailText.hashtagColor = GlobalStruct.baseTint
+        detailText.URLColor = GlobalStruct.baseTint
+        self.view.addSubview(detailText)
+        
+        detailView.frame = detailText.frame
+        detailView.frame.size.width = self.view.bounds.width - 40
+        detailView.frame.size.height = detailText.bounds.height + 16
+        detailView.frame.origin.y = detailText.frame.origin.y - 8
+        detailView.frame.origin.x = detailText.frame.origin.x - 10
+        
+        detailView2.layer.cornerRadius = 10
+        if #available(iOS 13.0, *) {
+            detailView2.backgroundColor = UIColor(named: "darkerGray")!
+            detailView2.layer.cornerCurve = .continuous
+        }
+        
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: imageText2 ?? 0))
+        let numberFormatter2 = NumberFormatter()
+        numberFormatter2.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: imageText3 ?? 0))
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 4, weight: .bold)
+        let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 2)
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor.white.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.white.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attStringNewLine = NSMutableAttributedString(string: "\(formattedNumber ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(1)])
+        let attStringNewLine2 = NSMutableAttributedString(string: "\(formattedNumber2 ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor.white.withAlphaComponent(1)])
+        let attString = NSAttributedString(attachment: attachment)
+        let attString2 = NSAttributedString(attachment: attachment2)
+        let fullString = NSMutableAttributedString(string: "")
+        let spaceString0 = NSMutableAttributedString(string: " ")
+        let spaceString = NSMutableAttributedString(string: "  ")
+        fullString.append(attString)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine)
+        fullString.append(spaceString)
+        fullString.append(attString2)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine2)
+        detailView2.setAttributedTitle(fullString, for: .normal)
+        detailView2.contentHorizontalAlignment = .left
+        detailView2.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        detailView2.sizeToFit()
+        detailView2.frame.origin.y = detailView.frame.origin.y - detailView2.bounds.height - 10
+        detailView2.frame.origin.x = detailView.frame.origin.x
+        self.view.addSubview(detailView2)
+        
+        detailView.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
+        detailView.layer.shadowOffset = CGSize(width: 0, height: 12)
+        detailView.layer.shadowRadius = 12
+        detailView.layer.shadowOpacity = 0.18
+        
+        detailView2.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
+        detailView2.layer.shadowOffset = CGSize(width: 0, height: 12)
+        detailView2.layer.shadowRadius = 12
+        detailView2.layer.shadowOpacity = 0.18
+        
+        UIView.animate(withDuration: 2, animations: {
+            if self.imageText4 == "" {
+                self.detailView.alpha = 0
+                self.detailView2.alpha = 0
+                self.detailText.alpha = 0
+            } else {
+                self.detailView.alpha = 1
+                self.detailView2.alpha = 1
+                self.detailText.alpha = 1
+            }
+        }, completion: { _ in
+            
+        })
     }
 
     func setControlsHidden(_ hidden: Bool, animated: Bool, permanent: Bool) {
@@ -627,6 +795,6 @@ extension SKPhotoBrowser: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        isEndAnimationByToolBar = true
+//        isEndAnimationByToolBar = true
     }
 }
