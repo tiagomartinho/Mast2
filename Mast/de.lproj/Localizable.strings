@@ -103,7 +103,7 @@
 "Unfollow" = "Nicht mehr folgen";
 "Mention" = "Erwähnung";
 "Instance Admin Contact" = "Instanz-Admin Kontakt";
-"Display name" = "Name anzeigen";
+"Display name" = "Anzeigename";
 "Bio" = "Bio"; // This is the profile bio/description
 "Edit Bio" = "Bio ändern"; // This is the profile bio/description
 "Header" = "Header"; // This is the profile header image
