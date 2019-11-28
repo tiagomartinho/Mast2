@@ -14,7 +14,7 @@ import AVFoundation
 import ActiveLabel
 import SKPhotoBrowser
 
-class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource {
+class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource, SKPhotoBrowserDelegate {
     
     var containerView = UIView()
     var profile = UIImageView()
@@ -514,6 +514,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
                     let originImage = cell.image.image
                     let browser = SKPhotoBrowser(originImage: originImage ?? UIImage(), photos: images, animatedFromView: cell)
+                    browser.delegate = self
                     SKPhotoBrowserOptions.displayCounterLabel = false
                     SKPhotoBrowserOptions.displayBackAndForwardButton = false
                     SKPhotoBrowserOptions.displayAction = false
@@ -525,6 +526,26 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 }
                 
             }
+        }
+    }
+    
+    func didShowPhotoAtIndex(_ browser: SKPhotoBrowser, index: Int) {
+        self.collectionView1.visibleCells.forEach({$0.isHidden = false})
+        if let x = self.collectionView1.cellForItem(at: IndexPath(item: index, section: 0)) as? CollectionImageCell {
+            x.isHidden = true
+        }
+    }
+    
+    func willDismissAtPageIndex(_ index: Int) {
+        self.collectionView1.visibleCells.forEach({$0.isHidden = false})
+        if let x = self.collectionView1.cellForItem(at: IndexPath(item: index, section: 0)) as? CollectionImageCell {
+            x.isHidden = true
+        }
+    }
+    
+    func didDismissAtPageIndex(_ index: Int) {
+        if let x = self.collectionView1.cellForItem(at: IndexPath(item: index, section: 0)) as? CollectionImageCell {
+            x.isHidden = false
         }
     }
     

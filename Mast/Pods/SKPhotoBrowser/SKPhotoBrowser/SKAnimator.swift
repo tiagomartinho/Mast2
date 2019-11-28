@@ -32,11 +32,11 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
     
     fileprivate var animationDuration: TimeInterval {
         if SKPhotoBrowserOptions.bounceAnimation { return 0.5 }
-        return 0.35
+        return 0.45
     }
     fileprivate var animationDamping: CGFloat {
         if SKPhotoBrowserOptions.bounceAnimation { return 0.8 }
-        return 1.0
+        return 1.2
     }
     
     override init() {
