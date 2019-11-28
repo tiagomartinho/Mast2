@@ -129,11 +129,24 @@ open class SKPhotoBrowser: UIViewController {
         animator.willPresent(self)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.singleTap), name: NSNotification.Name(rawValue: "sksingle"), object: nil)
-//        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-//        lpgr.minimumPressDuration = 0.7
-//        lpgr.delaysTouchesBegan = true
-//        lpgr.delegate = self
-//        self.view.addGestureRecognizer(lpgr)
+        
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        lpgr.minimumPressDuration = 0.7
+        lpgr.delaysTouchesBegan = true
+        self.pagingScrollView.addGestureRecognizer(lpgr)
+    }
+    
+    func bringBackViews() {
+        UIView.animate(withDuration: 0.2,
+                       animations: {
+                        self.detailView.alpha = 1
+                        self.detailView2.alpha = 1
+                        self.detailText.alpha = 1
+        },
+                       completion: { _ in
+                        
+        }
+        )
     }
     
     override open func viewWillAppear(_ animated: Bool) {
@@ -616,7 +629,6 @@ private extension SKPhotoBrowser {
         view.addSubview(paginationView)
     }
     
-    /*
     @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
         if gestureReconizer.state == UIGestureRecognizer.State.began {
             UIView.animate(withDuration: 0.2,
@@ -629,30 +641,31 @@ private extension SKPhotoBrowser {
                             
             }
             )
-
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let op1 = UIAlertAction(title: "Share".localized, style: .default , handler:{ (UIAlertAction) in
-                let imToShare = [self.imageView.image ?? UIImage()]
+                let imToShare = [self.photos[self.currentPageIndex].underlyingImage ?? UIImage()]
                 let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
-                activityViewController.popoverPresentationController?.sourceView = self.imageView
-                activityViewController.popoverPresentationController?.sourceRect = self.imageView.bounds
+                activityViewController.popoverPresentationController?.sourceView = self.pagingScrollView.inputView
+                activityViewController.popoverPresentationController?.sourceRect = self.pagingScrollView.inputView!.bounds
                 self.present(activityViewController, animated: true, completion: nil)
+                self.bringBackViews()
             })
             op1.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
             op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op1)
             let op2 = UIAlertAction(title: "Save".localized, style: .default , handler:{ (UIAlertAction) in
-                UIImageWriteToSavedPhotosAlbum(self.imageView.image ?? UIImage(), nil, nil, nil)
+                UIImageWriteToSavedPhotosAlbum(self.photos[self.currentPageIndex].underlyingImage ?? UIImage(), nil, nil, nil)
+                self.bringBackViews()
             })
             op2.setValue(UIImage(systemName: "square.and.arrow.down")!, forKey: "image")
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
             alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-                
+                self.bringBackViews()
             }))
             if let presenter = alert.popoverPresentationController {
-                presenter.sourceView = self.imageView
-                presenter.sourceRect = self.imageView.bounds
+                presenter.sourceView = self.pagingScrollView.inputView
+                presenter.sourceRect = self.pagingScrollView.inputView!.bounds
             }
             self.present(alert, animated: true, completion: nil)
         } else if gestureReconizer.state == UIGestureRecognizer.State.ended {
@@ -661,7 +674,6 @@ private extension SKPhotoBrowser {
             //When lognpress is finish
         }
     }
- */
     
     @objc func singleTap() {
         if self.detailView.alpha == 1 {
