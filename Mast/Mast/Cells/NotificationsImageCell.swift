@@ -13,7 +13,7 @@ import AVKit
 import AVFoundation
 import ActiveLabel
 
-class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource {
+class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource, SKPhotoBrowserDelegate {
     
     var containerView = UIView()
     var typeOf = UIImageView()
@@ -347,6 +347,14 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             self.images2.append(UIImageView())
             self.images3.append("")
         }
+
+        for (a, _) in self.images.enumerated() {
+            let z = self.images[a].remoteURL ?? self.images[a].url
+            if let imageURL = URL(string: z) {
+                self.images2[a].sd_setImage(with: imageURL, completed: nil)
+            }
+        }
+        
         if noti.status?.favourited ?? false {
             self.heart.alpha = 1
         } else {
@@ -502,7 +510,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                     cell.videoOverlay.alpha = 0
                 }
                 cell.image.layer.masksToBounds = true
-                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
+//                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = GlobalStruct.baseDarkTint
                 cell.image.layer.cornerRadius = 5
                 cell.image.layer.masksToBounds = true
@@ -549,10 +557,32 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 }
             }
         } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
-            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-            getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+//            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
+//            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+//            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+//            getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+
+            var images = [SKPhoto]()
+            for (a, _) in self.images.enumerated() {
+                let photo = SKPhoto.photoWithImage(self.images2[a].image ?? UIImage())
+                photo.shouldCachePhotoURLImage = true
+                images.append(photo)
+            }
+            if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
+                let originImage = cell.image.image
+                let browser = SKPhotoBrowser(originImage: originImage ?? UIImage(), photos: images, animatedFromView: cell, imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
+                browser.delegate = self
+                SKPhotoBrowserOptions.enableSingleTapDismiss = true
+                SKPhotoBrowserOptions.displayCounterLabel = false
+                SKPhotoBrowserOptions.displayBackAndForwardButton = false
+                SKPhotoBrowserOptions.displayAction = false
+                SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
+                SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
+                SKPhotoBrowserOptions.displayCloseButton = false
+                SKPhotoBrowserOptions.displayStatusbar = false
+                browser.initializePageIndex(indexPath.row)
+                getTopMostViewController()?.present(browser, animated: true, completion: {})
+        }
         }
         }
     }

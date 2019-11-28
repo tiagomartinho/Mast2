@@ -604,9 +604,6 @@ private extension SKPhotoBrowser {
         if let panGesture = panGesture {
             view.addGestureRecognizer(panGesture)
         }
-
-        let single = UITapGestureRecognizer(target: self, action: #selector(singleTap))
-        self.view.addGestureRecognizer(single)
     }
     
     func configureActionView() {
@@ -666,7 +663,7 @@ private extension SKPhotoBrowser {
     }
  */
     
-    @objc fileprivate func singleTap() {
+    @objc func singleTap() {
         if self.detailView.alpha == 1 {
             UIView.animate(withDuration: 0.14,
                            animations: {

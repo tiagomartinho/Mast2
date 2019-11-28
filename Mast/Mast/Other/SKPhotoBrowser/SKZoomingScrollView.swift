@@ -279,7 +279,6 @@ extension SKZoomingScrollView: SKDetectingViewDelegate {
 //        } else {
 //            browser.toggleControls()
 //        }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "sksingle"), object: self)
     }
     
     func handleDoubleTap(_ view: UIView, touch: UITouch) {
@@ -298,7 +297,8 @@ extension SKZoomingScrollView: SKDetectingImageViewDelegate {
             return
         }
         if SKPhotoBrowserOptions.enableSingleTapDismiss {
-            browser.determineAndClose()
+//            browser.determineAndClose()
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "sksingle"), object: self)
         } else {
             browser.toggleControls()
         }
