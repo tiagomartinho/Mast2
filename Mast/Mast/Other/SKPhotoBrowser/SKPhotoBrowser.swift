@@ -126,8 +126,14 @@ open class SKPhotoBrowser: UIViewController {
         configureActionView()
         configurePaginationView()
         configureToolbar()
-
         animator.willPresent(self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.singleTap), name: NSNotification.Name(rawValue: "sksingle"), object: nil)
+//        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+//        lpgr.minimumPressDuration = 0.7
+//        lpgr.delaysTouchesBegan = true
+//        lpgr.delegate = self
+//        self.view.addGestureRecognizer(lpgr)
     }
     
     override open func viewWillAppear(_ animated: Bool) {
@@ -598,6 +604,9 @@ private extension SKPhotoBrowser {
         if let panGesture = panGesture {
             view.addGestureRecognizer(panGesture)
         }
+
+        let single = UITapGestureRecognizer(target: self, action: #selector(singleTap))
+        self.view.addGestureRecognizer(single)
     }
     
     func configureActionView() {
@@ -610,10 +619,80 @@ private extension SKPhotoBrowser {
         view.addSubview(paginationView)
     }
     
+    /*
+    @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        if gestureReconizer.state == UIGestureRecognizer.State.began {
+            UIView.animate(withDuration: 0.2,
+                           animations: {
+                            self.detailView.alpha = 0
+                            self.detailView2.alpha = 0
+                            self.detailText.alpha = 0
+            },
+                           completion: { _ in
+                            
+            }
+            )
+
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let op1 = UIAlertAction(title: "Share".localized, style: .default , handler:{ (UIAlertAction) in
+                let imToShare = [self.imageView.image ?? UIImage()]
+                let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
+                activityViewController.popoverPresentationController?.sourceView = self.imageView
+                activityViewController.popoverPresentationController?.sourceRect = self.imageView.bounds
+                self.present(activityViewController, animated: true, completion: nil)
+            })
+            op1.setValue(UIImage(systemName: "square.and.arrow.up")!, forKey: "image")
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+            let op2 = UIAlertAction(title: "Save".localized, style: .default , handler:{ (UIAlertAction) in
+                UIImageWriteToSavedPhotosAlbum(self.imageView.image ?? UIImage(), nil, nil, nil)
+            })
+            op2.setValue(UIImage(systemName: "square.and.arrow.down")!, forKey: "image")
+            op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op2)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                
+            }))
+            if let presenter = alert.popoverPresentationController {
+                presenter.sourceView = self.imageView
+                presenter.sourceRect = self.imageView.bounds
+            }
+            self.present(alert, animated: true, completion: nil)
+        } else if gestureReconizer.state == UIGestureRecognizer.State.ended {
+            
+        } else {
+            //When lognpress is finish
+        }
+    }
+ */
+    
+    @objc fileprivate func singleTap() {
+        if self.detailView.alpha == 1 {
+            UIView.animate(withDuration: 0.14,
+                           animations: {
+                            self.detailView.alpha = 0
+                            self.detailView2.alpha = 0
+                            self.detailText.alpha = 0
+            },
+                           completion: { _ in
+            })
+        } else {
+            UIView.animate(withDuration: 0.14,
+                           animations: {
+                            self.detailView.alpha = 1
+                            self.detailView2.alpha = 1
+                            self.detailText.alpha = 1
+            },
+                           completion: { _ in
+            })
+        }
+        
+    }
+    
     @objc func viewTootTapped() {
         dismiss(animated: true, completion: {
             GlobalStruct.thePassedID = self.imageText4 ?? ""
-            self.delegate?.willDismissAtPageIndex?(self.currentPageIndex)
+            self.delegate?.didDismissAtPageIndex?(self.currentPageIndex)
             if GlobalStruct.currentTab == 1 {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "openTootDetail1"), object: nil)
             }

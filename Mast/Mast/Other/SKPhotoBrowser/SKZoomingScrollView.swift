@@ -267,18 +267,19 @@ extension SKZoomingScrollView: UIScrollViewDelegate {
 
 extension SKZoomingScrollView: SKDetectingViewDelegate {
     func handleSingleTap(_ view: UIView, touch: UITouch) {
-        guard let browser = browser else {
-            return
-        }
-        guard SKPhotoBrowserOptions.enableZoomBlackArea == true else {
-            return
-        }
-        
-        if browser.areControlsHidden() == false && SKPhotoBrowserOptions.enableSingleTapDismiss == true {
-            browser.determineAndClose()
-        } else {
-            browser.toggleControls()
-        }
+//        guard let browser = browser else {
+//            return
+//        }
+//        guard SKPhotoBrowserOptions.enableZoomBlackArea == true else {
+//            return
+//        }
+//
+//        if browser.areControlsHidden() == false && SKPhotoBrowserOptions.enableSingleTapDismiss == true {
+//            browser.determineAndClose()
+//        } else {
+//            browser.toggleControls()
+//        }
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "sksingle"), object: self)
     }
     
     func handleDoubleTap(_ view: UIView, touch: UITouch) {
