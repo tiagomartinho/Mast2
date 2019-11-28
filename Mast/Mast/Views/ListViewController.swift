@@ -802,6 +802,18 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         op2.setValue(UIImage(systemName: "pencil.circle")!, forKey: "image")
         op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Delete".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let request = Lists.delete(id: self.theListID)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "delList"), object: self)
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+        })
+        op3.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
             
         }))

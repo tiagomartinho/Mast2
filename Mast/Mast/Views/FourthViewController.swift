@@ -163,6 +163,13 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    @objc func delList() {
+        DispatchQueue.main.async {
+            GlobalStruct.allLists.remove(at: GlobalStruct.tempListIndex)
+            self.tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -180,6 +187,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti4"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.initialTimelineLoads), name: NSNotification.Name(rawValue: "initialTimelineLoads"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.delList), name: NSNotification.Name(rawValue: "delList"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -601,6 +609,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 
             } else {
                 let vc = ListViewController()
+                GlobalStruct.tempListIndex = indexPath.row - 1
                 vc.theListID = GlobalStruct.allLists[indexPath.row - 1].id
                 vc.theList = GlobalStruct.allLists[indexPath.row - 1].title
                 self.navigationController?.pushViewController(vc, animated: true)

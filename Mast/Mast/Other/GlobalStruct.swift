@@ -87,6 +87,8 @@ class GlobalStruct {
     
     static var imagePercentage: Double = 0
     static var isImageUploading: Bool = false
+    
+    static var tempListIndex = 0
 }
 
 class PaddedTextField: UITextField {
