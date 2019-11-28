@@ -9,5 +9,6 @@ target 'Mast' do
 pod 'MessageKit'
 pod 'ActiveLabel'
 pod 'SwiftyStoreKit'
+pod 'SKPhotoBrowser'
 
 end

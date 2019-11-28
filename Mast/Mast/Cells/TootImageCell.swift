@@ -12,6 +12,7 @@ import SDWebImage
 import AVKit
 import AVFoundation
 import ActiveLabel
+import SKPhotoBrowser
 
 class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CoreChartViewDataSource {
     
@@ -291,6 +292,13 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             self.images3.append("")
         }
 
+        for (a, _) in self.images.enumerated() {
+            let z = self.images[a].remoteURL ?? self.images[a].url
+            if let imageURL = URL(string: z) {
+                self.images2[a].sd_setImage(with: imageURL, completed: nil)
+            }
+        }
+
         var pollHeight = (self.pollOptions.count * 24) + (self.pollOptions.count * 10)
         if stat.reblog?.poll ?? stat.poll != nil {
             self.pollView.alpha = 1
@@ -445,7 +453,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                     cell.videoOverlay.alpha = 0
                 }
                 cell.image.layer.masksToBounds = true
-                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
+//                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = GlobalStruct.baseDarkTint
                 cell.image.layer.cornerRadius = 5
                 cell.image.layer.masksToBounds = true
@@ -483,20 +491,40 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if self.images3[indexPath.row] == "" {} else {
-        if images[indexPath.row].type == .video || images[indexPath.row].type == .gifv || images[indexPath.row].type == .audio {
-            if let ur = URL(string: images[indexPath.row].url) {
-                self.player = AVPlayer(url: ur)
-                self.playerViewController.player = self.player
-                getTopMostViewController()?.present(playerViewController, animated: true) {
-                    self.playerViewController.player!.play()
+            if images[indexPath.row].type == .video || images[indexPath.row].type == .gifv || images[indexPath.row].type == .audio {
+                if let ur = URL(string: images[indexPath.row].url) {
+                    self.player = AVPlayer(url: ur)
+                    self.playerViewController.player = self.player
+                    getTopMostViewController()?.present(playerViewController, animated: true) {
+                        self.playerViewController.player!.play()
+                    }
                 }
+            } else {
+//                let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
+//                let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+//                let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+//                getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
+                
+                var images = [SKPhoto]()
+                for (a, _) in self.images3.enumerated() {
+                    let photo = SKPhoto.photoWithImage(self.images2[a].image ?? UIImage())
+                    photo.shouldCachePhotoURLImage = true
+                    images.append(photo)
+                }
+                if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
+                    let originImage = cell.image.image
+                    let browser = SKPhotoBrowser(originImage: originImage ?? UIImage(), photos: images, animatedFromView: cell)
+                    SKPhotoBrowserOptions.displayCounterLabel = false
+                    SKPhotoBrowserOptions.displayBackAndForwardButton = false
+                    SKPhotoBrowserOptions.displayAction = false
+                    SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
+                    SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
+                    SKPhotoBrowserOptions.displayCloseButton = false
+                    browser.initializePageIndex(indexPath.row)
+                    getTopMostViewController()?.present(browser, animated: true, completion: {})
+                }
+                
             }
-        } else {
-            let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat.account.username): \(self.currentStat.content.stripHTML())", imageText2: self.currentStat.favouritesCount, imageText3: self.currentStat.reblogsCount, imageText4: self.currentStat.id)
-            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
-            let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-            getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
-        }
         }
     }
     

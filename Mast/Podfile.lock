@@ -3,11 +3,13 @@ PODS:
   - InputBarAccessoryView (4.2.2)
   - MessageKit (3.0.0):
     - InputBarAccessoryView (~> 4.2.2)
+  - SKPhotoBrowser (6.1.0)
   - SwiftyStoreKit (0.15.0)
 
 DEPENDENCIES:
   - ActiveLabel
   - MessageKit
+  - SKPhotoBrowser
   - SwiftyStoreKit
 
 SPEC REPOS:
@@ -15,14 +17,16 @@ SPEC REPOS:
     - ActiveLabel
     - InputBarAccessoryView
     - MessageKit
+    - SKPhotoBrowser
     - SwiftyStoreKit
 
 SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   InputBarAccessoryView: 2b937602598e2fab3149f37f51dd7ad795653812
   MessageKit: e892a9ca49ebe6d82684d3a93ad84021fa23e2c6
+  SKPhotoBrowser: 343de95d89dc7913763c5dda243cc6e606e4a168
   SwiftyStoreKit: 033d06b6f87955405d3f844a18a7687c2438592a
 
-PODFILE CHECKSUM: fcf39391bad1f472ac7a52d108aa2aca6b70d6ed
+PODFILE CHECKSUM: 0b167a530ee550d15ee5a0a746a08c6ca272616d
 
 COCOAPODS: 1.8.3
