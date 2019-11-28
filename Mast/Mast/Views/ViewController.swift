@@ -28,7 +28,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         }
         return false
     }
-    var engine: CHHapticEngine?
+//    var engine: CHHapticEngine?
     
     var tabOne = UINavigationController()
     var tabTwo = UINavigationController()
@@ -237,7 +237,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.startHaptics), name: NSNotification.Name(rawValue: "startHaptics"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.addTapped), name: NSNotification.Name(rawValue: "addTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.viewNotifications), name: NSNotification.Name(rawValue: "viewNotifications"), object: nil)
@@ -373,16 +372,6 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
         }
         if item.tag == 5 && GlobalStruct.currentTab == 5 {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTop5"), object: nil)
-        }
-    }
-    
-    @objc func startHaptics() {
-        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-        do {
-            engine = try CHHapticEngine()
-            try engine?.start()
-        } catch {
-            print("There was an error creating the engine: \(error.localizedDescription)")
         }
     }
     

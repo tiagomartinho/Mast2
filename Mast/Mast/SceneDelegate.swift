@@ -183,7 +183,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         UIApplication.shared.applicationIconBadgeNumber = 0
         self.window?.tintColor = UIColor(named: "baseBlack")!
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "startHaptics"), object: self)
         
         self.showBioLock()
     }
