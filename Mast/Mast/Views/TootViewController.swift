@@ -1109,7 +1109,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 
             } else {
                 theReplyID = self.replyStatus.first?.id ?? nil
-                theSensitive = self.replyStatus.first?.sensitive ?? false
+                if theSpoiler == nil {
+                    theSensitive = self.replyStatus.first?.sensitive ?? false
+                } else {
+                    theSensitive = true
+                }
                 if self.contentWarning == "" {
                     theSpoiler = self.replyStatus.first?.spoilerText ?? self.contentWarning
                 } else {
