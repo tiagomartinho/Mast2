@@ -1125,7 +1125,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let theMainText = cell.textView.text ?? ""
             
             if self.replyStatus.isEmpty {
-                if theSpoiler == nil {
+                if theSpoiler == nil || theSpoiler == "" {
                     theSensitive = false
                 } else {
                     theSensitive = true
