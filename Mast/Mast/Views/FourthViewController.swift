@@ -557,7 +557,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func makeContextMenu3(_ status: [Account], indexPath: IndexPath) -> UIMenu {
-        let remove = UIAction(title: "Follow".localized, image: UIImage(systemName: "arrow.upright.circle"), identifier: nil) { action in
+        let fol = UIAction(title: "Follow".localized, image: UIImage(systemName: "arrow.upright.circle"), identifier: nil) { action in
             let request = Accounts.follow(id: status.first?.id ?? "", reblogs: true)
             GlobalStruct.client.run(request) { (statuses) in
                 DispatchQueue.main.async {
@@ -566,7 +566,17 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            let request = Accounts.deleteFollowSuggestion(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.statusesSuggested.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [fol, remove])
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
