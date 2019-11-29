@@ -887,6 +887,23 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.text == "" {
+            self.placeholderLabel.isHidden = false
+            self.placeholderLabel.alpha = 1
+            
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+            self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal), for: .normal)
+        } else {
+            self.placeholderLabel.isHidden = true
+            self.placeholderLabel.alpha = 0
+            
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
+            self.btn1.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
+        }
+        return true
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         if textView.text == "" {
             self.placeholderLabel.isHidden = false
