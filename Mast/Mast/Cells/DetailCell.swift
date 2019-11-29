@@ -138,6 +138,80 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureLike(_ stat: Status, increase: Bool) {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        var num = stat.favouritesCount
+        if increase {
+            num = stat.favouritesCount + 1
+        } else {
+            num = stat.favouritesCount - 1
+        }
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: num))
+        let numberFormatter2 = NumberFormatter()
+        numberFormatter2.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: stat.reblogsCount))
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 4, weight: .bold)
+        let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 2)
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attStringNewLine = NSMutableAttributedString(string: "\(formattedNumber ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(1)])
+        let attStringNewLine2 = NSMutableAttributedString(string: "\(formattedNumber2 ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(1)])
+        let attString = NSAttributedString(attachment: attachment)
+        let attString2 = NSAttributedString(attachment: attachment2)
+        let fullString = NSMutableAttributedString(string: "")
+        let spaceString0 = NSMutableAttributedString(string: " ")
+        let spaceString = NSMutableAttributedString(string: "  ")
+        fullString.append(attString)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine)
+        fullString.append(spaceString)
+        fullString.append(attString2)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine2)
+        self.metrics.setAttributedTitle(fullString, for: .normal)
+    }
+    
+    func configureBoost(_ stat: Status, increase: Bool) {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        var num = stat.reblogsCount
+        if increase {
+            num = stat.reblogsCount + 1
+        } else {
+            num = stat.reblogsCount - 1
+        }
+        let formattedNumber = numberFormatter.string(from: NSNumber(value: stat.favouritesCount))
+        let numberFormatter2 = NumberFormatter()
+        numberFormatter2.numberStyle = NumberFormatter.Style.decimal
+        let formattedNumber2 = numberFormatter2.string(from: NSNumber(value: num))
+        
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 4, weight: .bold)
+        let normalFont = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize - 2)
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(systemName: "heart", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attachment2 = NSTextAttachment()
+        attachment2.image = UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal)
+        let attStringNewLine = NSMutableAttributedString(string: "\(formattedNumber ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(1)])
+        let attStringNewLine2 = NSMutableAttributedString(string: "\(formattedNumber2 ?? "0")", attributes: [NSAttributedString.Key.font : normalFont, NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!.withAlphaComponent(1)])
+        let attString = NSAttributedString(attachment: attachment)
+        let attString2 = NSAttributedString(attachment: attachment2)
+        let fullString = NSMutableAttributedString(string: "")
+        let spaceString0 = NSMutableAttributedString(string: " ")
+        let spaceString = NSMutableAttributedString(string: "  ")
+        fullString.append(attString)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine)
+        fullString.append(spaceString)
+        fullString.append(attString2)
+        fullString.append(spaceString0)
+        fullString.append(attStringNewLine2)
+        self.metrics.setAttributedTitle(fullString, for: .normal)
+    }
+    
     func configure(_ stat: Status) {
         self.sta = stat
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
@@ -182,8 +256,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         if stat.reblog?.favourited ?? stat.favourited ?? false {
-            self.heart.alpha = 1
-            self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig2)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+            self.heart.alpha = 0
         } else if stat.reblog?.visibility ?? stat.visibility == .direct {
             self.heart.alpha = 1
             self.heart.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig2)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)

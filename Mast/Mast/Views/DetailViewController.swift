@@ -646,14 +646,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                     cell.toggleBoostOff(self.pickedStatusesHome[0])
                     self.isBoosted = false
-                    self.fetchFromIDAgain()
+                    self.decreaseBoost()
                 }
             } else {
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                     ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                     cell.toggleBoostOn(self.pickedStatusesHome[0])
                     self.isBoosted = true
-                    self.fetchFromIDAgain()
+                    self.increaseBoost()
                 }
             }
         }
@@ -671,7 +671,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleLikeOff(self.pickedStatusesHome[0])
                 self.isLiked = false
-                self.fetchFromIDAgain()
+                self.decreaseLike()
             }
         } else {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
@@ -679,35 +679,44 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                 cell.toggleLikeOn(self.pickedStatusesHome[0])
                 self.isLiked = true
-                self.fetchFromIDAgain()
+                self.increaseLike()
             }
         }
     }
     
-    func fetchFromIDAgain() {
-        let request = Statuses.status(id: passedID)
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                DispatchQueue.main.async {
-                    self.pickedStatusesHome = [stat]
-                    if self.pickedStatusesHome.first?.reblogged ?? false {
-                        self.isBoosted = true
-                    } else {
-                        self.isBoosted = false
-                    }
-                    if self.pickedStatusesHome.first?.favourited ?? false {
-                        self.isLiked = true
-                    } else {
-                        self.isLiked = false
-                    }
-                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailCell {
-                        cell.configure(stat)
-                    }
-                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailImageCell {
-                        cell.configure(stat)
-                    }
-                }
-            }
+    func increaseLike() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailCell {
+            cell.configureLike(self.pickedStatusesHome.first!, increase: true)
+        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailImageCell {
+            cell.configureLike(self.pickedStatusesHome.first!, increase: true)
+        }
+    }
+    
+    func decreaseLike() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailCell {
+            cell.configureLike(self.pickedStatusesHome.first!, increase: false)
+        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailImageCell {
+            cell.configureLike(self.pickedStatusesHome.first!, increase: false)
+        }
+    }
+    
+    func increaseBoost() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailCell {
+            cell.configureBoost(self.pickedStatusesHome.first!, increase: true)
+        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailImageCell {
+            cell.configureBoost(self.pickedStatusesHome.first!, increase: true)
+        }
+    }
+    
+    func decreaseBoost() {
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailCell {
+            cell.configureBoost(self.pickedStatusesHome.first!, increase: false)
+        }
+        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? DetailImageCell {
+            cell.configureBoost(self.pickedStatusesHome.first!, increase: false)
         }
     }
     
