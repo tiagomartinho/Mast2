@@ -375,7 +375,6 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                                                                 valueFont: UIFont.systemFont(ofSize: 16),
                                                                 titleLength: 400)
             pollView.addSubview(self.barChart)
-            let countLabel = UILabel()
             let expiryLabel = UILabel()
             var voteText = "\(stat.reblog?.poll?.votesCount ?? stat.poll?.votesCount ?? 0) \("votes".localized)"
             if stat.reblog?.poll?.voted ?? stat.poll?.voted ?? false {
@@ -429,6 +428,9 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     }
     
     var sta: Status!
+    let countLabel = UILabel()
+    var updatedPoll: Bool = false
+    var updatedPollInt: Int = 0
     func didTouch(entryData: CoreChartEntry) {
         if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
             let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
@@ -444,14 +446,20 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                 let op1 = UIAlertAction(title: "\("Vote for".localized) \(entryData.barTitle)", style: .default , handler:{ (UIAlertAction) in
                     let request = Polls.vote(id: self.sta.reblog?.poll?.id ?? self.sta.poll?.id ?? "", choices: [Int(entryData.id) ?? 0])
                     GlobalStruct.client.run(request) { (statuses) in
-//                        let request2 = Statuses.status(id: self.sta.id)
-//                        GlobalStruct.client.run(request2) { (statuses) in
-//                            if let stat = statuses.value {
-//                                DispatchQueue.main.async {
-//                                    self.configure(stat)
-//                                }
-//                            }
-//                        }
+                        DispatchQueue.main.async {
+                            ViewController().showNotifBanner("Voted".localized, subtitle: entryData.barTitle, style: BannerStyle.info)
+                            var voteText = "\((self.sta.reblog?.poll?.votesCount ?? self.sta.poll?.votesCount ?? 0) + 1) \("votes".localized)"
+                            if self.sta.reblog?.poll?.voted ?? self.sta.poll?.voted ?? false {
+                                voteText = "\(voteText) • \("Voted".localized)"
+                            }
+                            if self.sta.reblog?.poll?.multiple ?? self.sta.poll?.multiple ?? false {
+                                voteText = "\(voteText) • \("Multiple choices allowed".localized)"
+                            }
+                            self.countLabel.text = voteText
+                            self.updatedPoll = true
+                            self.updatedPollInt = Int(entryData.id) ?? 0
+                            self.barChart.reload()
+                        }
                     }
                 })
                 op1.setValue(UIImage(systemName: "chart.bar")!, forKey: "image")

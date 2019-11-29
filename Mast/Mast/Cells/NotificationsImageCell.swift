@@ -382,7 +382,6 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                                                                 valueFont: UIFont.systemFont(ofSize: 16),
                                                                 titleLength: 400)
             pollView.addSubview(self.barChart)
-            let countLabel = UILabel()
             let expiryLabel = UILabel()
             var voteText = "\(noti.status?.reblog?.poll?.votesCount ?? noti.status?.poll?.votesCount ?? 0) \("votes".localized)"
             if noti.status?.reblog?.poll?.voted ?? noti.status?.poll?.voted ?? false {
@@ -434,16 +433,27 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     func loadCoreChartData() -> [CoreChartEntry] {
         var allData = [CoreChartEntry]()
         for index in 0..<self.pollOptions.count {
-            let newEntry = CoreChartEntry(id: "\(index)",
-                barTitle: self.pollOptions[index].title,
-                barHeight: Double(self.pollOptions[index].votesCount ?? 0),
-                barColor: GlobalStruct.baseTint)
-            allData.append(newEntry)
+            if self.updatedPollInt == index {
+                let newEntry = CoreChartEntry(id: "\(index)",
+                    barTitle: self.pollOptions[index].title,
+                    barHeight: Double((self.pollOptions[index].votesCount ?? 0) + 1),
+                    barColor: GlobalStruct.baseTint)
+                allData.append(newEntry)
+            } else {
+                let newEntry = CoreChartEntry(id: "\(index)",
+                    barTitle: self.pollOptions[index].title,
+                    barHeight: Double(self.pollOptions[index].votesCount ?? 0),
+                    barColor: GlobalStruct.baseTint)
+                allData.append(newEntry)
+            }
         }
         return allData
     }
     
     var notif: Notificationt!
+    let countLabel = UILabel()
+    var updatedPoll: Bool = false
+    var updatedPollInt: Int = 0
     func didTouch(entryData: CoreChartEntry) {
         if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
             let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
@@ -460,7 +470,18 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                     let request = Polls.vote(id: self.notif.status?.reblog?.poll?.id ?? self.notif.status?.poll?.id ?? "", choices: [Int(entryData.id) ?? 0])
                     GlobalStruct.client.run(request) { (statuses) in
                         DispatchQueue.main.async {
-                            
+                            ViewController().showNotifBanner("Voted".localized, subtitle: entryData.barTitle, style: BannerStyle.info)
+                            var voteText = "\((self.notif.status?.reblog?.poll?.votesCount ?? self.notif.status?.poll?.votesCount ?? 0) + 1) \("votes".localized)"
+                            if self.notif.status?.reblog?.poll?.voted ?? self.notif.status?.poll?.voted ?? false {
+                                voteText = "\(voteText) • \("Voted".localized)"
+                            }
+                            if self.notif.status?.reblog?.poll?.multiple ?? self.notif.status?.poll?.multiple ?? false {
+                                voteText = "\(voteText) • \("Multiple choices allowed".localized)"
+                            }
+                            self.countLabel.text = voteText
+                            self.updatedPoll = true
+                            self.updatedPollInt = Int(entryData.id) ?? 0
+                            self.barChart.reload()
                         }
                     }
                 })
