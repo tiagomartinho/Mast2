@@ -907,7 +907,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alert.addAction(op2)
             let op3 = UIAlertAction(title: " \("Message".localized)", style: .default , handler:{ (UIAlertAction) in
-                
+                let vc = TootViewController()
+                vc.mentionAuthor = self.pickedCurrentUser.acct
+                vc.defaultVisibility = .direct
+                self.show(UINavigationController(rootViewController: vc), sender: self)
             })
             op3.setValue(UIImage(systemName: "paperplane")!, forKey: "image")
             op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
