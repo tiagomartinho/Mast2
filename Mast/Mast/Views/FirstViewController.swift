@@ -149,7 +149,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func updatePosted() {
         print("toot toot")
-        ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
     }
     
     @objc func scrollTop1() {

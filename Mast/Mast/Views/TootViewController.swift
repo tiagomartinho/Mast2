@@ -1153,6 +1153,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if let _ = (statuses.value) {
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                            ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
+                            self.dismiss(animated: true, completion: nil)
                         }
                     }
                 }
@@ -1167,6 +1169,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         if let _ = (statuses.value) {
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                                ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                                 self.dismiss(animated: true, completion: nil)
                             }
                         }
