@@ -566,11 +566,19 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                         contextMenuConfigurationForItemAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
-            let vc = ImagePreviewViewController()
-            vc.image = self.images2[indexPath.item].image ?? UIImage()
-            return vc
+            if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .gifv || self.images[indexPath.row].type == .audio {
+                return nil
+            } else {
+                let vc = ImagePreviewViewController()
+                vc.image = self.images2[indexPath.item].image ?? UIImage()
+                return vc
+            }
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu(indexPath)
+            if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .gifv || self.images[indexPath.row].type == .audio {
+                return nil
+            } else {
+                return self.makeContextMenu(indexPath)
+            }
         })
     }
     
