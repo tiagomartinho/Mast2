@@ -63,6 +63,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var containsMedia = false
     var theAcc = ""
     var searchedUsers: [Account] = []
+    var visibilityIcon = "globe"
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -246,6 +247,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         
         if let x = UserDefaults.standard.value(forKey: "sync-allDrafts") as? [String] {
             GlobalStruct.allDrafts = x
+        }
+
+        self.defaultVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
+        if self.defaultVisibility == .public {
+            self.visibilityIcon = "globe"
+        } else if self.defaultVisibility == .unlisted {
+            self.visibilityIcon = "lock.open"
+        } else if self.defaultVisibility == .private {
+            self.visibilityIcon = "lock"
+        } else {
+            self.visibilityIcon = "paperplane"
         }
         
         // Add button
@@ -433,20 +445,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
             fixedS.width = 6
             
-            var visibilityIcon = "globe"
-            if self.defaultVisibility == .public {
-                visibilityIcon = "globe"
-            } else if self.defaultVisibility == .unlisted {
-                visibilityIcon = "lock.open"
-            } else if self.defaultVisibility == .private {
-                visibilityIcon = "lock"
-            } else {
-                visibilityIcon = "paperplane"
-            }
-            
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
             x1.accessibilityLabel = "Add Media".localized
-            x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+            x2 = UIBarButtonItem(image: UIImage(systemName: self.visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility".localized
             x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
             x3.accessibilityLabel = "Spoiler Text".localized
