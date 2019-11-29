@@ -140,7 +140,70 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
         })
     }
     
+    var txt = ""
     func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
+        let caption = UIAction(title: "Add Caption".localized, image: UIImage(systemName: "captions.bubble"), identifier: nil) { action in
+            if GlobalStruct.mediaIDs.count == self.images.count {
+                
+                
+                let alert = UIAlertController(style: .actionSheet, title: nil)
+                let config: TextField1.Config = { textField in
+                    textField.becomeFirstResponder()
+                    textField.textColor = UIColor(named: "baseBlack")!
+                    textField.placeholder = "\("Add Caption".localized)..."
+                    textField.layer.borderWidth = 0
+                    textField.layer.cornerRadius = 8
+                    textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+                    textField.backgroundColor = nil
+                    textField.keyboardAppearance = .default
+                    textField.keyboardType = .default
+                    textField.isSecureTextEntry = false
+                    textField.returnKeyType = .default
+                    textField.action { textField in
+                        self.txt = textField.text ?? ""
+                    }
+                }
+                alert.addOneTextField(configuration: config)
+                alert.addAction(title: "Add".localized, style: .default) { action in
+                    let request = Media.updateDescription(description: self.txt, id: GlobalStruct.mediaIDs[indexPath.row])
+                    GlobalStruct.client.run(request) { (statuses) in
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
+                alert.addAction(title: "Dismiss".localized, style: .cancel) { action in
+                    
+                }
+                if let presenter = alert.popoverPresentationController {
+                    presenter.sourceView = self.imageView
+                    presenter.sourceRect = self.imageView?.bounds ?? self.bounds
+                }
+                self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+                
+                
+            } else {
+                let alert = UIAlertController(title: "Please wait for all media to finish uploading".localized, message: nil, preferredStyle: .actionSheet)
+                alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                    
+                }))
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = NSTextAlignment.left
+                let messageText = NSMutableAttributedString(
+                    string: "Please wait for all media to finish uploading".localized,
+                    attributes: [
+                        NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                        NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                    ]
+                )
+                alert.setValue(messageText, forKey: "attributedTitle")
+                if let presenter = alert.popoverPresentationController {
+                    presenter.sourceView = self.imageView
+                    presenter.sourceRect = self.imageView?.bounds ?? self.bounds
+                }
+                self.getTopMostViewController()?.present(alert, animated: true, completion: nil)
+            }
+        }
         let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
             if GlobalStruct.mediaIDs.count == self.images.count {
                 GlobalStruct.mediaIDs.remove(at: indexPath.row)
@@ -157,7 +220,7 @@ class ComposeCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDa
             self.collectionView1.reloadData()
         }
         remove.attributes = .destructive
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [caption, remove])
     }
     
     func getTopMostViewController() -> UIViewController? {
