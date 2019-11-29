@@ -1132,7 +1132,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
             } else {
                 theReplyID = self.replyStatus.first?.id ?? nil
-                if theSpoiler == nil {
+                if theSpoiler == nil || theSpoiler == "" {
                     theSensitive = self.replyStatus.first?.sensitive ?? false
                 } else {
                     theSensitive = true
@@ -1152,7 +1152,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 GlobalStruct.client.run(request) { (statuses) in
                     if let _ = (statuses.value) {
                         DispatchQueue.main.async {
-                            ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                         }
                     }
@@ -1167,7 +1166,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     GlobalStruct.client.run(request) { (statuses) in
                         if let _ = (statuses.value) {
                             DispatchQueue.main.async {
-                                ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                                 self.dismiss(animated: true, completion: nil)
                             }
