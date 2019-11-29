@@ -186,6 +186,9 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     
     var currentStat: Status!
     func configure(_ stat: Status) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         self.sta = stat
         self.currentStat = stat.reblog ?? stat
         self.images = stat.reblog?.mediaAttachments ?? stat.mediaAttachments

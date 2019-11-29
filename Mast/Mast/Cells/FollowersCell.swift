@@ -95,6 +95,9 @@ class FollowersCell: UITableViewCell {
     }
     
     func configure(_ status: Account) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         self.username.text = status.displayName
         self.usertag.text = "@\(status.username)"

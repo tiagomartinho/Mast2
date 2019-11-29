@@ -237,6 +237,9 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     
     var currentStat: Status!
     func configure(_ stat: Status) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         self.sta = stat
         self.currentStat = stat
         self.images = stat.mediaAttachments

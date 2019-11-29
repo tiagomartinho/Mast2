@@ -181,6 +181,9 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
     }
     
     func configure(_ noti: Notificationt) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         self.notif = noti
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         self.timestamp.text = timeAgoSince(noti.createdAt)

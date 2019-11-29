@@ -117,6 +117,9 @@ class DirectCell: UITableViewCell {
     }
     
     func configure(_ convo: Conversation) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         if GlobalStruct.markedReadIDs.contains(convo.id) {
             self.unread.alpha = 0

@@ -205,6 +205,9 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
     
     var currentStat: Status!
     func configure(_ noti: Notificationt) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         self.notif = noti
         self.currentStat = noti.status
         self.images = noti.status?.mediaAttachments ?? []

@@ -152,6 +152,9 @@ class ProfileCell: UITableViewCell {
     var image1: UIImageView? = nil
     var image2: UIImageView? = nil
     func configure(_ acc: Account) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         self.username.text = acc.displayName
         self.usertag.text = "@\(acc.acct)"
         self.content.text = acc.note.stripHTML()

@@ -213,6 +213,9 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
     }
     
     func configure(_ stat: Status) {
+        content.mentionColor = GlobalStruct.baseTint
+        content.hashtagColor = GlobalStruct.baseTint
+        content.URLColor = GlobalStruct.baseTint
         self.sta = stat
         containerView.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.09)
         self.username.text = stat.account.displayName
