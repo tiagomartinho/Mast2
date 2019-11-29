@@ -164,8 +164,8 @@ class NotificationsSettingsViewController: UIViewController, UITableViewDataSour
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell1", for: indexPath)
             cell.textLabel?.text = "In-App Banners".localized
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "switchbanners") as? Int != nil {
-                if UserDefaults.standard.value(forKey: "switchbanners") as? Int == 0 {
+            if UserDefaults.standard.value(forKey: "switchbanners") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "switchbanners") as? Bool == true {
                     switchView.setOn(true, animated: false)
                 } else {
                     switchView.setOn(false, animated: false)

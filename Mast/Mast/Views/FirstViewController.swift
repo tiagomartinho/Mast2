@@ -397,7 +397,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             UserDefaults.standard.set(0, forKey: "sync-startDarkTint")
         }
         if UserDefaults.standard.value(forKey: "switchbanners") == nil {
-            UserDefaults.standard.set(0, forKey: "switchbanners")
+            UserDefaults.standard.set(true, forKey: "switchbanners")
         }
         if UserDefaults.standard.value(forKey: "sync-lock") == nil {
             UserDefaults.standard.set(0, forKey: "sync-lock")

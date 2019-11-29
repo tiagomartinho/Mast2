@@ -140,7 +140,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func showNotifBanner(_ title: String, subtitle: String, style: BannerStyle) {
-        if UserDefaults.standard.value(forKey: "switchbanners") as? Int == 0 {
+        if UserDefaults.standard.value(forKey: "switchbanners") as? Bool == true {
             let banner = FloatingNotificationBanner(title: title, subtitle: subtitle, style: style)
             if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
                 banner.haptic = .medium
