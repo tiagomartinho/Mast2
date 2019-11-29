@@ -53,4 +53,8 @@ class LoadMoreCell: UITableViewCell {
     func configure() {
         content.text = "Loading...".localized
     }
+    
+    func configureBack() {
+        content.text = "Load More".localized
+    }
 }

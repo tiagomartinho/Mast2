@@ -837,6 +837,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                             if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
                                 heights += cell.bounds.height
+                                cell.configureBack()
                             }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
