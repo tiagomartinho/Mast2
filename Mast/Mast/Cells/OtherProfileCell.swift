@@ -123,6 +123,7 @@ class OtherProfileCell: UITableViewCell {
         following.titleLabel?.adjustsFontForContentSizeCategory = true
         following.titleLabel?.numberOfLines = 1
         following.titleLabel?.lineBreakMode = .byTruncatingTail
+        following.alpha = 0
         following.sizeToFit()
         contentView.addSubview(following)
         
@@ -266,6 +267,10 @@ class OtherProfileCell: UITableViewCell {
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     if stat.isEmpty {} else {
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.following.alpha = 1
+                        }) { (completed: Bool) in
+                        }
                         if stat[1].following || (GlobalStruct.isFollowing == true) {
                             GlobalStruct.isFollowing = true
                             self.following.setTitle("   \("Following".localized)   ", for: .normal)

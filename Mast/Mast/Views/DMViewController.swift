@@ -99,11 +99,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         layout?.setMessageIncomingAvatarSize(.zero)
         
         messageInputBar.backgroundColor = GlobalStruct.baseDarkTint
-//        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-            messageInputBar.separatorLine.isHidden = false
-//        } else {
-//            messageInputBar.separatorLine.isHidden = true
-//        }
+        messageInputBar.separatorLine.isHidden = false
         messageInputBar.separatorLine.height = 2
         messageInputBar.separatorLine.backgroundColor = UIColor(named: "lighterBaseWhite")
         messageInputBar.separatorLine.tintColor = UIColor(named: "lighterBaseWhite")
@@ -144,7 +140,6 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
             }
         allButton.image = UIImage(systemName: "plus.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.2), renderingMode: .alwaysOriginal)
         let bottomItems = [allButton]
-//        messageInputBar.setStackViewItems(bottomItems, forStack: .left, animated: false)
         
         if self.mainStatus.isEmpty {} else {
             let request = Statuses.context(id: self.mainStatus[0].reblog?.id ?? self.mainStatus[0].id)
