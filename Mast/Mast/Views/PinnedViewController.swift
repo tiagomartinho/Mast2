@@ -666,6 +666,16 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
                         alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
+                        let paragraphStyle = NSMutableParagraphStyle()
+                        paragraphStyle.alignment = NSTextAlignment.left
+                        let messageText = NSMutableAttributedString(
+                            string: translatedText as? String ?? "Could not translate toot",
+                            attributes: [
+                                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                            ]
+                        )
+                        alert.setValue(messageText, forKey: "attributedMessage")
                         if let presenter = alert.popoverPresentationController {
                             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                                 presenter.sourceView = self.view
