@@ -83,6 +83,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        self.scrollTop2()
+        return false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         self.view.backgroundColor = GlobalStruct.baseDarkTint

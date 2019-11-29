@@ -57,6 +57,11 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        self.scrollTop3()
+        return false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         self.view.backgroundColor = GlobalStruct.baseDarkTint

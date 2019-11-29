@@ -178,6 +178,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        self.scrollTop1()
+        return false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         self.view.backgroundColor = GlobalStruct.baseDarkTint
