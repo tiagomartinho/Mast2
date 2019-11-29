@@ -21,6 +21,7 @@ extension String {
         z = z.replacingOccurrences(of: "&nbsp;", with: " ", options: NSString.CompareOptions.regularExpression, range: nil)
         z = z.replacingOccurrences(of: "&lt;", with: "<", options: NSString.CompareOptions.regularExpression, range: nil)
         z = z.replacingOccurrences(of: "&gt;", with: ">", options: NSString.CompareOptions.regularExpression, range: nil)
+        z = z.replacingOccurrences(of: "&#39;", with: "'", options: NSString.CompareOptions.regularExpression, range: nil)
         return z
     }
 }

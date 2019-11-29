@@ -166,10 +166,11 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                         DispatchQueue.main.async {
                             if stat.isEmpty {
                                 self.createEmptyState()
+                            } else {
+                                self.statusesListed = self.statusesListed + stat
+                                self.statusesListed = self.statusesListed.sorted(by: { $0.createdAt > $1.createdAt })
+                                self.tableView.reloadData()
                             }
-                            self.statusesListed = self.statusesListed + stat
-                            self.statusesListed = self.statusesListed.sorted(by: { $0.createdAt > $1.createdAt })
-                            self.tableView.reloadData()
                         }
                     }
                 }

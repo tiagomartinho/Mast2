@@ -24,7 +24,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     var maxChars = 500
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
-    let navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+    var navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
     var collectionView1: UICollectionView!
     var images: [UIImage] = []
     var txt = ""
@@ -38,6 +38,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         super.viewDidLayoutSubviews()
         
         self.textView.frame = CGRect(x: 0, y: 50 + self.view.safeAreaInsets.top, width: self.view.bounds.width, height: self.view.bounds.height - self.keyHeight - 50 - self.view.safeAreaInsets.top - 150)
+        self.navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
     }
     
     override func viewDidLoad() {

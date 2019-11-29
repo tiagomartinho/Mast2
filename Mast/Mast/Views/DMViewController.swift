@@ -44,6 +44,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     var safariVC: SFSafariViewController?
     var lastUser = ""
     let imag = UIImagePickerController()
+    var theUser = ""
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -75,7 +76,11 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
-        self.title = "500"
+        if self.theUser == "" {
+            self.title = ""
+        } else {
+            self.title = "@\(self.theUser)"
+        }
 //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)

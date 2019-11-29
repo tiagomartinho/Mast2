@@ -432,9 +432,20 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        var theUser = ""
+        let ac = self.notificationsDirect[indexPath.row].accounts
+        for x in ac {
+            if x.acct == GlobalStruct.currentUser.acct {
+                
+            } else {
+                theUser = x.username
+            }
+        }
 
         let controller = DMViewController()
         controller.mainStatus.append(self.notificationsDirect[indexPath.row].lastStatus!)
+        controller.theUser = theUser
         self.navigationController?.pushViewController(controller, animated: true)
         
         let request = Timelines.markRead(id: self.notificationsDirect[indexPath.row].id)
