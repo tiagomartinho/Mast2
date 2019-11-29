@@ -1827,6 +1827,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     impactFeedbackgenerator.prepare()
                     impactFeedbackgenerator.impactOccurred()
                 }
+                if let cell = self.tableView.cellForRow(at: indexPath) as? LoadMoreCell {
+                    cell.configure()
+                }
                 self.fetchGap()
             } else {
                 let vc = DetailViewController()
