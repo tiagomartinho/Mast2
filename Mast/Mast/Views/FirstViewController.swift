@@ -507,7 +507,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.top1.backgroundColor = GlobalStruct.baseDarkTint
+        self.top1.backgroundColor = UIColor.clear
         self.top1.layer.cornerRadius = 19
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
@@ -516,7 +516,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         self.top2.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top2.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.top2.backgroundColor = GlobalStruct.baseDarkTint
+        self.top2.backgroundColor = UIColor.clear
         self.top2.layer.cornerRadius = 19
         self.top2.alpha = 0
         self.top2.addTarget(self, action: #selector(self.didTouchTop2), for: .touchUpInside)
@@ -525,7 +525,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         
         self.top3.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top3.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.top3.backgroundColor = GlobalStruct.baseDarkTint
+        self.top3.backgroundColor = UIColor.clear
         self.top3.layer.cornerRadius = 19
         self.top3.alpha = 0
         self.top3.addTarget(self, action: #selector(self.didTouchTop3), for: .touchUpInside)
@@ -840,7 +840,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+//                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
                         self.tableView.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
