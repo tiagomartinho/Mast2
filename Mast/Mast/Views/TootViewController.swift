@@ -224,7 +224,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.view.backgroundColor = UIColor(named: "lighterBaseWhite")
         self.title = "New Toot".localized
 //        self.removeTabbarItemsText()
-        
+
+        GlobalStruct.postOnce = true
         GlobalStruct.macWindow = 0
         GlobalStruct.medType = 0
         
@@ -1108,63 +1109,49 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     }
     
     @objc func tickTapped() {
-        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-            impactFeedbackgenerator.prepare()
-            impactFeedbackgenerator.impactOccurred()
-        }
-        if self.containsMedia == false {
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-            var theReplyID: String? = nil
-            var theSensitive = false
-            var theSpoiler: String? = self.contentWarning
-            var theVisibility = self.defaultVisibility
-            let theMainText = cell.textView.text ?? ""
-            
-            if self.replyStatus.isEmpty {
-                if theSpoiler == nil || theSpoiler == "" {
-                    theSensitive = false
-                } else {
-                    theSensitive = true
-                }
-            } else {
-                theReplyID = self.replyStatus.first?.id ?? nil
-                if theSpoiler == nil || theSpoiler == "" {
-                    theSensitive = self.replyStatus.first?.sensitive ?? false
-                } else {
-                    theSensitive = true
-                }
-                if self.contentWarning == "" {
-                    theSpoiler = self.replyStatus.first?.spoilerText ?? self.contentWarning
-                } else {
-                    theSpoiler = self.contentWarning
-                }
-                if self.defaultVisibility == .public {
-                    theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
-                }
+        if GlobalStruct.postOnce {
+            GlobalStruct.postOnce = false
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
+            if self.containsMedia == false {
+                self.dismiss(animated: true, completion: nil)
             }
             
-            if self.containsMedia == false {
-                let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
-                GlobalStruct.client.run(request) { (statuses) in
-                    if let _ = (statuses.value) {
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
-                            ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
-                            self.dismiss(animated: true, completion: nil)
-                        }
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                var theReplyID: String? = nil
+                var theSensitive = false
+                var theSpoiler: String? = self.contentWarning
+                var theVisibility = self.defaultVisibility
+                let theMainText = cell.textView.text ?? ""
+                
+                if self.replyStatus.isEmpty {
+                    if theSpoiler == nil || theSpoiler == "" {
+                        theSensitive = false
+                    } else {
+                        theSensitive = true
+                    }
+                } else {
+                    theReplyID = self.replyStatus.first?.id ?? nil
+                    if theSpoiler == nil || theSpoiler == "" {
+                        theSensitive = self.replyStatus.first?.sensitive ?? false
+                    } else {
+                        theSensitive = true
+                    }
+                    if self.contentWarning == "" {
+                        theSpoiler = self.replyStatus.first?.spoilerText ?? self.contentWarning
+                    } else {
+                        theSpoiler = self.contentWarning
+                    }
+                    if self.defaultVisibility == .public {
+                        theVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
                     }
                 }
-            } else {
-                var y = GlobalStruct.photoToAttachArray.count
-                if GlobalStruct.photoToAttachArray.isEmpty {
-                    y = GlobalStruct.gifVidDataToAttachArray.count
-                }
-                if GlobalStruct.mediaIDs.count == y {
-                    let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: GlobalStruct.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
+                
+                if self.containsMedia == false {
+                    let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: [], sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                     GlobalStruct.client.run(request) { (statuses) in
                         if let _ = (statuses.value) {
                             DispatchQueue.main.async {
@@ -1175,25 +1162,43 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         }
                     }
                 } else {
-                    let alert = UIAlertController(title: "Please wait for all media to finish uploading".localized, message: nil, preferredStyle: .actionSheet)
-                    alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
-                        cell.textView.becomeFirstResponder()
-                    }))
-                    let paragraphStyle = NSMutableParagraphStyle()
-                    paragraphStyle.alignment = NSTextAlignment.left
-                    let messageText = NSMutableAttributedString(
-                        string: "Please wait for all media to finish uploading".localized,
-                        attributes: [
-                            NSAttributedString.Key.paragraphStyle: paragraphStyle,
-                            NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-                        ]
-                    )
-                    alert.setValue(messageText, forKey: "attributedTitle")
-                    if let presenter = alert.popoverPresentationController {
-                        presenter.sourceView = self.btn1
-                        presenter.sourceRect = self.btn1.bounds
+                    var y = GlobalStruct.photoToAttachArray.count
+                    if GlobalStruct.photoToAttachArray.isEmpty {
+                        y = GlobalStruct.gifVidDataToAttachArray.count
                     }
-                    self.present(alert, animated: true, completion: nil)
+                    if GlobalStruct.mediaIDs.count == y {
+                        let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: GlobalStruct.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
+                        GlobalStruct.client.run(request) { (statuses) in
+                            if let _ = (statuses.value) {
+                                DispatchQueue.main.async {
+                                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
+                                    ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
+                                    self.dismiss(animated: true, completion: nil)
+                                }
+                            }
+                        }
+                    } else {
+                        let alert = UIAlertController(title: "Please wait for all media to finish uploading".localized, message: nil, preferredStyle: .actionSheet)
+                        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                            GlobalStruct.postOnce = true
+                            cell.textView.becomeFirstResponder()
+                        }))
+                        let paragraphStyle = NSMutableParagraphStyle()
+                        paragraphStyle.alignment = NSTextAlignment.left
+                        let messageText = NSMutableAttributedString(
+                            string: "Please wait for all media to finish uploading".localized,
+                            attributes: [
+                                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                            ]
+                        )
+                        alert.setValue(messageText, forKey: "attributedTitle")
+                        if let presenter = alert.popoverPresentationController {
+                            presenter.sourceView = self.btn1
+                            presenter.sourceRect = self.btn1.bounds
+                        }
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }

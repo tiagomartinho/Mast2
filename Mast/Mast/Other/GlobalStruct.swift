@@ -89,6 +89,7 @@ class GlobalStruct {
     static var isImageUploading: Bool = false
     
     static var tempListIndex = 0
+    static var postOnce: Bool = true
 }
 
 class PaddedTextField: UITextField {
