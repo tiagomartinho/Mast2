@@ -393,32 +393,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             #endif
         } else if indexPath.section == 2 {
             if indexPath.row == 2 {
-                #if !targetEnvironment(macCatalyst)
-                if GlobalStruct.iapPurchased {
-                    let vc = VisibilitySettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                #elseif targetEnvironment(macCatalyst)
                 let vc = VisibilitySettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
-                #endif
             }
             if indexPath.row == 3 {
-                #if !targetEnvironment(macCatalyst)
-                if GlobalStruct.iapPurchased {
-                    let vc = KeyboardSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                #elseif targetEnvironment(macCatalyst)
-                let vc = BrowserSettingsViewController()
+                let vc = KeyboardSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
-                #endif
             }
             if indexPath.row == 4 {
                 #if !targetEnvironment(macCatalyst)

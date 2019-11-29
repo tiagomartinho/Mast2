@@ -1120,11 +1120,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             var theReplyID: String? = nil
             var theSensitive = false
-            var theSpoiler: String? = nil
-            var theVisibility = Visibility.public
+            var theSpoiler: String? = self.contentWarning
+            var theVisibility = self.defaultVisibility
             let theMainText = cell.textView.text ?? ""
+            
             if self.replyStatus.isEmpty {
-                
+                if theSpoiler == nil {
+                    theSensitive = false
+                } else {
+                    theSensitive = true
+                }
             } else {
                 theReplyID = self.replyStatus.first?.id ?? nil
                 if theSpoiler == nil {
