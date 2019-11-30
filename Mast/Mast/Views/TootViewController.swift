@@ -1182,10 +1182,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         }
                     }
                 } else {
-                    var y = GlobalStruct.photoToAttachArray.count
-                    if GlobalStruct.photoToAttachArray.isEmpty {
-                        y = GlobalStruct.gifVidDataToAttachArray.count
-                    }
                     if GlobalStruct.isImageUploading == false {
                         let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: GlobalStruct.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                         GlobalStruct.client.run(request) { (statuses) in
