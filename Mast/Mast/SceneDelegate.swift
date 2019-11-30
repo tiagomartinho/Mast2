@@ -20,11 +20,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
 
-        #if targetEnvironment(macCatalyst)
-        if let windowScene = scene as? UIWindowScene {
-            windowScene.titlebar?.titleVisibility = .hidden
-        }
-        #endif
+//        #if targetEnvironment(macCatalyst)
+//        if let windowScene = scene as? UIWindowScene {
+//            windowScene.titlebar?.titleVisibility = .hidden
+//        }
+//        #endif
 
         var isSplitOrSlideOver: Bool {
             let windows = UIApplication.shared.windows
@@ -87,6 +87,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"), at: 0)
                     titlebar.toolbar = toolbar
                 }
+            }
+        } else if GlobalStruct.macWindow == 3 {
+            let vc = UINavigationController(rootViewController: SettingsViewController())
+            self.window?.rootViewController = vc
+            self.window!.makeKeyAndVisible()
+            if let windowScene = scene as? UIWindowScene {
+                windowScene.titlebar?.titleVisibility = .visible
+                windowScene.sizeRestrictions?.minimumSize = CGSize(width: 440, height: 600)
+                windowScene.sizeRestrictions?.maximumSize = CGSize(width: 440, height: 600)
             }
         } else {
             let rootController = ColumnViewController()

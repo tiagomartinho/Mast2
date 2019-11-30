@@ -62,6 +62,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         
 //        self.removeTabbarItemsText()
         
+        #if !targetEnvironment(macCatalyst)
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         let btn2 = UIButton(type: .custom)
@@ -71,6 +72,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         btn2.accessibilityLabel = "Dismiss".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButton(settingsButton, animated: true)
+        #endif
         
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!]

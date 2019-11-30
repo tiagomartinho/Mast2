@@ -203,6 +203,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if options.userActivities.first?.activityType == "com.shi.Mast.openComposer2" {
             return UISceneConfiguration(name: "New Configuration 2", sessionRole: connectingSceneSession.role)
         }
+        if options.userActivities.first?.activityType == "com.shi.Mast.openSettings" {
+            return UISceneConfiguration(name: "New Configuration 3", sessionRole: connectingSceneSession.role)
+        }
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     

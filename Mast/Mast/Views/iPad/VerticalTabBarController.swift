@@ -64,8 +64,16 @@ class VerticalTabBarController: UIViewController {
     }
     
     @objc func settings() {
+        #if targetEnvironment(macCatalyst)
+        GlobalStruct.macWindow = 3
+        let userActivity = NSUserActivity(activityType: "com.shi.Mast.openSettings")
+        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
+          print("error", e)
+        }
+        #elseif !targetEnvironment(macCatalyst)
         let vc = SettingsViewController()
         self.show(UINavigationController(rootViewController: vc), sender: self)
+        #endif
     }
     
     @objc func search() {
