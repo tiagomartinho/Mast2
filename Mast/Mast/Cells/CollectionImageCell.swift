@@ -43,7 +43,7 @@ class CollectionImageCell: UICollectionViewCell {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
         self.videoOverlay.frame = CGRect(x: 50, y: 30, width: 60, height: 60)
         self.videoOverlay.contentMode = .scaleAspectFit
-        self.videoOverlay.image = UIImage(systemName: "play.circle.fill", withConfiguration: symbolConfig)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+        self.videoOverlay.image = UIImage(systemName: "play.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "alwaysWhite")!, renderingMode: .alwaysOriginal)
         self.videoOverlay.alpha = 0
 
         self.videoOverlay.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
