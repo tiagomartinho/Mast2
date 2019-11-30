@@ -131,6 +131,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
             if self.profileStatusesImages[indexPath.row].reblog?.sensitive ?? self.profileStatusesImages[indexPath.row].sensitive ?? true {
                 let x = self.blurImage(imageURL)
+                cell.image.sd_setImage(with: imageURL, completed: nil)
                 cell.image.image = x
             } else {
                 cell.image.sd_setImage(with: imageURL, completed: nil)

@@ -458,6 +458,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
                     if self.currentStat.reblog?.sensitive ?? self.currentStat.sensitive ?? true {
                         let x = self.blurImage(imageURL)
+                        cell.image.sd_setImage(with: imageURL, completed: nil)
                         cell.image.image = x
                     } else {
                         cell.image.sd_setImage(with: imageURL, completed: nil)
