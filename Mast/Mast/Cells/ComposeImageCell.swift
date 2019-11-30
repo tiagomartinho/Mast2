@@ -66,7 +66,6 @@ class ComposeImageCell: UICollectionViewCell {
     public func configurePercent(_ percent: Float) {
         let perc = percent * 100
         if perc == 100 {
-            GlobalStruct.isImageUploading = false
             self.percentage.setTitle("100%", for: .normal)
             UIView.animate(withDuration: 0.16, delay: 0.3, options: .curveEaseOut, animations: {
                 self.percentage.alpha = 0
