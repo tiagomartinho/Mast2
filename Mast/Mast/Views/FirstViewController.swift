@@ -923,7 +923,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        #if targetEnvironment(macCatalyst)
                         self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        #elseif !targetEnvironment(macCatalyst)
+                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        } else {
+                            let footerHe1 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) + self.segment.bounds.height
+                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights + footerHe1), animated: false)
+                        }
+                        #endif
                         self.tableView.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
@@ -987,7 +996,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        #if targetEnvironment(macCatalyst)
                         self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        #elseif !targetEnvironment(macCatalyst)
+                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                            self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        } else {
+                            let footerHe1 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) + self.segment.bounds.height
+                            self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights + footerHe1), animated: false)
+                        }
+                        #endif
                         self.tableViewL.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
@@ -1051,7 +1069,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                        #if targetEnvironment(macCatalyst)
                         self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        #elseif !targetEnvironment(macCatalyst)
+                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                            self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        } else {
+                            let footerHe1 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) + self.segment.bounds.height
+                            self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights + footerHe1), animated: false)
+                        }
+                        #endif
                         self.tableViewF.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
