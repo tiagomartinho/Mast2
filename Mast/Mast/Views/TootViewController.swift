@@ -157,7 +157,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     @objc override func paste(_ sender: Any?) {
         let pasteboard = UIPasteboard.general
         if pasteboard.hasImages {
-            if let theData = pasteboard.image?.pngData() {
+            if let theData = pasteboard.image?.jpegData(compressionQuality: 0.8) {
                 GlobalStruct.photoToAttachArray.append(theData as Data)
                 GlobalStruct.photoToAttachArrayImage.append(pasteboard.image ?? UIImage())
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
@@ -178,7 +178,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     GlobalStruct.mediaIDs = []
                 }
 //                for x in GlobalStruct.photoToAttachArray {
-                    let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    let request = Media.upload(media: .jpeg(GlobalStruct.photoToAttachArray.last ?? Data()))
                     GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
@@ -1331,7 +1331,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     GlobalStruct.mediaIDs = []
                 }
 //                for x in GlobalStruct.photoToAttachArray {
-                    let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    let request = Media.upload(media: .jpeg(GlobalStruct.photoToAttachArray.last ?? Data()))
                     GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
@@ -1421,7 +1421,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     print("error")
                 }
             } else {
-                if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()).pngData() {
+                if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()).jpegData(compressionQuality: 0.8) {
                     GlobalStruct.photoToAttachArray.append(photoToAttach)
                     GlobalStruct.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
@@ -1441,7 +1441,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     } else {
                         GlobalStruct.mediaIDs = []
                     }
-                    let request = Media.upload(media: .png(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    let request = Media.upload(media: .jpeg(GlobalStruct.photoToAttachArray.last ?? Data()))
                     GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
