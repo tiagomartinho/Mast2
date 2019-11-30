@@ -148,8 +148,9 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
             }
             return cell
         } else {
-            var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
             cell.textLabel?.text = "Clear Cache".localized
+            cell.textLabel?.textColor = UIColor.systemRed
             cell.backgroundColor = GlobalStruct.baseDarkTint
             return cell
         }
@@ -217,7 +218,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
             }
         } else {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            let op1 = UIAlertAction(title: "Clear".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let op1 = UIAlertAction(title: "Clear Cache".localized, style: .destructive , handler:{ (UIAlertAction) in
                 SDWebImageManager.shared.imageCache.clear(with: .all, completion: nil)
                 SKCache.sharedCache.removeAllImages()
             })
