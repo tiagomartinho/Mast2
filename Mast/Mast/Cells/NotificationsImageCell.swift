@@ -328,7 +328,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         if noti.status?.account.emojis.isEmpty ?? false {
             
         } else {
-            let attributedString = NSMutableAttributedString(string: "\(noti.status?.account.displayName ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            let attributedString = NSMutableAttributedString(string: "\(noti.status?.account.displayName ?? noti.account.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
             let z = noti.status?.account.emojis ?? []
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
