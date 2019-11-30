@@ -134,6 +134,9 @@ open class SKPhotoBrowser: UIViewController {
         lpgr.minimumPressDuration = 0.7
         lpgr.delaysTouchesBegan = true
         self.pagingScrollView.addGestureRecognizer(lpgr)
+        
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     func bringBackViews() {
@@ -500,6 +503,9 @@ internal extension SKPhotoBrowser {
             
             if zoomingScrollView.center.y > viewHalfHeight + minOffset
                 || zoomingScrollView.center.y < viewHalfHeight - minOffset {
+
+                UIApplication.shared.setStatusBarHidden(false, with: .fade)
+                setNeedsStatusBarAppearanceUpdate()
                 
                 determineAndClose()
                 

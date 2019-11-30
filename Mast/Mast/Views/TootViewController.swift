@@ -1186,7 +1186,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if GlobalStruct.photoToAttachArray.isEmpty {
                         y = GlobalStruct.gifVidDataToAttachArray.count
                     }
-                    if GlobalStruct.mediaIDs.count == y {
+                    if GlobalStruct.isImageUploading == false {
                         let request = Statuses.create(status: theMainText, replyToID: theReplyID, mediaIDs: GlobalStruct.mediaIDs, sensitive: theSensitive, spoilerText: theSpoiler, scheduledAt: self.scheduleTime, poll: GlobalStruct.newPollPost, visibility: theVisibility)
                         GlobalStruct.client.run(request) { (statuses) in
                             if let _ = (statuses.value) {

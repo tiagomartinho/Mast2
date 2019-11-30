@@ -24,7 +24,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
     var maxChars = 500
     let btn1 = UIButton(type: .custom)
     let btn2 = UIButton(type: .custom)
-    var navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+    var navbar = UINavigationBar()
     var collectionView1: UICollectionView!
     var images: [UIImage] = []
     var txt = ""
@@ -38,7 +38,15 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         super.viewDidLayoutSubviews()
         
         self.textView.frame = CGRect(x: 0, y: 50 + self.view.safeAreaInsets.top, width: self.view.bounds.width, height: self.view.bounds.height - self.keyHeight - 50 - self.view.safeAreaInsets.top - 150)
-        self.navbar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        let layout = ColumnFlowLayout3(
+            cellsPerRow: 4,
+            minimumInteritemSpacing: 15,
+            minimumLineSpacing: 15,
+            sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        )
+        layout.scrollDirection = .horizontal
+        self.collectionView1 = UICollectionView(frame: CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 135, width: self.view.bounds.width, height: 105), collectionViewLayout: layout)
+        self.navbar.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50)
     }
     
     override func viewDidLoad() {
@@ -67,7 +75,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
         btn2.addTarget(self, action: #selector(self.crossTapped), for: .touchUpInside)
         btn2.accessibilityLabel = "Dismiss".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
-
+        
         navbar.backgroundColor = UIColor(named: "baseWhite")!
         navbar.delegate = self
         let navItem = UINavigationItem()
@@ -167,7 +175,7 @@ class ShareViewController: UIViewController, UITextViewDelegate, UINavigationBar
             sectionInset: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         )
         layout.scrollDirection = .horizontal
-        collectionView1 = UICollectionView(frame: CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 150, width: self.view.bounds.width, height: 105), collectionViewLayout: layout)
+        collectionView1 = UICollectionView(frame: CGRect(x: 0, y: self.view.bounds.height - self.keyHeight - 135, width: self.view.bounds.width, height: 105), collectionViewLayout: layout)
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self

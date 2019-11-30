@@ -829,7 +829,17 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         let indexPaths = ((y.first?.count ?? 0)..<(stat.count + (y.first?.count ?? 0) - 1)).map {
                             IndexPath(row: $0, section: 0)
                         }
-                        self.statusesHome = y.first! + stat + y.last!
+                        if y.first?.isEmpty ?? true {
+                            if y.last?.isEmpty ?? true {
+                                self.statusesHome = stat
+                            } else {
+                                self.statusesHome = stat + y.last!
+                            }
+                        } else if y.last?.isEmpty ?? true {
+                            self.statusesHome = y.first! + stat
+                        } else {
+                            self.statusesHome = y.first! + stat + y.last!
+                        }
                         self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
                         var heights: CGFloat = 0
