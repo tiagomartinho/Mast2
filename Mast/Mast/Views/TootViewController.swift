@@ -250,6 +250,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             GlobalStruct.allDrafts = x
         }
 
+        self.contentWarning = self.replyStatus.first?.spoilerText ?? ""
+        print("cw-- \(self.contentWarning)")
         self.defaultVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
         if self.defaultVisibility == .public {
             self.visibilityIcon = "globe"
@@ -446,11 +448,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
             fixedS.width = 6
             
+            var shieldIcon = "exclamationmark.shield"
+            if self.contentWarning == "" {
+                shieldIcon = "exclamationmark.shield"
+            } else {
+                shieldIcon = "exclamationmark.shield.fill"
+            }
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
             x1.accessibilityLabel = "Add Media".localized
             x2 = UIBarButtonItem(image: UIImage(systemName: self.visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility".localized
-            x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+            x3 = UIBarButtonItem(image: UIImage(systemName: shieldIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
             x3.accessibilityLabel = "Spoiler Text".localized
             x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
             x4.accessibilityLabel = "Emoticons".localized
@@ -838,11 +846,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             } else {
                 visibilityIcon = "paperplane"
             }
+            var shieldIcon = "exclamationmark.shield"
+            if self.contentWarning == "" {
+                shieldIcon = "exclamationmark.shield"
+            } else {
+                shieldIcon = "exclamationmark.shield.fill"
+            }
             x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
             x1.accessibilityLabel = "Add Media".localized
             x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
             x2.accessibilityLabel = "Visibility".localized
-            x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+            x3 = UIBarButtonItem(image: UIImage(systemName: shieldIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
             x3.accessibilityLabel = "Spoiler Text".localized
             x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
             x4.accessibilityLabel = "Emoticons".localized
@@ -958,11 +972,17 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 } else {
                     visibilityIcon = "paperplane"
                 }
+                var shieldIcon = "exclamationmark.shield"
+                if self.contentWarning == "" {
+                    shieldIcon = "exclamationmark.shield"
+                } else {
+                    shieldIcon = "exclamationmark.shield.fill"
+                }
                 x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
                 x1.accessibilityLabel = "Add Media".localized
                 x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
                 x2.accessibilityLabel = "Visibility".localized
-                x3 = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
+                x3 = UIBarButtonItem(image: UIImage(systemName: shieldIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
                 x3.accessibilityLabel = "Spoiler Text".localized
                 x4 = UIBarButtonItem(image: UIImage(systemName: "smiley", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.smileyTap))
                 x4.accessibilityLabel = "Emoticons".localized
