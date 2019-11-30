@@ -52,6 +52,7 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
         
         self.tableView = UITableView(frame: .zero, style: .insetGrouped)
         self.tableView.register(AccountCell.self, forCellReuseIdentifier: "AccountCell")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.backgroundColor = UIColor.clear
@@ -91,113 +92,148 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Account.getAccounts().count
+        if section == 0 {
+            return Account.getAccounts().count
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let instances = InstanceData.getAllInstances()
-        if instances.isEmpty || Account.getAccounts().isEmpty {
-            cell.accessoryType = .none
-        } else {
-            let curr = InstanceData.getCurrentInstance()
-            if curr?.clientID == instances[indexPath.item].clientID {
-                cell.accessoryType = .checkmark
-            } else {
+        if indexPath.section == 0 {
+            let instances = InstanceData.getAllInstances()
+            if instances.isEmpty || Account.getAccounts().isEmpty {
                 cell.accessoryType = .none
+            } else {
+                let curr = InstanceData.getCurrentInstance()
+                if curr?.clientID == instances[indexPath.item].clientID {
+                    cell.accessoryType = .checkmark
+                } else {
+                    cell.accessoryType = .none
+                }
             }
+        } else {
+            cell.accessoryType = .none
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
-        cell.backgroundColor = GlobalStruct.baseDarkTint
-
-        var instance: InstanceData? = nil
-        if InstanceData.getAllInstances().count == 0 {} else {
-            instance = InstanceData.getAllInstances()[indexPath.row]
-        }
-        let instanceAndAccount = "@\(instance?.returnedText ?? "")"
-
-        let account = Account.getAccounts()[indexPath.item]
-        cell.configure(account.displayName, op2: "@\(account.username)\(instanceAndAccount)", op3: account.avatar)
-        
-        let instances = InstanceData.getAllInstances()
-        if instances.isEmpty || Account.getAccounts().isEmpty {
-            cell.accessoryType = .none
-        } else {
-            let curr = InstanceData.getCurrentInstance()
-            if curr?.clientID == instances[indexPath.item].clientID {
-                cell.accessoryType = .checkmark
-            } else {
-                cell.accessoryType = .none
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AccountCell", for: indexPath) as! AccountCell
+            cell.backgroundColor = GlobalStruct.baseDarkTint
+            
+            var instance: InstanceData? = nil
+            if InstanceData.getAllInstances().count == 0 {} else {
+                instance = InstanceData.getAllInstances()[indexPath.row]
             }
+            let instanceAndAccount = "@\(instance?.returnedText ?? "")"
+            
+            let account = Account.getAccounts()[indexPath.item]
+            cell.configure(account.displayName, op2: "@\(account.username)\(instanceAndAccount)", op3: account.avatar)
+            
+            let instances = InstanceData.getAllInstances()
+            if instances.isEmpty || Account.getAccounts().isEmpty {
+                cell.accessoryType = .none
+            } else {
+                let curr = InstanceData.getCurrentInstance()
+                if curr?.clientID == instances[indexPath.item].clientID {
+                    cell.accessoryType = .checkmark
+                } else {
+                    cell.accessoryType = .none
+                }
+            }
+            return cell
+        } else {
+            var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
+            cell.textLabel?.text = "Clear Cache".localized
+            cell.backgroundColor = GlobalStruct.baseDarkTint
+            return cell
         }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
-        DispatchQueue.main.async {
-
-            let instances = InstanceData.getAllInstances()
-            if instances.isEmpty || Account.getAccounts().isEmpty {
+        if indexPath.section == 0 {
+            DispatchQueue.main.async {
                 
-            } else {
-                let curr = InstanceData.getCurrentInstance()
-                if curr?.clientID == instances[indexPath.item].clientID {
+                let instances = InstanceData.getAllInstances()
+                if instances.isEmpty || Account.getAccounts().isEmpty {
                     
                 } else {
-                    InstanceData.setCurrentInstance(instance: instances[indexPath.item])
-                    GlobalStruct.client = Client(
-                        baseURL: "https://\(instances[indexPath.item].returnedText)",
-                        accessToken: instances[indexPath.item].accessToken
-                    )
-                    self.tableView.reloadData()
-                    FirstViewController().initialFetches()
-
-                    #if targetEnvironment(macCatalyst)
-                    let rootController = ColumnViewController()
-                    let nav0 = VerticalTabBarController()
-                    let nav1 = ScrollMainViewController()
-
-                    let nav01 = UINavigationController(rootViewController: FirstViewController())
-                    let nav02 = UINavigationController(rootViewController: SecondViewController())
-                    let nav03 = UINavigationController(rootViewController: ThirdViewController())
-                    let nav04 = UINavigationController(rootViewController: FourthViewController())
-                    let nav05 = UINavigationController(rootViewController: FifthViewController())
-                    nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
-
-                    rootController.viewControllers = [nav0, nav1]
-                    UIApplication.shared.keyWindow?.rootViewController = rootController
-                    UIApplication.shared.keyWindow?.makeKeyAndVisible()
-                    #elseif !targetEnvironment(macCatalyst)
-                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                    let curr = InstanceData.getCurrentInstance()
+                    if curr?.clientID == instances[indexPath.item].clientID {
+                        
+                    } else {
+                        InstanceData.setCurrentInstance(instance: instances[indexPath.item])
+                        GlobalStruct.client = Client(
+                            baseURL: "https://\(instances[indexPath.item].returnedText)",
+                            accessToken: instances[indexPath.item].accessToken
+                        )
+                        self.tableView.reloadData()
+                        FirstViewController().initialFetches()
+                        
+                        #if targetEnvironment(macCatalyst)
                         let rootController = ColumnViewController()
                         let nav0 = VerticalTabBarController()
                         let nav1 = ScrollMainViewController()
-
+                        
                         let nav01 = UINavigationController(rootViewController: FirstViewController())
                         let nav02 = UINavigationController(rootViewController: SecondViewController())
                         let nav03 = UINavigationController(rootViewController: ThirdViewController())
                         let nav04 = UINavigationController(rootViewController: FourthViewController())
                         let nav05 = UINavigationController(rootViewController: FifthViewController())
                         nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
-
+                        
                         rootController.viewControllers = [nav0, nav1]
                         UIApplication.shared.keyWindow?.rootViewController = rootController
                         UIApplication.shared.keyWindow?.makeKeyAndVisible()
-                    } else {
-                        UIApplication.shared.keyWindow?.rootViewController = ViewController()
+                        #elseif !targetEnvironment(macCatalyst)
+                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                            let rootController = ColumnViewController()
+                            let nav0 = VerticalTabBarController()
+                            let nav1 = ScrollMainViewController()
+                            
+                            let nav01 = UINavigationController(rootViewController: FirstViewController())
+                            let nav02 = UINavigationController(rootViewController: SecondViewController())
+                            let nav03 = UINavigationController(rootViewController: ThirdViewController())
+                            let nav04 = UINavigationController(rootViewController: FourthViewController())
+                            let nav05 = UINavigationController(rootViewController: FifthViewController())
+                            nav1.viewControllers = [nav01, nav02, nav03, nav04, nav05]
+                            
+                            rootController.viewControllers = [nav0, nav1]
+                            UIApplication.shared.keyWindow?.rootViewController = rootController
+                            UIApplication.shared.keyWindow?.makeKeyAndVisible()
+                        } else {
+                            UIApplication.shared.keyWindow?.rootViewController = ViewController()
+                        }
+                        #endif
                     }
-                    #endif
+                }
+                
+            }
+        } else {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            let op1 = UIAlertAction(title: "Clear".localized, style: .destructive , handler:{ (UIAlertAction) in
+                SDWebImageManager.shared.imageCache.clear(with: .all, completion: nil)
+                SKCache.sharedCache.removeAllImages()
+            })
+            op1.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+            op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            alert.addAction(op1)
+            alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                
+            }))
+            if let presenter = alert.popoverPresentationController {
+                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) {
+                    presenter.sourceView = cell
+                    presenter.sourceRect = cell.bounds
                 }
             }
-            
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
