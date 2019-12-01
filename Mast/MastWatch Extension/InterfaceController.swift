@@ -67,8 +67,8 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 if let xy2 = userInfo.first?.value {
                     UserDefaults.standard.set(xy2, forKey: "key2")
                     self.client = Client(
-                        baseURL: "https://\(xy2 ?? "")",
-                        accessToken: xy ?? ""
+                        baseURL: "https://\(xy2)",
+                        accessToken: xy
                     )
                     StoreStruct.client = self.client
                     
@@ -81,23 +81,24 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                             
                             for index in 0..<self.tableView.numberOfRows {
                                 guard self.isShowing else { return }
-                                let controller = self.tableView.rowController(at: index) as! TimelineRow
+                                if let controller = self.tableView.rowController(at: index) as? TimelineRow {
                                 controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                                 controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
                                 controller.imageView.setWidth(20)
                                 controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                                 
-                                //DispatchQueue.global().async { [weak self] in
-                                    self.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar)!) { data, response, error in
+                                DispatchQueue.global().async { [weak self] in
+                                    self?.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar)!) { data, response, error in
                                         guard let data = data, error == nil else { return }
-                                        //DispatchQueue.main.async() {
-                                        if self.isShowing {
+                                        DispatchQueue.main.async() {
+                                            if self?.isShowing ?? false {
                                             controller.imageView.setImageData(data)
                                         }
-                                        //}
+                                        }
                                     }
-                                //}
+                                }
                                 
+                                }
                             }
                             
                         }
@@ -159,7 +160,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 
                 for index in 0..<self.tableView.numberOfRows {
                     guard self.isShowing else { return }
-                    let controller = self.tableView.rowController(at: index) as! TimelineRow
+                    if let controller = self.tableView.rowController(at: index) as? TimelineRow {
                     controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                     controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
                     controller.imageView.setWidth(20)
@@ -176,6 +177,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                         }
                     }
                     
+                    }
                 }
                 
             }
@@ -208,23 +210,24 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 
                 for index in 0..<self.tableView.numberOfRows {
                     guard self.isShowing else { return }
-                    let controller = self.tableView.rowController(at: index) as! TimelineRow
+                    if let controller = self.tableView.rowController(at: index) as? TimelineRow {
                     controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                     controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                     
-                    //DispatchQueue.global().async { [weak self] in
-                    self.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar ?? "")!) { data, response, error in
+                    DispatchQueue.global().async { [weak self] in
+                        self?.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar ?? "")!) { data, response, error in
                         guard let data = data, error == nil else { return }
                         DispatchQueue.main.async() {
-                        if self.isShowing {
+                            if self?.isShowing ?? false {
                             controller.imageView.setImageData(data)
                         }
                         }
                     }
-                    //}
+                    }
                     
+                    }
                 }
                 
             }
@@ -242,26 +245,27 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 
                 for index in 0..<self.tableView.numberOfRows {
                     guard self.isShowing else { return }
-                    let controller = self.tableView.rowController(at: index) as! TimelineRow
+                    if let controller = self.tableView.rowController(at: index) as? TimelineRow {
                     controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
                     controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
                     
                     var theUR = URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar ?? "") ?? URL(string: "google.com")!
-                    //DispatchQueue.global().async { [weak self] in
-                    self.getDataFromUrl(url: theUR) { data, response, error in
+                    DispatchQueue.global().async { [weak self] in
+                        self?.getDataFromUrl(url: theUR) { data, response, error in
                         guard let data = data, error == nil else { return }
-                        //DispatchQueue.main.async() {
-                        if self.isShowing {
+                        DispatchQueue.main.async() {
+                            if self?.isShowing ?? false {
                             if theUR == URL(string: "google.com")! {} else {
                                 controller.imageView.setImageData(data)
                             }
                         }
-                        //}
+                        }
                     }
-                    //}
+                    }
                     
+                    }
                 }
                 
             }
