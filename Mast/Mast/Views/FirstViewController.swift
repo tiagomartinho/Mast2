@@ -851,24 +851,13 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         } else {
                             self.statusesHome = y.first! + stat + y.last!
                         }
-                        self.tableView.beginUpdates()
                         UIView.setAnimationsEnabled(false)
-                        var heights: CGFloat = 0
                         let _ = indexPaths.map {
-                            if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
-                                heights += cell.bounds.height
-                            }
-                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
-                                heights += cell.bounds.height
-                            }
                             if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
-                                heights += cell.bounds.height
                                 cell.configureBack()
                             }
                         }
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.bottom)
-//                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
-                        self.tableView.endUpdates()
+                        self.tableView.reloadData()
                         UIView.setAnimationsEnabled(true)
 
                         if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
