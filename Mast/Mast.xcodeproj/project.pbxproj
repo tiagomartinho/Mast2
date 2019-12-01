@@ -182,6 +182,7 @@
 		5344C0BC2337966F00EB3363 /* NotificationsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */; };
 		5344C0BE23379A4400EB3363 /* DetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BD23379A4300EB3363 /* DetailImageCell.swift */; };
 		5344C0C02337AA9500EB3363 /* OtherProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */; };
+		53488E7E23941E0E00528141 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53488E7D23941E0E00528141 /* StoreKit.framework */; };
 		534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534B278523466CC700A9042E /* TintSettingsViewController.swift */; };
 		5355A24D238832B60043F852 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5355A24C238832B60043F852 /* Marker.swift */; };
 		5355A24F238BFC030043F852 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 5355A24E238BFC030043F852 /* SDWebImage */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -1050,6 +1051,7 @@
 		5344C0BB2337966F00EB3363 /* NotificationsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsImageCell.swift; sourceTree = "<group>"; };
 		5344C0BD23379A4300EB3363 /* DetailImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageCell.swift; sourceTree = "<group>"; };
 		5344C0BF2337AA9500EB3363 /* OtherProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileCell.swift; sourceTree = "<group>"; };
+		53488E7D23941E0E00528141 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		534B278523466CC700A9042E /* TintSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintSettingsViewController.swift; sourceTree = "<group>"; };
 		5355A24C238832B60043F852 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		5355A258238C452A0043F852 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1707,6 +1709,7 @@
 				5355A24F238BFC030043F852 /* SDWebImage in Frameworks */,
 				5355A251238BFC030043F852 /* SDWebImageMapKit in Frameworks */,
 				6427A50145F216B989F00A74 /* Pods_Mast.framework in Frameworks */,
+				53488E7E23941E0E00528141 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3244,6 +3247,7 @@
 		DFF9E889BA3C59F8B8C4094A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				53488E7D23941E0E00528141 /* StoreKit.framework */,
 				5BEAFB3EAA11416A97855DF0 /* Pods_Mast.framework */,
 				53733C0C2382B3E9006F260E /* NotificationCenter.framework */,
 			);
