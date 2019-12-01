@@ -52,7 +52,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func scrollTop3() {
-        if self.tableView.alpha == 1 {
+        if self.tableView.alpha == 1 && !self.notificationsDirect.isEmpty {
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }

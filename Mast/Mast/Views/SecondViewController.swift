@@ -66,7 +66,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func scrollTop2() {
-        if self.tableView.alpha == 1 {
+        if self.tableView.alpha == 1 && !self.notifications.isEmpty {
             if self.notifications.isEmpty {
                 
             } else {

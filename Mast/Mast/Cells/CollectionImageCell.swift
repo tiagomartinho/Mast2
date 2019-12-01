@@ -40,12 +40,13 @@ class CollectionImageCell: UICollectionViewCell {
         self.image.layer.cornerRadius = 5
         contentView.addSubview(image)
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         self.videoOverlay.frame = CGRect(x: 50, y: 30, width: 60, height: 60)
         self.videoOverlay.contentMode = .scaleAspectFit
         self.videoOverlay.image = UIImage(systemName: "play.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "alwaysWhite")!, renderingMode: .alwaysOriginal)
         self.videoOverlay.alpha = 0
-
+        self.videoOverlay.layer.cornerRadius = 60
+        self.videoOverlay.backgroundColor = UIColor.black
         self.videoOverlay.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
         self.videoOverlay.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.videoOverlay.layer.shadowRadius = 14
