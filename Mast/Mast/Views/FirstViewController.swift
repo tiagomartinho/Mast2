@@ -84,6 +84,12 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
+        self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        self.top2.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        self.top3.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        
         let statusBarOrientation = UIApplication.shared.statusBarOrientation
         if (statusBarOrientation != UIInterfaceOrientation.portrait
             && statusBarOrientation != UIInterfaceOrientation.portraitUpsideDown) {
@@ -506,11 +512,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableViewF.addSubview(self.refreshControlF)
         
         // Top buttons
-        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (self.segment.bounds.height) + 10
-        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         
-        self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         self.top1.backgroundColor = UIColor.clear
         self.top1.layer.cornerRadius = 19
@@ -519,7 +522,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.top1.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top1)
         
-        self.top2.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top2.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         self.top2.backgroundColor = UIColor.clear
         self.top2.layer.cornerRadius = 19
@@ -528,7 +530,6 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.top2.accessibilityLabel = "Top".localized
         self.view.addSubview(self.top2)
         
-        self.top3.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top3.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         self.top3.backgroundColor = UIColor.clear
         self.top3.layer.cornerRadius = 19
@@ -791,7 +792,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     }
                 }
             } catch {
-                print("error")
+                let request = Timelines.home()
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            self.statusesHome = stat
+                            self.tableView.reloadData()
+                            self.statusesHomeTemp = stat
+                        }
+                    }
+                }
             }
         }
         task.resume()

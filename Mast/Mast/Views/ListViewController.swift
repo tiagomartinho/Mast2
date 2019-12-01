@@ -41,6 +41,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + 10
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
+        self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        
         // Table
         let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
         self.tableView.frame = CGRect(x: 0, y: tableHeight, width: self.view.bounds.width, height: (self.view.bounds.height) - tableHeight)
@@ -132,11 +136,8 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         self.initialFetches()
         
         // Top buttons
-        let tab0 = (self.navigationController?.navigationBar.bounds.height ?? 0) + 10
-        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + tab0
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         
-        self.top1.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         self.top1.backgroundColor = GlobalStruct.baseDarkTint
         self.top1.layer.cornerRadius = 19
