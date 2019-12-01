@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow Mast to access your microphone.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -919,6 +917,8 @@
 	<string>Allow Mast to access your Camera and Photo Library.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Mast requires Face ID permission to authenticate using Face recognition.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow Mast to access your microphone.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Allow Mast to access your camera roll.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

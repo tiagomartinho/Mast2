@@ -836,7 +836,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.gapLastStat = z
                         }
                         
-                        let indexPaths = ((y.first?.count ?? 0)..<((y.first?.count ?? 0) + stat.count) - 1).map {
+                        let fi = (y.first?.count ?? 0)
+                        let indexPaths = (fi..<(fi + stat.count - 1)).map {
                             IndexPath(row: $0, section: 0)
                         }
                         if y.first?.isEmpty ?? true {
