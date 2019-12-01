@@ -157,7 +157,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     @objc override func paste(_ sender: Any?) {
         let pasteboard = UIPasteboard.general
         if pasteboard.hasImages {
-            if let theData = pasteboard.image?.jpegData(compressionQuality: 0.8) {
+            if let theData = pasteboard.image?.sd_resizedImage(with: CGSize(width: 2999, height: 3999), scaleMode: .aspectFit)?.jpegData(compressionQuality: 0.8) {
                 GlobalStruct.photoToAttachArray.append(theData as Data)
                 GlobalStruct.photoToAttachArrayImage.append(pasteboard.image ?? UIImage())
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
@@ -1447,8 +1447,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         if let stat = (statuses.value) {
                             GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
-                        } else {
-                            print("sta1 - \(statuses)")
                         }
                     }
                 }
