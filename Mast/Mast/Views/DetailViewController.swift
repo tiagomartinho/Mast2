@@ -41,6 +41,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
+        self.detailPrev.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
+        
         // Table
         #if targetEnvironment(macCatalyst)
         let tableHeight = (self.navigationController?.navigationBar.bounds.height ?? 0)
@@ -134,11 +137,9 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
         
-        let startHeight = (UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0) + (self.navigationController?.navigationBar.bounds.height ?? 0)
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-        self.detailPrev.frame = CGRect(x: Int(self.view.bounds.width) - 48, y: Int(startHeight + 6), width: 38, height: 38)
         self.detailPrev.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.detailPrev.backgroundColor = GlobalStruct.baseDarkTint
+        self.detailPrev.backgroundColor = UIColor.clear
         self.detailPrev.layer.cornerRadius = 19
         self.detailPrev.alpha = 0
         self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)
