@@ -198,7 +198,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                         #elseif !targetEnvironment(macCatalyst)
                         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-                            var footerHe = footerHe0 - zHeights - (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0)
+                            var footerHe = footerHe0 - zHeights - (self.navigationController?.navigationBar.bounds.height ?? 0)
                             if footerHe < 0 {
                                 footerHe = 0
                             }
