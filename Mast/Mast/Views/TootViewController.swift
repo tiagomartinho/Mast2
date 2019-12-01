@@ -1421,7 +1421,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     print("error")
                 }
             } else {
-                if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage()).jpegData(compressionQuality: 0.8) {
+                if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())?.sd_resizedImage(with: CGSize(width: 2999, height: 3999), scaleMode: .aspectFit)?.jpegData(compressionQuality: 0.8) {
                     GlobalStruct.photoToAttachArray.append(photoToAttach)
                     GlobalStruct.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
@@ -1447,6 +1447,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                         if let stat = (statuses.value) {
                             GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
+                        } else {
+                            print("sta1 - \(statuses)")
                         }
                     }
                 }
