@@ -34,7 +34,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = GlobalStruct.baseTint
+        containerView.backgroundColor = GlobalStruct.baseDarkTint
         containerView.layer.cornerRadius = 0
         containerView.alpha = 0
         contentView.addSubview(containerView)
@@ -182,6 +182,18 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             selectionFeedbackGenerator.selectionChanged()
         }
         self.cwOverlay.alpha = 0
+    }
+    
+    func inset(_ offset: CGFloat) {
+        self.backgroundColor = UIColor(named: "lighterBaseWhite")!
+        let margins = self.layoutMarginsGuide
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: offset).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0).isActive = true
+        contentView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 0).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 0).isActive = true
+        contentView.layer.cornerRadius = 8
+        contentView.layer.masksToBounds = true
     }
     
     var currentStat: Status!

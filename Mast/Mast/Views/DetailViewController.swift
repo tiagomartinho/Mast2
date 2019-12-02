@@ -501,7 +501,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             if self.allReplies[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesCell", for: indexPath) as! TootCell
-//                cell.inset(30)
+//                cell.separatorInset = UIEdgeInsets(top: 0, left: 60000, bottom: 0, right: 0)
+                
+//                if self.allReplies[indexPath.row].inReplyToID == self.pickedStatusesHome[0].id {
+//                    cell.inset(0)
+//                } else {
+//                    cell.inset(25)
+//                }
+                
                 if self.allReplies.isEmpty {} else {
                     cell.configure(self.allReplies[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
@@ -541,6 +548,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().openLink()
                 }
                 
+//                cell.contentView.backgroundColor = GlobalStruct.baseDarkTint
                 cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear
@@ -548,6 +556,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesImageCell", for: indexPath) as! TootImageCell
+//                cell.separatorInset = UIEdgeInsets(top: 0, left: 60000, bottom: 0, right: 0)
+                
+//                if self.allReplies[indexPath.row].inReplyToID == self.pickedStatusesHome[0].id {
+//                    cell.inset(0)
+//                } else {
+//                    cell.inset(25)
+//                }
+                
                 if self.allReplies.isEmpty {} else {
                     cell.configure(self.allReplies[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
@@ -587,6 +603,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                     ViewController().openLink()
                 }
                 
+//                cell.contentView.backgroundColor = GlobalStruct.baseDarkTint
                 cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = UIColor.clear

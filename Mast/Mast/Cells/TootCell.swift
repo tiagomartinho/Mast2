@@ -29,7 +29,7 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = GlobalStruct.baseTint
+        containerView.backgroundColor = GlobalStruct.baseDarkTint
         containerView.layer.cornerRadius = 0
         containerView.alpha = 0
         contentView.addSubview(containerView)
@@ -162,13 +162,15 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
     }
     
     func inset(_ offset: CGFloat) {
+        self.backgroundColor = UIColor(named: "lighterBaseWhite")!
         let margins = self.layoutMarginsGuide
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: offset).isActive = true
         contentView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0).isActive = true
         contentView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 0).isActive = true
         contentView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 0).isActive = true
-        self.separatorInset = UIEdgeInsets(top: 0, left: offset + 20, bottom: 0, right: 0)
+        contentView.layer.cornerRadius = 8
+        contentView.layer.masksToBounds = true
     }
     
     func configure(_ stat: Status) {
