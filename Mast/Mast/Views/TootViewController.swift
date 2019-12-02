@@ -157,8 +157,15 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     @objc override func paste(_ sender: Any?) {
         let pasteboard = UIPasteboard.general
         if pasteboard.hasImages {
-            if let theData = pasteboard.image?.sd_resizedImage(with: CGSize(width: 2999, height: 3999), scaleMode: .aspectFit)?.jpegData(compressionQuality: 0.8) {
-                GlobalStruct.photoToAttachArray.append(theData as Data)
+            if let theData = pasteboard.image {
+                let pho = theData.size
+                let theWidthScaleFactor = 2990 / pho.width
+                let theHeightScaleFactor = 3990 / pho.height
+                let theScaleFactor = min(theWidthScaleFactor, theHeightScaleFactor)
+                let pho2 = theData.sd_resizedImage(with: CGSize(width: theData.size.width*theScaleFactor, height: theData.size.height*theScaleFactor), scaleMode: .aspectFit)
+                let pho3 = pho2?.jpegData(compressionQuality: 0.75) ?? Data()
+                
+                GlobalStruct.photoToAttachArray.append(pho3 as Data)
                 GlobalStruct.photoToAttachArrayImage.append(pasteboard.image ?? UIImage())
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                     cell.textView.text = "\(cell.textView.text ?? "")"
@@ -1421,8 +1428,15 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     print("error")
                 }
             } else {
-                if let photoToAttach = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())?.sd_resizedImage(with: CGSize(width: 2999, height: 3999), scaleMode: .aspectFit)?.jpegData(compressionQuality: 0.8) {
-                    GlobalStruct.photoToAttachArray.append(photoToAttach)
+                if let photoToAttach = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                    let pho = photoToAttach.size
+                    let theWidthScaleFactor = 2990 / pho.width
+                    let theHeightScaleFactor = 3990 / pho.height
+                    let theScaleFactor = min(theWidthScaleFactor, theHeightScaleFactor)
+                    let pho2 = photoToAttach.sd_resizedImage(with: CGSize(width: photoToAttach.size.width*theScaleFactor, height: photoToAttach.size.height*theScaleFactor), scaleMode: .aspectFit)
+                    let pho3 = pho2?.jpegData(compressionQuality: 0.75) ?? Data()
+                    
+                    GlobalStruct.photoToAttachArray.append(pho3)
                     GlobalStruct.photoToAttachArrayImage.append(info[UIImagePickerController.InfoKey.originalImage] as? UIImage ?? UIImage())
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                         cell.textView.text = "\(cell.textView.text ?? "")"
@@ -1441,12 +1455,14 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     } else {
                         GlobalStruct.mediaIDs = []
                     }
-                    let request = Media.upload(media: .jpeg(GlobalStruct.photoToAttachArray.last ?? Data()))
+                    let request = Media.upload(media: .jpeg(pho3))
                     GlobalStruct.isImageUploading = true
                     GlobalStruct.client.run(request) { (statuses) in
                         if let stat = (statuses.value) {
                             GlobalStruct.isImageUploading = false
                             GlobalStruct.mediaIDs.append(stat.id)
+                        } else {
+                            print("failimage - \(statuses)")
                         }
                     }
                 }
