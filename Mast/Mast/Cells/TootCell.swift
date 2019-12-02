@@ -161,6 +161,16 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
         self.cwOverlay.alpha = 0
     }
     
+    func inset(_ offset: CGFloat) {
+        let margins = self.layoutMarginsGuide
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: offset).isActive = true
+        contentView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0).isActive = true
+        contentView.topAnchor.constraint(equalTo: margins.topAnchor, constant: 0).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 0).isActive = true
+        self.separatorInset = UIEdgeInsets(top: 0, left: offset + 20, bottom: 0, right: 0)
+    }
+    
     func configure(_ stat: Status) {
         content.mentionColor = GlobalStruct.baseTint
         content.hashtagColor = GlobalStruct.baseTint

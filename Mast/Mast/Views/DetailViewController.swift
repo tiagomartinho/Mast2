@@ -98,6 +98,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.tableView.reloadData()
     }
     
+    func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        self.didTouchDetailPrev()
+        return false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -496,6 +501,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         } else {
             if self.allReplies[indexPath.row].mediaAttachments.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "RepliesCell", for: indexPath) as! TootCell
+//                cell.inset(30)
                 if self.allReplies.isEmpty {} else {
                     cell.configure(self.allReplies[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfileReply(_:)))
