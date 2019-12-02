@@ -324,10 +324,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     if self.allPrevious.count == 0 {} else {
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                            cell.textView.becomeFirstResponder()
-//                            self.tableView.beginUpdates()
-//                            self.tableView.endUpdates()
                             UIView.setAnimationsEnabled(true)
+                            cell.textView.becomeFirstResponder()
                         }
                     }
                     UIView.setAnimationsEnabled(true)
