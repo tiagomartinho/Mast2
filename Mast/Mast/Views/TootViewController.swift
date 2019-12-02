@@ -73,7 +73,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         super.viewDidLayoutSubviews()
         
         // Text view
-        self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight)
+        self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: (self.view.bounds.height) - self.keyHeight - 8)
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             if self.containsMedia == false {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
@@ -258,7 +258,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         }
 
         self.contentWarning = self.replyStatus.first?.spoilerText ?? ""
-        print("cw-- \(self.contentWarning)")
         self.defaultVisibility = self.replyStatus.first?.visibility ?? self.defaultVisibility
         if self.defaultVisibility == .public {
             self.visibilityIcon = "globe"
@@ -320,18 +319,18 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 DispatchQueue.main.async {
                     self.allPrevious = (stat.ancestors)
                     self.allPrevious.append(self.replyStatus[0])
+                    UIView.setAnimationsEnabled(false)
                     self.tableView.reloadData()
                     if self.allPrevious.count == 0 {} else {
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                             cell.textView.becomeFirstResponder()
-
-                            UIView.setAnimationsEnabled(false)
-                            self.tableView.beginUpdates()
-                            self.tableView.endUpdates()
+//                            self.tableView.beginUpdates()
+//                            self.tableView.endUpdates()
                             UIView.setAnimationsEnabled(true)
                         }
                     }
+                    UIView.setAnimationsEnabled(true)
                 }
             }
         }
@@ -969,16 +968,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
                 let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
                 fixedS.width = 6
-                var visibilityIcon = "globe"
-                if self.defaultVisibility == .public {
-                    visibilityIcon = "globe"
-                } else if self.defaultVisibility == .unlisted {
-                    visibilityIcon = "lock.open"
-                } else if self.defaultVisibility == .private {
-                    visibilityIcon = "lock"
-                } else {
-                    visibilityIcon = "paperplane"
-                }
                 var shieldIcon = "exclamationmark.shield"
                 if self.contentWarning == "" {
                     shieldIcon = "exclamationmark.shield"
@@ -987,7 +976,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 }
                 x1 = UIBarButtonItem(image: UIImage(systemName: "plus.circle", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraPicker))
                 x1.accessibilityLabel = "Add Media".localized
-                x2 = UIBarButtonItem(image: UIImage(systemName: visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
+                x2 = UIBarButtonItem(image: UIImage(systemName: self.visibilityIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
                 x2.accessibilityLabel = "Visibility".localized
                 x3 = UIBarButtonItem(image: UIImage(systemName: shieldIcon, withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.contentTap))
                 x3.accessibilityLabel = "Spoiler Text".localized
@@ -1273,6 +1262,42 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     presenter.sourceRect = self.btn2.bounds
                 }
                 self.present(alert, animated: true, completion: nil)
+            }
+        } else {
+            self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                if cell.textView.text.isEmpty {
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    if UIDevice.current.userInterfaceIdiom == .phone {
+                        cell.textView.resignFirstResponder()
+                    }
+                    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                    let op1 = UIAlertAction(title: "Save Draft".localized, style: .default , handler:{ (UIAlertAction) in
+                        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                            GlobalStruct.allDrafts.append(cell.textView.text ?? "")
+                            UserDefaults.standard.set(GlobalStruct.allDrafts, forKey: "sync-allDrafts")
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                    op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
+                    op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                    alert.addAction(op1)
+                    let op2 = UIAlertAction(title: "Discard".localized, style: .destructive , handler:{ (UIAlertAction) in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                    op2.setValue(UIImage(systemName: "xmark")!, forKey: "image")
+                    op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+                    alert.addAction(op2)
+                    alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                        cell.textView.becomeFirstResponder()
+                    }))
+                    if let presenter = alert.popoverPresentationController {
+                        presenter.sourceView = self.btn2
+                        presenter.sourceRect = self.btn2.bounds
+                    }
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         }
     }
