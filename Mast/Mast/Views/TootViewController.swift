@@ -64,6 +64,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     var theAcc = ""
     var searchedUsers: [Account] = []
     var visibilityIcon = "globe"
+    var atToolbar: Bool = false
     
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         self.saveToDrafts()
@@ -834,6 +835,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             impactFeedbackgenerator.impactOccurred()
         }
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+            self.atToolbar = false
             cell.textView.text = cell.textView.text.replacingOccurrences(of: self.theAcc, with: "@")
             cell.textView.text = cell.textView.text + (self.searchedUsers.first?.acct ?? "") + " "
             
@@ -942,6 +944,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         let x11 = arr.last
         let chara: Character = "."
         if x11?.first ?? chara == "@" && (x11?.count ?? 0) > 1 {
+            self.atToolbar = true
             self.theAcc = x11 ?? ""
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
@@ -962,7 +965,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 
             }
         } else {
+            if self.atToolbar {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                self.atToolbar = false
                 let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
                 let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
                 fixedS.width = 6
@@ -1019,6 +1024,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 } else {
                     self.isModalInPresentation = true
                 }
+            }
             }
         }
 
