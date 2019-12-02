@@ -217,6 +217,9 @@ class TootCell: UITableViewCell, CoreChartViewDataSource {
         if stat.reblog?.favourited ?? stat.favourited ?? false || GlobalStruct.allLikedStatuses.contains(stat.reblog?.id ?? stat.id) {
             self.heart.alpha = 1
             self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+        } else if stat.reblog?.inReplyToID ?? stat.inReplyToID != nil {
+            self.heart.alpha = 1
+            self.heart.image = UIImage(systemName: "arrowshape.turn.up.left", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
         } else if stat.reblog?.visibility ?? stat.visibility == .direct {
             self.heart.alpha = 1
             self.heart.image = UIImage(systemName: "paperplane.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)
