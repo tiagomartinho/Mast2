@@ -47,6 +47,7 @@ class ViewController: UITabBarController, UITabBarControllerDelegate {
     var statusBar = UIView()
     
     @objc func notifChangeTint() {
+        self.statusBar.backgroundColor = GlobalStruct.baseDarkTint
         self.createTabBar()
     }
     
