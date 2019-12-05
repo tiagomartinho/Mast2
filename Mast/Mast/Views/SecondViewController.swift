@@ -97,25 +97,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 2
         
-        if self.notifications.isEmpty {
-            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
-            GlobalStruct.client.run(request4) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        self.notifications = stat
-                        self.tableView.reloadData()
-                        self.tableView2.reloadData()
-//                        #if targetEnvironment(macCatalyst)
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                        #elseif !targetEnvironment(macCatalyst)
-//                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-//                            NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                        }
-//                        #endif
-                    }
-                }
-            }
-        }
+        self.markersGet()
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
@@ -145,6 +127,108 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             self.navigationItem.setRightBarButton(addButton, animated: true)
         }
         #endif
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let cell = self.tableView.indexPathsForVisibleRows?.first {
+            self.markersPost(self.notifications[cell.row].id)
+        }
+    }
+    
+    func markersPost(_ notificationsID: String) {
+        let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers"
+        let url: URL = URL(string: urlStr)!
+        var request01 = URLRequest(url: url)
+        request01.httpMethod = "POST"
+        request01.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request01.addValue("application/json", forHTTPHeaderField: "Accept")
+        request01.addValue("Bearer \(GlobalStruct.client.accessToken ?? "")", forHTTPHeaderField: "Authorization")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let paraHome: [String: Any?] = [
+            "last_read_id": notificationsID
+        ]
+        let params: [String: Any?] = [
+            "notifications": paraHome,
+        ]
+        do {
+            request01.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        let task = session.dataTask(with: request01) { data, response, err in
+            do {
+                let model = try JSONDecoder().decode(Marker.self, from: data ?? Data())
+                print("marker1 - \(model.notifications?.lastReadID ?? "")")
+            } catch {
+                print("error")
+            }
+        }
+        task.resume()
+    }
+    
+    func markersGet() {
+        let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers/?timeline=notifications"
+        let url: URL = URL(string: urlStr)!
+        var request01 = URLRequest(url: url)
+        request01.httpMethod = "GET"
+        request01.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request01.addValue("application/json", forHTTPHeaderField: "Accept")
+        request01.addValue("Bearer \(GlobalStruct.client.accessToken ?? "")", forHTTPHeaderField: "Authorization")
+        let sessionConfig = URLSessionConfiguration.default
+        let session = URLSession(configuration: sessionConfig)
+        let task = session.dataTask(with: request01) { data, response, err in
+            do {
+                let model = try JSONDecoder().decode(Marker.self, from: data ?? Data())
+                let request0 = Notifications.notification(id: model.notifications?.lastReadID ?? "")
+                GlobalStruct.client.run(request0) { (statuses) in
+                    if let stat = (statuses.value) {
+                        DispatchQueue.main.async {
+                            self.notifications = [stat]
+                            let request = Notifications.all(range: .max(id: model.notifications?.lastReadID ?? "", limit: 5000))
+                            GlobalStruct.client.run(request) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    DispatchQueue.main.async {
+                                        if stat.isEmpty {
+                                            if self.notifications.isEmpty {
+                                                let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+                                                GlobalStruct.client.run(request4) { (statuses) in
+                                                    if let stat = (statuses.value) {
+                                                        DispatchQueue.main.async {
+                                                            self.notifications = stat
+                                                            self.tableView.reloadData()
+                                                            self.tableView2.reloadData()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            self.notifications = self.notifications + stat
+                                            self.tableView.reloadData()
+                                            self.tableView2.reloadData()
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch {
+                if self.notifications.isEmpty {
+                    let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+                    GlobalStruct.client.run(request4) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                self.notifications = stat
+                                self.tableView.reloadData()
+                                self.tableView2.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        task.resume()
     }
     
     @objc func refreshTable() {
@@ -258,18 +342,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
         }
         
-        if self.notifications.isEmpty {
-            let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
-            GlobalStruct.client.run(request4) { (statuses) in
-                if let stat = (statuses.value) {
-                    DispatchQueue.main.async {
-                        self.notifications = stat
-                        self.tableView.reloadData()
-                        self.tableView2.reloadData()
-                    }
-                }
-            }
-        }
+        self.markersGet()
         
         // Table
         self.tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")

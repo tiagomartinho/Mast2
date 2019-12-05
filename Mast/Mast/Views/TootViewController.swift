@@ -80,15 +80,15 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight
                 cell.layoutIfNeeded()
                 UIView.setAnimationsEnabled(false)
-//                self.tableView.beginUpdates()
-//                self.tableView.endUpdates()
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
                 UIView.setAnimationsEnabled(true)
             } else {
                 cell.textView.frame.size.height = (self.view.bounds.height) - self.keyHeight - 145
                 cell.layoutIfNeeded()
                 UIView.setAnimationsEnabled(false)
-//                self.tableView.beginUpdates()
-//                self.tableView.endUpdates()
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
                 UIView.setAnimationsEnabled(true)
             }
         }
