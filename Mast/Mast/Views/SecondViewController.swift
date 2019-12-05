@@ -939,6 +939,32 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
+            if tableView == self.tableView {
+                return self.makeContextMenu([self.notifications[indexPath.row]], indexPath: indexPath)
+            } else {
+                return nil
+            }
+        })
+    }
+    
+    func makeContextMenu(_ notifications: [Notificationt], indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            let request = Notifications.dismiss(id: notifications[0].id)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.notifications.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+    }
+    
     func removeTabbarItemsText() {
         if let items = self.tabBarController?.tabBar.items {
             for item in items {
