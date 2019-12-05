@@ -558,6 +558,8 @@
 		5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */; };
 		5395A7622372FEB1002253A8 /* LikedBoostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */; };
 		539761C323991CF7000B860B /* TrendingTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539761C223991CF7000B860B /* TrendingTags.swift */; };
+		539761C523993FFF000B860B /* ProfileDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539761C423993FFF000B860B /* ProfileDirectory.swift */; };
+		539761C7239940A5000B860B /* ProfileDirectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539761C6239940A5000B860B /* ProfileDirectoryViewController.swift */; };
 		53A4F4092376E59200EC12C6 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F3BB2376E59200EC12C6 /* Array+Extensions.swift */; };
 		53A4F40A2376E59200EC12C6 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F3BC2376E59200EC12C6 /* UISegmentedControl+Extensions.swift */; };
 		53A4F40B2376E59200EC12C6 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F3BD2376E59200EC12C6 /* UIImageView+Extensions.swift */; };
@@ -1468,6 +1470,8 @@
 		5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndorsedViewController.swift; sourceTree = "<group>"; };
 		5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedBoostedViewController.swift; sourceTree = "<group>"; };
 		539761C223991CF7000B860B /* TrendingTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingTags.swift; sourceTree = "<group>"; };
+		539761C423993FFF000B860B /* ProfileDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDirectory.swift; sourceTree = "<group>"; };
+		539761C6239940A5000B860B /* ProfileDirectoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDirectoryViewController.swift; sourceTree = "<group>"; };
 		53A4F3BB2376E59200EC12C6 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		53A4F3BC2376E59200EC12C6 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
 		53A4F3BD2376E59200EC12C6 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
@@ -2146,6 +2150,7 @@
 				53449D8823294C0F00A470E2 /* FilterToots.swift */,
 				53449D8923294C0F00A470E2 /* Media.swift */,
 				53449D8A23294C0F00A470E2 /* Accounts.swift */,
+				539761C423993FFF000B860B /* ProfileDirectory.swift */,
 				53449D8B23294C0F00A470E2 /* Lists.swift */,
 				53449D8C23294C0F00A470E2 /* Reports.swift */,
 				539761C223991CF7000B860B /* TrendingTags.swift */,
@@ -2684,6 +2689,7 @@
 				5395A75D2372E850002253A8 /* FollowersViewController.swift */,
 				5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */,
 				5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */,
+				539761C6239940A5000B860B /* ProfileDirectoryViewController.swift */,
 				53381EE8237C1E9A0000E287 /* FollowRequestsViewController.swift */,
 				5379F41D23313CAA00DC1F33 /* TootViewController.swift */,
 				53381EE0237B14DC0000E287 /* NewPollViewController.swift */,
@@ -3858,6 +3864,7 @@
 				53449DC823294C1000A470E2 /* FollowRequests.swift in Sources */,
 				53449DA323294C1000A470E2 /* DateFormatter.swift in Sources */,
 				53733E2523844E74006F260E /* ConstraintConstantTarget.swift in Sources */,
+				539761C523993FFF000B860B /* ProfileDirectory.swift in Sources */,
 				53733D98238301A5006F260E /* TOCropScrollView.m in Sources */,
 				53449D9D23294C1000A470E2 /* URLComponents.swift in Sources */,
 				53733E3223844E74006F260E /* ConstraintLayoutGuide+Extensions.swift in Sources */,
@@ -3989,6 +3996,7 @@
 				53449D4523293EF900A470E2 /* FirstViewController.swift in Sources */,
 				53733D99238301A5006F260E /* TOCropView.m in Sources */,
 				53A4F4472376E59200EC12C6 /* OneTextFieldViewController.swift in Sources */,
+				539761C7239940A5000B860B /* ProfileDirectoryViewController.swift in Sources */,
 				534B278623466CC700A9042E /* TintSettingsViewController.swift in Sources */,
 				53449DC923294C1000A470E2 /* Login.swift in Sources */,
 				53CC76EB2379CE34005B4CF7 /* DraftsPickerViewController.swift in Sources */,

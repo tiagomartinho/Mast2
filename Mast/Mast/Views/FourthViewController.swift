@@ -332,7 +332,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         } else if section == 2 {
             return self.statusesTrends.count
         } else {
-            return self.statusesSuggested.count
+            return self.statusesSuggested.count + 1
         }
     }
     
@@ -378,6 +378,13 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         }
         if indexPath.section == 2 {
             cell.accessoryType = .disclosureIndicator
+        }
+        if indexPath.section == 3 {
+            if indexPath.row == 0 {
+                cell.accessoryType = .disclosureIndicator
+            } else {
+                cell.accessoryType = .none
+            }
         }
     }
     
@@ -450,51 +457,62 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             cell.selectedBackgroundView = bgColorView
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersCell", for: indexPath) as! FollowersCell
-            if self.statusesSuggested.isEmpty {} else {
-                cell.configure(self.statusesSuggested[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
-                
-                cell.content.handleMentionTap { (string) in
-                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                    impactFeedbackgenerator.prepare()
-                    impactFeedbackgenerator.impactOccurred()
+            if indexPath.row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "addCell", for: indexPath)
+                cell.backgroundColor = GlobalStruct.baseDarkTint
+                let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                cell.imageView?.image = UIImage(systemName: "person.crop.circle", withConfiguration: symbolConfig) ?? UIImage()
+                let descriptionSideString = NSMutableAttributedString(string: "Profile Directory".localized, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.textLabel?.attributedText = descriptionSideString
+                cell.accessoryType = .none
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersCell", for: indexPath) as! FollowersCell
+                if self.statusesSuggested.isEmpty {} else {
+                    cell.configure(self.statusesSuggested[indexPath.row - 1])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row - 1
+                    cell.profile.addGestureRecognizer(tap)
+                    
+                    cell.content.handleMentionTap { (string) in
+                        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                            impactFeedbackgenerator.prepare()
+                            impactFeedbackgenerator.impactOccurred()
+                        }
+                        let vc = FifthViewController()
+                        vc.isYou = false
+                        vc.isTapped = true
+                        vc.userID = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    cell.content.handleHashtagTap { (string) in
+                        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                            impactFeedbackgenerator.prepare()
+                            impactFeedbackgenerator.impactOccurred()
+                        }
+                        let vc = HashtagViewController()
+                        vc.theHashtag = string
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    cell.content.handleURLTap { (string) in
+                        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                            impactFeedbackgenerator.prepare()
+                            impactFeedbackgenerator.impactOccurred()
+                        }
+                        GlobalStruct.tappedURL = string
+                        ViewController().openLink()
+                    }
+                    
                 }
-                    let vc = FifthViewController()
-                    vc.isYou = false
-                    vc.isTapped = true
-                    vc.userID = string
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                cell.content.handleHashtagTap { (string) in
-                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                    impactFeedbackgenerator.prepare()
-                    impactFeedbackgenerator.impactOccurred()
-                }
-                    let vc = HashtagViewController()
-                    vc.theHashtag = string
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                cell.content.handleURLTap { (string) in
-                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                    impactFeedbackgenerator.prepare()
-                    impactFeedbackgenerator.impactOccurred()
-                }
-                    GlobalStruct.tappedURL = string
-                    ViewController().openLink()
-                }
-                
+                cell.backgroundColor = GlobalStruct.baseDarkTint
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-            cell.backgroundColor = GlobalStruct.baseDarkTint
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         }
     }
     
@@ -528,7 +546,11 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             } else if indexPath.section == 2 {
                 return nil
             } else {
-                return self.makeContextMenu3([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
+                if indexPath.row == 0 {
+                    return nil
+                } else {
+                    return self.makeContextMenu3([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
+                }
             }
         })
     }
@@ -719,10 +741,15 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             vc.theHashtag = self.statusesTrends[indexPath.row].name
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = FifthViewController()
-            vc.isYou = false
-            vc.pickedCurrentUser = self.statusesSuggested[indexPath.row]
-            self.navigationController?.pushViewController(vc, animated: true)
+            if indexPath.row == 0 {
+                let vc = ProfileDirectoryViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                let vc = FifthViewController()
+                vc.isYou = false
+                vc.pickedCurrentUser = self.statusesSuggested[indexPath.row - 1]
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
