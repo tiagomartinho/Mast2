@@ -320,7 +320,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -328,6 +328,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             return GlobalStruct.allLists.count + 1
         } else if section == 1 {
             return GlobalStruct.allCustomInstances.count + 1
+        } else if section == 2 {
+            return self.statusesTrends.count
         } else {
             return self.statusesSuggested.count
         }
@@ -347,6 +349,8 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             title.text = "Your Lists".localized
         } else if section == 1 {
             title.text = "Instance Timelines".localized
+        } else if section == 2 {
+            title.text = "Trending".localized
         } else {
             title.text = "Follow Suggestions".localized
         }
@@ -370,6 +374,9 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             } else {
                 cell.accessoryType = .disclosureIndicator
             }
+        }
+        if indexPath.section == 2 {
+            cell.accessoryType = .disclosureIndicator
         }
     }
     
@@ -426,6 +433,21 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.selectedBackgroundView = bgColorView
                 return cell
             }
+        } else if indexPath.section == 2 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "addCell2", for: indexPath)
+            if self.statusesTrends.isEmpty {
+                
+            } else {
+                let descriptionSideString = NSMutableAttributedString(string: self.statusesTrends[indexPath.row].name, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.textLabel?.attributedText = descriptionSideString
+            }
+            let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            cell.imageView?.image = UIImage(systemName: "arrow.up.right", withConfiguration: symbolConfig) ?? UIImage()
+            cell.backgroundColor = GlobalStruct.baseDarkTint
+            let bgColorView = UIView()
+            bgColorView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = bgColorView
+            return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "FollowersCell", for: indexPath) as! FollowersCell
             if self.statusesSuggested.isEmpty {} else {
@@ -497,7 +519,13 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                     return self.makeContextMenu([self.statusesSuggested[indexPath.row - 1]], indexPath: indexPath)
                 }
             } else if indexPath.section == 1 {
-                return self.makeContextMenu2([GlobalStruct.allCustomInstances[indexPath.row - 1]], indexPath: indexPath)
+                if indexPath.row == 0 {
+                    return nil
+                } else {
+                    return self.makeContextMenu2([GlobalStruct.allCustomInstances[indexPath.row - 1]], indexPath: indexPath)
+                }
+            } else if indexPath.section == 2 {
+                return nil
             } else {
                 return self.makeContextMenu3([self.statusesSuggested[indexPath.row]], indexPath: indexPath)
             }
@@ -685,6 +713,10 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
+        } else if indexPath.section == 2 {
+            let vc = HashtagViewController()
+            vc.theHashtag = self.statusesTrends[indexPath.row].name
+            self.navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = FifthViewController()
             vc.isYou = false
