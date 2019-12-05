@@ -698,7 +698,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == self.tableView {
             if self.notifications.isEmpty {
-                self.fetchNotifications()
+                self.markersGet()
                 let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
                 cell.backgroundColor = GlobalStruct.baseDarkTint
                 let bgColorView = UIView()
