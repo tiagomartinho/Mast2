@@ -768,25 +768,34 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         let task = session.dataTask(with: request01) { data, response, err in
             do {
                 let model = try JSONDecoder().decode(Marker.self, from: data ?? Data())
-                let request = Timelines.home(range: .max(id: model.home?.lastReadID ?? "", limit: 5000))
-                GlobalStruct.client.run(request) { (statuses) in
+                let request0 = Statuses.status(id: model.home?.lastReadID ?? "")
+                GlobalStruct.client.run(request0) { (statuses) in
                     if let stat = (statuses.value) {
                         DispatchQueue.main.async {
-                            if stat.isEmpty {
-                                let request = Timelines.home()
-                                GlobalStruct.client.run(request) { (statuses) in
-                                    if let stat = (statuses.value) {
-                                        DispatchQueue.main.async {
-                                            self.statusesHome = stat
+                            self.statusesHome = [stat]
+                            self.statusesHomeTemp = [stat]
+                            let request = Timelines.home(range: .max(id: model.home?.lastReadID ?? "", limit: 5000))
+                            GlobalStruct.client.run(request) { (statuses) in
+                                if let stat = (statuses.value) {
+                                    DispatchQueue.main.async {
+                                        if stat.isEmpty {
+                                            let request = Timelines.home()
+                                            GlobalStruct.client.run(request) { (statuses) in
+                                                if let stat = (statuses.value) {
+                                                    DispatchQueue.main.async {
+                                                        self.statusesHome = stat
+                                                        self.tableView.reloadData()
+                                                        self.statusesHomeTemp = stat
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            self.statusesHome = self.statusesHome + stat
                                             self.tableView.reloadData()
-                                            self.statusesHomeTemp = stat
+                                            self.statusesHomeTemp = self.statusesHomeTemp + stat
                                         }
                                     }
                                 }
-                            } else {
-                                self.statusesHome = stat
-                                self.tableView.reloadData()
-                                self.statusesHomeTemp = stat
                             }
                         }
                     }
