@@ -158,9 +158,9 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
                             
                             let theText = NSMutableAttributedString(string: $0.content.stripHTML())
                             if $0.account.acct == GlobalStruct.currentUser.acct {
-                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
+                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.9), NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
                             } else {
-                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
+                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.9), NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
                             }
                             let sender = Sender(id: theType, displayName: "\($0.account.acct)")
                             let x = MockMessage.init(attributedText: theText, sender: sender, messageId: $0.id, date: $0.createdAt)
@@ -272,7 +272,7 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
     
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
         switch detector {
-        case .hashtag, .mention, .url: return isFromCurrentSender(message: message) ? [.foregroundColor: UIColor.white] : [.foregroundColor: UIColor(named: "baseBlack")!]
+        case .hashtag, .mention, .url: return isFromCurrentSender(message: message) ? [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)] : [.foregroundColor: UIColor(named: "baseBlack")!, .font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)]
         default: return MessageLabel.defaultAttributes
         }
     }
