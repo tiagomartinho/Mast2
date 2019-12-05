@@ -102,9 +102,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: "refpush1"), object: nil)
         
-        if application.applicationState == .inactive || application.applicationState == .background {
+//        if application.applicationState == .inactive || application.applicationState == .background {
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-        }
+//        }
         completionHandler()
     }
     
