@@ -16,7 +16,7 @@ import Photos
 import MobileCoreServices
 import InputBarAccessoryView
 
-class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, MessageCellDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, MessageCellDelegate, MessageLabelDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
     public var isSplitOrSlideOver: Bool {
         let windows = UIApplication.shared.windows
@@ -158,9 +158,9 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
                             
                             let theText = NSMutableAttributedString(string: $0.content.stripHTML())
                             if $0.account.acct == GlobalStruct.currentUser.acct {
-                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
+                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.white.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
                             } else {
-                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!, NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
+                                theText.addAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.75), NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)], range: theText.mutableString.range(of: theText.string))
                             }
                             let sender = Sender(id: theType, displayName: "\($0.account.acct)")
                             let x = MockMessage.init(attributedText: theText, sender: sender, messageId: $0.id, date: $0.createdAt)
@@ -227,6 +227,60 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         }
     }
     
+    func didSelectURL(_ url: URL) {
+        print("URL Selected: \(url)")
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
+        GlobalStruct.tappedURL = url
+        ViewController().openLink()
+    }
+
+    func didSelectHashtag(_ hashtag: String) {
+        print("Hashtag selected: \(hashtag)")
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
+        let vc = HashtagViewController()
+        vc.theHashtag = hashtag
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func didSelectMention(_ mention: String) {
+        print("Mention selected: \(mention)")
+        if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+            let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+            impactFeedbackgenerator.prepare()
+            impactFeedbackgenerator.impactOccurred()
+        }
+        let request2 = Accounts.search(query: mention)
+        GlobalStruct.client.run(request2) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.pickedCurrentUser = stat[0]
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
+    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
+        switch detector {
+        case .hashtag, .mention, .url: return isFromCurrentSender(message: message) ? [.foregroundColor: UIColor.white] : [.foregroundColor: UIColor(named: "baseBlack")!]
+        default: return MessageLabel.defaultAttributes
+        }
+    }
+    
+    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+        return [.url, .mention, .hashtag]
+    }
+    
     func currentSender() -> SenderType {
         return Sender(id: "1", displayName: "\(GlobalStruct.currentUser.acct)")
     }
@@ -290,16 +344,6 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
         guard indexPath.section + 1 < messages.count else { return false }
         return messages[indexPath.section].sender.displayName == messages[indexPath.section + 1].sender.displayName
     }
-    
-//    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-//        let avString = self.allPosts[indexPath.section].account.avatar
-//        let url = URL(string: avString)
-//        let imageData = try! Data(contentsOf: url!)
-//        let image1 = UIImage(data: imageData)
-//        let avatar = Avatar(image: image1, initials: "")
-//        avatarView.set(avatar: avatar)
-//        avatarView.isHidden = isNextMessageSameSender(at: indexPath)
-//    }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
