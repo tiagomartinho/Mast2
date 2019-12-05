@@ -944,7 +944,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { return nil }, actionProvider: { suggestedActions in
             if tableView == self.tableView {
-                return self.makeContextMenu([self.notifications[indexPath.row]], indexPath: indexPath)
+                if self.notifications[indexPath.row].id == "loadmorehere" {
+                    return nil
+                } else {
+                    return self.makeContextMenu([self.notifications[indexPath.row]], indexPath: indexPath)
+                }
             } else {
                 return nil
             }
