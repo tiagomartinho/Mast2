@@ -10,7 +10,7 @@ import Foundation
 
 public class Notificationt: Codable {
     /// The notification ID.
-    public let id: String
+    public var id: String
     /// The notification type.
     public let type: NotificationType
     /// The time the notification was created.

@@ -34,6 +34,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     let btn2 = UIButton(type: .custom)
     var notTypes: [NotificationType] = []
     var notifications: [Notificationt] = []
+    var gapLastID = ""
+    var gapLastStat: Notificationt? = nil
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -231,6 +233,64 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         task.resume()
     }
     
+    func fetchGap() {
+        let request = Notifications.all(range: .max(id: self.gapLastID, limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top1.alpha = 1
+                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
+                        
+                        let y = self.notifications.split(separator: self.gapLastStat ?? self.notifications.last!)
+                        
+                        if self.notifications.contains(stat.last!) || stat.count < 15 {
+                            
+                        } else {
+                            self.gapLastID = stat.last?.id ?? ""
+                            let z = stat.last!
+                            z.id = "loadmorehere"
+                            self.gapLastStat = z
+                        }
+                        
+                        let fi = (y.first?.count ?? 0)
+                        let indexPaths = (fi..<(fi + stat.count - 1)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        if y.first?.isEmpty ?? true {
+                            if y.last?.isEmpty ?? true {
+                                self.notifications = stat
+                            } else {
+                                self.notifications = stat + y.last!
+                            }
+                        } else if y.last?.isEmpty ?? true {
+                            self.notifications = y.first! + stat
+                        } else {
+                            self.notifications = y.first! + stat + y.last!
+                        }
+                        UIView.setAnimationsEnabled(false)
+                        let _ = indexPaths.map {
+                            if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
+                                cell.configureBack()
+                            }
+                        }
+                        self.tableView.reloadData()
+                        UIView.setAnimationsEnabled(true)
+                    }
+                }
+            }
+        }
+    }
+    
     @objc func refreshTable() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
@@ -347,6 +407,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         // Table
         self.tableView.register(NotificationsCell.self, forCellReuseIdentifier: "NotificationsCell")
         self.tableView.register(NotificationsImageCell.self, forCellReuseIdentifier: "NotificationsImageCell")
+        self.tableView.register(LoadMoreCell.self, forCellReuseIdentifier: "LoadMoreCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -426,6 +487,16 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                             self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
                         }) { (completed: Bool) in
                         }
+                        
+                        if self.notifications.contains(stat.last!) || stat.count < 15 {
+                            
+                        } else {
+                            self.gapLastID = stat.last?.id ?? ""
+                            let z = stat.last!
+                            z.id = "loadmorehere"
+                            self.gapLastStat = z
+                        }
+                        
                         let indexPaths = (0..<stat.count).map {
                             IndexPath(row: $0, section: 0)
                         }
@@ -438,6 +509,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                 heights += cell.bounds.height
                             }
                             if let cell = self.tableView.cellForRow(at: $0) as? NotificationsImageCell {
+                                heights += cell.bounds.height
+                            }
+                            if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
                                 heights += cell.bounds.height
                             }
                         }
@@ -632,7 +706,16 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 cell.selectedBackgroundView = bgColorView
                 return cell
             } else {
-                if self.notifications[indexPath.row].status?.mediaAttachments.isEmpty ?? true {
+                if self.notifications[indexPath.row].id == "loadmorehere" {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "LoadMoreCell", for: indexPath) as! LoadMoreCell
+                    cell.backgroundColor = UIColor(named: "lighterBaseWhite")!
+                    let bgColorView = UIView()
+                    bgColorView.backgroundColor = UIColor.clear
+                    cell.selectedBackgroundView = bgColorView
+                    return cell
+                    
+                } else if self.notifications[indexPath.row].status?.mediaAttachments.isEmpty ?? true {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationsCell", for: indexPath) as! NotificationsCell
                     cell.configure(self.notifications[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
@@ -827,17 +910,29 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableView {
-            if self.notifications[indexPath.row].type == .direct {
-                
-            } else if self.notifications[indexPath.row].type == .follow {
-                let vc = FifthViewController()
-                vc.isYou = false
-                vc.pickedCurrentUser = self.notifications[indexPath.row].account
-                self.navigationController?.pushViewController(vc, animated: true)
+            if self.notifications[indexPath.row].id == "loadmorehere" {
+                if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                    impactFeedbackgenerator.prepare()
+                    impactFeedbackgenerator.impactOccurred()
+                }
+                if let cell = self.tableView.cellForRow(at: indexPath) as? LoadMoreCell {
+                    cell.configure()
+                }
+                self.fetchGap()
             } else {
-                let vc = DetailViewController()
-                vc.pickedStatusesHome = [self.notifications[indexPath.row].status!]
-                self.navigationController?.pushViewController(vc, animated: true)
+                if self.notifications[indexPath.row].type == .direct {
+                    
+                } else if self.notifications[indexPath.row].type == .follow {
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.pickedCurrentUser = self.notifications[indexPath.row].account
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    let vc = DetailViewController()
+                    vc.pickedStatusesHome = [self.notifications[indexPath.row].status!]
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         } else {
             
