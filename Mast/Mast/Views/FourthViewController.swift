@@ -213,6 +213,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         // Table
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "addCell")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "addCell2")
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "addCell3")
         self.tableView.register(FollowersCell.self, forCellReuseIdentifier: "FollowersCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -434,7 +435,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
         } else if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "addCell2", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "addCell3", for: indexPath)
             if self.statusesTrends.isEmpty {
                 
             } else {
