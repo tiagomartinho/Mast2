@@ -557,6 +557,7 @@
 		5395A75E2372E850002253A8 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75D2372E850002253A8 /* FollowersViewController.swift */; };
 		5395A7602372F6D7002253A8 /* EndorsedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */; };
 		5395A7622372FEB1002253A8 /* LikedBoostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */; };
+		539761C323991CF7000B860B /* TrendingTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539761C223991CF7000B860B /* TrendingTags.swift */; };
 		53A4F4092376E59200EC12C6 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F3BB2376E59200EC12C6 /* Array+Extensions.swift */; };
 		53A4F40A2376E59200EC12C6 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F3BC2376E59200EC12C6 /* UISegmentedControl+Extensions.swift */; };
 		53A4F40B2376E59200EC12C6 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A4F3BD2376E59200EC12C6 /* UIImageView+Extensions.swift */; };
@@ -1466,6 +1467,7 @@
 		5395A75D2372E850002253A8 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		5395A75F2372F6D7002253A8 /* EndorsedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndorsedViewController.swift; sourceTree = "<group>"; };
 		5395A7612372FEB1002253A8 /* LikedBoostedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedBoostedViewController.swift; sourceTree = "<group>"; };
+		539761C223991CF7000B860B /* TrendingTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingTags.swift; sourceTree = "<group>"; };
 		53A4F3BB2376E59200EC12C6 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		53A4F3BC2376E59200EC12C6 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
 		53A4F3BD2376E59200EC12C6 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
@@ -2146,6 +2148,7 @@
 				53449D8A23294C0F00A470E2 /* Accounts.swift */,
 				53449D8B23294C0F00A470E2 /* Lists.swift */,
 				53449D8C23294C0F00A470E2 /* Reports.swift */,
+				539761C223991CF7000B860B /* TrendingTags.swift */,
 				53449D8D23294C0F00A470E2 /* Clients.swift */,
 				53449D8E23294C0F00A470E2 /* DomainBlocks.swift */,
 				53449D8F23294C0F00A470E2 /* Search.swift */,
@@ -4032,6 +4035,7 @@
 				53B5AD522390548400221034 /* SKAnimator.swift in Sources */,
 				53733D5B2382FF1F006F260E /* CropViewController.swift in Sources */,
 				53733DE323844DB4006F260E /* BannerColors.swift in Sources */,
+				539761C323991CF7000B860B /* TrendingTags.swift in Sources */,
 				53733E1E23844E74006F260E /* ConstraintDirectionalInsetTarget.swift in Sources */,
 				53733E2223844E74006F260E /* ConstraintLayoutGuide.swift in Sources */,
 				53449DCC23294C1000A470E2 /* Blocks.swift in Sources */,

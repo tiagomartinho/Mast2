@@ -29,6 +29,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
     var tableView = UITableView()
     var refreshControl = UIRefreshControl()
     var statusesSuggested: [Account] = []
+    var statusesTrends: [Tag] = []
     var txt = ""
     
     override func viewDidLayoutSubviews() {
@@ -255,6 +256,15 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
                     self.statusesSuggested = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        let request2 = TrendingTags.all()
+        GlobalStruct.client.run(request2) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.statusesTrends = stat
                     self.tableView.reloadData()
                 }
             }

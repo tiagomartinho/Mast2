@@ -139,7 +139,7 @@ class PinnedViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
         self.top1.backgroundColor = GlobalStruct.baseDarkTint
-        self.top1.layer.cornerRadius = 19
+        self.top1.layer.cornerRadius = 30
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
         self.top1.accessibilityLabel = "Top".localized
