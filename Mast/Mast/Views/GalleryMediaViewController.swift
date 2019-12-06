@@ -122,7 +122,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
 
         self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
 
-        if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .video {
+        if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .video || self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .gifv || self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .audio {
             cell.videoOverlay.alpha = 1
         } else {
             cell.videoOverlay.alpha = 0
@@ -200,7 +200,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.profileStatusesImages[indexPath.item].mediaAttachments.first?.type == .video {
+        if self.profileStatusesImages[indexPath.item].mediaAttachments.first?.type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments.first?.type == .gifv || self.profileStatusesImages[indexPath.item].mediaAttachments.first?.type == .audio {
             if let ur = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments.first?.url ?? "") {
                 self.player = AVPlayer(url: ur)
                 self.playerViewController.player = self.player
