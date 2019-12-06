@@ -937,20 +937,401 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
 //            }
 //        })
 //    }
-//
-//    func makeContextMenu(_ notifications: [Notificationt], indexPath: IndexPath) -> UIMenu {
-//        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-//            let request = Notifications.dismiss(id: notifications[0].id)
-//            GlobalStruct.client.run(request) { (statuses) in
-//                DispatchQueue.main.async {
-//                    self.tableView.deleteRows(at: [indexPath], with: .none)
-//                    self.notifications.remove(at: indexPath.row)
-//                }
-//            }
-//        }
-//        remove.attributes = .destructive
-//        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
-//    }
+    
+    func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
+        animator.addCompletion {
+            guard let indexPath = configuration.identifier as? IndexPath else { return }
+            if tableView == self.tableView && self.notifications[indexPath.row].type == .mention {
+                let vc = DetailViewController()
+                guard let stat = self.notifications[indexPath.row].status else { return }
+                vc.pickedStatusesHome = [stat]
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                return
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
+            if tableView == self.tableView && self.notifications[indexPath.row].type == .mention {
+                if self.notifications[indexPath.row].id == "loadmorehere" {
+                    return nil
+                } else {
+                    let vc = DetailViewController()
+                    guard let stat = self.notifications[indexPath.row].status else { return nil }
+                    vc.fromContextMenu = true
+                    vc.pickedStatusesHome = [stat]
+                    return vc
+                }
+            } else {
+                return nil
+            }
+        }, actionProvider: { suggestedActions in
+            if tableView == self.tableView && self.notifications[indexPath.row].type == .mention {
+                if self.notifications[indexPath.row].id == "loadmorehere" {
+                    return nil
+                } else {
+                    guard let stat = self.notifications[indexPath.row].status else { return nil }
+                    return self.makeContextMenu([stat], indexPath: indexPath, tableView: self.tableView)
+                }
+            } else if tableView == self.tableView {
+                if self.notifications[indexPath.row].id == "loadmorehere" {
+                    return nil
+                } else {
+                    return self.makeContextMenuNoti([self.notifications[indexPath.row]], indexPath: indexPath)
+                }
+            } else {
+                return nil
+            }
+        })
+    }
+    
+    func makeContextMenuNoti(_ notifications: [Notificationt], indexPath: IndexPath) -> UIMenu {
+        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            let noti = notifications[0].id
+            self.notifications = self.notifications.filter { $0 != self.notifications[indexPath.row] }
+            self.tableView.deleteRows(at: [indexPath], with: .none)
+            let request = Notifications.dismiss(id: noti)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+
+                }
+            }
+        }
+        remove.attributes = .destructive
+        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+    }
+    
+    func makeContextMenu(_ status: [Status], indexPath: IndexPath, tableView: UITableView) -> UIMenu {
+        let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
+        #if targetEnvironment(macCatalyst)
+        GlobalStruct.macWindow = 2
+            GlobalStruct.macReply = status
+        let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer2")
+        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
+          print("error", e)
+        }
+        #elseif !targetEnvironment(macCatalyst)
+            let vc = TootViewController()
+            vc.replyStatus = status
+            self.show(UINavigationController(rootViewController: vc), sender: self)
+            #endif
+        }
+        var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
+            ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+            let request = Statuses.reblog(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        if status.first?.reblogged ?? false {
+            boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
+                ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.unreblog(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
+            }
+        }
+        var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
+            ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+            GlobalStruct.allLikedStatuses.append(status.first?.id ?? "")
+            if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
+                cell.configure(status.first!)
+            } else if let cell = tableView.cellForRow(at: indexPath) as? TootImageCell {
+                cell.configure(status.first!)
+            }
+            let request = Statuses.favourite(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        if status.first?.favourited ?? false || GlobalStruct.allLikedStatuses.contains(status.first?.reblog?.id ?? status.first?.id ?? "") {
+            like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
+                ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                GlobalStruct.allLikedStatuses = GlobalStruct.allLikedStatuses.filter{$0 != status.first?.id ?? ""}
+                if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
+                    cell.configure(status.first!)
+                } else if let cell = tableView.cellForRow(at: indexPath) as? TootImageCell {
+                    cell.configure(status.first!)
+                }
+                let request = Statuses.unfavourite(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    
+                }
+            }
+        }
+        let shar = UIAction(title: "Share".localized, image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            self.shareThis(status)
+        }
+        let tran = UIAction(title: "Translate".localized, image: UIImage(systemName: "globe"), identifier: nil) { action in
+            self.translateThis(status)
+        }
+        let mute = UIAction(title: "Mute Conversation".localized, image: UIImage(systemName: "eye.slash"), identifier: nil) { action in
+            ViewController().showNotifBanner("Muted".localized, subtitle: "Conversation".localized, style: BannerStyle.info)
+            let request = Statuses.mute(id: status.first?.id ?? "")
+            GlobalStruct.client.run(request) { (statuses) in
+                print("muted")
+            }
+        }
+        let dupl = UIAction(title: "Duplicate".localized, image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+            let vc = TootViewController()
+            vc.duplicateStatus = status
+            self.show(UINavigationController(rootViewController: vc), sender: self)
+        }
+        let delete = UIAction(title: "Delete".localized, image: UIImage(systemName: "trash"), identifier: nil) { action in
+            
+        }
+        delete.attributes = .destructive
+        
+        let repo1 = UIAction(title: "Harassment".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Harassment".localized, style: BannerStyle.info)
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Harassment")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        repo1.attributes = .destructive
+        let repo2 = UIAction(title: "No Content Warning".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "No Content Warning".localized, style: BannerStyle.info)
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "No Content Warning")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        repo2.attributes = .destructive
+        let repo3 = UIAction(title: "Spam".localized, image: UIImage(systemName: "flag"), identifier: nil) { action in
+            ViewController().showNotifBanner("Reported".localized, subtitle: "Spam".localized, style: BannerStyle.info)
+            let request = Reports.report(accountID: status.first?.account.id ?? "", statusIDs: [status.first?.id ?? ""], reason: "Spam")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        }
+        repo3.attributes = .destructive
+        
+        let rep = UIMenu(__title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil, options: [.destructive], children: [repo1, repo2, repo3])
+        
+        
+        let remove0 = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+            let request = Notifications.dismiss(id: self.notifications[indexPath.row].id)
+            GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.tableView.deleteRows(at: [indexPath], with: .none)
+                    self.notifications.remove(at: indexPath.row)
+                }
+            }
+        }
+        remove0.attributes = .destructive
+        
+        
+        if GlobalStruct.currentUser.id == (status.first?.account.id ?? "") {
+            
+            let pin1 = UIAction(title: "Pin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                ViewController().showNotifBanner("Pinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.pin(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = statuses.value {
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
+            }
+            let pin2 = UIAction(title: "Unpin".localized, image: UIImage(systemName: "pin"), identifier: nil) { action in
+                ViewController().showNotifBanner("Unpinned".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.unpin(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    if let stat = statuses.value {
+                        DispatchQueue.main.async {
+                            
+                        }
+                    }
+                }
+            }
+            let del1 = UIAction(title: "Delete and Redraft".localized, image: UIImage(systemName: "pencil.circle"), identifier: nil) { action in
+                let request = Statuses.delete(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    DispatchQueue.main.async {
+                        let vc = TootViewController()
+                        vc.duplicateStatus = [status.first!]
+                        self.show(UINavigationController(rootViewController: vc), sender: self)
+                    }
+                }
+            }
+            del1.attributes = .destructive
+            let del2 = UIAction(title: "Delete".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+                ViewController().showNotifBanner("Deleted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                let request = Statuses.delete(id: status.first?.id ?? "")
+                GlobalStruct.client.run(request) { (statuses) in
+                    DispatchQueue.main.async {
+                    
+                    }
+                }
+            }
+            del2.attributes = .destructive
+            if GlobalStruct.allPinned.contains(status.first!) {
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2, remove0])
+                if status.first!.visibility == .private {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+                } else {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                }
+            } else {
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2, remove0])
+                if status.first!.visibility == .private {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+                } else {
+                    return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+                }
+            }
+            
+        } else {
+            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep, remove0])
+            if status.first!.visibility == .private {
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
+            } else {
+                return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
+            }
+        }
+    }
+    
+    func shareThis(_ stat: [Status]) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: " \("Share Content".localized)", style: .default , handler:{ (UIAlertAction) in
+            let textToShare = [stat.first?.content.stripHTML() ?? ""]
+            let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                activityViewController.popoverPresentationController?.sourceView = cell.button4
+                activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        })
+        op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Share Link".localized, style: .default , handler:{ (UIAlertAction) in
+            let textToShare = [stat.first?.url?.absoluteString ?? ""]
+            let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                activityViewController.popoverPresentationController?.sourceView = cell.button4
+                activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        })
+        op2.setValue(UIImage(systemName: "link")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                presenter.sourceView = self.view
+                presenter.sourceRect = self.view.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func translateThis(_ stat: [Status]) {
+        let unreserved = "-._~/?"
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: unreserved)
+        let bodyText = stat.first?.content.stripHTML() ?? ""
+        let unreservedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"
+        let unreservedCharset = NSCharacterSet(charactersIn: unreservedChars)
+        var trans = bodyText.addingPercentEncoding(withAllowedCharacters: unreservedCharset as CharacterSet)
+        trans = trans!.replacingOccurrences(of: "\n\n", with: "%20")
+        let langStr = Locale.current.languageCode
+        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=\(langStr ?? "en")&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
+        guard let requestUrl = URL(string:urlString) else {
+            return
+        }
+        let request = URLRequest(url:requestUrl)
+        let task = URLSession.shared.dataTask(with: request) {
+            (data, response, error) in
+            if error == nil, let usableData = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
+                    var translatedText = ""
+                    for i in (json[0] as! [Any]) {
+                        translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                    }
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: nil, message: translatedText as? String ?? "Could not translate tweet", preferredStyle: .actionSheet)
+                        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+                            
+                        }))
+                        let paragraphStyle = NSMutableParagraphStyle()
+                        paragraphStyle.alignment = NSTextAlignment.left
+                        let messageText = NSMutableAttributedString(
+                            string: translatedText as? String ?? "Could not translate toot",
+                            attributes: [
+                                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                                NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                            ]
+                        )
+                        alert.setValue(messageText, forKey: "attributedMessage")
+                        if let presenter = alert.popoverPresentationController {
+                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                                presenter.sourceView = self.view
+                                presenter.sourceRect = self.view.bounds
+                            }
+                        }
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                } catch let error as NSError {
+                    print(error)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func reportThis(_ stat: [Status]) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Harassment".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Harassment")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op1.setValue(UIImage(systemName: "flag")!, forKey: "image")
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "No Content Warning".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "No Content Warning")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op2.setValue(UIImage(systemName: "flag")!, forKey: "image")
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        let op3 = UIAlertAction(title: "Spam".localized, style: .destructive , handler:{ (UIAlertAction) in
+            let request = Reports.report(accountID: stat.first?.account.id ?? "", statusIDs: [stat.first?.id ?? ""], reason: "Spam")
+            GlobalStruct.client.run(request) { (statuses) in
+                
+            }
+        })
+        op3.setValue(UIImage(systemName: "flag")!, forKey: "image")
+        op3.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op3)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                presenter.sourceView = self.view
+                presenter.sourceRect = self.view.bounds
+            }
+        }
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     
     func removeTabbarItemsText() {
         if let items = self.tabBarController?.tabBar.items {

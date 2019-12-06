@@ -1178,6 +1178,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                                 ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                                 self.dismiss(animated: true, completion: nil)
+                                #if targetEnvironment(macCatalyst)
+                                
+                                #endif
                             }
                         }
                     }
@@ -1194,6 +1197,9 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                                     ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                                     self.dismiss(animated: true, completion: nil)
+                                    #if targetEnvironment(macCatalyst)
+                                    
+                                    #endif
                                 }
                             }
                         }
