@@ -270,8 +270,12 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
                 self.profile2.layer.borderColor = GlobalStruct.baseDarkTint.cgColor
             }
         }
-        if noti.status?.favourited ?? false {
-            self.heart.alpha = 1
+        if noti.status?.favourited ?? false || GlobalStruct.allLikedStatuses.contains(noti.status?.id ?? "") {
+            if GlobalStruct.allDislikedStatuses.contains(noti.status?.id ?? "") {
+                self.heart.alpha = 0
+            } else {
+                self.heart.alpha = 1
+            }
         } else {
             self.heart.alpha = 0
         }
