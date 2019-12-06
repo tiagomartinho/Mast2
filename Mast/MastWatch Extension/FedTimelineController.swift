@@ -164,6 +164,7 @@ class FedTimelineController: WKInterfaceController {
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+        WKInterfaceDevice.current().play(.click)
         StoreStruct.currentRow = rowIndex
         StoreStruct.fromWhere = 3
         pushController(withName: "DetailController", context: nil)

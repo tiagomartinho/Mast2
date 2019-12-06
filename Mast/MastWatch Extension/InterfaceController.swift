@@ -245,6 +245,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+        WKInterfaceDevice.current().play(.click)
         StoreStruct.currentRow = rowIndex
         StoreStruct.fromWhere = 0
         pushController(withName: "DetailController", context: nil)

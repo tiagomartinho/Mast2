@@ -16,6 +16,7 @@ class TootController: WKInterfaceController {
     @IBOutlet var cancelB: WKInterfaceButton!
     
     @IBAction func tappedToot() {
+        WKInterfaceDevice.current().play(.success)
         let request0 = Statuses.create(status: StoreStruct.tootText, replyToID: StoreStruct.replyID, mediaIDs: [], sensitive: false, spoilerText: nil, visibility: .public)
         StoreStruct.client.run(request0) { (statuses) in
              

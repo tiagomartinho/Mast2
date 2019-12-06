@@ -25,6 +25,7 @@ class DetailController: WKInterfaceController {
     var isBoosted: Bool = false
     
     @IBAction func replyTap() {
+        WKInterfaceDevice.current().play(.click)
         let textChoices = ["Yes","No","Maybe","I love Mast"]
         presentTextInputController(withSuggestions: textChoices, allowedInputMode: WKTextInputMode.allowEmoji, completion: {(results) -> Void in
             if results != nil && results?.count ?? 0 > 0 {
@@ -37,6 +38,7 @@ class DetailController: WKInterfaceController {
     }
     
     @IBAction func likeTap() {
+        WKInterfaceDevice.current().play(.click)
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
         if self.allThings[StoreStruct.currentRow].reblog?.favourited ?? self.allThings[StoreStruct.currentRow].favourited ?? true || self.isLiked {
             DispatchQueue.main.async {
@@ -60,6 +62,7 @@ class DetailController: WKInterfaceController {
     }
     
     @IBAction func boostTap() {
+        WKInterfaceDevice.current().play(.click)
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
         if self.allThings[StoreStruct.currentRow].reblog?.reblogged ?? self.allThings[StoreStruct.currentRow].reblogged ?? true || self.isBoosted {
             DispatchQueue.main.async {
