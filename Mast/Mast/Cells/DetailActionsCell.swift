@@ -90,8 +90,12 @@ class DetailActionsCell: UITableViewCell {
     
     func configure(_ stat: Status) {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        if stat.favourited ?? false {
-            button3.setImage(UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        if stat.favourited ?? false || GlobalStruct.allLikedStatuses.contains(stat.reblog?.id ?? stat.id) {
+            if GlobalStruct.allDislikedStatuses.contains(stat.reblog?.id ?? stat.id) {
+                
+            } else {
+                button3.setImage(UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            }
         }
         if stat.reblogged ?? false {
             button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)

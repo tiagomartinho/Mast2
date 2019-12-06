@@ -1040,6 +1040,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
             GlobalStruct.allLikedStatuses.append(status.first?.id ?? "")
+            GlobalStruct.allDislikedStatuses = GlobalStruct.allDislikedStatuses.filter{$0 != status.first?.id ?? ""}
             if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
                 cell.configure(status.first!)
             } else if let cell = tableView.cellForRow(at: indexPath) as? TootImageCell {
@@ -1053,6 +1054,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         if status.first?.favourited ?? false || GlobalStruct.allLikedStatuses.contains(status.first?.reblog?.id ?? status.first?.id ?? "") {
             like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                GlobalStruct.allDislikedStatuses.append(status.first?.id ?? "")
                 GlobalStruct.allLikedStatuses = GlobalStruct.allLikedStatuses.filter{$0 != status.first?.id ?? ""}
                 if let cell = tableView.cellForRow(at: indexPath) as? TootCell {
                     cell.configure(status.first!)

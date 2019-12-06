@@ -244,8 +244,12 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)
         if stat.reblog?.favourited ?? stat.favourited ?? false || GlobalStruct.allLikedStatuses.contains(stat.reblog?.id ?? stat.id) {
-            self.heart.alpha = 1
-            self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+            if GlobalStruct.allDislikedStatuses.contains(stat.reblog?.id ?? stat.id) {
+                self.heart.alpha = 0
+            } else {
+                self.heart.alpha = 1
+                self.heart.image = UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+            }
         } else if stat.reblog?.inReplyToID ?? stat.inReplyToID != nil {
             self.heart.alpha = 1
             self.heart.image = UIImage(systemName: "arrowshape.turn.up.left", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(0.45), renderingMode: .alwaysOriginal)

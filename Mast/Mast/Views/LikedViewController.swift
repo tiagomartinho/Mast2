@@ -88,6 +88,12 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         self.tableView.reloadData()
     }
     
+    @objc func updateLayout1() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -100,6 +106,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail9"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateLayout1), name: NSNotification.Name(rawValue: "updateLayout1"), object: nil)
 
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
@@ -453,6 +460,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         var like = UIAction(title: "Like".localized, image: UIImage(systemName: "heart"), identifier: nil) { action in
             ViewController().showNotifBanner("Liked".localized, subtitle: "Toot".localized, style: BannerStyle.info)
             GlobalStruct.allLikedStatuses.append(status.first?.id ?? "")
+            GlobalStruct.allDislikedStatuses = GlobalStruct.allDislikedStatuses.filter{$0 != status.first?.id ?? ""}
             if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
                 cell.configure(status.first!)
             } else if let cell = self.tableView.cellForRow(at: indexPath) as? TootImageCell {
@@ -466,6 +474,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if status.first?.favourited ?? false || GlobalStruct.allLikedStatuses.contains(status.first?.reblog?.id ?? status.first?.id ?? "") {
             like = UIAction(title: "Remove Like".localized, image: UIImage(systemName: "heart.slash"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Like".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                GlobalStruct.allDislikedStatuses.append(status.first?.id ?? "")
                 GlobalStruct.allLikedStatuses = GlobalStruct.allLikedStatuses.filter{$0 != status.first?.id ?? ""}
                 if let cell = self.tableView.cellForRow(at: indexPath) as? TootCell {
                     cell.configure(status.first!)

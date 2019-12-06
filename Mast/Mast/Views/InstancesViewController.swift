@@ -92,6 +92,12 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         self.tableView.reloadData()
     }
     
+    @objc func updateLayout1() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -104,6 +110,7 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeTint), name: NSNotification.Name(rawValue: "notifChangeTint"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail6"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateLayout1), name: NSNotification.Name(rawValue: "updateLayout1"), object: nil)
         
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
