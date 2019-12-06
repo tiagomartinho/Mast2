@@ -7,6 +7,8 @@
 //
 
 import UserNotifications
+import Foundation
+import UIKit
 
 class NotificationService: UNNotificationServiceExtension {
     
@@ -17,7 +19,8 @@ class NotificationService: UNNotificationServiceExtension {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
-        print("received notif")
+        let application = UIApplication()
+        application.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
         
         if let bestAttemptContent = bestAttemptContent {
             // Modify the notification content here...
