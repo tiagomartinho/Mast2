@@ -20,11 +20,12 @@ class ProfileController: WKInterfaceController {
     @IBAction func tappedNewToot() {
         let textChoices = ["Yes","No","Maybe","I love Mast"]
         presentTextInputController(withSuggestions: textChoices, allowedInputMode: WKTextInputMode.allowEmoji, completion: {(results) -> Void in
-            if results != nil && results!.count > 0 {
-                let aResult = results?[0] as? String
-                print(aResult!)
-                StoreStruct.tootText = aResult!
-                self.presentController(withName: "TootController", context: nil)
+            guard let results = results else { return }
+            if results.count > 0 {
+                if let aResult = results[0] as? String {
+                    StoreStruct.tootText = aResult
+                    self.presentController(withName: "TootController", context: nil)
+                }
             }
         })
     }
@@ -67,7 +68,6 @@ class ProfileController: WKInterfaceController {
             if let stat = (statuses.value) {
                 StoreStruct.currentUser = stat
                 
-                
                 let request = Accounts.statuses(id: StoreStruct.currentUser.id)
                 StoreStruct.client.run(request) { (statuses) in
                     if let stat = (statuses.value) {
@@ -84,65 +84,57 @@ class ProfileController: WKInterfaceController {
                             controller.imageView.setWidth(20)
                             controller.tootText.setText("\(StoreStruct.allStatsProfile[index].reblog?.content.stripHTML() ?? StoreStruct.allStatsProfile[index].content.stripHTML())")
                             
-                            //DispatchQueue.global().async { [weak self] in
-                            self.getDataFromUrl(url: URL(string: StoreStruct.allStatsProfile[index].reblog?.account.avatar ?? StoreStruct.allStatsProfile[index].account.avatar ?? "")!) { data, response, error in
-                                guard let data = data, error == nil else { return }
-                                //DispatchQueue.main.async() {
-                                if self.isShowing {
-                                    controller.imageView.setImageData(data)
+                            DispatchQueue.global().async { [weak self] in
+                                guard let ur = URL(string: StoreStruct.allStatsProfile[index].reblog?.account.avatar ?? StoreStruct.allStatsProfile[index].account.avatar) else { return }
+                                self?.getDataFromUrl(url: ur) { data, response, error in
+                                    guard let data = data, error == nil else { return }
+                                    DispatchQueue.main.async() {
+                                        if self?.isShowing ?? false {
+                                            controller.imageView.setImageData(data)
+                                        }
+                                    }
                                 }
-                                //}
                             }
-                            //}
-                            
                         }
-                        
                     }
                 }
-                
-                
             }
         }
-        
     }
     
     override func interfaceOffsetDidScrollToBottom() {
         self.indicator?.showWait()
+        
+        let request = Accounts.statuses(id: StoreStruct.currentUser.id)
+        StoreStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                self.indicator?.hide()
+                StoreStruct.allStatsProfile = stat
+                self.tableView.setNumberOfRows(StoreStruct.allStatsProfile.count, withRowType: "TimelineRow")
                 
-                let request = Accounts.statuses(id: StoreStruct.currentUser.id)
-                StoreStruct.client.run(request) { (statuses) in
-                    if let stat = (statuses.value) {
-                        self.indicator?.hide()
-                        StoreStruct.allStatsProfile = stat
-                        self.tableView.setNumberOfRows(StoreStruct.allStatsProfile.count, withRowType: "TimelineRow")
-                        
-                        for index in 0..<self.tableView.numberOfRows {
-                            guard self.isShowing else { return }
-                            let controller = self.tableView.rowController(at: index) as! TimelineRow
-                            controller.userName.setText("@\(StoreStruct.allStatsProfile[index].reblog?.account.username ?? StoreStruct.allStatsProfile[index].account.username)")
-                            controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                            controller.imageView.setImageNamed("icon")
-                            controller.imageView.setWidth(20)
-                            controller.tootText.setText("\(StoreStruct.allStatsProfile[index].reblog?.content.stripHTML() ?? StoreStruct.allStatsProfile[index].content.stripHTML())")
-                            
-                            //DispatchQueue.global().async { [weak self] in
-                            self.getDataFromUrl(url: URL(string: StoreStruct.allStatsProfile[index].reblog?.account.avatar ?? StoreStruct.allStatsProfile[index].account.avatar ?? "")!) { data, response, error in
-                                guard let data = data, error == nil else { return }
-                                //DispatchQueue.main.async() {
-                                if self.isShowing {
+                for index in 0..<self.tableView.numberOfRows {
+                    guard self.isShowing else { return }
+                    let controller = self.tableView.rowController(at: index) as! TimelineRow
+                    controller.userName.setText("@\(StoreStruct.allStatsProfile[index].reblog?.account.username ?? StoreStruct.allStatsProfile[index].account.username)")
+                    controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
+                    controller.imageView.setImageNamed("icon")
+                    controller.imageView.setWidth(20)
+                    controller.tootText.setText("\(StoreStruct.allStatsProfile[index].reblog?.content.stripHTML() ?? StoreStruct.allStatsProfile[index].content.stripHTML())")
+                    
+                    DispatchQueue.global().async { [weak self] in
+                        guard let ur = URL(string: StoreStruct.allStatsProfile[index].reblog?.account.avatar ?? StoreStruct.allStatsProfile[index].account.avatar) else { return }
+                        self?.getDataFromUrl(url: ur) { data, response, error in
+                            guard let data = data, error == nil else { return }
+                            DispatchQueue.main.async() {
+                                if self?.isShowing ?? false {
                                     controller.imageView.setImageData(data)
                                 }
-                                //}
                             }
-                            //}
-                            
                         }
-                        
                     }
                 }
-                
-                
-        
+            }
+        }
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {

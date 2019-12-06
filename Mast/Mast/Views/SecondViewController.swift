@@ -978,32 +978,33 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     return self.makeContextMenu([stat], indexPath: indexPath, tableView: self.tableView)
                 }
             } else if tableView == self.tableView {
-                if self.notifications[indexPath.row].id == "loadmorehere" {
-                    return nil
-                } else {
-                    return self.makeContextMenuNoti([self.notifications[indexPath.row]], indexPath: indexPath)
-                }
+//                if self.notifications[indexPath.row].id == "loadmorehere" {
+//                    return nil
+//                } else {
+//                    return self.makeContextMenuNoti([self.notifications[indexPath.row]], indexPath: indexPath)
+//                }
+                return nil
             } else {
                 return nil
             }
         })
     }
     
-    func makeContextMenuNoti(_ notifications: [Notificationt], indexPath: IndexPath) -> UIMenu {
-        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-            let noti = notifications[0].id
-            self.notifications = self.notifications.filter { $0 != self.notifications[indexPath.row] }
-            self.tableView.deleteRows(at: [indexPath], with: .none)
-            let request = Notifications.dismiss(id: noti)
-            GlobalStruct.client.run(request) { (statuses) in
-                DispatchQueue.main.async {
-
-                }
-            }
-        }
-        remove.attributes = .destructive
-        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
-    }
+//    func makeContextMenuNoti(_ notifications: [Notificationt], indexPath: IndexPath) -> UIMenu {
+//        let remove = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+//            let noti = notifications[0].id
+//            self.notifications = self.notifications.filter { $0 != self.notifications[indexPath.row] }
+//            self.tableView.deleteRows(at: [indexPath], with: .none)
+//            let request = Notifications.dismiss(id: noti)
+//            GlobalStruct.client.run(request) { (statuses) in
+//                DispatchQueue.main.async {
+//
+//                }
+//            }
+//        }
+//        remove.attributes = .destructive
+//        return UIMenu(__title: "", image: nil, identifier: nil, children: [remove])
+//    }
     
     func makeContextMenu(_ status: [Status], indexPath: IndexPath, tableView: UITableView) -> UIMenu {
         let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
@@ -1115,16 +1116,16 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let rep = UIMenu(__title: "Report".localized, image: UIImage(systemName: "flag"), identifier: nil, options: [.destructive], children: [repo1, repo2, repo3])
         
         
-        let remove0 = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
-            let request = Notifications.dismiss(id: self.notifications[indexPath.row].id)
-            GlobalStruct.client.run(request) { (statuses) in
-                DispatchQueue.main.async {
-                    self.tableView.deleteRows(at: [indexPath], with: .none)
-                    self.notifications.remove(at: indexPath.row)
-                }
-            }
-        }
-        remove0.attributes = .destructive
+//        let remove0 = UIAction(title: "Remove".localized, image: UIImage(systemName: "xmark"), identifier: nil) { action in
+//            let request = Notifications.dismiss(id: self.notifications[indexPath.row].id)
+//            GlobalStruct.client.run(request) { (statuses) in
+//                DispatchQueue.main.async {
+//                    self.tableView.deleteRows(at: [indexPath], with: .none)
+//                    self.notifications.remove(at: indexPath.row)
+//                }
+//            }
+//        }
+//        remove0.attributes = .destructive
         
         
         if GlobalStruct.currentUser.id == (status.first?.account.id ?? "") {
@@ -1173,14 +1174,14 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             }
             del2.attributes = .destructive
             if GlobalStruct.allPinned.contains(status.first!) {
-                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2, remove0])
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin2, tran, del1, del2])
                 if status.first!.visibility == .private {
                     return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
                 } else {
                     return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, boos, like, shar, more])
                 }
             } else {
-                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2, remove0])
+                let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [pin1, tran, del1, del2])
                 if status.first!.visibility == .private {
                     return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
                 } else {
@@ -1189,7 +1190,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
             }
             
         } else {
-            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep, remove0])
+            let more = UIMenu(__title: "More".localized, image: UIImage(systemName: "ellipsis.circle"), identifier: nil, options: [], children: [tran, mute, dupl, rep])
             if status.first!.visibility == .private {
                 return UIMenu(__title: "", image: nil, identifier: nil, children: [repl, like, shar, more])
             } else {

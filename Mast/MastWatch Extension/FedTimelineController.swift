@@ -20,11 +20,12 @@ class FedTimelineController: WKInterfaceController {
     @IBAction func tappedNewToot() {
         let textChoices = ["Yes","No","Maybe","I love Mast"]
         presentTextInputController(withSuggestions: textChoices, allowedInputMode: WKTextInputMode.allowEmoji, completion: {(results) -> Void in
-            if results != nil && results!.count > 0 {
-                let aResult = results?[0] as? String
-                print(aResult!)
-                StoreStruct.tootText = aResult!
-                self.presentController(withName: "TootController", context: nil)
+            guard let results = results else { return }
+            if results.count > 0 {
+                if let aResult = results[0] as? String {
+                    StoreStruct.tootText = aResult
+                    self.presentController(withName: "TootController", context: nil)
+                }
             }
         })
     }
@@ -78,22 +79,22 @@ class FedTimelineController: WKInterfaceController {
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStatsFed[index].reblog?.content.stripHTML() ?? StoreStruct.allStatsFed[index].content.stripHTML())")
                     
-                    //DispatchQueue.global().async { [weak self] in
-                        self.getDataFromUrl(url: URL(string: StoreStruct.allStatsFed[index].reblog?.account.avatar ?? StoreStruct.allStatsFed[index].account.avatar ?? "")!) { data, response, error in
+                    DispatchQueue.global().async { [weak self] in
+                    guard let ur = URL(string: StoreStruct.allStatsFed[index].reblog?.account.avatar ?? StoreStruct.allStatsFed[index].account.avatar) else { return }
+                        self?.getDataFromUrl(url: ur) { data, response, error in
                             guard let data = data, error == nil else { return }
-                            //DispatchQueue.main.async() {
-                            if self.isShowing {
-                                controller.imageView.setImageData(data)
+                            DispatchQueue.main.async() {
+                                if self?.isShowing ?? false {
+                                    controller.imageView.setImageData(data)
+                                }
                             }
-                            //}
                         }
-                    //}
-                    
+                    }
                 }
-                
             }
         }
     }
+    
     override func interfaceOffsetDidScrollToTop() {
         
         let request = Timelines.public(local: false, range: .min(id: StoreStruct.allStatsFed.first?.id ?? "", limit: nil))
@@ -112,19 +113,18 @@ class FedTimelineController: WKInterfaceController {
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStatsFed[index].reblog?.content.stripHTML() ?? StoreStruct.allStatsFed[index].content.stripHTML())")
                     
-                    //DispatchQueue.global().async { [weak self] in
-                    self.getDataFromUrl(url: URL(string: StoreStruct.allStatsFed[index].reblog?.account.avatar ?? StoreStruct.allStatsFed[index].account.avatar ?? "")!) { data, response, error in
-                        guard let data = data, error == nil else { return }
-                        //DispatchQueue.main.async() {
-                        if self.isShowing {
-                            controller.imageView.setImageData(data)
+                    DispatchQueue.global().async { [weak self] in
+                        guard let ur = URL(string: StoreStruct.allStatsFed[index].reblog?.account.avatar ?? StoreStruct.allStatsFed[index].account.avatar) else { return }
+                        self?.getDataFromUrl(url: ur) { data, response, error in
+                            guard let data = data, error == nil else { return }
+                            DispatchQueue.main.async() {
+                                if self?.isShowing ?? false {
+                                    controller.imageView.setImageData(data)
+                                }
+                            }
                         }
-                        //}
                     }
-                    //}
-                    
                 }
-                
             }
         }
     }
@@ -147,19 +147,18 @@ class FedTimelineController: WKInterfaceController {
                     controller.imageView.setWidth(20)
                     controller.tootText.setText("\(StoreStruct.allStatsFed[index].reblog?.content.stripHTML() ?? StoreStruct.allStatsFed[index].content.stripHTML())")
                     
-                    //DispatchQueue.global().async { [weak self] in
-                    self.getDataFromUrl(url: URL(string: StoreStruct.allStatsFed[index].reblog?.account.avatar ?? StoreStruct.allStatsFed[index].account.avatar ?? "")!) { data, response, error in
-                        guard let data = data, error == nil else { return }
-                        //DispatchQueue.main.async() {
-                        if self.isShowing {
-                            controller.imageView.setImageData(data)
+                    DispatchQueue.global().async { [weak self] in
+                        guard let ur = URL(string: StoreStruct.allStatsFed[index].reblog?.account.avatar ?? StoreStruct.allStatsFed[index].account.avatar) else { return }
+                        self?.getDataFromUrl(url: ur) { data, response, error in
+                            guard let data = data, error == nil else { return }
+                            DispatchQueue.main.async() {
+                                if self?.isShowing ?? false {
+                                    controller.imageView.setImageData(data)
+                                }
+                            }
                         }
-                        //}
                     }
-                    //}
-                    
                 }
-                
             }
         }
     }

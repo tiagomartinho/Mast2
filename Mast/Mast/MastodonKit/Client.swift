@@ -70,20 +70,6 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
                 
                 completion(.success(model, httpResponse.pagination))
             }
-            
-//            if GlobalStruct.isImageUploading {
-//                self.observation = task.progress.observe(\.fractionCompleted) { progress, _ in
-//                    if GlobalStruct.isImageUploading {
-//                        GlobalStruct.imagePercentage = progress.fractionCompleted
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "imagePercentage"), object: self)
-//                    } else {
-//                        self.observation?.invalidate()
-//                    }
-//                }
-//            } else {
-//                self.observation?.invalidate()
-//            }
-            
             task.resume()
         }
     }

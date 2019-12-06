@@ -11,20 +11,20 @@ import Foundation
 import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WCSessionDelegate {
-
+    
     private var indicator: EMTLoadingIndicator?
     @IBOutlet var image: WKInterfaceImage!
     var isShowing = true
     
     @IBAction func tappedNewToot() {
         let textChoices = ["Yes","No","Maybe","I love Mast"]
-        
         presentTextInputController(withSuggestions: textChoices, allowedInputMode: .allowEmoji, completion: {(results) -> Void in
-            if results != nil && results!.count > 0 {
-                let aResult = results?[0] as? String
-                print(aResult!)
-                StoreStruct.tootText = aResult!
-                self.presentController(withName: "TootController", context: nil)
+            guard let results = results else { return }
+            if results.count > 0 {
+                if let aResult = results[0] as? String {
+                    StoreStruct.tootText = aResult
+                    self.presentController(withName: "TootController", context: nil)
+                }
             }
         })
     }
@@ -82,39 +82,35 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                             for index in 0..<self.tableView.numberOfRows {
                                 guard self.isShowing else { return }
                                 if let controller = self.tableView.rowController(at: index) as? TimelineRow {
-                                controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
-                                controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                                controller.imageView.setWidth(20)
-                                controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
-                                
-                                DispatchQueue.global().async { [weak self] in
-                                    self?.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar)!) { data, response, error in
-                                        guard let data = data, error == nil else { return }
-                                        DispatchQueue.main.async() {
-                                            if self?.isShowing ?? false {
-                                            controller.imageView.setImageData(data)
-                                        }
+                                    controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
+                                    controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
+                                    controller.imageView.setWidth(20)
+                                    controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
+                                    
+                                    DispatchQueue.global().async { [weak self] in
+                                        guard let ur = URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar) else { return }
+                                        self?.getDataFromUrl(url: ur) { data, response, error in
+                                            guard let data = data, error == nil else { return }
+                                            DispatchQueue.main.async() {
+                                                if self?.isShowing ?? false {
+                                                    controller.imageView.setImageData(data)
+                                                }
+                                            }
                                         }
                                     }
                                 }
-                                
-                                }
                             }
-                            
                         }
                     }
                 }
             }
         }
-        
-        
-        
     }
     
     func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             completion(data, response, error)
-            }.resume()
+        }.resume()
     }
     
     override func willActivate() {
@@ -123,7 +119,7 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
         self.setTitle("Home")
         StoreStruct.fromWhere = 0
     }
-        
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
@@ -131,60 +127,45 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
             self.tableView.curvesAtTop = true
             self.tableView.curvesAtBottom = true
         }
-            
-        watchSession = WCSession.default
         
+        watchSession = WCSession.default
         
         self.indicator = EMTLoadingIndicator(interfaceController: self, interfaceImage: self.image,
                                              width: 40, height: 40, style: .line)
         self.indicator?.showWait()
         
-        
         if UserDefaults.standard.value(forKey: "key1") != nil {
-        
-            
-//            if StoreStruct.client.baseURL == "" {
-//        self.client = Client(
-//            baseURL: "https://\(UserDefaults.standard.object(forKey: "key2") ?? "")",
-//            accessToken: UserDefaults.standard.object(forKey: "key1") as? String ?? ""
-//        )
-//        StoreStruct.client = self.client
-//            }
-        
-        let request = Timelines.home()
-        StoreStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                self.indicator?.hide()
-                StoreStruct.allStats = stat
-                self.tableView.setNumberOfRows(StoreStruct.allStats.count, withRowType: "TimelineRow")
-                
-                for index in 0..<self.tableView.numberOfRows {
-                    guard self.isShowing else { return }
-                    if let controller = self.tableView.rowController(at: index) as? TimelineRow {
-                    controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
-                    controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                    controller.imageView.setWidth(20)
-                    controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
+            let request = Timelines.home()
+            StoreStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    self.indicator?.hide()
+                    StoreStruct.allStats = stat
+                    self.tableView.setNumberOfRows(StoreStruct.allStats.count, withRowType: "TimelineRow")
                     
-                    DispatchQueue.global().async { [weak self] in
-                        self?.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar)!) { data, response, error in
-                            guard let data = data, error == nil else { return }
-                            DispatchQueue.main.async() {
-                                if self?.isShowing ?? false {
-                                    controller.imageView.setImageData(data)
+                    for index in 0..<self.tableView.numberOfRows {
+                        guard self.isShowing else { return }
+                        if let controller = self.tableView.rowController(at: index) as? TimelineRow {
+                            controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
+                            controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
+                            controller.imageView.setWidth(20)
+                            controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
+                            
+                            DispatchQueue.global().async { [weak self] in
+                                guard let ur = URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar) else { return }
+                                self?.getDataFromUrl(url: ur) { data, response, error in
+                                    guard let data = data, error == nil else { return }
+                                    DispatchQueue.main.async() {
+                                        if self?.isShowing ?? false {
+                                            controller.imageView.setImageData(data)
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
-                    
-                    }
                 }
-                
             }
-        }
-            
         } else {
-            
             self.tableView.setNumberOfRows(1, withRowType: "TimelineRow")
             for index in 0..<self.tableView.numberOfRows {
                 let controller = self.tableView.rowController(at: index) as! TimelineRow
@@ -193,13 +174,10 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 controller.imageView.setWidth(0)
                 controller.tootText.setText("Please open the Mast iOS app on your iPhone to get started.")
             }
-            
         }
-        
     }
     
     override func interfaceOffsetDidScrollToBottom() {
-        
         self.indicator?.showWait()
         let request = Timelines.home(range: .max(id: StoreStruct.allStats.last?.id ?? "", limit: nil))
         self.client.run(request) { (statuses) in
@@ -211,31 +189,29 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 for index in 0..<self.tableView.numberOfRows {
                     guard self.isShowing else { return }
                     if let controller = self.tableView.rowController(at: index) as? TimelineRow {
-                    controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
-                    controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                    controller.imageView.setWidth(20)
-                    controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
-                    
-                    DispatchQueue.global().async { [weak self] in
-                        self?.getDataFromUrl(url: URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar ?? "")!) { data, response, error in
-                        guard let data = data, error == nil else { return }
-                        DispatchQueue.main.async() {
-                            if self?.isShowing ?? false {
-                            controller.imageView.setImageData(data)
+                        controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
+                        controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
+                        controller.imageView.setWidth(20)
+                        controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
+                        
+                        DispatchQueue.global().async { [weak self] in
+                            guard let ur = URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar) else { return }
+                            self?.getDataFromUrl(url: ur) { data, response, error in
+                                guard let data = data, error == nil else { return }
+                                DispatchQueue.main.async() {
+                                    if self?.isShowing ?? false {
+                                        controller.imageView.setImageData(data)
+                                    }
+                                }
+                            }
                         }
-                        }
-                    }
-                    }
-                    
                     }
                 }
-                
             }
         }
     }
     
     override func interfaceOffsetDidScrollToTop() {
-        
         let request = Timelines.home(range: .min(id: StoreStruct.allStats.first?.id ?? "", limit: nil))
         self.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
@@ -246,28 +222,24 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
                 for index in 0..<self.tableView.numberOfRows {
                     guard self.isShowing else { return }
                     if let controller = self.tableView.rowController(at: index) as? TimelineRow {
-                    controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
-                    controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
-                    controller.imageView.setWidth(20)
-                    controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
-                    
-                    var theUR = URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar ?? "") ?? URL(string: "google.com")!
-                    DispatchQueue.global().async { [weak self] in
-                        self?.getDataFromUrl(url: theUR) { data, response, error in
-                        guard let data = data, error == nil else { return }
-                        DispatchQueue.main.async() {
-                            if self?.isShowing ?? false {
-                            if theUR == URL(string: "google.com")! {} else {
-                                controller.imageView.setImageData(data)
+                        controller.userName.setText("@\(StoreStruct.allStats[index].reblog?.account.username ?? StoreStruct.allStats[index].account.username)")
+                        controller.userName.setTextColor(UIColor.white.withAlphaComponent(0.6))
+                        controller.imageView.setWidth(20)
+                        controller.tootText.setText("\(StoreStruct.allStats[index].reblog?.content.stripHTML() ?? StoreStruct.allStats[index].content.stripHTML())")
+                        
+                        DispatchQueue.global().async { [weak self] in
+                            guard let ur = URL(string: StoreStruct.allStats[index].reblog?.account.avatar ?? StoreStruct.allStats[index].account.avatar) else { return }
+                            self?.getDataFromUrl(url: ur) { data, response, error in
+                                guard let data = data, error == nil else { return }
+                                DispatchQueue.main.async() {
+                                    if self?.isShowing ?? false {
+                                        controller.imageView.setImageData(data)
+                                    }
+                                }
                             }
                         }
-                        }
-                    }
-                    }
-                    
                     }
                 }
-                
             }
         }
     }
@@ -286,7 +258,6 @@ class InterfaceController: WKInterfaceController, WCSessionDelegate {
     override func willDisappear() {
         self.isShowing = false
     }
-
 }
 
 extension String {
