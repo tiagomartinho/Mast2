@@ -321,7 +321,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     self.allPrevious = (stat.ancestors)
                     self.allPrevious.append(self.replyStatus[0])
                     UIView.setAnimationsEnabled(false)
-                    self.tableView.reloadSections(IndexSet([0]), with: .none)
+                    self.tableView.reloadSections(IndexSet([0, 1]), with: .none)
                     if self.allPrevious.count == 0 {} else {
                         self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {

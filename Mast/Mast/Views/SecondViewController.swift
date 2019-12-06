@@ -99,8 +99,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         GlobalStruct.currentTab = 2
         
-        self.markersGet()
-        
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         #if targetEnvironment(macCatalyst)
         let btn1 = UIButton(type: .custom)
@@ -197,7 +195,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                                 GlobalStruct.client.run(request4) { (statuses) in
                                                     if let stat = (statuses.value) {
                                                         DispatchQueue.main.async {
-                                                            self.notifications = stat
+                                                            self.notifications = self.notifications + stat
                                                             self.tableView.reloadData()
                                                             self.tableView2.reloadData()
                                                         }
@@ -221,7 +219,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     GlobalStruct.client.run(request4) { (statuses) in
                         if let stat = (statuses.value) {
                             DispatchQueue.main.async {
-                                self.notifications = stat
+                                self.notifications = self.notifications + stat
                                 self.tableView.reloadData()
                                 self.tableView2.reloadData()
                             }
@@ -344,20 +342,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
-    @objc func initialTimelineLoads() {
-        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
-        GlobalStruct.client.run(request4) { (statuses) in
-            if let stat = (statuses.value) {
-                DispatchQueue.main.async {
-                    print("notifstat - \(stat)")
-                    self.notifications = stat
-                    self.tableView.reloadData()
-                    self.tableView2.reloadData()
-                }
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
@@ -370,7 +354,6 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail2"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.goToIDNoti), name: NSNotification.Name(rawValue: "gotoidnoti2"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.initialTimelineLoads), name: NSNotification.Name(rawValue: "initialTimelineLoads"), object: nil)
         
         // Segmented control
         self.segment.selectedSegmentIndex = 0
