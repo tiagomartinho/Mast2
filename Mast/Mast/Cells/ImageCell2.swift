@@ -32,6 +32,9 @@ class ImageCell2: UICollectionViewCell {
         self.bgImage.layer.cornerCurve = .continuous
         contentView.addSubview(bgImage)
         
+        self.image.layer.borderWidth = 0.4
+        self.layer.borderColor = UIColor.black.cgColor
+        
         self.image.backgroundColor = UIColor.clear
         self.image.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
         self.image.layer.cornerRadius = 4
