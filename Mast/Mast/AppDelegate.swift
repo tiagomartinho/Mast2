@@ -72,16 +72,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        //        if application.applicationState == .inactive || application.applicationState == .background {
-//        UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-        //        }
+        // this only works when the app is active, the server should be setting the 'badge' field, as right now it's nil
+        print("notification badge - \(notification.request.content.badge ?? 0)")
+        let application = UIApplication.shared
+        if application.applicationState == .inactive || application.applicationState == .background {
+            if let co = notification.request.content.badge {
+                application.applicationIconBadgeNumber = Int(truncating: co)
+            } else {
+                application.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
+            }
+        }
         completionHandler([.alert, .sound, .badge])
     }
       
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        //        if application.applicationState == .inactive || application.applicationState == .background {
-//        UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-        //        }
         let application = UIApplication.shared
         if application.applicationState == .inactive {
             if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
