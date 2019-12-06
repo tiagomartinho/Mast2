@@ -19,9 +19,6 @@ class NotificationService: UNNotificationServiceExtension {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
-        let application = UIApplication()
-        application.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
-        
         if let bestAttemptContent = bestAttemptContent {
             // Modify the notification content here...
             
@@ -42,7 +39,16 @@ class NotificationService: UNNotificationServiceExtension {
                 // Mark the message as still encrypted.
                 bestAttemptContent.title = content.title
                 bestAttemptContent.body = content.body.replacingOccurrences(of: "&#39;", with: "'").replacingOccurrences(of: "&lt;", with: "<").replacingOccurrences(of: "&gt;", with: ">").replacingOccurrences(of: "&amp;", with: "&").replacingOccurrences(of: "&quot;", with: "\"")
-                
+
+                if let userDefaults = UserDefaults(suiteName: "group.com.shi.Mast.wormhole") {
+                    if let z = userDefaults.value(forKey: "badgec") as? Int {
+                        bestAttemptContent.badge = NSNumber(value: (z + 1))
+                        userDefaults.set(bestAttemptContent.badge?.intValue ?? 1, forKey: "badgec")
+                    } else {
+                        bestAttemptContent.badge = NSNumber(value: 1)
+                        userDefaults.set(1, forKey: "badgec")
+                    }
+                }
             }
             contentHandler(bestAttemptContent)
         }
