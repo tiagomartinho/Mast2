@@ -84,6 +84,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         completionHandler([.alert, .sound, .badge])
     }
+    
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        let application = UIApplication.shared
+//        if application.applicationState == .inactive || application.applicationState == .background {
+//            application.applicationIconBadgeNumber = application.applicationIconBadgeNumber + 1
+//        }
+//    }
       
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let application = UIApplication.shared
