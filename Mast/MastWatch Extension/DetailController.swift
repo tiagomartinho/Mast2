@@ -13,11 +13,16 @@ class DetailController: WKInterfaceController {
     
     @IBOutlet var tableView: WKInterfaceTable!
     @IBOutlet var replyB: WKInterfaceGroup!
-    @IBOutlet var likeB: WKInterfaceButton!
-    @IBOutlet var boostB: WKInterfaceButton!
+    @IBOutlet var likeB: WKInterfaceGroup!
+    @IBOutlet var boostB: WKInterfaceGroup!
+    @IBOutlet weak var likeB2: WKInterfaceButton!
+    @IBOutlet weak var boostB2: WKInterfaceButton!
     
     var allThings: [Status] = []
     var isShowing = true
+    
+    var isLiked: Bool = false
+    var isBoosted: Bool = false
     
     @IBAction func replyTap() {
         let textChoices = ["Yes","No","Maybe","I love Mast"]
@@ -33,9 +38,10 @@ class DetailController: WKInterfaceController {
     
     @IBAction func likeTap() {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-        if self.allThings[StoreStruct.currentRow].reblog?.favourited ?? self.allThings[StoreStruct.currentRow].favourited ?? true {
+        if self.allThings[StoreStruct.currentRow].reblog?.favourited ?? self.allThings[StoreStruct.currentRow].favourited ?? true || self.isLiked {
             DispatchQueue.main.async {
-                self.likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
+                self.isLiked = false
+                self.likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal))
             }
             let request = Statuses.unfavourite(id: self.allThings[StoreStruct.currentRow].reblog?.id ?? self.allThings[StoreStruct.currentRow].id)
             StoreStruct.client.run(request) { (statuses) in
@@ -43,7 +49,8 @@ class DetailController: WKInterfaceController {
             }
         } else {
             DispatchQueue.main.async {
-                self.likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal))
+                self.isLiked = true
+                self.likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 224/255, green: 86/255, blue: 72/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
             }
             let request = Statuses.favourite(id: self.allThings[StoreStruct.currentRow].reblog?.id ?? self.allThings[StoreStruct.currentRow].id)
             StoreStruct.client.run(request) { (statuses) in
@@ -54,9 +61,10 @@ class DetailController: WKInterfaceController {
     
     @IBAction func boostTap() {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-        if self.allThings[StoreStruct.currentRow].reblog?.reblogged ?? self.allThings[StoreStruct.currentRow].reblogged ?? true {
+        if self.allThings[StoreStruct.currentRow].reblog?.reblogged ?? self.allThings[StoreStruct.currentRow].reblogged ?? true || self.isBoosted {
             DispatchQueue.main.async {
-                self.boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
+                self.isBoosted = false
+                self.boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal))
             }
             let request = Statuses.unreblog(id: self.allThings[StoreStruct.currentRow].reblog?.id ?? self.allThings[StoreStruct.currentRow].id)
             StoreStruct.client.run(request) { (statuses) in
@@ -64,7 +72,8 @@ class DetailController: WKInterfaceController {
             }
         } else {
             DispatchQueue.main.async {
-                self.boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal))
+                self.isBoosted = true
+                self.boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 92/255, green: 171/255, blue: 116/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
             }
             let request = Statuses.reblog(id: self.allThings[StoreStruct.currentRow].reblog?.id ?? self.allThings[StoreStruct.currentRow].id)
             StoreStruct.client.run(request) { (statuses) in
@@ -103,9 +112,11 @@ class DetailController: WKInterfaceController {
         likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal))
         boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseWhite")!.withAlphaComponent(0.35), renderingMode: .alwaysOriginal))
         if self.allThings[StoreStruct.currentRow].reblog?.favourited ?? self.allThings[StoreStruct.currentRow].favourited ?? true {
+            self.isLiked = true
             likeB.setBackgroundImage(UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
         }
         if self.allThings[StoreStruct.currentRow].reblog?.reblogged ?? self.allThings[StoreStruct.currentRow].reblogged ?? true {
+            self.isBoosted = true
             boostB.setBackgroundImage(UIImage(systemName: "arrow.2.circlepath.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(red: 156/255, green: 143/255, blue: 247/255, alpha: 1).withAlphaComponent(1), renderingMode: .alwaysOriginal))
         }
         

@@ -178,8 +178,10 @@
                         </group>
                     </items>
                     <connections>
-                        <outlet property="boostB" destination="TBn-Cf-3te" id="YII-VE-hjO"/>
-                        <outlet property="likeB" destination="9sb-po-lBP" id="CXU-SD-6SX"/>
+                        <outlet property="boostB" destination="jqq-U2-rPD" id="ktJ-Xc-4Xm"/>
+                        <outlet property="boostB2" destination="TBn-Cf-3te" id="IAx-jb-BIP"/>
+                        <outlet property="likeB" destination="Gva-BN-AOl" id="QdW-JT-i8Q"/>
+                        <outlet property="likeB2" destination="9sb-po-lBP" id="FbR-wh-I8P"/>
                         <outlet property="replyB" destination="igt-4G-2Nj" id="GKQ-cn-Y7C"/>
                         <outlet property="tableView" destination="sMO-e4-doy" id="Z5u-3A-MAw"/>
                     </connections>
