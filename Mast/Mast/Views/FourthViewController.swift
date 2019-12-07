@@ -750,7 +750,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         } else if indexPath.section == 2 {
-            let vc = HashtagViewController()
+            let vc = TrendingViewController()
             vc.theHashtag = self.statusesTrends[indexPath.row].name
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
