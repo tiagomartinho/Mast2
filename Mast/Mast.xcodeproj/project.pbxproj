@@ -4617,7 +4617,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mast/Mast.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = Mast/Info.plist;
@@ -4625,7 +4625,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -4656,7 +4656,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mast/Mast.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = Mast/Info.plist;
@@ -4664,7 +4664,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -4692,7 +4692,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastExtension/MastExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4701,7 +4701,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.MastExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4716,7 +4716,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastExtension/MastExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4725,7 +4725,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.MastExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4740,7 +4740,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastShare/MastShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4749,7 +4749,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.MastShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4763,7 +4763,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastShare/MastShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -4772,7 +4772,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.MastShare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4786,11 +4786,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastStickers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.MastStickers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4803,11 +4803,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastStickers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.MastStickers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4824,11 +4824,11 @@
 				CODE_SIGN_ENTITLEMENTS = MastWatch/MastWatch.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				IBSC_MODULE = MastWatch_Extension;
 				INFOPLIST_FILE = MastWatch/Info.plist;
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4848,11 +4848,11 @@
 				CODE_SIGN_ENTITLEMENTS = MastWatch/MastWatch.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				IBSC_MODULE = MastWatch_Extension;
 				INFOPLIST_FILE = MastWatch/Info.plist;
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4872,7 +4872,7 @@
 				CODE_SIGN_ENTITLEMENTS = "MastWatch Extension/MastWatch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "MastWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4880,7 +4880,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.watchkitapp.watchkitextension12;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4902,7 +4902,7 @@
 				CODE_SIGN_ENTITLEMENTS = "MastWatch Extension/MastWatch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "MastWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -4910,7 +4910,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.shi.Mast.watchkitapp.watchkitextension12;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4928,7 +4928,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Mast Push/Mast Push.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "Mast Push/Info.plist";
@@ -4938,7 +4938,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shi.Mast.Mast-Push";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4954,7 +4954,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Mast Push/Mast Push.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.45;
+				CURRENT_PROJECT_VERSION = 1.0.46;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "Mast Push/Info.plist";
@@ -4964,7 +4964,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shi.Mast.Mast-Push";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
