@@ -167,7 +167,7 @@ class LikedViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    if stat.isEmpty {
+                    if stat.isEmpty && self.statusesLiked.count == 0 {
                         self.createEmptyState()
                     }
                     self.statusesLiked = stat

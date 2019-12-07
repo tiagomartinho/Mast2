@@ -166,7 +166,7 @@ class HashtagViewController: UIViewController, UITextFieldDelegate, UITableViewD
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    if stat.isEmpty {
+                    if stat.isEmpty && self.statusesHashtags.count == 0 {
                         self.createEmptyState()
                     }
                     self.statusesHashtags = stat

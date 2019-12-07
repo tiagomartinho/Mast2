@@ -194,17 +194,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                         }
                         let footerHe0 = self.tableView.bounds.height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 1)).height - self.tableView.rectForRow(at: IndexPath(row: 0, section: 2)).height
                         let footerHe1 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0)
-                        #if targetEnvironment(macCatalyst)
-                        var footerHe = footerHe0 - zHeights
-                        if footerHe < 0 {
-                            footerHe = 0
-                        }
-                        let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
-                        self.tableView.tableFooterView = customViewFooter
-                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
-                        #elseif !targetEnvironment(macCatalyst)
-                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-                            var footerHe = footerHe0 - zHeights - (self.navigationController?.navigationBar.bounds.height ?? 0)
+                        if self.navigationController == nil {
+                            var footerHe = footerHe0 - zHeights
                             if footerHe < 0 {
                                 footerHe = 0
                             }
@@ -212,15 +203,34 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                             self.tableView.tableFooterView = customViewFooter
                             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
                         } else {
-                            var footerHe = footerHe0 - zHeights - footerHe1
+                            #if targetEnvironment(macCatalyst)
+                            var footerHe = footerHe0 - zHeights
                             if footerHe < 0 {
                                 footerHe = 0
                             }
                             let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
                             self.tableView.tableFooterView = customViewFooter
                             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
+                            #elseif !targetEnvironment(macCatalyst)
+                            if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                                var footerHe = footerHe0 - zHeights - (self.navigationController?.navigationBar.bounds.height ?? 0)
+                                if footerHe < 0 {
+                                    footerHe = 0
+                                }
+                                let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
+                                self.tableView.tableFooterView = customViewFooter
+                                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
+                            } else {
+                                var footerHe = footerHe0 - zHeights - footerHe1
+                                if footerHe < 0 {
+                                    footerHe = 0
+                                }
+                                let customViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.width, height: footerHe))
+                                self.tableView.tableFooterView = customViewFooter
+                                self.tableView.scrollToRow(at: IndexPath(row: 0, section: 1), at: .top, animated: false)
+                            }
+                            #endif
                         }
-                        #endif
                     }
                 }
             }

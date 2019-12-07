@@ -172,7 +172,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                 GlobalStruct.client.run(request1) { (statuses) in
                     if let stat = (statuses.value) {
                         DispatchQueue.main.async {
-                            if stat.isEmpty {
+                            if stat.isEmpty && self.statusesListed.count == 0 {
                                 self.createEmptyState()
                             } else {
                                 self.statusesListed = self.statusesListed + stat

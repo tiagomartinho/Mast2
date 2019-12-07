@@ -153,7 +153,7 @@ class InstancesViewController: UIViewController, UITextFieldDelegate, UITableVie
         testClient.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    if stat.isEmpty {
+                    if stat.isEmpty && self.statusesInstance.count == 0 {
                         self.createEmptyState()
                     }
                     self.theInstanceID = stat.first?.id ?? ""

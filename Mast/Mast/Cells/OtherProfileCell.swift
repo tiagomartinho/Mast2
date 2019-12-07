@@ -271,29 +271,31 @@ class OtherProfileCell: UITableViewCell {
                             self.following.alpha = 1
                         }) { (completed: Bool) in
                         }
-                        if stat[1].following || (GlobalStruct.isFollowing == true) {
-                            GlobalStruct.isFollowing = true
-                            self.following.setTitle("   \("Following".localized)   ", for: .normal)
-                            self.following.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
-                            self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
-                            self.following.backgroundColor = GlobalStruct.baseTint
-                        } else if stat[1].following == false || (GlobalStruct.isFollowing == false) {
-                            GlobalStruct.isFollowing = false
-                            self.following.setTitle("   \("Follow".localized)   ", for: .normal)
-                            self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
-                            self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
-                            self.following.backgroundColor = GlobalStruct.baseDarkTint
-                        }
-                        if stat[1].followedBy {
-                            self.followsYou.setTitle("   \("Follows You".localized)   ", for: .normal)
-                            self.followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
-                            self.followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
-                            self.followsYou.alpha = 1
-                        } else {
-                            self.followsYou.setTitle("".localized, for: .normal)
-                            self.followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
-                            self.followsYou.backgroundColor = UIColor.clear
-                            self.followsYou.alpha = 0
+                        if stat.count > 1 {
+                            if stat[1].following || (GlobalStruct.isFollowing == true) {
+                                GlobalStruct.isFollowing = true
+                                self.following.setTitle("   \("Following".localized)   ", for: .normal)
+                                self.following.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
+                                self.following.layer.borderColor = GlobalStruct.baseTint.cgColor
+                                self.following.backgroundColor = GlobalStruct.baseTint
+                            } else if stat[1].following == false || (GlobalStruct.isFollowing == false) {
+                                GlobalStruct.isFollowing = false
+                                self.following.setTitle("   \("Follow".localized)   ", for: .normal)
+                                self.following.setTitleColor(UIColor(named: "baseBlack"), for: .normal)
+                                self.following.layer.borderColor = UIColor(named: "baseBlack")!.cgColor
+                                self.following.backgroundColor = GlobalStruct.baseDarkTint
+                            }
+                            if stat[1].followedBy {
+                                self.followsYou.setTitle("   \("Follows You".localized)   ", for: .normal)
+                                self.followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
+                                self.followsYou.backgroundColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.7)
+                                self.followsYou.alpha = 1
+                            } else {
+                                self.followsYou.setTitle("".localized, for: .normal)
+                                self.followsYou.setTitleColor(GlobalStruct.baseDarkTint, for: .normal)
+                                self.followsYou.backgroundColor = UIColor.clear
+                                self.followsYou.alpha = 0
+                            }
                         }
                     }
                 }
