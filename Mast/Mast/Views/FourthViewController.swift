@@ -450,7 +450,16 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 let descriptionSideString = NSMutableAttributedString(string: "\(self.statusesTrends[indexPath.row].name)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.textLabel?.attributedText = descriptionSideString
                 
-                let descriptionSideString2 = NSMutableAttributedString(string: "\(self.statusesTrends[indexPath.row].history?.last?.accounts ?? "0") \("people talking".localized) • \(self.statusesTrends[indexPath.row].history?.last?.uses ?? "0") \("uses".localized)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.45), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                var accs = 0
+                var uses = 0
+                let _ = self.statusesTrends[indexPath.row].history?.map {
+                    let z = Int($0.accounts)
+                    accs = accs + (z ?? 0)
+                    let z2 = Int($0.uses)
+                    uses = uses + (z2 ?? 0)
+                }
+                
+                let descriptionSideString2 = NSMutableAttributedString(string: "\(accs) \("people talking".localized) • \(uses) \("uses".localized)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.45), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.detailTextLabel?.attributedText = descriptionSideString2
             }
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
