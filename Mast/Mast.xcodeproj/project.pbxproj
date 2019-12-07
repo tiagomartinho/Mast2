@@ -32,6 +32,7 @@
 		531021AE239BCA5A00478B33 /* icon38@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53102196239BCA5900478B33 /* icon38@2x.png */; };
 		531021AF239BCA5A00478B33 /* icon38.png in Resources */ = {isa = PBXBuildFile; fileRef = 53102197239BCA5A00478B33 /* icon38.png */; };
 		531021B1239BD6DB00478B33 /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531021B0239BD6DB00478B33 /* TrendingViewController.swift */; };
+		531021B3239BD96000478B33 /* GraphCellTrends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531021B2239BD96000478B33 /* GraphCellTrends.swift */; };
 		531232C82385787D0096BFD6 /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531232712385787C0096BFD6 /* DatePickerViewController.swift */; };
 		531232C92385787D0096BFD6 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531232732385787C0096BFD6 /* Array+Extensions.swift */; };
 		531232CA2385787D0096BFD6 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531232742385787C0096BFD6 /* UISegmentedControl+Extensions.swift */; };
@@ -927,6 +928,7 @@
 		53102196239BCA5900478B33 /* icon38@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon38@2x.png"; path = "../../../Assets/altIcons/icon38@2x.png"; sourceTree = "<group>"; };
 		53102197239BCA5A00478B33 /* icon38.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon38.png; path = ../../../Assets/altIcons/icon38.png; sourceTree = "<group>"; };
 		531021B0239BD6DB00478B33 /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
+		531021B2239BD96000478B33 /* GraphCellTrends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCellTrends.swift; sourceTree = "<group>"; };
 		531232712385787C0096BFD6 /* DatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
 		531232732385787C0096BFD6 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		531232742385787C0096BFD6 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
@@ -2709,6 +2711,7 @@
 				53381EE4237B16570000E287 /* PollOptionCellToggle.swift */,
 				53733DC723842FDD006F260E /* GraphCell.swift */,
 				53733DCB23844009006F260E /* GraphCell2.swift */,
+				531021B2239BD96000478B33 /* GraphCellTrends.swift */,
 				5312331F238595BD0096BFD6 /* IAPOptionsCell.swift */,
 			);
 			path = Cells;
@@ -3827,6 +3830,7 @@
 				53A4F40D2376E59200EC12C6 /* UIView+Extensions.swift in Sources */,
 				53AF450E2375B1BA001A3574 /* AccountCell.swift in Sources */,
 				53449DD223294C1000A470E2 /* Reports.swift in Sources */,
+				531021B3239BD96000478B33 /* GraphCellTrends.swift in Sources */,
 				53449DB623294C1000A470E2 /* Context.swift in Sources */,
 				53449D9A23294C1000A470E2 /* Parameter.swift in Sources */,
 				53A4F43D2376E59200EC12C6 /* GalleryItem.swift in Sources */,

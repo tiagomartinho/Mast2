@@ -36,6 +36,7 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
     var theHashtagID: String = ""
     var theHashtag: String = ""
     let btn1 = UIButton(type: .custom)
+    var history: [Tag] = []
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -101,7 +102,7 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
         super.viewDidLoad()
         self.view.backgroundColor = GlobalStruct.baseDarkTint
         self.title = "\(self.theHashtag)"
-//        self.removeTabbarItemsText()
+        //        self.removeTabbarItemsText()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updatePosted), name: NSNotification.Name(rawValue: "updatePosted"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollTop1), name: NSNotification.Name(rawValue: "scrollTop1"), object: nil)
@@ -110,7 +111,7 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
         NotificationCenter.default.addObserver(self, selector: #selector(self.openTootDetail), name: NSNotification.Name(rawValue: "openTootDetail7"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notifChangeBG), name: NSNotification.Name(rawValue: "notifChangeBG"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateLayout1), name: NSNotification.Name(rawValue: "updateLayout1"), object: nil)
-
+        
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
         btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
@@ -125,6 +126,7 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
         // Table
         self.tableView.register(TootCell.self, forCellReuseIdentifier: "TootCell")
         self.tableView.register(TootImageCell.self, forCellReuseIdentifier: "TootImageCell")
+        self.tableView.register(GraphCellTrends.self, forCellReuseIdentifier: "GraphCellTrends")
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .singleLine
@@ -206,103 +208,131 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 230
+        } else {
+            return UITableView.automaticDimension
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.statusesHashtags.count
+        if section == 0 {
+            return 1
+        } else {
+            return self.statusesHashtags.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.statusesHashtags[indexPath.row].mediaAttachments.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
-            if self.statusesHashtags.isEmpty {} else {
-                cell.configure(self.statusesHashtags[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GraphCellTrends", for: indexPath) as! GraphCellTrends
+            if self.history.isEmpty {} else {
+                cell.configure(self.history)
             }
-
-            cell.content.handleMentionTap { (string) in
-            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                impactFeedbackgenerator.prepare()
-                impactFeedbackgenerator.impactOccurred()
-            }
-                let vc = FifthViewController()
-                vc.isYou = false
-                vc.isTapped = true
-                vc.userID = string
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            cell.content.handleHashtagTap { (string) in
-            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                impactFeedbackgenerator.prepare()
-                impactFeedbackgenerator.impactOccurred()
-            }
-                let vc = HashtagViewController()
-                vc.theHashtag = string
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            cell.content.handleURLTap { (string) in
-            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                impactFeedbackgenerator.prepare()
-                impactFeedbackgenerator.impactOccurred()
-            }
-                GlobalStruct.tappedURL = string
-                ViewController().openLink()
-            }
-            
             cell.backgroundColor = GlobalStruct.baseDarkTint
             let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
+            bgColorView.backgroundColor = .clear
             cell.selectedBackgroundView = bgColorView
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
-            if self.statusesHashtags.isEmpty {} else {
-                cell.configure(self.statusesHashtags[indexPath.row])
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
-                cell.profile.tag = indexPath.row
-                cell.profile.addGestureRecognizer(tap)
+            if self.statusesHashtags[indexPath.row].mediaAttachments.isEmpty {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootCell", for: indexPath) as! TootCell
+                if self.statusesHashtags.isEmpty {} else {
+                    cell.configure(self.statusesHashtags[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                }
+                
+                cell.content.handleMentionTap { (string) in
+                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                    }
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                cell.content.handleHashtagTap { (string) in
+                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                    }
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                cell.content.handleURLTap { (string) in
+                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                    }
+                    GlobalStruct.tappedURL = string
+                    ViewController().openLink()
+                }
+                
+                cell.backgroundColor = GlobalStruct.baseDarkTint
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "TootImageCell", for: indexPath) as! TootImageCell
+                if self.statusesHashtags.isEmpty {} else {
+                    cell.configure(self.statusesHashtags[indexPath.row])
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
+                    cell.profile.tag = indexPath.row
+                    cell.profile.addGestureRecognizer(tap)
+                }
+                
+                cell.content.handleMentionTap { (string) in
+                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                    }
+                    let vc = FifthViewController()
+                    vc.isYou = false
+                    vc.isTapped = true
+                    vc.userID = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                cell.content.handleHashtagTap { (string) in
+                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                    }
+                    let vc = HashtagViewController()
+                    vc.theHashtag = string
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+                cell.content.handleURLTap { (string) in
+                    if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedbackgenerator.prepare()
+                        impactFeedbackgenerator.impactOccurred()
+                    }
+                    GlobalStruct.tappedURL = string
+                    ViewController().openLink()
+                }
+                
+                cell.backgroundColor = GlobalStruct.baseDarkTint
+                let bgColorView = UIView()
+                bgColorView.backgroundColor = UIColor.clear
+                cell.selectedBackgroundView = bgColorView
+                return cell
             }
-
-            cell.content.handleMentionTap { (string) in
-            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                impactFeedbackgenerator.prepare()
-                impactFeedbackgenerator.impactOccurred()
-            }
-                let vc = FifthViewController()
-                vc.isYou = false
-                vc.isTapped = true
-                vc.userID = string
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            cell.content.handleHashtagTap { (string) in
-            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                impactFeedbackgenerator.prepare()
-                impactFeedbackgenerator.impactOccurred()
-            }
-                let vc = HashtagViewController()
-                vc.theHashtag = string
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            cell.content.handleURLTap { (string) in
-            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
-                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-                impactFeedbackgenerator.prepare()
-                impactFeedbackgenerator.impactOccurred()
-            }
-                GlobalStruct.tappedURL = string
-                ViewController().openLink()
-            }
-            
-            cell.backgroundColor = GlobalStruct.baseDarkTint
-            let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor.clear
-            cell.selectedBackgroundView = bgColorView
-            return cell
         }
     }
     
@@ -319,9 +349,13 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = DetailViewController()
-        vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
-        self.navigationController?.pushViewController(vc, animated: true)
+        if indexPath.section == 0 {
+            
+        } else {
+            let vc = DetailViewController()
+            vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
@@ -339,9 +373,13 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
     func tableView(_ tableView: UITableView, willPerformPreviewActionForMenuWith configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionCommitAnimating) {
         animator.addCompletion {
             guard let indexPath = configuration.identifier as? IndexPath else { return }
-            let vc = DetailViewController()
-            vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
-            self.navigationController?.pushViewController(vc, animated: true)
+            if indexPath.section == 0 {
+                return
+            } else {
+                let vc = DetailViewController()
+                vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
@@ -349,25 +387,33 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: {
-            let vc = DetailViewController()
-            vc.fromContextMenu = true
-            vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
-            return vc
+            if indexPath.section == 0 {
+                return nil
+            } else {
+                let vc = DetailViewController()
+                vc.fromContextMenu = true
+                vc.pickedStatusesHome = [self.statusesHashtags[indexPath.row]]
+                return vc
+            }
         }, actionProvider: { suggestedActions in
-            return self.makeContextMenu([self.statusesHashtags[indexPath.row]], indexPath: indexPath)
+            if indexPath.section == 0 {
+                return nil
+            } else {
+                return self.makeContextMenu([self.statusesHashtags[indexPath.row]], indexPath: indexPath)
+            }
         })
     }
     
     func makeContextMenu(_ status: [Status], indexPath: IndexPath) -> UIMenu {
         let repl = UIAction(title: "Reply".localized, image: UIImage(systemName: "arrowshape.turn.up.left"), identifier: nil) { action in
-        #if targetEnvironment(macCatalyst)
-        GlobalStruct.macWindow = 2
-        GlobalStruct.macReply = status
-        let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer2")
-        UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
-          print("error", e)
-        }
-        #elseif !targetEnvironment(macCatalyst)
+            #if targetEnvironment(macCatalyst)
+            GlobalStruct.macWindow = 2
+            GlobalStruct.macReply = status
+            let userActivity = NSUserActivity(activityType: "com.shi.Mast.openComposer2")
+            UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: nil) { (e) in
+                print("error", e)
+            }
+            #elseif !targetEnvironment(macCatalyst)
             let vc = TootViewController()
             vc.replyStatus = status
             self.show(UINavigationController(rootViewController: vc), sender: self)
@@ -509,7 +555,7 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
                 let request = Statuses.delete(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     DispatchQueue.main.async {
-                    
+                        
                     }
                 }
             }
