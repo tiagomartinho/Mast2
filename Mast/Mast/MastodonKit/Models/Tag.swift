@@ -13,4 +13,15 @@ public class Tag: Codable {
     public let name: String
     /// The URL of the hashtag.
     public let url: String
+    /// The history of the hashtag.
+    public let history: [TagHistory]?
+}
+
+public class TagHistory: Codable {
+    /// The hashtag uses.
+    public let day: String
+    /// The hashtag uses.
+    public let uses: String
+    /// The hashtag accounts.
+    public let accounts: String
 }

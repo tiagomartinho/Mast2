@@ -442,12 +442,16 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 return cell
             }
         } else if indexPath.section == 2 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "addCell3", for: indexPath)
+            var cell = tableView.dequeueReusableCell(withIdentifier: "addCell3", for: indexPath)
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "addCell3")
             if self.statusesTrends.isEmpty {
                 
             } else {
-                let descriptionSideString = NSMutableAttributedString(string: self.statusesTrends[indexPath.row].name, attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                let descriptionSideString = NSMutableAttributedString(string: "\(self.statusesTrends[indexPath.row].name)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(1), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.textLabel?.attributedText = descriptionSideString
+                
+                let descriptionSideString2 = NSMutableAttributedString(string: "\(self.statusesTrends[indexPath.row].history?.last?.accounts ?? "0") \("people talking".localized) • \(self.statusesTrends[indexPath.row].history?.last?.uses ?? "0") \("uses".localized)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.45), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                cell.detailTextLabel?.attributedText = descriptionSideString2
             }
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             cell.imageView?.image = UIImage(systemName: "arrow.up.right", withConfiguration: symbolConfig) ?? UIImage()
