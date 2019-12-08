@@ -114,10 +114,10 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
         
         // Add button
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
-        btn1.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn1.setImage(UIImage(systemName: "line.horizontal.3.decrease", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
         btn1.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn1.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
-        btn1.accessibilityLabel = "Create".localized
+        btn1.addTarget(self, action: #selector(self.typeTapped), for: .touchUpInside)
+        btn1.accessibilityLabel = "Type".localized
         let addButton = UIBarButtonItem(customView: btn1)
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
             self.navigationItem.setRightBarButton(addButton, animated: true)
@@ -745,13 +745,47 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
         self.present(alert, animated: true, completion: nil)
     }
     
-    @objc func addTapped() {
+    @objc func typeTapped() {
         if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
             let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
             impactFeedbackgenerator.prepare()
             impactFeedbackgenerator.impactOccurred()
         }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "addTapped"), object: self)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let op1 = UIAlertAction(title: "Line Graph".localized, style: .default , handler:{ (UIAlertAction) in
+            UserDefaults.standard.set(0, forKey: "filterTrends")
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet([0]), with: .none)
+            }
+        })
+        if UserDefaults.standard.value(forKey: "filterTrends") as? Int == 0 {
+            op1.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+        } else {
+            op1.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        }
+        op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op1)
+        let op2 = UIAlertAction(title: "Bar Graph".localized, style: .default , handler:{ (UIAlertAction) in
+            UserDefaults.standard.set(1, forKey: "filterTrends")
+            DispatchQueue.main.async {
+                self.tableView.reloadSections(IndexSet([0]), with: .none)
+            }
+        })
+        if UserDefaults.standard.value(forKey: "filterTrends") as? Int == 1 {
+            op2.setValue(UIImage(systemName: "checkmark.circle.fill")!, forKey: "image")
+        } else {
+            op2.setValue(UIImage(systemName: "circle")!, forKey: "image")
+        }
+        op2.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        alert.addAction(op2)
+        alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
+            
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.btn1
+            presenter.sourceRect = self.btn1.bounds
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func removeTabbarItemsText() {
