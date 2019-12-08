@@ -434,10 +434,14 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
             if self.isYou {
                 title.text = "\(formattedNumber ?? "0") \("Toots".localized)"
             } else {
-                if theUser?.locked ?? false {
-                    title.text = "Locked Account".localized
+                if theUser?.bot ?? false {
+                    title.text = "Bot"
                 } else {
-                    title.text = "\(formattedNumber ?? "0") \("Toots".localized)"
+                    if theUser?.locked ?? false {
+                        title.text = "Locked Account".localized
+                    } else {
+                        title.text = "\(formattedNumber ?? "0") \("Toots".localized)"
+                    }
                 }
             }
             title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
