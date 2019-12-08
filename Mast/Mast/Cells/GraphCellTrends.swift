@@ -65,9 +65,14 @@ class GraphCellTrends: UITableViewCell, ScrollableGraphViewDataSource {
         barPlot.barLineColor = GlobalStruct.baseTint
         barPlot.barColor = GlobalStruct.baseTint
         barPlot.shouldRoundBarCorners = true
-        
         barPlot.adaptAnimationType = ScrollableGraphViewAnimationType.easeOut
         barPlot.animationDuration = 1.5
+        
+        let linePlot = LinePlot(identifier: "line")
+        linePlot.lineColor = GlobalStruct.baseTint
+        linePlot.fillColor = UIColor.clear
+        linePlot.adaptAnimationType = ScrollableGraphViewAnimationType.easeOut
+        linePlot.animationDuration = 1.5
         
         let referenceLines = ReferenceLines()
         referenceLines.referenceLineLabelFont = UIFont.boldSystemFont(ofSize: 8)
@@ -76,7 +81,7 @@ class GraphCellTrends: UITableViewCell, ScrollableGraphViewDataSource {
         referenceLines.dataPointLabelColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.5)
         
         graphView.backgroundFillColor = .clear
-        graphView.addPlot(plot: barPlot)
+        graphView.addPlot(plot: linePlot)
         graphView.addReferenceLines(referenceLines: referenceLines)
         graphView.rangeMax = Double(self.allVals.max() ?? 0)
         graphView.shouldRangeAlwaysStartAtZero = true
