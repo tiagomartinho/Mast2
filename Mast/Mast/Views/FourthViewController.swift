@@ -253,6 +253,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
         GlobalStruct.client.run(request2) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
                     self.statusesTrends = stat
                     self.tableView.reloadData()
                 }
@@ -468,7 +469,7 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                     uses = uses + (z2 ?? 0)
                 }
                 
-                let descriptionSideString2 = NSMutableAttributedString(string: "\(accs) \("people talking".localized) • \(uses) \("uses".localized)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.45), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
+                let descriptionSideString2 = NSMutableAttributedString(string: "\(accs) \("people talking".localized) • \(uses) \("times used".localized)", attributes: [.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.45), .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)])
                 cell.detailTextLabel?.attributedText = descriptionSideString2
             }
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
