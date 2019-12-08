@@ -96,8 +96,8 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                     }
                     if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .gifv || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .audio {
                         cell.videoOverlay.alpha = 1
-                        
-                        print("vidduration - \((self.profileStatusesImages[indexPath.item].mediaAttachments[0].meta?.original?.duration ?? 0).stringFromTimeInterval())")
+                        cell.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0.5).cgColor]
+                        cell.duration.text = (self.profileStatusesImages[indexPath.item].mediaAttachments[0].meta?.original?.duration ?? 0).stringFromTimeInterval()
                     } else {
                         cell.videoOverlay.alpha = 0
                     }

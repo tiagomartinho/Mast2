@@ -124,6 +124,8 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
 
         if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .video || self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .gifv || self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .audio {
             cell.videoOverlay.alpha = 1
+            cell.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0.5).cgColor]
+            cell.duration.text = (self.profileStatusesImages[indexPath.item].mediaAttachments[0].meta?.original?.duration ?? 0).stringFromTimeInterval()
         } else {
             cell.videoOverlay.alpha = 0
         }

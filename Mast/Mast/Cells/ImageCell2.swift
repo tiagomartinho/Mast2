@@ -14,7 +14,9 @@ class ImageCell2: UICollectionViewCell {
     var bgImage = UIImageView()
     var image = UIImageView()
     var imageCountTag = UIButton()
+    let gradient: CAGradientLayer = CAGradientLayer()
     var videoOverlay = UIImageView()
+    var duration = UILabel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,6 +56,17 @@ class ImageCell2: UICollectionViewCell {
         imageCountTag.layer.masksToBounds = false
         imageCountTag.alpha = 1
         contentView.addSubview(imageCountTag)
+
+        self.gradient.frame.size = contentView.frame.size
+        self.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0).cgColor]
+        contentView.layer.addSublayer(gradient)
+        
+        self.duration.frame = CGRect(x: 10, y: contentView.bounds.height - 30, width: contentView.bounds.width - 20, height: 30)
+        self.duration.text = ""
+        self.duration.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
+        self.duration.textColor = UIColor.white
+        self.duration.textAlignment = .left
+        contentView.addSubview(duration)
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
         self.videoOverlay.frame = CGRect(x: self.bounds.width/2 - 30, y: self.bounds.height/2 - 30, width: 60, height: 60)

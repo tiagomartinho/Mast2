@@ -535,6 +535,8 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 }
                 if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .gifv || self.images[indexPath.row].type == .audio {
                     cell.videoOverlay.alpha = 1
+                    cell.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0.5).cgColor]
+                    cell.duration.text = (self.images[indexPath.item].meta?.original?.duration ?? 0).stringFromTimeInterval()
                 } else {
                     cell.videoOverlay.alpha = 0
                 }
