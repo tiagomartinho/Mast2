@@ -23,6 +23,8 @@ public class Attachment: Codable {
     public let textURL: String?
     /// A description of the image for the visually impaired.
     public let description: String?
+    /// Image meta data.
+    public let meta: AttachmentMeta?
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -32,5 +34,36 @@ public class Attachment: Codable {
         case previewURL = "preview_url"
         case textURL = "text_url"
         case description
+        case meta
+    }
+}
+
+public class AttachmentMeta: Codable {
+    public let small: AttachmentMeta2?
+    public let original: AttachmentMeta2?
+
+    private enum CodingKeys: String, CodingKey {
+        case small
+        case original
+    }
+}
+
+public class AttachmentMeta2: Codable {
+    public let width: Int?
+    public let height: Int?
+//    public let size: String?
+//    public let aspect: String?
+    public let frameRate: Int?
+    public let duration: Int?
+//    public let bitrate: String?
+
+    private enum CodingKeys: String, CodingKey {
+        case width
+        case height
+//        case size
+//        case aspect
+        case frameRate = "frame_rate"
+        case duration
+//        case bitrate
     }
 }
