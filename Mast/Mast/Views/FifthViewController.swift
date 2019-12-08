@@ -1718,14 +1718,18 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+            GlobalStruct.allBoostedStatuses.append(status.first?.id ?? "")
+            GlobalStruct.allUnboostedStatuses = GlobalStruct.allUnboostedStatuses.filter{$0 != status.first?.id ?? ""}
             let request = Statuses.reblog(id: status.first?.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 
             }
         }
-        if status.first?.reblogged ?? false {
+        if status.first?.reblogged ?? false || GlobalStruct.allBoostedStatuses.contains(status.first?.reblog?.id ?? status.first?.id ?? "") {
             boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                GlobalStruct.allUnboostedStatuses.append(status.first?.id ?? "")
+                GlobalStruct.allBoostedStatuses = GlobalStruct.allBoostedStatuses.filter{$0 != status.first?.id ?? ""}
                 let request = Statuses.unreblog(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     

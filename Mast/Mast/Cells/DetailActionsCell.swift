@@ -97,8 +97,12 @@ class DetailActionsCell: UITableViewCell {
                 button3.setImage(UIImage(systemName: "heart.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemPink.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
             }
         }
-        if stat.reblogged ?? false {
-            button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        if stat.reblogged ?? false || GlobalStruct.allBoostedStatuses.contains(stat.reblog?.id ?? stat.id) {
+            if GlobalStruct.allUnboostedStatuses.contains(stat.reblog?.id ?? stat.id) {
+                
+            } else {
+                button2.setImage(UIImage(systemName: "arrow.2.circlepath", withConfiguration: symbolConfig)?.withTintColor(UIColor.systemGreen.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+            }
         }
         
         if stat.visibility == .private {

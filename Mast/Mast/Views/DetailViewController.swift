@@ -696,15 +696,30 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 impactFeedbackgenerator.prepare()
                 impactFeedbackgenerator.impactOccurred()
             }
-            if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted {
-                if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                    ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
-                    cell.toggleBoostOff(self.pickedStatusesHome[0])
-                    self.isBoosted = false
-                    self.decreaseBoost()
+            if self.pickedStatusesHome.first?.reblogged ?? false || self.isBoosted || GlobalStruct.allBoostedStatuses.contains(self.pickedStatusesHome.first?.id ?? "") {
+                if GlobalStruct.allUnboostedStatuses.contains(self.pickedStatusesHome.first?.id ?? "") {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                        GlobalStruct.allBoostedStatuses.append(self.pickedStatusesHome.first?.id ?? "")
+                        GlobalStruct.allUnboostedStatuses = GlobalStruct.allUnboostedStatuses.filter{$0 != self.pickedStatusesHome.first?.id ?? ""}
+                        ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                        cell.toggleBoostOn(self.pickedStatusesHome[0])
+                        self.isBoosted = true
+                        self.increaseBoost()
+                    }
+                } else {
+                    if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                        GlobalStruct.allUnboostedStatuses.append(self.pickedStatusesHome.first?.id ?? "")
+                        GlobalStruct.allBoostedStatuses = GlobalStruct.allBoostedStatuses.filter{$0 != self.pickedStatusesHome.first?.id ?? ""}
+                        ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                        cell.toggleBoostOff(self.pickedStatusesHome[0])
+                        self.isBoosted = false
+                        self.decreaseBoost()
+                    }
                 }
             } else {
                 if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                    GlobalStruct.allBoostedStatuses.append(self.pickedStatusesHome.first?.id ?? "")
+                    GlobalStruct.allUnboostedStatuses = GlobalStruct.allUnboostedStatuses.filter{$0 != self.pickedStatusesHome.first?.id ?? ""}
                     ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
                     cell.toggleBoostOn(self.pickedStatusesHome[0])
                     self.isBoosted = true
@@ -1144,6 +1159,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         }
         var boos = UIAction(title: "Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
             ViewController().showNotifBanner("Boosted".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+            GlobalStruct.allBoostedStatuses.append(status.first?.id ?? "")
+            GlobalStruct.allUnboostedStatuses = GlobalStruct.allUnboostedStatuses.filter{$0 != status.first?.id ?? ""}
             let request = Statuses.reblog(id: status.first?.id ?? "")
             GlobalStruct.client.run(request) { (statuses) in
                 
@@ -1152,6 +1169,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         if status.first?.reblogged ?? false {
             boos = UIAction(title: "Remove Boost".localized, image: UIImage(systemName: "arrow.2.circlepath"), identifier: nil) { action in
                 ViewController().showNotifBanner("Removed Boost".localized, subtitle: "Toot".localized, style: BannerStyle.info)
+                GlobalStruct.allUnboostedStatuses.append(status.first?.id ?? "")
+                GlobalStruct.allBoostedStatuses = GlobalStruct.allBoostedStatuses.filter{$0 != status.first?.id ?? ""}
                 let request = Statuses.unreblog(id: status.first?.id ?? "")
                 GlobalStruct.client.run(request) { (statuses) in
                     

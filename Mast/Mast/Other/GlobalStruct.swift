@@ -76,6 +76,8 @@ class GlobalStruct {
     static var allPinned: [Status] = []
     static var allLikedStatuses: [String] = []
     static var allDislikedStatuses: [String] = []
+    static var allBoostedStatuses: [String] = []
+    static var allUnboostedStatuses: [String] = []
     
     static var currentTab = 1
     static var medType = 0
