@@ -49,20 +49,20 @@ public class AttachmentMeta: Codable {
 }
 
 public class AttachmentMeta2: Codable {
-    public let width: Int?
-    public let height: Int?
+//    public let width: Int?
+//    public let height: Int?
 //    public let size: String?
 //    public let aspect: String?
-    public let frameRate: Int?
-    public let duration: Int?
+//    public let frameRate: Int?
+    public let duration: TimeInterval?
 //    public let bitrate: String?
 
     private enum CodingKeys: String, CodingKey {
-        case width
-        case height
+//        case width
+//        case height
 //        case size
 //        case aspect
-        case frameRate = "frame_rate"
+//        case frameRate = "frame_rate"
         case duration
 //        case bitrate
     }
