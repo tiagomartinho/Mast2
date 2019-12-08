@@ -249,6 +249,15 @@ class FourthViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
+        let request2 = TrendingTags.all()
+        GlobalStruct.client.run(request2) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    self.statusesTrends = stat
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     func initialFetches() {

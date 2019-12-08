@@ -210,10 +210,31 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 230
+            return 205
         } else {
             return UITableView.automaticDimension
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let vw = UIView()
+        vw.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 30)
+        vw.backgroundColor = GlobalStruct.baseDarkTint
+        let title = UILabel()
+        title.frame = CGRect(x: (UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0) + 18, y: 0, width: self.view.bounds.width - 36, height: 30)
+        if section == 0 {
+            title.text = "History".localized
+        } else {
+            title.text = "Trends".localized
+        }
+        title.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
+        title.font = UIFont.boldSystemFont(ofSize: 16)
+        vw.addSubview(title)
+        return vw
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
