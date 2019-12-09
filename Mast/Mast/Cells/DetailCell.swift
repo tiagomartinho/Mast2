@@ -223,6 +223,9 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         if let z3 = stat.card?.description {
             print("card link 3: \(z3)")
         }
+        if let z4 = stat.card?.url {
+            print("card link 4: \(z4)")
+        }
         
         content.mentionColor = GlobalStruct.baseTint
         content.hashtagColor = GlobalStruct.baseTint
