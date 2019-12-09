@@ -213,6 +213,17 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
     }
     
     func configure(_ stat: Status) {
+        
+        if let z = stat.card?.providerName {
+            print("card link: \(z)")
+        }
+        if let z2 = stat.card?.authorName {
+            print("card link 2: \(z2)")
+        }
+        if let z3 = stat.card?.description {
+            print("card link 3: \(z3)")
+        }
+        
         content.mentionColor = GlobalStruct.baseTint
         content.hashtagColor = GlobalStruct.baseTint
         content.URLColor = GlobalStruct.baseTint
