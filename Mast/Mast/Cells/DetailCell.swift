@@ -24,7 +24,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
     var pollView = UIView()
     var barChart: HCoreBarChart = HCoreBarChart()
     
-    var cardView = UIView()
+    var cardView = UIButton()
     var cardViewTitle = UILabel()
     var cardViewLink = UILabel()
     var cardViewImage = UIImageView()
@@ -109,8 +109,8 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         cardView.translatesAutoresizingMaskIntoConstraints = false
         cardView.layer.cornerRadius = 8
         cardView.layer.cornerCurve = .continuous
-        cardView.layer.borderWidth = 3
-        cardView.layer.borderColor = UIColor(named: "lighterBaseWhite")!.cgColor
+        cardView.backgroundColor = UIColor(named: "lighterBaseWhite")!
+        cardView.addTarget(self, action: #selector(self.cardTapped), for: .touchUpInside)
         contentView.addSubview(cardView)
         
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -226,42 +226,90 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         self.metrics.setAttributedTitle(fullString, for: .normal)
     }
     
+    @objc func cardTapped() {
+        if let cardURL = self.sta.card?.url {
+            if UserDefaults.standard.value(forKey: "sync-haptics") as? Int == 0 {
+                let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+                impactFeedbackgenerator.prepare()
+                impactFeedbackgenerator.impactOccurred()
+            }
+            GlobalStruct.tappedURL = cardURL
+            ViewController().openLink()
+        }
+    }
+    
     func configure(_ stat: Status) {
-        
-        if let z = stat.card?.url {
-            print("card link: \(z)")
-        }
-        if let z3 = stat.card?.description {
-            print("card link 3: \(z3)")
-        }
-        if let z4 = stat.card?.providerName {
-            print("card link 4: \(z4)")
-        }
-        if let z5 = stat.card?.image {
-            print("card link 5: \(z5)")
-        }
-        
         if let cardType = stat.card?.type, cardType == .link {
             self.cardView.removeConstraint(heightConstraint)
-            heightConstraint = NSLayoutConstraint(item: self.cardView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(100))
+            heightConstraint = NSLayoutConstraint(item: self.cardView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(80))
             self.cardView.addConstraint(heightConstraint)
-            
+            if let cardImage = stat.card?.image {
+                self.cardViewImage.frame = CGRect(x: 5, y: 5, width: 70, height: 70)
+                self.cardViewImage.layer.cornerRadius = 5
+                self.cardViewImage.layer.cornerCurve = .continuous
+                self.cardViewImage.sd_setImage(with: cardImage, completed: nil)
+                self.cardViewImage.layer.masksToBounds = true
+                self.cardViewImage.isUserInteractionEnabled = false
+                self.cardView.addSubview(self.cardViewImage)
+            } else {
+                self.cardViewImage.frame = CGRect(x: 5, y: 5, width: 70, height: 70)
+                self.cardViewImage.layer.cornerRadius = 5
+                self.cardViewImage.layer.cornerCurve = .continuous
+                self.cardViewImage.image = UIImage(named: "icon")
+                self.cardViewImage.layer.masksToBounds = true
+                self.cardViewImage.isUserInteractionEnabled = false
+                self.cardView.addSubview(self.cardViewImage)
+            }
             if let cardTitle = stat.card?.title {
-                self.cardViewTitle.frame = CGRect(x: 60, y: 5, width: self.cardView.bounds.width - 70, height: 40)
-                self.cardViewTitle.numberOfLines = 1
+                self.cardViewTitle.numberOfLines = 2
                 self.cardViewTitle.text = cardTitle
                 self.cardViewTitle.textColor = UIColor(named: "baseBlack")!
-                self.cardViewTitle.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                self.cardViewTitle.font = UIFont.boldSystemFont(ofSize: 16)
+                self.cardViewTitle.isUserInteractionEnabled = false
                 self.cardView.addSubview(self.cardViewTitle)
+
+                self.cardViewTitle.translatesAutoresizingMaskIntoConstraints = false
+                var con1 = NSLayoutConstraint()
+                con1 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                self.cardView.addConstraint(con1)
+                var con2 = NSLayoutConstraint()
+                con2 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                self.cardView.addConstraint(con2)
+                var con3 = NSLayoutConstraint()
+                con3 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: CGFloat(2))
+                self.cardView.addConstraint(con3)
+                var con4 = NSLayoutConstraint()
+                con4 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(40))
+                self.cardView.addConstraint(con4)
             }
-            
-            contentView.layoutIfNeeded()
+            if let cardURL = stat.card?.url {
+                self.cardViewLink.numberOfLines = 1
+                self.cardViewLink.text = cardURL.host ?? "Tap to view".localized
+                self.cardViewLink.lineBreakMode = .byTruncatingTail
+                self.cardViewLink.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.65)
+                self.cardViewLink.font = UIFont.systemFont(ofSize: 14)
+                self.cardViewLink.isUserInteractionEnabled = false
+                self.cardView.addSubview(self.cardViewLink)
+
+                self.cardViewLink.translatesAutoresizingMaskIntoConstraints = false
+                var con1 = NSLayoutConstraint()
+                con1 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                self.cardView.addConstraint(con1)
+                var con2 = NSLayoutConstraint()
+                con2 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                self.cardView.addConstraint(con2)
+                var con3 = NSLayoutConstraint()
+                con3 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1, constant: CGFloat(0))
+                self.cardView.addConstraint(con3)
+                var con4 = NSLayoutConstraint()
+                con4 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(30))
+                self.cardView.addConstraint(con4)
+            }
         } else {
             self.cardView.alpha = 0
             self.cardView.removeConstraint(heightConstraint)
             heightConstraint = NSLayoutConstraint(item: self.cardView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(0))
             self.cardView.addConstraint(heightConstraint)
-            contentView.layoutIfNeeded()
         }
         
         content.mentionColor = GlobalStruct.baseTint
