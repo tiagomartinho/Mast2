@@ -24,6 +24,11 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
     var pollView = UIView()
     var barChart: HCoreBarChart = HCoreBarChart()
     
+    var cardView = UIView()
+    var cardViewTitle = UILabel()
+    var cardViewLink = UILabel()
+    var cardViewImage = UIImageView()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -101,6 +106,13 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         pollView.backgroundColor = .clear
         contentView.addSubview(pollView)
         
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.layer.cornerRadius = 8
+        cardView.layer.cornerCurve = .continuous
+        cardView.layer.borderWidth = 3
+        cardView.layer.borderColor = UIColor(named: "lighterBaseWhite")!.cgColor
+        contentView.addSubview(cardView)
+        
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -115,6 +127,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
             "content" : content,
             "pollView" : pollView,
             "heart" : heart,
+            "cardView" : cardView,
         ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[containerView]-0-|", options: [], metrics: nil, views: viewsDict))
@@ -127,11 +140,12 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[metrics]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[timestamp]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[pollView]-18-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[cardView]-18-|", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[usertag]-6-[content]-[pollView]-5-[metrics]-1-[timestamp]-15-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[usertag]-6-[content]-[pollView]-2-[cardView]-3-[metrics]-1-[timestamp]-15-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -217,9 +231,6 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         if let z = stat.card?.url {
             print("card link: \(z)")
         }
-        if let z2 = stat.card?.title {
-            print("card link 2: \(z2)")
-        }
         if let z3 = stat.card?.description {
             print("card link 3: \(z3)")
         }
@@ -229,8 +240,28 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
         if let z5 = stat.card?.image {
             print("card link 5: \(z5)")
         }
-        if let z6 = stat.card?.type {
-            print("card link 6: \(z6)")
+        
+        if let cardType = stat.card?.type, cardType == .link {
+            self.cardView.removeConstraint(heightConstraint)
+            heightConstraint = NSLayoutConstraint(item: self.cardView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(100))
+            self.cardView.addConstraint(heightConstraint)
+            
+            if let cardTitle = stat.card?.title {
+                self.cardViewTitle.frame = CGRect(x: 60, y: 5, width: self.cardView.bounds.width - 70, height: 40)
+                self.cardViewTitle.numberOfLines = 1
+                self.cardViewTitle.text = cardTitle
+                self.cardViewTitle.textColor = UIColor(named: "baseBlack")!
+                self.cardViewTitle.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+                self.cardView.addSubview(self.cardViewTitle)
+            }
+            
+            contentView.layoutIfNeeded()
+        } else {
+            self.cardView.alpha = 0
+            self.cardView.removeConstraint(heightConstraint)
+            heightConstraint = NSLayoutConstraint(item: self.cardView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(0))
+            self.cardView.addConstraint(heightConstraint)
+            contentView.layoutIfNeeded()
         }
         
         content.mentionColor = GlobalStruct.baseTint
