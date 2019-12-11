@@ -640,10 +640,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         let op1 = UIAlertAction(title: " Share Content".localized, style: .default , handler:{ (UIAlertAction) in
             let textToShare = [stat.first?.content.stripHTML() ?? ""]
             let activityViewController = UIActivityViewController(activityItems: textToShare,  applicationActivities: nil)
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                activityViewController.popoverPresentationController?.sourceView = cell.button4
-                activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds
-            }
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                activityViewController.popoverPresentationController?.sourceView = self.view
+                activityViewController.popoverPresentationController?.sourceRect = self.view.bounds
+//            }
             self.present(activityViewController, animated: true, completion: nil)
         })
         op1.setValue(UIImage(systemName: "doc.append")!, forKey: "image")
@@ -652,10 +652,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
         let op2 = UIAlertAction(title: "Share Link".localized, style: .default , handler:{ (UIAlertAction) in
             let textToShare = [stat.first?.url?.absoluteString ?? ""]
             let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
-                activityViewController.popoverPresentationController?.sourceView = cell.button4
-                activityViewController.popoverPresentationController?.sourceRect = cell.button4.bounds
-            }
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+                activityViewController.popoverPresentationController?.sourceView = self.view
+                activityViewController.popoverPresentationController?.sourceRect = self.view.bounds
+//            }
             self.present(activityViewController, animated: true, completion: nil)
         })
         op2.setValue(UIImage(systemName: "link")!, forKey: "image")
@@ -665,10 +665,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
             
         }))
         if let presenter = alert.popoverPresentationController {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                 presenter.sourceView = self.view
                 presenter.sourceRect = self.view.bounds
-            }
+//            }
         }
         self.present(alert, animated: true, completion: nil)
     }
@@ -713,10 +713,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
                         )
                         alert.setValue(messageText, forKey: "attributedMessage")
                         if let presenter = alert.popoverPresentationController {
-                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+//                            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                                 presenter.sourceView = self.view
                                 presenter.sourceRect = self.view.bounds
-                            }
+//                            }
                         }
                         self.present(alert, animated: true, completion: nil)
                     }
@@ -764,10 +764,10 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
             
         }))
         if let presenter = alert.popoverPresentationController {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
+//            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? DetailActionsCell {
                 presenter.sourceView = self.view
                 presenter.sourceRect = self.view.bounds
-            }
+//            }
         }
         self.present(alert, animated: true, completion: nil)
     }
