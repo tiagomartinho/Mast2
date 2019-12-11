@@ -118,13 +118,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             minimumLineSpacing: 15,
             sectionInset: UIEdgeInsets(top: 0, left: 68, bottom: 0, right: 20)
         )
-//        let layout = ColumnFlowLayout(
-//            cellsPerRow: 1,
-//            minimumInteritemSpacing: 0,
-//            minimumLineSpacing: 0,
-//            sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        )
-//        layout.itemSize = CGSize(width: contentView.bounds.width, height: contentView.bounds.width)
+        layout.itemSize = CGSize(width: contentView.bounds.width, height: contentView.bounds.width)
         layout.scrollDirection = .horizontal
         collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-10), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
         collectionView1.translatesAutoresizingMaskIntoConstraints = false
