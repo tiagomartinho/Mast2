@@ -263,7 +263,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     
     var currentStat: Status!
     func configure(_ stat: Status) {
-        if let cardType = stat.card?.type, cardType == .link {
+        if let cardType = stat.card?.type, cardType == .link || cardType == .video {
             self.cardView.removeConstraint(heightConstraint)
             heightConstraint = NSLayoutConstraint(item: self.cardView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(80))
             self.cardView.addConstraint(heightConstraint)

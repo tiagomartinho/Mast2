@@ -601,3 +601,9 @@ extension TimeInterval {
         return String(format: "%0.2d:%0.2d",minutes,seconds)
     }
 }
+
+extension UITableView {
+    func hasRowAtIndexPath(indexPath: NSIndexPath) -> Bool {
+        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
+    }
+}

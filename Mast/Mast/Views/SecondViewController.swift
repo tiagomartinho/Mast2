@@ -72,7 +72,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func scrollTop2() {
-        if self.tableView.alpha == 1 && !self.notifications.isEmpty {
+        if self.tableView.alpha == 1 && !self.notifications.isEmpty && self.tableView.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             if self.notifications.isEmpty {
                 
             } else {
@@ -84,7 +84,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
-        if self.tableView2.alpha == 1 {
+        if self.tableView2.alpha == 1 && self.tableView2.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             self.tableView2.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }

@@ -73,7 +73,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @objc func scrollTop5() {
-        if self.tableView.alpha == 1 {
+        if self.tableView.alpha == 1 && self.tableView.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }

@@ -158,7 +158,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func scrollTop1() {
-        if self.tableView.alpha == 1 && !self.statusesHome.isEmpty {
+        if self.tableView.alpha == 1 && !self.statusesHome.isEmpty && self.tableView.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                 self.top1.alpha = 0
@@ -166,7 +166,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }) { (completed: Bool) in
             }
         }
-        if self.tableViewL.alpha == 1 && !self.statusesLocal.isEmpty {
+        if self.tableViewL.alpha == 1 && !self.statusesLocal.isEmpty && self.tableViewL.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             self.tableViewL.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                 self.top2.alpha = 0
@@ -174,7 +174,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }) { (completed: Bool) in
             }
         }
-        if self.tableViewF.alpha == 1 && !self.statusesFed.isEmpty {
+        if self.tableViewF.alpha == 1 && !self.statusesFed.isEmpty && self.tableViewF.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             self.tableViewF.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
                 self.top3.alpha = 0

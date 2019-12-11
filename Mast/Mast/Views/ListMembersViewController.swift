@@ -52,7 +52,7 @@ class ListMembersViewController: UIViewController, UITextFieldDelegate, UITableV
     }
     
     @objc func scrollTop1() {
-        if self.tableView.alpha == 1 {
+        if self.tableView.alpha == 1 && self.tableView.hasRowAtIndexPath(indexPath: IndexPath(row: 0, section: 0) as NSIndexPath) {
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         }
     }
