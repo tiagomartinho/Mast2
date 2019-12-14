@@ -724,9 +724,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.configure(self.notifications[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
-                    cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
+                    if self.notifications[indexPath.row].type == .mention || self.notifications[indexPath.row].type == .follow {
+                        cell.profile.addGestureRecognizer(tap2)
+                    } else {
+                        cell.profile.addGestureRecognizer(tap)
+                    }
                     cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == self.notifications.count - 10 {
                         self.fetchMoreNotifications()
@@ -774,9 +778,13 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     cell.configure(self.notifications[indexPath.row])
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile(_:)))
                     cell.profile.tag = indexPath.row
-                    cell.profile.addGestureRecognizer(tap)
                     let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.viewProfile2(_:)))
                     cell.profile2.tag = indexPath.row
+                    if self.notifications[indexPath.row].type == .mention || self.notifications[indexPath.row].type == .follow {
+                        cell.profile.addGestureRecognizer(tap2)
+                    } else {
+                        cell.profile.addGestureRecognizer(tap)
+                    }
                     cell.profile2.addGestureRecognizer(tap2)
                     if indexPath.row == self.notifications.count - 10 {
                         self.fetchMoreNotifications()
