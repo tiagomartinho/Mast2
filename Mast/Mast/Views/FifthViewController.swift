@@ -43,6 +43,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
     let photoPickerView = UIImagePickerController()
     var cropViewController = CropViewController(image: UIImage())
     var editType = 0
+    let btn3 = UIButton(type: .custom)
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
@@ -232,6 +233,19 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self.navigationItem.setLeftBarButton(settingsButton, animated: true)
             }
         }
+        
+        btn3.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn3.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn3.addTarget(self, action: #selector(refresh(_:)), for: .touchUpInside)
+        btn3.accessibilityLabel = "Sort".localized
+        let refButton = UIBarButtonItem(customView: btn3)
+        #if targetEnvironment(macCatalyst)
+        self.navigationItem.setRightBarButton(refButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            self.navigationItem.setRightBarButton(refButton, animated: true)
+        }
+        #endif
         
         GlobalStruct.isFollowing = false
         

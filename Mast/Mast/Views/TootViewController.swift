@@ -1705,6 +1705,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     }
                 } else {
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                        self.placeholderLabel.isHidden = true
+                        self.placeholderLabel.alpha = 0
                         if cell.textView.text.count == 0 {
                             cell.textView.text = "Listening to \(title), by \(artist) 🎵"
                         } else {

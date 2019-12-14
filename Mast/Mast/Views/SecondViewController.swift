@@ -32,6 +32,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
     let btn2 = UIButton(type: .custom)
+    let btn3 = UIButton(type: .custom)
     var notTypes: [NotificationType] = []
     var notifications: [Notificationt] = []
     var gapLastID = ""
@@ -375,6 +376,19 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         btn2.accessibilityLabel = "Sort".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        
+        btn3.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn3.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn3.addTarget(self, action: #selector(refresh(_:)), for: .touchUpInside)
+        btn3.accessibilityLabel = "Sort".localized
+        let refButton = UIBarButtonItem(customView: btn3)
+        #if targetEnvironment(macCatalyst)
+        self.navigationItem.setRightBarButton(refButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            self.navigationItem.setRightBarButton(refButton, animated: true)
+        }
+        #endif
         
         if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
             self.notTypes = []

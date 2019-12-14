@@ -30,6 +30,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     var refreshControl = UIRefreshControl()
     let top1 = UIButton()
     var notificationsDirect: [Conversation] = []
+    let btn3 = UIButton(type: .custom)
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -188,6 +189,19 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
         if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {} else {
             self.navigationItem.setLeftBarButton(settingsButton, animated: true)
         }
+        
+        btn3.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn3.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        btn3.addTarget(self, action: #selector(refresh(_:)), for: .touchUpInside)
+        btn3.accessibilityLabel = "Sort".localized
+        let refButton = UIBarButtonItem(customView: btn3)
+        #if targetEnvironment(macCatalyst)
+        self.navigationItem.setRightBarButton(refButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            self.navigationItem.setRightBarButton(refButton, animated: true)
+        }
+        #endif
         
         // Table
         self.tableView.register(DirectCell.self, forCellReuseIdentifier: "DirectCell")

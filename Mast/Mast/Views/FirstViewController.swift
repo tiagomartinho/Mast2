@@ -45,6 +45,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     let top2 = UIButton()
     let top3 = UIButton()
     let btn2 = UIButton(type: .custom)
+    let btn3 = UIButton(type: .custom)
     var newInstance = false
     var notTypes: [NotificationType] = [.direct, .favourite, .follow, .mention, .poll, .reblog]
     var statusesHome: [Status] = []
@@ -59,6 +60,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var fullHe = UIScreen.main.bounds.height
     var gapLastID = ""
     var gapLastStat: Status? = nil
+    var selSeg = 0
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("active: \(activationState)")
@@ -455,6 +457,25 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         btn2.accessibilityLabel = "Sort".localized
         let settingsButton = UIBarButtonItem(customView: btn2)
         self.navigationItem.setLeftBarButton(settingsButton, animated: true)
+        
+        btn3.setImage(UIImage(systemName: "arrow.clockwise", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "baseBlack")!.withAlphaComponent(1), renderingMode: .alwaysOriginal), for: .normal)
+        btn3.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        if self.selSeg == 0 {
+            btn3.addTarget(self, action: #selector(refresh(_:)), for: .touchUpInside)
+        } else if self.selSeg == 1 {
+            btn3.addTarget(self, action: #selector(refreshL(_:)), for: .touchUpInside)
+        } else {
+            btn3.addTarget(self, action: #selector(refreshF(_:)), for: .touchUpInside)
+        }
+        btn3.accessibilityLabel = "Sort".localized
+        let refButton = UIBarButtonItem(customView: btn3)
+        #if targetEnvironment(macCatalyst)
+        self.navigationItem.setRightBarButton(refButton, animated: true)
+        #elseif !targetEnvironment(macCatalyst)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            self.navigationItem.setRightBarButton(refButton, animated: true)
+        }
+        #endif
         
         // Log in
         if UserDefaults.standard.object(forKey: "accessToken") == nil {
@@ -1136,16 +1157,19 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     
     @objc func changeSegment(_ segment: UISegmentedControl) {
         if segment.selectedSegmentIndex == 0 {
+            self.selSeg = 0
             self.tableView.alpha = 1
             self.tableViewL.alpha = 0
             self.tableViewF.alpha = 0
         }
         if segment.selectedSegmentIndex == 1 {
+            self.selSeg = 1
             self.tableView.alpha = 0
             self.tableViewL.alpha = 1
             self.tableViewF.alpha = 0
         }
         if segment.selectedSegmentIndex == 2 {
+            self.selSeg = 2
             self.tableView.alpha = 0
             self.tableViewL.alpha = 0
             self.tableViewF.alpha = 1
