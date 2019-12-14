@@ -277,7 +277,9 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             let z = stat.reblog?.emojis ?? stat.emojis
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
-                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.kf.setImage(with: $0.url) { r in
+                    self.content.setNeedsDisplay()
+                }
                 textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight))
                 let attrStringWithImage = NSAttributedString(attachment: textAttachment)
                 while attributedString.mutableString.contains(":\($0.shortcode):") {
@@ -298,7 +300,9 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             let z = stat.reblog?.account.emojis ?? stat.account.emojis
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
-                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.kf.setImage(with: $0.url) { r in
+                    self.username.setNeedsDisplay()
+                }
                 textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight))
                 let attrStringWithImage = NSAttributedString(attachment: textAttachment)
                 while attributedString.mutableString.contains(":\($0.shortcode):") {

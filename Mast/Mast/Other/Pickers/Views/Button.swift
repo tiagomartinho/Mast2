@@ -1,8 +1,8 @@
 import UIKit
 
-open class Button: UIButton {
+open class Button1: UIButton {
     
-    public typealias Action = (Button) -> Swift.Void
+    public typealias Action = (Button1) -> Swift.Void
     
     fileprivate var actionOnTouch: Action?
     
@@ -20,7 +20,7 @@ open class Button: UIButton {
     
     public func action(_ closure: @escaping Action) {
         if actionOnTouch == nil {
-            addTarget(self, action: #selector(Button.actionOnTouchUpInside), for: .touchUpInside)
+            addTarget(self, action: #selector(Button1.actionOnTouchUpInside), for: .touchUpInside)
         }
         self.actionOnTouch = closure
     }

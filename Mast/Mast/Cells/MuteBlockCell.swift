@@ -92,7 +92,9 @@ class MuteBlockCell: UITableViewCell {
             let z = status.emojis
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
-                textAttachment.loadImageUsingCache(withUrl: $0.url.absoluteString)
+                textAttachment.kf.setImage(with: $0.url) { r in
+                    self.username.setNeedsDisplay()
+                }
                 textAttachment.bounds = CGRect(x:0, y: Int(-4), width: Int(self.username.font.lineHeight), height: Int(self.username.font.lineHeight))
                 let attrStringWithImage = NSAttributedString(attachment: textAttachment)
                 while attributedString.mutableString.contains(":\($0.shortcode):") {
