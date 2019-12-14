@@ -1901,15 +1901,15 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
                     let pos = rectOfCellInSuperview.origin.y
                     if pos < self.view.bounds.height/2 {
-                        if self.initialLoadPos == 1 {
+//                        if self.initialLoadPos == 1 {
                             self.initialLoadPos = 0
                             z.configureBack()
-                        }
+//                        }
                     } else {
-                        if self.initialLoadPos == 0 {
+//                        if self.initialLoadPos == 0 {
                             self.initialLoadPos = 1
                             z.configureBack2()
-                        }
+//                        }
                     }
                 }
             }
