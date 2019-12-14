@@ -1984,10 +1984,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                     cell.configure()
                 }
                 
-                let rectOfCellInTableView = self.tableView.rectForRow(at: indexPath)
-                let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
-                let pos = rectOfCellInSuperview.origin.y
-                if pos < self.view.bounds.height/2 {
+                if self.initialLoadPos == 0 {
                     self.fetchGap2()
                 } else {
                     self.fetchGap()
