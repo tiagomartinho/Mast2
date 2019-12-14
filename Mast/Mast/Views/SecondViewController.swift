@@ -588,7 +588,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                             }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+//                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableView.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
                         self.tableView.endUpdates()
                         UIView.setAnimationsEnabled(true)
                     }

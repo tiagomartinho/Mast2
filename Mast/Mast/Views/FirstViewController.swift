@@ -1034,17 +1034,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-//                        #if targetEnvironment(macCatalyst)
 //                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
-//                        #elseif !targetEnvironment(macCatalyst)
-//                        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-//                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
-//                        } else {
-//                            let footerHe1 = (self.navigationController?.navigationBar.bounds.height ?? 0) + (UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0) + self.segment.bounds.height
-//                            self.tableView.setContentOffset(CGPoint(x: 0, y: heights + footerHe1), animated: false)
-//                        }
-//                        #endif
-                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableView.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
                         self.tableView.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
@@ -1108,7 +1099,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableViewL.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+//                        self.tableViewL.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableViewL.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
                         self.tableViewL.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
@@ -1172,7 +1164,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             }
                         }
                         self.tableViewF.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-                        self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+//                        self.tableViewF.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
+                        self.tableViewF.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
                         self.tableViewF.endUpdates()
                         UIView.setAnimationsEnabled(true)
 
