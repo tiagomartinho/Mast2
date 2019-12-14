@@ -280,7 +280,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         self.tableView.reloadData()
                         let _ = indexPaths.map {
                             if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
-                                cell.configureBack()
+                                if self.initialLoadPos == 0 {
+                                    cell.configureBack()
+                                } else {
+                                    cell.configureBack2()
+                                }
                             }
                         }
                         self.tableView.scrollToRow(at: IndexPath(row: fi + stat.count, section: 0), at: .top, animated: false)
@@ -338,7 +342,11 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         UIView.setAnimationsEnabled(false)
                         let _ = indexPaths.map {
                             if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
-                                cell.configureBack()
+                                if self.initialLoadPos == 0 {
+                                    cell.configureBack()
+                                } else {
+                                    cell.configureBack2()
+                                }
                             }
                         }
                         self.tableView.reloadData()
