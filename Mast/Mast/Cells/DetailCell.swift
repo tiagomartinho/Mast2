@@ -391,7 +391,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
             })
             #if !targetEnvironment(macCatalyst)
             self.content.attributedText = attributedString
-            self.reloadInputViews()
+            //self.reloadInputViews()
             #endif
         }
         
@@ -414,7 +414,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
             })
             #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString
-            self.reloadInputViews()
+            //self.reloadInputViews()
             #endif
         }
 

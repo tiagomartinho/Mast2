@@ -353,6 +353,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
     @objc func addCurrentDraft() {
         if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
             cell.textView.text = GlobalStruct.currentDraft
+            self.placeholderLabel.isHidden = true
+            self.placeholderLabel.alpha = 0
             GlobalStruct.allDrafts = GlobalStruct.allDrafts.filter { (draft) -> Bool in
                 if draft == GlobalStruct.currentDraft {
                     return false

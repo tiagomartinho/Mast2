@@ -153,7 +153,7 @@ class MainFeedCell: UITableViewCell {
             let attributedString2 = NSMutableAttributedString(string: "\(stat.reblog?.account.displayName ?? stat.account.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString
-            self.reloadInputViews()
+            //self.reloadInputViews()
         }
     }
 

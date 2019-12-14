@@ -222,7 +222,7 @@ class ProfileCell: UITableViewCell {
             #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString
-            self.reloadInputViews()
+            //self.reloadInputViews()
             #endif
         }
     }

@@ -421,7 +421,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             self.username.attributedText = attributedString2
             #if !targetEnvironment(macCatalyst)
             self.content.attributedText = attributedString
-            self.reloadInputViews()
+            //self.reloadInputViews()
             #endif
         }
         
@@ -444,7 +444,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             })
             #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString
-            self.reloadInputViews()
+            //self.reloadInputViews()
             #endif
         }
         
