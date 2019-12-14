@@ -959,7 +959,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         let x11 = arr.last
         let chara: Character = "."
         if x11?.first ?? chara == "@" && (x11?.count ?? 0) > 1 {
-            self.atToolbar = true
             self.theAcc = x11 ?? ""
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
                 let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
@@ -980,9 +979,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 
             }
         } else {
-            if self.atToolbar {
+            if self.atToolbar == false {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                self.atToolbar = false
                 let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
                 let fixedS = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
                 fixedS.width = 6
@@ -1030,6 +1028,8 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
 
                 let symbolConfig = UIImage.SymbolConfiguration(pointSize: 21, weight: .regular)
                 let maxChars = GlobalStruct.maxChars - (cell.textView.text?.count ?? 0)
+                print("maxcha - \(maxChars)")
+                print("maxcha2 - \(cell.textView.text?.count ?? 0)")
                 self.x7 = UIBarButtonItem(title: "\(maxChars)", style: .plain, target: self, action: #selector(self.viewMore))
                 self.x7.accessibilityLabel = "Characters".localized
                 self.formatToolbar.items?[14] = self.x7
