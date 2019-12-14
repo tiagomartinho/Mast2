@@ -35,8 +35,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     let btn3 = UIButton(type: .custom)
     var notTypes: [NotificationType] = []
     var notifications: [Notificationt] = []
+    var gapFirstID = ""
     var gapLastID = ""
     var gapLastStat: Notificationt? = nil
+    var initialLoadPos = 0
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -232,6 +234,63 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         task.resume()
     }
     
+    func fetchGap2() {
+        let request = Notifications.all(range: .min(id: self.gapFirstID, limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top1.alpha = 1
+                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
+                        let y = self.notifications.split(separator: self.gapLastStat ?? self.notifications.first!)
+                        self.gapFirstID = stat.first?.id ?? ""
+                        if self.notifications.contains(stat.first!) || stat.count < 15 {
+                            
+                        } else {
+                            self.gapLastID = stat.first?.id ?? ""
+                            let z = stat.first!
+                            z.id = "loadmorehere"
+                            self.gapLastStat = z
+                        }
+                        let fi = (y.first?.count ?? 0)
+                        let indexPaths = (0..<(fi + stat.count)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        if y.first?.isEmpty ?? true {
+                            if y.last?.isEmpty ?? true {
+                                self.notifications = stat
+                            } else {
+                                self.notifications = stat + y.last!
+                            }
+                        } else if y.last?.isEmpty ?? true {
+                            self.notifications = y.first! + stat
+                        } else {
+                            self.notifications = y.first! + stat + y.last!
+                        }
+                        UIView.setAnimationsEnabled(false)
+                        self.tableView.reloadData()
+                        let _ = indexPaths.map {
+                            if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
+                                cell.configureBack()
+                            }
+                        }
+                        self.tableView.scrollToRow(at: IndexPath(row: fi + stat.count, section: 0), at: .top, animated: false)
+                        UIView.setAnimationsEnabled(true)
+                    }
+                }
+            }
+        }
+    }
+    
     func fetchGap() {
         let request = Notifications.all(range: .max(id: self.gapLastID, limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
@@ -262,7 +321,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         }
                         
                         let fi = (y.first?.count ?? 0)
-                        let indexPaths = (fi..<(fi + stat.count - 1)).map {
+                        let indexPaths = (0..<(fi + stat.count - 1)).map {
                             IndexPath(row: $0, section: 0)
                         }
                         if y.first?.isEmpty ?? true {
@@ -492,6 +551,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                         }) { (completed: Bool) in
                         }
                         
+                        self.gapFirstID = self.notifications.first?.id ?? ""
                         if self.notifications.contains(stat.last!) || stat.count < 15 {
                             
                         } else {
@@ -919,6 +979,29 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        for x in self.tableView.visibleCells {
+            if let z = x as? LoadMoreCell {
+                if let indexPath = self.tableView.indexPath(for: z) {
+                    let rectOfCellInTableView = self.tableView.rectForRow(at: indexPath)
+                    let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+                    let pos = rectOfCellInSuperview.origin.y
+                    if pos < self.view.bounds.height/2 {
+                        if self.initialLoadPos == 1 {
+                            self.initialLoadPos = 0
+                            z.configureBack()
+                        }
+                    } else {
+                        if self.initialLoadPos == 0 {
+                            self.initialLoadPos = 1
+                            z.configureBack2()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableView {
@@ -931,7 +1014,16 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                 if let cell = self.tableView.cellForRow(at: indexPath) as? LoadMoreCell {
                     cell.configure()
                 }
-                self.fetchGap()
+                
+                let rectOfCellInTableView = self.tableView.rectForRow(at: indexPath)
+                let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+                let pos = rectOfCellInSuperview.origin.y
+                if pos < self.view.bounds.height/2 {
+                    self.fetchGap2()
+                } else {
+                    self.fetchGap()
+                }
+                
             } else {
                 if self.notifications[indexPath.row].type == .direct {
                     

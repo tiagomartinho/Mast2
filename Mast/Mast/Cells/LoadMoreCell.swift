@@ -28,7 +28,7 @@ class LoadMoreCell: UITableViewCell {
         let attributedString = NSMutableAttributedString(string: "Load More".localized, attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4)])
         let textAttachment = NSTextAttachment()
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-        textAttachment.image = UIImage(systemName: "chevron.down", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+        textAttachment.image = UIImage(systemName: "chevron.up", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
         textAttachment.bounds = CGRect(x:10, y: Int(0), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight/2))
         let attrStringWithImage = NSAttributedString(attachment: textAttachment)
         attributedString.append(attrStringWithImage)
@@ -62,6 +62,17 @@ class LoadMoreCell: UITableViewCell {
     }
     
     func configureBack() {
+        let attributedString = NSMutableAttributedString(string: "Load More".localized, attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4)])
+        let textAttachment = NSTextAttachment()
+        let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
+        textAttachment.image = UIImage(systemName: "chevron.up", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal)
+        textAttachment.bounds = CGRect(x:10, y: Int(0), width: Int(self.content.font.lineHeight), height: Int(self.content.font.lineHeight/2))
+        let attrStringWithImage = NSAttributedString(attachment: textAttachment)
+        attributedString.append(attrStringWithImage)
+        content.attributedText = attributedString
+    }
+    
+    func configureBack2() {
         let attributedString = NSMutableAttributedString(string: "Load More".localized, attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4)])
         let textAttachment = NSTextAttachment()
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)

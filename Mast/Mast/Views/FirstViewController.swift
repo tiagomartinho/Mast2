@@ -58,9 +58,11 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var altInstances: [String] = []
     var fullWid = UIScreen.main.bounds.width
     var fullHe = UIScreen.main.bounds.height
+    var gapFirstID = ""
     var gapLastID = ""
     var gapLastStat: Status? = nil
     var selSeg = 0
+    var initialLoadPos = 0
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("active: \(activationState)")
@@ -849,6 +851,63 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         task.resume()
     }
     
+    func fetchGap2() {
+        let request = Timelines.home(range: .min(id: self.gapFirstID, limit: nil))
+        GlobalStruct.client.run(request) { (statuses) in
+            if let stat = (statuses.value) {
+                if stat.isEmpty {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                            self.top1.alpha = 1
+                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        }) { (completed: Bool) in
+                        }
+                        let y = self.statusesHome.split(separator: self.gapLastStat ?? self.statusesHome.first!)
+                        self.gapFirstID = stat.first?.id ?? ""
+                        if self.statusesHome.contains(stat.first!) || stat.count < 15 {
+                            
+                        } else {
+                            self.gapLastID = stat.first?.id ?? ""
+                            let z = stat.first!
+                            z.id = "loadmorehere"
+                            self.gapLastStat = z
+                        }
+                        let fi = (y.first?.count ?? 0)
+                        let indexPaths = (0..<(fi + stat.count)).map {
+                            IndexPath(row: $0, section: 0)
+                        }
+                        if y.first?.isEmpty ?? true {
+                            if y.last?.isEmpty ?? true {
+                                self.statusesHome = stat
+                            } else {
+                                self.statusesHome = stat + y.last!
+                            }
+                        } else if y.last?.isEmpty ?? true {
+                            self.statusesHome = y.first! + stat
+                        } else {
+                            self.statusesHome = y.first! + stat + y.last!
+                        }
+                        UIView.setAnimationsEnabled(false)
+                        self.tableView.reloadData()
+                        let _ = indexPaths.map {
+                            if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
+                                cell.configureBack()
+                            }
+                        }
+                        self.tableView.scrollToRow(at: IndexPath(row: fi + stat.count, section: 0), at: .top, animated: false)
+                        UIView.setAnimationsEnabled(true)
+                    }
+                }
+            }
+        }
+    }
+    
     func fetchGap() {
         let request = Timelines.home(range: .max(id: self.gapLastID, limit: nil))
         GlobalStruct.client.run(request) { (statuses) in
@@ -879,7 +938,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         }
                         
                         let fi = (y.first?.count ?? 0)
-                        let indexPaths = (fi..<(fi + stat.count - 1)).map {
+                        let indexPaths = (0..<(fi + stat.count - 1)).map {
                             IndexPath(row: $0, section: 0)
                         }
                         if y.first?.isEmpty ?? true {
@@ -946,6 +1005,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                         }) { (completed: Bool) in
                         }
                         
+                        self.gapFirstID = self.statusesHome.first?.id ?? ""
                         if self.statusesHome.contains(stat.last!) || stat.count < 20 {
                             
                         } else {
@@ -1833,6 +1893,29 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         }
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        for x in self.tableView.visibleCells {
+            if let z = x as? LoadMoreCell {
+                if let indexPath = self.tableView.indexPath(for: z) {
+                    let rectOfCellInTableView = self.tableView.rectForRow(at: indexPath)
+                    let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+                    let pos = rectOfCellInSuperview.origin.y
+                    if pos < self.view.bounds.height/2 {
+                        if self.initialLoadPos == 1 {
+                            self.initialLoadPos = 0
+                            z.configureBack()
+                        }
+                    } else {
+                        if self.initialLoadPos == 0 {
+                            self.initialLoadPos = 1
+                            z.configureBack2()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView == self.tableViewIntro {
@@ -1900,7 +1983,16 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                 if let cell = self.tableView.cellForRow(at: indexPath) as? LoadMoreCell {
                     cell.configure()
                 }
-                self.fetchGap()
+                
+                let rectOfCellInTableView = self.tableView.rectForRow(at: indexPath)
+                let rectOfCellInSuperview = self.tableView.convert(rectOfCellInTableView, to: self.tableView.superview)
+                let pos = rectOfCellInSuperview.origin.y
+                if pos < self.view.bounds.height/2 {
+                    self.fetchGap2()
+                } else {
+                    self.fetchGap()
+                }
+                
             } else {
                 let vc = DetailViewController()
                 vc.pickedStatusesHome = [self.statusesHome[indexPath.row].reblog ?? self.statusesHome[indexPath.row]]
