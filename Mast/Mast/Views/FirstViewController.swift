@@ -63,6 +63,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var gapLastStat: Status? = nil
     var selSeg = 0
     var initialLoadPos = 0
+    var isFetchingInitial = false
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("active: \(activationState)")
@@ -794,6 +795,7 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     func markersGet() {
+        self.isFetchingInitial = true
         let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers/?timeline=home"
         let url: URL = URL(string: urlStr)!
         var request01 = URLRequest(url: url)
@@ -824,6 +826,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                                                         self.statusesHome = stat
                                                         self.tableView.reloadData()
                                                         self.statusesHomeTemp = stat
+                                                        self.refreshControl.endRefreshing()
+                                                        self.isFetchingInitial = false
                                                     }
                                                 }
                                             }
@@ -831,6 +835,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                                             self.statusesHome = self.statusesHome + stat
                                             self.tableView.reloadData()
                                             self.statusesHomeTemp = self.statusesHomeTemp + stat
+                                            self.refreshControl.endRefreshing()
+                                            self.isFetchingInitial = false
                                         }
                                     }
                                 }
@@ -846,6 +852,8 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                             self.statusesHome = stat
                             self.tableView.reloadData()
                             self.statusesHomeTemp = stat
+                            self.refreshControl.endRefreshing()
+                            self.isFetchingInitial = false
                         }
                     }
                 }
@@ -991,78 +999,79 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Timelines.home(range: .since(id: self.statusesHome.first?.id ?? "", limit: nil))
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {
-                    DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
-                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-                            self.top1.alpha = 1
-                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
-                        }) { (completed: Bool) in
+        if self.isFetchingInitial == false {
+            let request = Timelines.home(range: .since(id: self.statusesHome.first?.id ?? "", limit: nil))
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    if stat.isEmpty {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
                         }
-                        
-                        self.gapFirstID = self.statusesHome.first?.id ?? ""
-                        if self.statusesHome.contains(stat.last!) || stat.count < 20 {
+                    } else {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
+                            self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                                self.top1.alpha = 1
+                                self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                            }) { (completed: Bool) in
+                            }
                             
-                        } else {
-                            self.gapLastID = stat.last?.id ?? ""
-                            let z = stat.last!
-                            z.id = "loadmorehere"
-                            self.gapLastStat = z
-                        }
-                        
-                        let indexPaths = (0..<stat.count).map {
-                            IndexPath(row: $0, section: 0)
-                        }
-                        self.statusesHome = stat + self.statusesHome
-                        self.tableView.beginUpdates()
-                        UIView.setAnimationsEnabled(false)
-                        var heights: CGFloat = 0
-                        let _ = indexPaths.map {
-                            if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
-                                heights += cell.bounds.height
+                            self.gapFirstID = self.statusesHome.first?.id ?? ""
+                            if self.statusesHome.contains(stat.last!) || stat.count < 20 {
+                                
+                            } else {
+                                self.gapLastID = stat.last?.id ?? ""
+                                let z = stat.last!
+                                z.id = "loadmorehere"
+                                self.gapLastStat = z
                             }
-                            if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
-                                heights += cell.bounds.height
+                            
+                            let indexPaths = (0..<stat.count).map {
+                                IndexPath(row: $0, section: 0)
                             }
-                            if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
-                                heights += cell.bounds.height
-                            }
-                        }
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-//                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
-                        self.tableView.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
-                        self.tableView.endUpdates()
-                        UIView.setAnimationsEnabled(true)
-
-                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
-                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
-                                if stat.reblog == nil {
-                                    return false
-                                } else {
-                                    return true
+                            self.statusesHome = stat + self.statusesHome
+                            self.tableView.beginUpdates()
+                            UIView.setAnimationsEnabled(false)
+                            var heights: CGFloat = 0
+                            let _ = indexPaths.map {
+                                if let cell = self.tableView.cellForRow(at: $0) as? TootCell {
+                                    heights += cell.bounds.height
                                 }
-                            })
-                            self.tableView.reloadData()
-                        }
-                        if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
-                            self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
-                                if stat.mediaAttachments.isEmpty {
-                                    return false
-                                } else {
-                                    return true
+                                if let cell = self.tableView.cellForRow(at: $0) as? TootImageCell {
+                                    heights += cell.bounds.height
                                 }
-                            })
-                            self.tableView.reloadData()
+                                if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
+                                    heights += cell.bounds.height
+                                }
+                            }
+                            self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                            self.tableView.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
+                            self.tableView.endUpdates()
+                            UIView.setAnimationsEnabled(true)
+                            
+                            if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 1 {
+                                self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
+                                    if stat.reblog == nil {
+                                        return false
+                                    } else {
+                                        return true
+                                    }
+                                })
+                                self.tableView.reloadData()
+                            }
+                            if UserDefaults.standard.value(forKey: "filterTimelines") as? Int == 2 {
+                                self.statusesHome = self.statusesHome.filter({ (stat) -> Bool in
+                                    if stat.mediaAttachments.isEmpty {
+                                        return false
+                                    } else {
+                                        return true
+                                    }
+                                })
+                                self.tableView.reloadData()
+                            }
+                            
                         }
-                        
                     }
                 }
             }

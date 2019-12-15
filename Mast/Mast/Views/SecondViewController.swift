@@ -39,6 +39,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     var gapLastID = ""
     var gapLastStat: Notificationt? = nil
     var initialLoadPos = 0
+    var isFetchingInitial = false
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -171,6 +172,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func markersGet() {
+        self.isFetchingInitial = true
         let urlStr = "\(GlobalStruct.client.baseURL)/api/v1/markers/?timeline=notifications"
         let url: URL = URL(string: urlStr)!
         var request01 = URLRequest(url: url)
@@ -201,6 +203,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                                             self.notifications = self.notifications + stat
                                                             self.tableView.reloadData()
                                                             self.tableView2.reloadData()
+                                                            self.refreshControl.endRefreshing()
+                                                            self.isFetchingInitial = false
                                                         }
                                                     }
                                                 }
@@ -209,6 +213,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                             self.notifications = self.notifications + stat
                                             self.tableView.reloadData()
                                             self.tableView2.reloadData()
+                                            self.refreshControl.endRefreshing()
+                                            self.isFetchingInitial = false
                                         }
                                     }
                                 }
@@ -225,6 +231,8 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                 self.notifications = self.notifications + stat
                                 self.tableView.reloadData()
                                 self.tableView2.reloadData()
+                                self.refreshControl.endRefreshing()
+                                self.isFetchingInitial = false
                             }
                         }
                     }
@@ -543,56 +551,57 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        let request = Notifications.all(range: .since(id: self.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
-        GlobalStruct.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
-                if stat.isEmpty {
-                    DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
-                        self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-                        UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
-                            self.top1.alpha = 1
-                            self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
-                        }) { (completed: Bool) in
+        if self.isFetchingInitial == false {
+            let request = Notifications.all(range: .since(id: self.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
+            GlobalStruct.client.run(request) { (statuses) in
+                if let stat = (statuses.value) {
+                    if stat.isEmpty {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
                         }
-                        
-                        self.gapFirstID = self.notifications.first?.id ?? ""
-                        if self.notifications.contains(stat.last!) || stat.count < 15 {
+                    } else {
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
+                            self.top1.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                            UIView.animate(withDuration: 0.18, delay: 0, options: .curveEaseOut, animations: {
+                                self.top1.alpha = 1
+                                self.top1.transform = CGAffineTransform(scaleX: 1, y: 1)
+                            }) { (completed: Bool) in
+                            }
                             
-                        } else {
-                            self.gapLastID = stat.last?.id ?? ""
-                            let z = stat.last!
-                            z.id = "loadmorehere"
-                            self.gapLastStat = z
-                        }
-                        
-                        let indexPaths = (0..<stat.count).map {
-                            IndexPath(row: $0, section: 0)
-                        }
-                        self.notifications = stat + self.notifications
-                        self.tableView.beginUpdates()
-                        UIView.setAnimationsEnabled(false)
-                        var heights: CGFloat = 0
-                        let _ = indexPaths.map {
-                            if let cell = self.tableView.cellForRow(at: $0) as? NotificationsCell {
-                                heights += cell.bounds.height
+                            self.gapFirstID = self.notifications.first?.id ?? ""
+                            if self.notifications.contains(stat.last!) || stat.count < 15 {
+                                
+                            } else {
+                                self.gapLastID = stat.last?.id ?? ""
+                                let z = stat.last!
+                                z.id = "loadmorehere"
+                                self.gapLastStat = z
                             }
-                            if let cell = self.tableView.cellForRow(at: $0) as? NotificationsImageCell {
-                                heights += cell.bounds.height
+                            
+                            let indexPaths = (0..<stat.count).map {
+                                IndexPath(row: $0, section: 0)
                             }
-                            if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
-                                heights += cell.bounds.height
+                            self.notifications = stat + self.notifications
+                            self.tableView.beginUpdates()
+                            UIView.setAnimationsEnabled(false)
+                            var heights: CGFloat = 0
+                            let _ = indexPaths.map {
+                                if let cell = self.tableView.cellForRow(at: $0) as? NotificationsCell {
+                                    heights += cell.bounds.height
+                                }
+                                if let cell = self.tableView.cellForRow(at: $0) as? NotificationsImageCell {
+                                    heights += cell.bounds.height
+                                }
+                                if let cell = self.tableView.cellForRow(at: $0) as? LoadMoreCell {
+                                    heights += cell.bounds.height
+                                }
                             }
+                            self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
+                            self.tableView.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
+                            self.tableView.endUpdates()
+                            UIView.setAnimationsEnabled(true)
                         }
-                        self.tableView.insertRows(at: indexPaths, with: UITableView.RowAnimation.none)
-//                        self.tableView.setContentOffset(CGPoint(x: 0, y: heights), animated: false)
-                        self.tableView.scrollToRow(at: IndexPath(row: stat.count, section: 0), at: .top, animated: false)
-                        self.tableView.endUpdates()
-                        UIView.setAnimationsEnabled(true)
                     }
                 }
             }
