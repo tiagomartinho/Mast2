@@ -399,6 +399,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
         if UserDefaults.standard.value(forKey: "sync-sensitive") == nil {
             UserDefaults.standard.set(0, forKey: "sync-sensitive")
         }
+        if UserDefaults.standard.value(forKey: "sync-dimn") == nil {
+            UserDefaults.standard.set(0, forKey: "sync-dimn")
+        }
         if UserDefaults.standard.value(forKey: "sync-chosenBrowser") == nil {
             UserDefaults.standard.set(0, forKey: "sync-chosenBrowser")
         }

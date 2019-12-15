@@ -31,7 +31,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let firstSection = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized, "App Haptics".localized]
     let firstSectionPad = ["App Icon".localized, "App Tint".localized, "Dark Mode Tint".localized, "Push Notifications".localized]
     let firstSectionMac = ["App Tint".localized, "Dark Mode Tint".localized]
-    let secondSection = [" \("Hide Sensitive Content".localized)", " \("Upload Videos as GIFs".localized)", " \("Default Visibility".localized)", "Default Keyboard".localized, " \("Default Browser".localized)", " \("Default Scan Mode".localized)", " \("Siri Shortcuts".localized)", " \("App Lock".localized)"]
+    let secondSection = [" \("Hide Sensitive Content".localized)", " \("Upload Videos as GIFs".localized)", " \("Dim Notifications Text".localized)", " \("Default Visibility".localized)", "Default Keyboard".localized, " \("Default Browser".localized)", " \("Default Scan Mode".localized)", " \("Siri Shortcuts".localized)", " \("App Lock".localized)"]
     let secondSectionMac = ["Hide Sensitive Content".localized, "Upload Videos as GIFs".localized, "Default Visibility".localized]
     let accountSection = ["\("Accounts".localized)"]
     let thirdSection = ["Get in Touch".localized]
@@ -304,18 +304,38 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 cell.accessoryView = switchView
                 cell.selectionStyle = .none
             } else if indexPath.row == 2 {
+                cell.imageView?.image = UIImage(systemName: "circle.lefthalf.fill", withConfiguration: symbolConfig) ?? UIImage()
+                let switchView = UISwitch(frame: .zero)
+                
+                if UserDefaults.standard.value(forKey: "sync-dimn") as? Int != nil {
+                    if UserDefaults.standard.value(forKey: "sync-dimn") as? Int == 0 {
+                        switchView.setOn(true, animated: false)
+                    } else {
+                        switchView.setOn(false, animated: false)
+                    }
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+                
+                switchView.onTintColor = GlobalStruct.baseTint
+                switchView.tintColor = GlobalStruct.baseTint
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchDimn(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
+            } else if indexPath.row == 3 {
                 cell.imageView?.image = UIImage(systemName: "globe", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 3 {
+            } else if indexPath.row == 4 {
                 cell.imageView?.image = UIImage(systemName: "keyboard", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 4 {
+            } else if indexPath.row == 5 {
                 cell.imageView?.image = UIImage(systemName: "link", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 5 {
+            } else if indexPath.row == 6 {
                 cell.imageView?.image = UIImage(systemName: "doc.text.viewfinder", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
-            } else if indexPath.row == 6 {
+            } else if indexPath.row == 7 {
                 cell.imageView?.image = UIImage(systemName: "mic", withConfiguration: symbolConfig) ?? UIImage()
                 cell.accessoryType = .none
             } else {
@@ -394,15 +414,15 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             #endif
         } else if indexPath.section == 2 {
-            if indexPath.row == 2 {
+            if indexPath.row == 3 {
                 let vc = VisibilitySettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            if indexPath.row == 3 {
+            if indexPath.row == 4 {
                 let vc = KeyboardSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            if indexPath.row == 4 {
+            if indexPath.row == 5 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
                     let vc = BrowserSettingsViewController()
@@ -416,7 +436,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
                 #endif
             }
-            if indexPath.row == 5 {
+            if indexPath.row == 6 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
                     let vc = ScanSettingsViewController()
@@ -430,7 +450,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
                 #endif
             }
-            if indexPath.row == 6 {
+            if indexPath.row == 7 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
                     let vc = ShortcutsSettingsViewController()
@@ -444,7 +464,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
                 #endif
             }
-            if indexPath.row == 7 {
+            if indexPath.row == 8 {
                 #if !targetEnvironment(macCatalyst)
                 if GlobalStruct.iapPurchased {
                     let vc = LockSettingsViewController()
@@ -501,6 +521,19 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             UserDefaults.standard.set(0, forKey: "sync-uploadgif")
         } else {
             UserDefaults.standard.set(1, forKey: "sync-uploadgif")
+        }
+    }
+    
+    @objc func switchDimn(_ sender: UISwitch!) {
+        print("table row switch Changed \(sender.tag)")
+        print("The switch is \(sender.isOn ? "ON" : "OFF")")
+        
+        if sender.isOn {
+            UserDefaults.standard.set(0, forKey: "sync-dimn")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "notiTabU"), object: self)
+        } else {
+            UserDefaults.standard.set(1, forKey: "sync-dimn")
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "notiTabU"), object: self)
         }
     }
 }

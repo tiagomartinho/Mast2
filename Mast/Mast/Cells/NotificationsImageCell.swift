@@ -307,9 +307,25 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             
         } else {
             var attributedString = NSMutableAttributedString(string: "\(noti.status?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
-            if noti.type == .follow {
-                attributedString = NSMutableAttributedString(string: noti.account.note.stripHTML(), attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            if UserDefaults.standard.value(forKey: "sync-dimn") as? Int == 0 {
+                if noti.type == .mention {
+                    attributedString = NSMutableAttributedString(string: "\(noti.status?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+                    if noti.type == .follow {
+                        attributedString = NSMutableAttributedString(string: noti.account.note.stripHTML(), attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+                    }
+                } else {
+                    attributedString = NSMutableAttributedString(string: "\(noti.status?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(4)])
+                    if noti.type == .follow {
+                        attributedString = NSMutableAttributedString(string: noti.account.note.stripHTML(), attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.4)])
+                    }
+                }
+            } else {
+                attributedString = NSMutableAttributedString(string: "\(noti.status?.content.stripHTML() ?? "")", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+                if noti.type == .follow {
+                    attributedString = NSMutableAttributedString(string: noti.account.note.stripHTML(), attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+                }
             }
+            
             let z = noti.status?.emojis ?? []
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
@@ -352,6 +368,16 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             self.username.attributedText = attributedString
             //self.reloadInputViews()
             #endif
+        }
+        
+        if UserDefaults.standard.value(forKey: "sync-dimn") as? Int == 0 {
+            if noti.type == .mention {
+                content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
+            } else {
+                content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.4)
+            }
+        } else {
+            content.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.85)
         }
         
         let _ = self.images.map {_ in
