@@ -167,7 +167,13 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
                             self.messages.append(x)
                             self.allPosts.append($0)
                             if $0.mediaAttachments.isEmpty {} else {
-                                let url = URL(string: $0.mediaAttachments.first?.previewURL ?? "")
+
+                                var z = $0.mediaAttachments.first?.remoteURL ?? $0.mediaAttachments.first?.textURL ?? $0.mediaAttachments.first?.url ?? ""
+                                if $0.mediaAttachments.first?.type == .video || $0.mediaAttachments.first?.type == .gifv {
+                                    z = $0.mediaAttachments.first?.previewURL ?? ""
+                                }
+                                
+                                let url = URL(string: z)
                                 let imageData = try! Data(contentsOf: url!)
                                 let image1 = UIImage(data: imageData)
                                 let y = MockMessage.init(image: image1!, sender: sender, messageId: $0.id, date: $0.createdAt)
@@ -212,7 +218,13 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
                         self.allPosts.append($0)
                         
                         if $0.mediaAttachments.isEmpty {} else {
-                            let url = URL(string: $0.mediaAttachments.first?.previewURL ?? "")
+
+                            var z = $0.mediaAttachments.first?.remoteURL ?? $0.mediaAttachments.first?.textURL ?? $0.mediaAttachments.first?.url ?? ""
+                            if $0.mediaAttachments.first?.type == .video || $0.mediaAttachments.first?.type == .gifv {
+                                z = $0.mediaAttachments.first?.previewURL ?? ""
+                            }
+                            
+                            let url = URL(string: z)
                             let imageData = try! Data(contentsOf: url!)
                             let image1 = UIImage(data: imageData)
                             let y = MockMessage.init(image: image1!, sender: sender, messageId: $0.id, date: $0.createdAt)
@@ -304,7 +316,8 @@ class DMViewController: MessagesViewController, MessagesDataSource, MessagesLayo
             
         } else {
             
-            if let ur0 = beginBit.mediaAttachments.first?.previewURL, let ur1 = beginBit.mediaAttachments.first?.url, let ur2 = URL(string: ur0), let ur3 = URL(string: ur1) {
+            let z = beginBit.mediaAttachments.first?.remoteURL ?? beginBit.mediaAttachments.first?.textURL ?? beginBit.mediaAttachments.first?.url ?? beginBit.mediaAttachments.first?.previewURL
+            if let ur0 = z, let ur1 = beginBit.mediaAttachments.first?.url, let ur2 = URL(string: ur0), let ur3 = URL(string: ur1) {
                 let im: [UIImageView] = [UIImageView()]
                 im[0].sd_setImage(with: ur2, completed: nil)
                 

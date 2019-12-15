@@ -311,6 +311,25 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
         self.tableView.showsVerticalScrollIndicator = false
         self.tableView.tableFooterView = UIView()
         self.view.addSubview(self.tableView)
+        
+        if self.replyStatus.isEmpty {} else {
+            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
+                if let statusAuthor = self.replyStatus.first {
+                    var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
+                    var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                    if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
+                        mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
+                        allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
+                    }
+                    let allUsers = allAccounts.map{ "@\($0)" }
+                    var theText = allUsers.reduce("") { $0 + $1 + " " }
+                    theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
+                    theText = theText.replacingOccurrences(of: "  ", with: " ")
+                    cell.textView.text = theText
+                }
+            }
+            self.fetchReplies()
+        }
     }
     
     func fetchReplies() {
@@ -825,23 +844,6 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                     self.isModalInPresentation = true
                 }
             }
-        } else {
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? ComposeCell {
-                if let statusAuthor = self.replyStatus.first {
-                    var mentionedAccountsOnStatus = statusAuthor.mentions.compactMap { $0.acct }
-                    var allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
-                    if mentionedAccountsOnStatus.contains(statusAuthor.account.acct) {
-                        mentionedAccountsOnStatus = mentionedAccountsOnStatus.filter{ $0 != statusAuthor.account.acct }
-                        allAccounts = [statusAuthor.account.acct] + (mentionedAccountsOnStatus)
-                    }
-                    let allUsers = allAccounts.map{ "@\($0)" }
-                    var theText = allUsers.reduce("") { $0 + $1 + " " }
-                    theText = theText.replacingOccurrences(of: "@\(GlobalStruct.currentUser.username)", with: "")
-                    theText = theText.replacingOccurrences(of: "  ", with: " ")
-                    cell.textView.text = theText
-                }
-            }
-            self.fetchReplies()
         }
     }
     
