@@ -1075,7 +1075,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         let config: TextField1.Config = { textField in
             textField.becomeFirstResponder()
             textField.textColor = UIColor(named: "baseBlack")!
-            textField.text = GlobalStruct.currentUser.displayName
+            textField.placeholder = GlobalStruct.currentUser.displayName
             textField.layer.borderWidth = 0
             textField.layer.cornerRadius = 8
             textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -1117,7 +1117,7 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
         let config: TextField1.Config = { textField in
             textField.becomeFirstResponder()
             textField.textColor = UIColor(named: "baseBlack")!
-            textField.text = GlobalStruct.currentUser.note.stripHTML()
+            textField.placeholder = GlobalStruct.currentUser.note.stripHTML()
             textField.layer.borderWidth = 0
             textField.layer.cornerRadius = 8
             textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor

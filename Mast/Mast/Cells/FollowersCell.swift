@@ -67,7 +67,7 @@ class FollowersCell: UITableViewCell {
         content.URLColor = GlobalStruct.baseTint
         contentView.addSubview(content)
         
-        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        username.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         let viewsDict = [

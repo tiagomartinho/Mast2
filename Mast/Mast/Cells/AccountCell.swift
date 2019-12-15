@@ -51,7 +51,7 @@ class AccountCell: UITableViewCell {
         usertag.lineBreakMode = .byTruncatingTail
         contentView.addSubview(usertag)
         
-        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        username.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         let viewsDict = [

@@ -83,7 +83,7 @@ class MainFeedCell: UITableViewCell {
         content.numberOfLines = 0
         contentView.addSubview(content)
         
-        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        username.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         

@@ -643,7 +643,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             if self.contentWarning == "" {
                 textField.placeholder = "Content warning...".localized
             } else {
-                textField.text = self.contentWarning
+                textField.placeholder = self.contentWarning
             }
             textField.layer.borderWidth = 0
             textField.layer.cornerRadius = 8

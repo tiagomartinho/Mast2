@@ -134,7 +134,7 @@ class OtherProfileCell: UITableViewCell {
         more.accessibilityLabel = "More".localized
         contentView.addSubview(more)
         
-        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        username.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         let viewsDict = [

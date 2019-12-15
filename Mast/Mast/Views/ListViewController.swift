@@ -793,7 +793,7 @@ class ListViewController: UIViewController, UITextFieldDelegate, UITableViewData
             let config: TextField1.Config = { textField in
                 textField.becomeFirstResponder()
                 textField.textColor = UIColor(named: "baseBlack")!
-                textField.text = self.theList
+                textField.placeholder = self.theList
                 textField.layer.borderWidth = 0
                 textField.layer.cornerRadius = 8
                 textField.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor

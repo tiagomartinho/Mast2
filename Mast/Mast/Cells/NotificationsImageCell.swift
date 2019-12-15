@@ -124,7 +124,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         pollView.backgroundColor = .clear
         contentView.addSubview(pollView)
         
-        username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        username.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         heart.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
