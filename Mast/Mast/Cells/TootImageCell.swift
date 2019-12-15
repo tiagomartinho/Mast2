@@ -494,6 +494,11 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 } else {
                     cell.image.sd_setImage(with: imageURL, completed: nil)
                 }
+                if self.images[indexPath.row].type == .unknown {
+                    if let imageURL2 = URL(string: self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].textURL ?? self.images[indexPath.item].url) {
+                        cell.image.sd_setImage(with: imageURL2, completed: nil)
+                    }
+                }
                 if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .gifv || self.images[indexPath.row].type == .audio {
                     cell.videoOverlay.alpha = 1
                     cell.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0.5).cgColor]
