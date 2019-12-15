@@ -248,6 +248,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
                 self.cardViewImage.layer.cornerRadius = 5
                 self.cardViewImage.layer.cornerCurve = .continuous
                 self.cardViewImage.sd_setImage(with: cardImage, completed: nil)
+                self.cardViewImage.contentMode = .scaleAspectFill
                 self.cardViewImage.layer.masksToBounds = true
                 self.cardViewImage.isUserInteractionEnabled = false
                 self.cardView.addSubview(self.cardViewImage)
@@ -256,13 +257,18 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
                 self.cardViewImage.layer.cornerRadius = 5
                 self.cardViewImage.layer.cornerCurve = .continuous
                 self.cardViewImage.image = UIImage(named: "icon")
+                self.cardViewImage.contentMode = .scaleAspectFill
                 self.cardViewImage.layer.masksToBounds = true
                 self.cardViewImage.isUserInteractionEnabled = false
                 self.cardView.addSubview(self.cardViewImage)
             }
             if let cardTitle = stat.card?.title {
                 self.cardViewTitle.numberOfLines = 2
-                self.cardViewTitle.text = cardTitle
+                if cardTitle.count < 20 {
+                    self.cardViewTitle.text = "\(cardTitle) - \("Tap to view link".localized)"
+                } else {
+                    self.cardViewTitle.text = cardTitle
+                }
                 self.cardViewTitle.textColor = UIColor(named: "baseBlack")!
                 self.cardViewTitle.font = UIFont.boldSystemFont(ofSize: 16)
                 self.cardViewTitle.isUserInteractionEnabled = false
@@ -270,10 +276,10 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
 
                 self.cardViewTitle.translatesAutoresizingMaskIntoConstraints = false
                 var con1 = NSLayoutConstraint()
-                con1 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                con1 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(-10))
                 self.cardView.addConstraint(con1)
                 var con2 = NSLayoutConstraint()
-                con2 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                con2 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: CGFloat(80))
                 self.cardView.addConstraint(con2)
                 var con3 = NSLayoutConstraint()
                 con3 = NSLayoutConstraint(item: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.top, multiplier: 1, constant: CGFloat(2))
@@ -284,7 +290,7 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
             }
             if let cardURL = stat.card?.url {
                 self.cardViewLink.numberOfLines = 1
-                self.cardViewLink.text = cardURL.host ?? "Tap to view".localized
+                self.cardViewLink.text = cardURL.host ?? "Tap to view link".localized
                 self.cardViewLink.lineBreakMode = .byTruncatingTail
                 self.cardViewLink.textColor = UIColor(named: "baseBlack")!.withAlphaComponent(0.65)
                 self.cardViewLink.font = UIFont.systemFont(ofSize: 14)
@@ -293,10 +299,10 @@ class DetailCell: UITableViewCell, CoreChartViewDataSource {
 
                 self.cardViewLink.translatesAutoresizingMaskIntoConstraints = false
                 var con1 = NSLayoutConstraint()
-                con1 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                con1 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.trailing, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardView, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(-10))
                 self.cardView.addConstraint(con1)
                 var con2 = NSLayoutConstraint()
-                con2 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.trailing, multiplier: 1, constant: CGFloat(10))
+                con2 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.leading, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewImage, attribute: NSLayoutConstraint.Attribute.leading, multiplier: 1, constant: CGFloat(80))
                 self.cardView.addConstraint(con2)
                 var con3 = NSLayoutConstraint()
                 con3 = NSLayoutConstraint(item: self.cardViewLink, attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.cardViewTitle, attribute: NSLayoutConstraint.Attribute.bottom, multiplier: 1, constant: CGFloat(0))
