@@ -111,7 +111,11 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell2", for: indexPath) as! ImageCell2
         cell.configure()
         cell.image.image = nil
-        guard let imageURL = URL(string: self.profileStatusesImages[indexPath.row].mediaAttachments.first?.previewURL ?? "") else {
+        var z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].textURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url
+        if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .gifv {
+            z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
+        }
+        guard let imageURL = URL(string: z) else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell2", for: indexPath) as! ImageCell2
             cell.configure()
             cell.image.image = nil
@@ -122,6 +126,11 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
 
         self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
 
+        if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .unknown {
+            if let imageURL2 = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].textURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
+                cell.image.sd_setImage(with: imageURL2, completed: nil)
+            }
+        }
         if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .video || self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .gifv || self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .audio {
             cell.videoOverlay.alpha = 1
             cell.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0.5).cgColor]
