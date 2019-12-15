@@ -603,7 +603,10 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             self.images3[indexPath.row] = z2
             
             cell.configure()
-            let z = self.images[indexPath.item].previewURL
+            var z = self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].textURL ?? self.images[indexPath.item].url
+            if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .gifv {
+                z = self.images[indexPath.item].previewURL
+            }
             cell.image.contentMode = .scaleAspectFill
             if let imageURL = URL(string: z) {
                 if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {

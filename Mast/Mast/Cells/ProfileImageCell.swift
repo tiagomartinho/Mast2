@@ -80,7 +80,10 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
             
             cell.configure()
             if self.profileStatusesImages[indexPath.item].mediaAttachments.isEmpty {} else {
-                let z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
+                var z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].textURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url
+                if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .gifv {
+                    z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
+                }
                 cell.image.contentMode = .scaleAspectFill
                 if let imageURL = URL(string: z) {
                     if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
@@ -93,6 +96,11 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
                         }
                     } else {
                         cell.image.sd_setImage(with: imageURL, completed: nil)
+                    }
+                    if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .unknown {
+                        if let imageURL2 = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].textURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
+                            cell.image.sd_setImage(with: imageURL2, completed: nil)
+                        }
                     }
                     if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .gifv || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .audio {
                         cell.videoOverlay.alpha = 1
