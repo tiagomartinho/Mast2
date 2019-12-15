@@ -24,9 +24,9 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if canImport(AppKit)
+#if targetEnvironment(macCatalyst)
 import AppKit
-public typealias IndicatorView = NSView
+public typealias IndicatorView = UIView
 #else
 import UIKit
 public typealias IndicatorView = UIView
