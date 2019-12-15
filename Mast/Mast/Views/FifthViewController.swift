@@ -708,10 +708,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                 DispatchQueue.main.async {
                     if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
                         if self.pickedCurrentUser.locked {
-                            ViewController().showNotifBanner("Sent Follow Request".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                            ViewController().showNotifBanner("Sent Follow Request".localized, subtitle: "@\(self.pickedCurrentUser.username)", style: BannerStyle.info)
                         } else {
                             GlobalStruct.isFollowing = true
-                            ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                            ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.pickedCurrentUser.username)", style: BannerStyle.info)
                         }
                         cell.configure(self.pickedCurrentUser)
                     }
@@ -963,10 +963,10 @@ class FifthViewController: UIViewController, UITableViewDataSource, UITableViewD
                         DispatchQueue.main.async {
                             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? OtherProfileCell {
                                 if self.pickedCurrentUser.locked {
-                                    ViewController().showNotifBanner("Sent Follow Request".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                                    ViewController().showNotifBanner("Sent Follow Request".localized, subtitle: "@\(self.pickedCurrentUser.username)", style: BannerStyle.info)
                                 } else {
                                     GlobalStruct.isFollowing = true
-                                    ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.profileStatuses.first?.account.username ?? "")", style: BannerStyle.info)
+                                    ViewController().showNotifBanner("Followed".localized, subtitle: "@\(self.pickedCurrentUser.username)", style: BannerStyle.info)
                                 }
                                 cell.configure(self.pickedCurrentUser)
                             }
