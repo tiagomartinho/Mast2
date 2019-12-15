@@ -127,6 +127,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        heart.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         let layout = ColumnFlowLayout(
             cellsPerRow: 4,

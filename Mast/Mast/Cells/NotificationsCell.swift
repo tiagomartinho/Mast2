@@ -122,6 +122,7 @@ class NotificationsCell: UITableViewCell, CoreChartViewDataSource {
         username.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         usertag.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         timestamp.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        heart.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         cwOverlay.translatesAutoresizingMaskIntoConstraints = false
         cwOverlay.backgroundColor = UIColor(named: "lighterBaseWhite")!
