@@ -184,6 +184,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
             selectionFeedbackGenerator.selectionChanged()
         }
         self.cwOverlay.alpha = 0
+        self.collectionView1.alpha = 1
     }
     
     func inset(_ offset: CGFloat) {
@@ -229,7 +230,7 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         if stat.reblog?.sensitive ?? stat.sensitive ?? false {
             if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
                 self.cwOverlay.alpha = 1
-//                self.collectionView1.alpha = 0
+                self.collectionView1.alpha = 0
                 self.cwOverlay.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 if stat.reblog?.spoilerText ?? stat.spoilerText == "" {
                     self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
@@ -240,11 +241,9 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             } else {
                 self.cwOverlay.alpha = 0
-//                self.collectionView1.alpha = 1
             }
         } else {
             self.cwOverlay.alpha = 0
-//            self.collectionView1.alpha = 1
         }
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)

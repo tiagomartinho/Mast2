@@ -202,6 +202,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
             selectionFeedbackGenerator.selectionChanged()
         }
         self.cwOverlay.alpha = 0
+        self.collectionView1.alpha = 1
     }
     
     var currentStat: Status!
@@ -238,7 +239,7 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
         if noti.status?.sensitive ?? false {
             if UserDefaults.standard.value(forKey: "sync-sensitive") as? Int == 0 {
                 self.cwOverlay.alpha = 1
-//                self.collectionView1.alpha = 0
+                self.collectionView1.alpha = 0
                 self.cwOverlay.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 if noti.status?.spoilerText ?? "" == "" {
                     self.cwOverlay.setTitle("Content Warning".localized, for: .normal)
@@ -249,11 +250,9 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             } else {
                 self.cwOverlay.alpha = 0
-//                self.collectionView1.alpha = 1
             }
         } else {
             self.cwOverlay.alpha = 0
-//            self.collectionView1.alpha = 1
         }
         
         if noti.type == .follow {
