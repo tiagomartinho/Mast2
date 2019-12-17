@@ -241,9 +241,11 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             } else {
                 self.cwOverlay.alpha = 0
+                self.collectionView1.alpha = 1
             }
         } else {
             self.cwOverlay.alpha = 0
+            self.collectionView1.alpha = 1
         }
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .regular)

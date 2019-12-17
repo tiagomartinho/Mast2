@@ -250,9 +250,11 @@ class NotificationsImageCell: UITableViewCell, UICollectionViewDelegate, UIColle
                 self.cwOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
             } else {
                 self.cwOverlay.alpha = 0
+                self.collectionView1.alpha = 1
             }
         } else {
             self.cwOverlay.alpha = 0
+            self.collectionView1.alpha = 1
         }
         
         if noti.type == .follow {

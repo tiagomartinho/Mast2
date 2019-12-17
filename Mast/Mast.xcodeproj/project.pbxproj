@@ -5000,7 +5000,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mast/Mast.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = Mast/Info.plist;
@@ -5039,7 +5039,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Mast/Mast.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = Mast/Info.plist;
@@ -5075,7 +5075,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastExtension/MastExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5099,7 +5099,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastExtension/MastExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5123,7 +5123,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastShare/MastShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5146,7 +5146,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MastShare/MastShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastShare/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5169,7 +5169,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastStickers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5186,7 +5186,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = MastStickers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -5207,7 +5207,7 @@
 				CODE_SIGN_ENTITLEMENTS = MastWatch/MastWatch.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				IBSC_MODULE = MastWatch_Extension;
 				INFOPLIST_FILE = MastWatch/Info.plist;
@@ -5231,7 +5231,7 @@
 				CODE_SIGN_ENTITLEMENTS = MastWatch/MastWatch.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				IBSC_MODULE = MastWatch_Extension;
 				INFOPLIST_FILE = MastWatch/Info.plist;
@@ -5255,7 +5255,7 @@
 				CODE_SIGN_ENTITLEMENTS = "MastWatch Extension/MastWatch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "MastWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -5285,7 +5285,7 @@
 				CODE_SIGN_ENTITLEMENTS = "MastWatch Extension/MastWatch Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "MastWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -5311,7 +5311,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Mast Push/Mast Push.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "Mast Push/Info.plist";
@@ -5337,7 +5337,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Mast Push/Mast Push.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.53;
+				CURRENT_PROJECT_VERSION = 1.0.54;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = R5WHJ77XXD;
 				INFOPLIST_FILE = "Mast Push/Info.plist";
