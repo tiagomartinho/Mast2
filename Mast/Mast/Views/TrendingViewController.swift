@@ -164,15 +164,27 @@ class TrendingViewController: UIViewController, UITextFieldDelegate, UITableView
     }
     
     func initialFetches() {
-        let request = Timelines.tag(self.theHashtag, local: false)
+        let request = Timelines.tag(self.theHashtag, local: true)
         GlobalStruct.client.run(request) { (statuses) in
             if let stat = (statuses.value) {
                 DispatchQueue.main.async {
-                    if stat.isEmpty && self.statusesHashtags.count == 0 {
-                        self.createEmptyState()
-                    }
                     self.statusesHashtags = stat
                     self.tableView.reloadData()
+                    
+                    let request2 = Timelines.tag(self.theHashtag, local: false)
+                    GlobalStruct.client.run(request2) { (statuses) in
+                        if let stat = (statuses.value) {
+                            DispatchQueue.main.async {
+                                self.statusesHashtags = stat + self.statusesHashtags
+                                self.statusesHashtags = self.statusesHashtags.removeDuplicates()
+                                self.statusesHashtags = self.statusesHashtags.sorted(by: { (a, b) -> Bool in
+                                    a.createdAt > b.createdAt
+                                })
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                    
                 }
             }
         }

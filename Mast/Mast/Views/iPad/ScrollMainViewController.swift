@@ -55,7 +55,7 @@ class ScrollMainViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let width: CGFloat = 310
+        let width: CGFloat = 360
         
         var spacer: CGFloat = 15
         if UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH <= 1024.0 {
