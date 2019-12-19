@@ -839,6 +839,32 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
                                             self.isFetchingInitial = false
                                         }
                                     }
+                                } else {
+                                    let request = Timelines.home()
+                                    GlobalStruct.client.run(request) { (statuses) in
+                                        if let stat = (statuses.value) {
+                                            DispatchQueue.main.async {
+                                                self.statusesHome = stat
+                                                self.tableView.reloadData()
+                                                self.statusesHomeTemp = stat
+                                                self.refreshControl.endRefreshing()
+                                                self.isFetchingInitial = false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        let request = Timelines.home()
+                        GlobalStruct.client.run(request) { (statuses) in
+                            if let stat = (statuses.value) {
+                                DispatchQueue.main.async {
+                                    self.statusesHome = stat
+                                    self.tableView.reloadData()
+                                    self.statusesHomeTemp = stat
+                                    self.refreshControl.endRefreshing()
+                                    self.isFetchingInitial = false
                                 }
                             }
                         }
