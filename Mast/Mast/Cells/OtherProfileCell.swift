@@ -243,6 +243,7 @@ class OtherProfileCell: UITableViewCell {
             
         } else {
             let attributedString = NSMutableAttributedString(string: "\(acc.note.stripHTML())", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!.withAlphaComponent(0.85)])
+            let attributedString2 = NSMutableAttributedString(string: "\(acc.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
             let z = acc.emojis
             let _ = z.map({
                 let textAttachment = NSTextAttachment()
@@ -256,8 +257,11 @@ class OtherProfileCell: UITableViewCell {
                     let range: NSRange = (attributedString.mutableString as NSString).range(of: ":\($0.shortcode):")
                     attributedString.replaceCharacters(in: range, with: attrStringWithImage)
                 }
+                while attributedString2.mutableString.contains(":\($0.shortcode):") {
+                    let range: NSRange = (attributedString2.mutableString as NSString).range(of: ":\($0.shortcode):")
+                    attributedString2.replaceCharacters(in: range, with: attrStringWithImage)
+                }
             })
-            let attributedString2 = NSMutableAttributedString(string: "\(acc.displayName)", attributes: [NSAttributedString.Key.foregroundColor: UIColor(named: "baseBlack")!])
             #if !targetEnvironment(macCatalyst)
             self.username.attributedText = attributedString2
             self.content.attributedText = attributedString

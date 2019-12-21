@@ -144,7 +144,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         self.detailPrev.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.detailPrev.backgroundColor = GlobalStruct.baseDarkTint
+        self.detailPrev.backgroundColor = UIColor.clear
         self.detailPrev.layer.cornerRadius = 30
         self.detailPrev.alpha = 0
         self.detailPrev.addTarget(self, action: #selector(self.didTouchDetailPrev), for: .touchUpInside)

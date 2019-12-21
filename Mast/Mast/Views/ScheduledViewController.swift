@@ -135,7 +135,7 @@ class ScheduledViewController: UIViewController, UITextFieldDelegate, UITableVie
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.top1.backgroundColor = GlobalStruct.baseDarkTint
+        self.top1.backgroundColor = UIColor.clear
         self.top1.layer.cornerRadius = 30
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)

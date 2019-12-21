@@ -206,6 +206,19 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                                             self.refreshControl.endRefreshing()
                                                             self.isFetchingInitial = false
                                                         }
+                                                    } else {
+                                                        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+                                                        GlobalStruct.client.run(request4) { (statuses) in
+                                                            if let stat = (statuses.value) {
+                                                                DispatchQueue.main.async {
+                                                                    self.notifications = self.notifications + stat
+                                                                    self.tableView.reloadData()
+                                                                    self.tableView2.reloadData()
+                                                                    self.refreshControl.endRefreshing()
+                                                                    self.isFetchingInitial = false
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
@@ -217,6 +230,32 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                                             self.isFetchingInitial = false
                                         }
                                     }
+                                } else {
+                                    let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+                                    GlobalStruct.client.run(request4) { (statuses) in
+                                        if let stat = (statuses.value) {
+                                            DispatchQueue.main.async {
+                                                self.notifications = self.notifications + stat
+                                                self.tableView.reloadData()
+                                                self.tableView2.reloadData()
+                                                self.refreshControl.endRefreshing()
+                                                self.isFetchingInitial = false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+                        GlobalStruct.client.run(request4) { (statuses) in
+                            if let stat = (statuses.value) {
+                                DispatchQueue.main.async {
+                                    self.notifications = self.notifications + stat
+                                    self.tableView.reloadData()
+                                    self.tableView2.reloadData()
+                                    self.refreshControl.endRefreshing()
+                                    self.isFetchingInitial = false
                                 }
                             }
                         }
@@ -525,7 +564,7 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         let symbolConfig2 = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
         
         self.top1.setImage(UIImage(systemName: "chevron.up.circle.fill", withConfiguration: symbolConfig2)?.withTintColor(GlobalStruct.baseTint, renderingMode: .alwaysOriginal), for: .normal)
-        self.top1.backgroundColor = GlobalStruct.baseDarkTint
+        self.top1.backgroundColor = UIColor.clear
         self.top1.layer.cornerRadius = 30
         self.top1.alpha = 0
         self.top1.addTarget(self, action: #selector(self.didTouchTop1), for: .touchUpInside)
