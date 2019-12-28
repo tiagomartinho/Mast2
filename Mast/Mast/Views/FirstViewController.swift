@@ -687,54 +687,54 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
             }
         }
         
-//        if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
-//            self.notTypes = []
-//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
-//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
-//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
-//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
-//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
-//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
-//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
-//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
-//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
-//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
-//        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
-//            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
-//        }
+        if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 0 {
+            self.notTypes = []
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 1 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.mention}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 2 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.favourite}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 3 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.reblog}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 4 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.direct}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 5 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.follow}
+        } else if UserDefaults.standard.value(forKey: "filterNotifications") as? Int == 6 {
+            self.notTypes = GlobalStruct.notTypes.filter {$0 != NotificationType.poll}
+        }
         
-//        NotificationCenter.default.post(name: Notification.Name(rawValue: "initialTimelineLoads"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "initialTimelineLoads"), object: nil)
         
-//        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
-//        GlobalStruct.client.run(request4) { (statuses) in
-//            if let stat = (statuses.value) {
-//                DispatchQueue.main.async {
-//                    GlobalStruct.notifications = stat
-//                    #if targetEnvironment(macCatalyst)
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                    #elseif !targetEnvironment(macCatalyst)
-//                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                    }
-//                    #endif
-//                }
-//            }
-//        }
-//        let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
-//        GlobalStruct.client.run(request5) { (statuses) in
-//            if let stat = (statuses.value) {
-//                DispatchQueue.main.async {
-//                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
-//                    #if targetEnvironment(macCatalyst)
-//                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                    #elseif !targetEnvironment(macCatalyst)
-//                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
-//                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
-//                    }
-//                    #endif
-//                }
-//            }
-//        }
+        let request4 = Notifications.all(range: .default, typesToExclude: self.notTypes)
+        GlobalStruct.client.run(request4) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.notifications = stat
+                    #if targetEnvironment(macCatalyst)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    #elseif !targetEnvironment(macCatalyst)
+                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    }
+                    #endif
+                }
+            }
+        }
+        let request5 = Timelines.conversations(range: .max(id: GlobalStruct.notificationsDirect.last?.id ?? "", limit: 5000))
+        GlobalStruct.client.run(request5) { (statuses) in
+            if let stat = (statuses.value) {
+                DispatchQueue.main.async {
+                    GlobalStruct.notificationsDirect = GlobalStruct.notificationsDirect + stat
+                    #if targetEnvironment(macCatalyst)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    #elseif !targetEnvironment(macCatalyst)
+                    if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "refreshTable"), object: nil)
+                    }
+                    #endif
+                }
+            }
+        }
         
         let request6 = Instances.current()
         GlobalStruct.client.run(request6) { (statuses) in
