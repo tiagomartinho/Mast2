@@ -406,6 +406,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
     
     @objc func refreshTable() {
         DispatchQueue.main.async {
+            if self.notifications.isEmpty {
+                self.notifications = GlobalStruct.notifications
+            }
             self.tableView.reloadData()
         }
     }

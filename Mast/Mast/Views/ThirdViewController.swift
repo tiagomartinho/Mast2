@@ -107,6 +107,7 @@ class ThirdViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @objc func refreshTable() {
         DispatchQueue.main.async {
+            self.notificationsDirect = GlobalStruct.notificationsDirect
             self.tableView.reloadData()
         }
     }
