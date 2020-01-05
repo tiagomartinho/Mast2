@@ -596,6 +596,9 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
         if self.isFetchingInitial == false {
             let request = Notifications.all(range: .since(id: self.notifications.first?.id ?? "", limit: nil), typesToExclude: self.notTypes)
             GlobalStruct.client.run(request) { (statuses) in
+                DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
+                }
                 if let stat = (statuses.value) {
                     if stat.isEmpty {
                         DispatchQueue.main.async {

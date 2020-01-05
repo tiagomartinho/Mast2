@@ -111,7 +111,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell2", for: indexPath) as! ImageCell2
         cell.configure()
         cell.image.image = nil
-        var z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].textURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url
+        var z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url
         if self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .video || self.profileStatusesImages[indexPath.item].mediaAttachments[0].type == .gifv {
             z = self.profileStatusesImages[indexPath.item].mediaAttachments[0].previewURL
         }
@@ -127,7 +127,7 @@ class GalleryMediaViewController: UIViewController, UICollectionViewDelegate, UI
         self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
 
         if self.profileStatusesImages[indexPath.row].mediaAttachments.first!.type == .unknown {
-            if let imageURL2 = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].textURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
+            if let imageURL2 = URL(string: self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url) {
                 cell.image.sd_setImage(with: imageURL2, completed: nil)
             }
         }

@@ -603,7 +603,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
             self.images3[indexPath.row] = z2
             
             cell.configure()
-            var z = self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].textURL ?? self.images[indexPath.item].url
+            var z = self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].url
             if self.images[indexPath.row].type == .video || self.images[indexPath.row].type == .gifv {
                 z = self.images[indexPath.item].previewURL
             }
@@ -621,7 +621,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                     cell.image.sd_setImage(with: imageURL, completed: nil)
                 }
                 if self.images[indexPath.row].type == .unknown {
-                    if let imageURL2 = URL(string: self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].textURL ?? self.images[indexPath.item].url) {
+                    if let imageURL2 = URL(string: self.images[indexPath.item].remoteURL ?? self.images[indexPath.item].url) {
                         cell.image.sd_setImage(with: imageURL2, completed: nil)
                     }
                 }
