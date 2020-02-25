@@ -16,8 +16,8 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     var tableView = UITableView()
     var bgView = UIView()
     let firstSection = ["Your contribution goes a long way".localized]
-    let firstSectionDescriptions = ["The tip jar helps keep Mast running, and supports the developer in getting awesome updates to you.".localized]
-    let firstSectionImage = ["app.badge"]
+    let firstSectionDescriptions = ["\nThe tip jar helps keep Mast running, and supports the developer in getting awesome updates to you.\n\nThis app was previously a paid upfront app, and version 2 was entirely re-written from the ground up with a whole new design (and is what you're seeing here). This version introduced the notion of In-App Purchases, which were looked upon negatively. In an attempt to rectify this, I've reverted to the previous method.\n\nIf you enjoy using this app and want to support the developer (that's me, Shihab - a 24 year-old indie developer trying his best to make cool products), please consider one of the tip jar options below.\n\nThank you for being awesome!".localized]
+    let firstSectionImage = ["heart"]
     var button1 = UIButton()
     var button1Title = UILabel()
     var button1Title2 = UILabel()
@@ -121,7 +121,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         self.button1.addTarget(self, action: #selector(self.b1Tap), for: .touchUpInside)
         self.bgView.addSubview(button1)
         
-        self.button1Title.text = "Monthly".localized
+        self.button1Title.text = "Monthly Tip".localized
         self.button1Title.textColor = GlobalStruct.baseTint
         self.button1Title.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title2).pointSize)
         self.button1Title.textAlignment = .center
@@ -146,7 +146,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         self.button2.layer.shadowRadius = 21
         self.button2.layer.shadowOpacity = 0.24
         
-        self.button2Title.text = "Lifetime".localized
+        self.button2Title.text = "One-Off Tip".localized
         self.button2Title.textColor = UIColor(named: "alwaysWhite")!
         self.button2Title.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .title2).pointSize)
         self.button2Title.textAlignment = .center
