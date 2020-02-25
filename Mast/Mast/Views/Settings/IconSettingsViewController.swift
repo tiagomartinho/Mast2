@@ -93,7 +93,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         #if !targetEnvironment(macCatalyst)
-        if GlobalStruct.iapPurchased {
+//        if GlobalStruct.iapPurchased {
             let imp = UIImpactFeedbackGenerator(style: .light)
             imp.impactOccurred()
             if indexPath.item == 0 {
@@ -101,10 +101,10 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
             } else {
                 UIApplication.shared.setAlternateIconName(self.appArray[indexPath.row])
             }
-        } else {
-            let vc = IAPSettingsViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+//        } else {
+//            let vc = IAPSettingsViewController()
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
         #elseif targetEnvironment(macCatalyst)
         let imp = UIImpactFeedbackGenerator(style: .light)
         imp.impactOccurred()

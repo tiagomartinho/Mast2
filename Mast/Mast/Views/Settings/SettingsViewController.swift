@@ -158,11 +158,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            if GlobalStruct.iapPurchased {
-                cell.accessoryType = .none
-            } else {
+//            if GlobalStruct.iapPurchased {
+//                cell.accessoryType = .none
+//            } else {
                 cell.accessoryType = .disclosureIndicator
-            }
+//            }
         } else if indexPath.section == 1 && indexPath.row == 0 {
             cell.accessoryType = .disclosureIndicator
         } else if indexPath.section == 1 && indexPath.row == 1 {
@@ -194,22 +194,22 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         #endif
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
-            if GlobalStruct.iapPurchased {
+//            if GlobalStruct.iapPurchased {
+//                cell.imageView?.image = (UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig) ?? UIImage()).withTintColor(.white, renderingMode: .alwaysOriginal)
+//                cell.textLabel?.text = "You have Mast Pro".localized
+//                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
+//                cell.textLabel?.textColor = UIColor.white
+//                cell.backgroundColor = GlobalStruct.baseTint
+//                cell.selectionStyle = .none
+//                cell.accessoryType = .none
+//            } else {
                 cell.imageView?.image = (UIImage(systemName: "heart.circle.fill", withConfiguration: symbolConfig) ?? UIImage()).withTintColor(.white, renderingMode: .alwaysOriginal)
-                cell.textLabel?.text = "You have Mast Pro".localized
+                cell.textLabel?.text = "Tip Jar"
                 cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
                 cell.textLabel?.textColor = UIColor.white
                 cell.backgroundColor = GlobalStruct.baseTint
                 cell.selectionStyle = .none
-                cell.accessoryType = .none
-            } else {
-                cell.imageView?.image = (UIImage(systemName: "lock.circle.fill", withConfiguration: symbolConfig) ?? UIImage()).withTintColor(.white, renderingMode: .alwaysOriginal)
-                cell.textLabel?.text = "Mast Pro"
-                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
-                cell.textLabel?.textColor = UIColor.white
-                cell.backgroundColor = GlobalStruct.baseTint
-                cell.selectionStyle = .none
-            }
+//            }
             return cell
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
@@ -365,12 +365,12 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
-            if GlobalStruct.iapPurchased {
-                SKStoreReviewController.requestReview()
-            } else {
+//            if GlobalStruct.iapPurchased {
+//                SKStoreReviewController.requestReview()
+//            } else {
                 let vc = IAPSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
-            }
+//            }
         } else if indexPath.section == 1 {
             #if targetEnvironment(macCatalyst)
             if indexPath.row == 0 {
@@ -395,22 +395,22 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             if indexPath.row == 2 {
-                if GlobalStruct.iapPurchased {
+//                if GlobalStruct.iapPurchased {
                     let vc = DarkModeSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+//                } else {
+//                    let vc = IAPSettingsViewController()
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
             }
             if indexPath.row == 3 {
-                if GlobalStruct.iapPurchased {
+//                if GlobalStruct.iapPurchased {
                     let vc = NotificationsSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+//                } else {
+//                    let vc = IAPSettingsViewController()
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
             }
             #endif
         } else if indexPath.section == 2 {
@@ -424,13 +424,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             if indexPath.row == 5 {
                 #if !targetEnvironment(macCatalyst)
-                if GlobalStruct.iapPurchased {
+//                if GlobalStruct.iapPurchased {
                     let vc = BrowserSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+//                } else {
+//                    let vc = IAPSettingsViewController()
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
                 #elseif targetEnvironment(macCatalyst)
                 let vc = KeyboardSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -438,13 +438,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             if indexPath.row == 6 {
                 #if !targetEnvironment(macCatalyst)
-                if GlobalStruct.iapPurchased {
+//                if GlobalStruct.iapPurchased {
                     let vc = ScanSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+//                } else {
+//                    let vc = IAPSettingsViewController()
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
                 #elseif targetEnvironment(macCatalyst)
                 let vc = ScanSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -452,13 +452,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             if indexPath.row == 7 {
                 #if !targetEnvironment(macCatalyst)
-                if GlobalStruct.iapPurchased {
+//                if GlobalStruct.iapPurchased {
                     let vc = ShortcutsSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+//                } else {
+//                    let vc = IAPSettingsViewController()
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
                 #elseif targetEnvironment(macCatalyst)
                 let vc = ShortcutsSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -466,13 +466,13 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             if indexPath.row == 8 {
                 #if !targetEnvironment(macCatalyst)
-                if GlobalStruct.iapPurchased {
+//                if GlobalStruct.iapPurchased {
                     let vc = LockSettingsViewController()
                     self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let vc = IAPSettingsViewController()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+//                } else {
+//                    let vc = IAPSettingsViewController()
+//                    self.navigationController?.pushViewController(vc, animated: true)
+//                }
                 #elseif targetEnvironment(macCatalyst)
                 let vc = LockSettingsViewController()
                 self.navigationController?.pushViewController(vc, animated: true)

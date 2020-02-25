@@ -67,15 +67,15 @@ class AccountsSettingsViewController: UIViewController, UITableViewDataSource, U
     @objc func addTapped() {
         DispatchQueue.main.async {
             #if !targetEnvironment(macCatalyst)
-            if GlobalStruct.iapPurchased {
+//            if GlobalStruct.iapPurchased {
                 let vc = UINavigationController(rootViewController: AddInstanceViewController())
                 self.present(vc, animated: true, completion: {
                     
                 })
-            } else {
-                let vc = IAPSettingsViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+//            } else {
+//                let vc = IAPSettingsViewController()
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
             #elseif targetEnvironment(macCatalyst)
             let vc = UINavigationController(rootViewController: AddInstanceViewController())
             self.present(vc, animated: true, completion: {

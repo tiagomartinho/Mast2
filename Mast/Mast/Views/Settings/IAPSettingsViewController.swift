@@ -15,9 +15,9 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     
     var tableView = UITableView()
     var bgView = UIView()
-    let firstSection = ["Push Notifications".localized, "Multiple Accounts".localized, "30+ App Icons".localized, "10+ App Tints".localized, "Siri Shortcuts".localized, "Biometric Locks".localized, "Variety of Settings".localized]
-    let firstSectionDescriptions = ["Get notified immediately.".localized, "Add multiple user accounts to the app from a variety of instances, and quickly switch between them.".localized, "Whatever your tastes, there's an app icon to suit it. Your home screen never looked so good.".localized, "Whatever your tastes, there's an app tint to suit it. You don't have to stick with purple if you'd much rather prefer red.".localized, "Say what you want, and it is done. Create toots, view notifications, and more.".localized, "Lock the app from prying eyes.".localized, "Whatever your preferences may be, there's a setting for that.".localized]
-    let firstSectionImage = ["app.badge", "person.and.person", "square", "paintbrush", "mic", "lock", "gear"]
+    let firstSection = ["Your contribution goes a long way".localized]
+    let firstSectionDescriptions = ["The tip jar helps keep Mast running, and supports the developer in getting awesome updates to you.".localized]
+    let firstSectionImage = ["app.badge"]
     var button1 = UIButton()
     var button1Title = UILabel()
     var button1Title2 = UILabel()
@@ -28,7 +28,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     var button4 = UIButton()
     var button5 = UIButton()
     let starButton = UIButton()
-    let tandctext = "Mast Pro is enabled via an auto-renewing subscription. Subscription automatically renews and will be charged for the renewal unless auto-renew is turned off at least 24 hours before the end of the current period. Payment will be charged to iTunes Account at confirmation of purchase. Auto-renewal may be turned off by the user by going to the user's Account Settings after purchase. The duration and price of each subscription is displayed on the purchase screen, and updated at the time of purchase.".localized
+    let tandctext = "The tip jar is either an auto-renewing subscription, or a one-off payment.".localized
     
     var productID = ""
     var lifetimeProduct : SKProduct?
@@ -78,7 +78,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "baseWhite")!
-        self.title = "Mast Pro".localized
+        self.title = "Tip Jar".localized
         
         if self.shouldShowX {
             let dismiss = UIBarButtonItem(image: UIImage(systemName: "xmark")!, style: .plain, target: self, action: #selector(dismissAll))
@@ -215,7 +215,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.left
         let messageText = NSMutableAttributedString(
-            string: "Mast Pro is enabled via an auto-renewing subscription.\n\nSubscription automatically renews and will be charged for the renewal unless auto-renew is turned off at least 24 hours before the end of the current period.\n\nPayment will be charged to iTunes Account at confirmation of purchase.\n\nAuto-renewal may be turned off by the user by going to the user's Account Settings after purchase.\n\nThe duration and price of each subscription is displayed on the purchase screen, and updated at the time of purchase.".localized,
+            string: "The tip jar is either an auto-renewing subscription, or a one-off payment.".localized,
             attributes: [
                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
@@ -241,7 +241,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 GlobalStruct.iapPurchased = true
                 UserDefaults.standard.set(1, forKey: "firstIAP")
                 
-                let alert = UIAlertController(title: "Mast Pro Unlocked!".localized, message: "Mast just got even more awesome. I hope you enjoy using Mast Pro and all of its great features.".localized, preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: "Thank you!".localized, message: "You're awesome, and your contribution means the world.".localized, preferredStyle: .actionSheet)
                 alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
                     
                     let center = UNUserNotificationCenter.current()
@@ -260,7 +260,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.alignment = NSTextAlignment.left
                 let messageText = NSMutableAttributedString(
-                    string: "Mast just got even more awesome. I hope you enjoy using Mast Pro and all of its great features.".localized,
+                    string: "You're awesome, and your contribution means the world.".localized,
                     attributes: [
                         NSAttributedString.Key.paragraphStyle: paragraphStyle,
                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
@@ -268,7 +268,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 )
                 alert.setValue(messageText, forKey: "attributedMessage")
                 let titleText = NSMutableAttributedString(
-                    string: "Mast Pro Unlocked!".localized,
+                    string: "Thank you!".localized,
                     attributes: [
                         NSAttributedString.Key.paragraphStyle: paragraphStyle,
                         NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize), NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!
@@ -376,7 +376,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 GlobalStruct.iapPurchased = true
                 UserDefaults.standard.set(1, forKey: "firstIAP")
                 
-                let alert = UIAlertController(title: "Mast Pro Unlocked!".localized, message: "Mast just got even more awesome. I hope you enjoy using Mast Pro and all of its great features.".localized, preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: "Thank you!".localized, message: "You're awesome, and your contribution means the world.".localized, preferredStyle: .actionSheet)
                 alert.addAction(UIAlertAction(title: "Dismiss".localized, style: .cancel , handler:{ (UIAlertAction) in
                     
                     let center = UNUserNotificationCenter.current()
@@ -395,7 +395,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.alignment = NSTextAlignment.left
                 let messageText = NSMutableAttributedString(
-                    string: "Mast just got even more awesome. I hope you enjoy using Mast Pro and all of its great features.".localized,
+                    string: "You're awesome, and your contribution means the world.".localized,
                     attributes: [
                         NSAttributedString.Key.paragraphStyle: paragraphStyle,
                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize)
@@ -403,7 +403,7 @@ class IAPSettingsViewController: UIViewController, UITableViewDataSource, UITabl
                 )
                 alert.setValue(messageText, forKey: "attributedMessage")
                 let titleText = NSMutableAttributedString(
-                    string: "Mast Pro Unlocked!".localized,
+                    string: "Thank you!".localized,
                     attributes: [
                         NSAttributedString.Key.paragraphStyle: paragraphStyle,
                         NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize), NSAttributedString.Key.foregroundColor : UIColor(named: "baseBlack")!

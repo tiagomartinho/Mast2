@@ -100,16 +100,16 @@ class TintSettingsViewController: UIViewController, UITableViewDataSource, UITab
         self.tableView.deselectRow(at: indexPath, animated: true)
         DispatchQueue.main.async {
             #if !targetEnvironment(macCatalyst)
-            if GlobalStruct.iapPurchased {
+//            if GlobalStruct.iapPurchased {
                 GlobalStruct.baseTint = GlobalStruct.arrayCols[indexPath.row]
                 UserDefaults.standard.set(indexPath.row, forKey: "sync-startTint")
                 self.tableView.reloadData()
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "notifChangeTint"), object: self)
                 self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : GlobalStruct.baseTint]
-            } else {
-                let vc = IAPSettingsViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+//            } else {
+//                let vc = IAPSettingsViewController()
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
             #elseif targetEnvironment(macCatalyst)
             GlobalStruct.baseTint = GlobalStruct.arrayCols[indexPath.row]
             UserDefaults.standard.set(indexPath.row, forKey: "sync-startTint")

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import StoreKit
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -101,6 +102,21 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
         self.didTouchDetailPrev()
         return false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        let infoDictionaryKey = kCFBundleVersionKey as String
+        guard let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
+            else { fatalError("Expected to find a bundle version in the info dictionary") }
+        let lastVersionPromptedForReview = UserDefaults.standard.string(forKey: "lastVersionPromptedForReviewKey")
+        if currentVersion != lastVersionPromptedForReview {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
+                SKStoreReviewController.requestReview()
+                UserDefaults.standard.set(currentVersion, forKey: "lastVersionPromptedForReviewKey")
+            }
+        }
     }
     
     override func viewDidLoad() {
