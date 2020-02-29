@@ -63,6 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"), at: 0)
                     toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"), at: 0)
                     titlebar.toolbar = toolbar
+                    titlebar.toolbar?.displayMode = .iconOnly
                 }
             }
         } else if GlobalStruct.macWindow == 2 {
@@ -86,6 +87,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"), at: 0)
                     toolbar.insertItem(withItemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"), at: 0)
                     titlebar.toolbar = toolbar
+                    titlebar.toolbar?.displayMode = .iconOnly
                 }
             }
         } else if GlobalStruct.macWindow == 3 {
