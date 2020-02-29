@@ -27,8 +27,8 @@ class CollectionImageCell: UICollectionViewCell {
     
     public func configure() {
         self.bgImage.backgroundColor = GlobalStruct.baseDarkTint
-        self.bgImage.frame = CGRect(x: 0, y: 0, width: 144, height: 120)
-        self.bgImage.layer.cornerRadius = 5
+        self.bgImage.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 260)
+        self.bgImage.layer.cornerRadius = 0
         contentView.addSubview(bgImage)
         
         self.image.layer.borderWidth = 0.4
@@ -36,10 +36,10 @@ class CollectionImageCell: UICollectionViewCell {
         
         self.image.frame.origin.x = 0
         self.image.frame.origin.y = 0
-        self.image.frame.size.width = 160
-        self.image.frame.size.height = 120
+        self.image.frame.size.width = UIScreen.main.bounds.width
+        self.image.frame.size.height = 260
         self.image.backgroundColor = UIColor.clear
-        self.image.layer.cornerRadius = 5
+        self.image.layer.cornerRadius = 0
         contentView.addSubview(image)
 
         self.gradient.frame.size = contentView.frame.size

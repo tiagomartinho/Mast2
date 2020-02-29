@@ -28,7 +28,7 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
     
     override func prepare() {
         super.prepare()
-        itemSize = CGSize(width: 160, height: 120)
+        itemSize = CGSize(width: UIScreen.main.bounds.width, height: 260)
     }
     
     override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {

@@ -115,18 +115,19 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         
         let layout = ColumnFlowLayout(
             cellsPerRow: 4,
-            minimumInteritemSpacing: 15,
-            minimumLineSpacing: 15,
-            sectionInset: UIEdgeInsets(top: 0, left: 68, bottom: 0, right: 20)
+            minimumInteritemSpacing: 0,
+            minimumLineSpacing: 0,
+            sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         )
         layout.itemSize = CGSize(width: contentView.bounds.width, height: contentView.bounds.width)
         layout.scrollDirection = .horizontal
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-10), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
+        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(260)), collectionViewLayout: layout)
         collectionView1.translatesAutoresizingMaskIntoConstraints = false
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self
         collectionView1.showsHorizontalScrollIndicator = false
+        collectionView1.isPagingEnabled = true
         collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
         contentView.addSubview(collectionView1)
         
@@ -162,13 +163,13 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[pollView]-18-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-33-[profile2(28)]", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[heart(20)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[profile(40)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-38-[profile2(28)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[timestamp]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-5-[collectionView(140)]-[pollView]-12-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[usertag]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[timestamp]-2-[content]-14-[collectionView(260)]-0-[pollView]-0-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[username]-2-[content]-14-[collectionView(260)]-0-[pollView]-0-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[usertag]", options: [], metrics: nil, views: viewsDict))
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-66-[cwOverlay]-12-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[cwOverlay]-8-|", options: [], metrics: nil, views: viewsDict))
@@ -513,11 +514,11 @@ class TootImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
                 cell.image.layer.masksToBounds = true
 //                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = GlobalStruct.baseDarkTint
-                cell.image.layer.cornerRadius = 5
+                cell.image.layer.cornerRadius = 0
                 cell.image.layer.masksToBounds = true
                 cell.image.layer.borderColor = UIColor.black.cgColor
-                cell.image.frame.size.width = 160
-                cell.image.frame.size.height = 120
+                cell.image.frame.size.width = UIScreen.main.bounds.width
+                cell.image.frame.size.height = 260
                 cell.bgImage.layer.masksToBounds = false
             }
         }
