@@ -28,6 +28,7 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
     var player = AVPlayer()
     var pollView = UIView()
     var barChart: HCoreBarChart = HCoreBarChart()
+    var countOverlay = UIButton()
     
     var cardView = UIButton()
     var cardViewTitle = UILabel()
@@ -140,8 +141,19 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         collectionView1.delegate = self
         collectionView1.dataSource = self
         collectionView1.showsHorizontalScrollIndicator = false
+        collectionView1.isPagingEnabled = true
         collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
         contentView.addSubview(collectionView1)
+        
+        self.countOverlay.frame = CGRect(x: 10, y: 10, width: 26, height: 26)
+        self.countOverlay.backgroundColor = GlobalStruct.baseTint
+        self.countOverlay.setTitle("0", for: .normal)
+        self.countOverlay.setTitleColor(UIColor.white, for: .normal)
+        self.countOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        self.countOverlay.layer.cornerRadius = 5
+        self.countOverlay.isUserInteractionEnabled = false
+        self.countOverlay.alpha = 0
+        collectionView1.addSubview(self.countOverlay)
         
         let viewsDict = [
             "containerView" : containerView,
@@ -645,6 +657,13 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
 //                cell.image.frame.size.width = UIScreen.main.bounds.width
                 cell.image.frame.size.height = 260
                 cell.bgImage.layer.masksToBounds = false
+                
+                if self.images.count > 1 {
+                    self.countOverlay.alpha = 1
+                    self.countOverlay.setTitle("\(self.images.count)", for: .normal)
+                } else {
+                    self.countOverlay.alpha = 0
+                }
             }
         }
         cell.backgroundColor = UIColor.clear

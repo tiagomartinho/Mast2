@@ -22,6 +22,7 @@ class ScheduleImageCell: UITableViewCell, UICollectionViewDelegate, UICollection
     var collectionView1: UICollectionView!
     let playerViewController = AVPlayerViewController()
     var player = AVPlayer()
+    var countOverlay = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -63,19 +64,34 @@ class ScheduleImageCell: UITableViewCell, UICollectionViewDelegate, UICollection
         
         let layout = ColumnFlowLayout(
             cellsPerRow: 4,
-            minimumInteritemSpacing: 15,
-            minimumLineSpacing: 15,
-            sectionInset: UIEdgeInsets(top: 0, left: 68, bottom: 0, right: 20)
+            minimumInteritemSpacing: 0,
+            minimumLineSpacing: 0,
+            sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         )
         layout.scrollDirection = .horizontal
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-10), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(360), height: CGFloat(260)), collectionViewLayout: layout)
+        } else {
+            collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(260)), collectionViewLayout: layout)
+        }
         collectionView1.translatesAutoresizingMaskIntoConstraints = false
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
         collectionView1.dataSource = self
         collectionView1.showsHorizontalScrollIndicator = false
+        collectionView1.isPagingEnabled = true
         collectionView1.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
         contentView.addSubview(collectionView1)
+        
+        self.countOverlay.frame = CGRect(x: 10, y: 10, width: 26, height: 26)
+        self.countOverlay.backgroundColor = GlobalStruct.baseTint
+        self.countOverlay.setTitle("0", for: .normal)
+        self.countOverlay.setTitleColor(UIColor.white, for: .normal)
+        self.countOverlay.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
+        self.countOverlay.layer.cornerRadius = 5
+        self.countOverlay.isUserInteractionEnabled = false
+        self.countOverlay.alpha = 0
+        collectionView1.addSubview(self.countOverlay)
         
         let viewsDict = [
             "containerView" : containerView,
@@ -93,8 +109,8 @@ class ScheduleImageCell: UITableViewCell, UICollectionViewDelegate, UICollection
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[content]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[collectionView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[content]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[username]-2-[content]-5-[collectionView(260)]-0-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -151,12 +167,19 @@ class ScheduleImageCell: UITableViewCell, UICollectionViewDelegate, UICollection
                 cell.image.layer.masksToBounds = true
                 self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = GlobalStruct.baseDarkTint
-                cell.image.layer.cornerRadius = 5
+                cell.image.layer.cornerRadius = 0
                 cell.image.layer.masksToBounds = true
                 cell.image.layer.borderColor = UIColor.black.cgColor
-                cell.image.frame.size.width = 160
-                cell.image.frame.size.height = 120
+//                cell.image.frame.size.width = UIScreen.main.bounds.width
+                cell.image.frame.size.height = 260
                 cell.bgImage.layer.masksToBounds = false
+                
+                if self.images.count > 1 {
+                    self.countOverlay.alpha = 1
+                    self.countOverlay.setTitle("\(self.images.count)", for: .normal)
+                } else {
+                    self.countOverlay.alpha = 0
+                }
             }
         }
         cell.backgroundColor = UIColor.clear

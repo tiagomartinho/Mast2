@@ -72,7 +72,6 @@ class CollectionImageCell: UICollectionViewCell {
         self.videoOverlay.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.videoOverlay.layer.shadowRadius = 14
         self.videoOverlay.layer.shadowOpacity = 0.2
-        
         contentView.addSubview(videoOverlay)
     }
 }
