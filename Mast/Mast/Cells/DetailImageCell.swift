@@ -125,12 +125,16 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         
         let layout = ColumnFlowLayout(
             cellsPerRow: 4,
-            minimumInteritemSpacing: 15,
-            minimumLineSpacing: 15,
-            sectionInset: UIEdgeInsets(top: 0, left: 68, bottom: 0, right: 20)
+            minimumInteritemSpacing: 0,
+            minimumLineSpacing: 0,
+            sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         )
         layout.scrollDirection = .horizontal
-        collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(-10), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(178)), collectionViewLayout: layout)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(360), height: CGFloat(260)), collectionViewLayout: layout)
+        } else {
+            collectionView1 = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(UIScreen.main.bounds.width), height: CGFloat(260)), collectionViewLayout: layout)
+        }
         collectionView1.translatesAutoresizingMaskIntoConstraints = false
         collectionView1.backgroundColor = UIColor.clear
         collectionView1.delegate = self
@@ -166,10 +170,10 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[pollView]-18-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-68-[cardView]-18-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[heart(20)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[profile(40)]-(>=15)-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[heart(20)]", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-15-[username]-2-[usertag]-6-[content]-[pollView]-2-[cardView]-3-[metrics]-1-[timestamp]-5-[collectionView(140)]-12-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[username]-2-[usertag]-6-[content]-[pollView]-2-[cardView]-3-[metrics]-1-[timestamp]-14-[collectionView(260)]-0-|", options: [], metrics: nil, views: viewsDict))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -635,11 +639,11 @@ class DetailImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionVi
                 cell.image.layer.masksToBounds = true
 //                self.images2[indexPath.row].sd_setImage(with: imageURL, completed: nil)
                 cell.image.backgroundColor = GlobalStruct.baseDarkTint
-                cell.image.layer.cornerRadius = 5
+                cell.image.layer.cornerRadius = 0
                 cell.image.layer.masksToBounds = true
                 cell.image.layer.borderColor = UIColor.black.cgColor
-                cell.image.frame.size.width = 160
-                cell.image.frame.size.height = 120
+//                cell.image.frame.size.width = UIScreen.main.bounds.width
+                cell.image.frame.size.height = 260
                 cell.bgImage.layer.masksToBounds = false
             }
         }

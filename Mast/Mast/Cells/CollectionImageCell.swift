@@ -36,7 +36,11 @@ class CollectionImageCell: UICollectionViewCell {
         
         self.image.frame.origin.x = 0
         self.image.frame.origin.y = 0
-        self.image.frame.size.width = UIScreen.main.bounds.width
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.image.frame.size.width = 360
+        } else {
+            self.image.frame.size.width = UIScreen.main.bounds.width
+        }
         self.image.frame.size.height = 260
         self.image.backgroundColor = UIColor.clear
         self.image.layer.cornerRadius = 0
@@ -48,22 +52,26 @@ class CollectionImageCell: UICollectionViewCell {
         
         self.duration.frame = CGRect(x: 10, y: contentView.bounds.height - 30, width: contentView.bounds.width - 20, height: 30)
         self.duration.text = ""
-        self.duration.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
+        self.duration.font = UIFont.boldSystemFont(ofSize: 18)
         self.duration.textColor = UIColor.white
         self.duration.textAlignment = .left
         contentView.addSubview(duration)
         
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-        self.videoOverlay.frame = CGRect(x: 50, y: 30, width: 60, height: 60)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.videoOverlay.frame = CGRect(x: 140, y: 90, width: 80, height: 80)
+        } else {
+            self.videoOverlay.frame = CGRect(x: ((UIScreen.main.bounds.width)/2) - 40, y: 90, width: 80, height: 80)
+        }
         self.videoOverlay.contentMode = .scaleAspectFit
         self.videoOverlay.image = UIImage(systemName: "play.circle.fill", withConfiguration: symbolConfig)?.withTintColor(UIColor(named: "alwaysWhite")!, renderingMode: .alwaysOriginal)
         self.videoOverlay.alpha = 0
-        self.videoOverlay.layer.cornerRadius = 60
+        self.videoOverlay.layer.cornerRadius = 80
         self.videoOverlay.backgroundColor = UIColor.black
         self.videoOverlay.layer.shadowColor = UIColor(named: "alwaysBlack")!.cgColor
         self.videoOverlay.layer.shadowOffset = CGSize(width: 0, height: 8)
         self.videoOverlay.layer.shadowRadius = 14
-        self.videoOverlay.layer.shadowOpacity = 0.18
+        self.videoOverlay.layer.shadowOpacity = 0.2
         
         contentView.addSubview(videoOverlay)
     }
