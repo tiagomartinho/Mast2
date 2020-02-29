@@ -650,6 +650,10 @@ class SecondViewController: UIViewController, UITableViewDataSource, UITableView
                     }
                 }
             }
+        } else {
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
         }
     }
     
