@@ -22,7 +22,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        let layout = ColumnFlowLayout(
+        let layout = ColumnFlowLayout4(
             cellsPerRow: 4,
             minimumInteritemSpacing: 15,
             minimumLineSpacing: 15,
@@ -44,7 +44,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(CollectionImageCell.self, forCellWithReuseIdentifier: "CollectionImageCell")
+        collectionView.register(CollectionImageCell2.self, forCellWithReuseIdentifier: "CollectionImageCell")
         
         contentView.addSubview(collectionView)
     }
@@ -72,7 +72,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
     var images2: [UIImageView] = []
     var images3: [String] = []
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionImageCell", for: indexPath) as! CollectionImageCell2
         if self.profileStatusesImages.isEmpty {} else {
             
             let z2 = self.profileStatusesImages[indexPath.item].mediaAttachments[0].remoteURL ?? self.profileStatusesImages[indexPath.item].mediaAttachments[0].url
@@ -158,7 +158,7 @@ class ProfileImageCell: UITableViewCell, UICollectionViewDelegate, UICollectionV
             }
         } else {
             let imageInfo = GSImageInfo(image: self.images2[indexPath.item].image ?? UIImage(), imageMode: .aspectFit, imageHD: URL(string: self.images3[indexPath.item]), imageText: "@\(self.currentStat[indexPath.item].account.username): \(self.currentStat[indexPath.item].content.stripHTML())", imageText2: self.currentStat[indexPath.item].favouritesCount, imageText3: self.currentStat[indexPath.item].reblogsCount, imageText4: self.currentStat[indexPath.item].id)
-            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell).image)
+            let transitionInfo = GSTransitionInfo(fromView: (collectionView.cellForItem(at: indexPath) as! CollectionImageCell2).image)
             let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
             getTopMostViewController()?.present(imageViewer, animated: true, completion: nil)
         }
