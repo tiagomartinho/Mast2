@@ -113,9 +113,9 @@ class CollectionImageCell2: UICollectionViewCell {
         self.gradient.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.black.withAlphaComponent(0).cgColor]
         contentView.layer.addSublayer(gradient)
         
-        self.duration.frame = CGRect(x: 10, y: contentView.bounds.height - 30, width: contentView.bounds.width - 20, height: 30)
+        self.duration.frame = CGRect(x: 10, y: contentView.bounds.height - 33, width: contentView.bounds.width - 20, height: 30)
         self.duration.text = ""
-        self.duration.font = UIFont.boldSystemFont(ofSize: 16)
+        self.duration.font = UIFont.boldSystemFont(ofSize: 15)
         self.duration.textColor = UIColor.white
         self.duration.textAlignment = .left
         contentView.addSubview(duration)
