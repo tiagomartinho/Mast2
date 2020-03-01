@@ -584,7 +584,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                 
             }
             if let presenter = alert.popoverPresentationController {
-                presenter.sourceView = self.x6.value(forKey: "view") as? UIView
+                presenter.sourceView = self.x6.value(forKey: "view") as? UIView ?? self.view
                 presenter.sourceRect = (self.x6.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
             }
             if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
@@ -602,7 +602,7 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             impactFeedbackgenerator.impactOccurred()
         }
         let symbolConfig6 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(style: .actionSheet, title: nil)
         let op1 = UIAlertAction(title: "Public".localized, style: .default , handler:{ (UIAlertAction) in
             self.defaultVisibility = .public
             self.x2 = UIBarButtonItem(image: UIImage(systemName: "globe", withConfiguration: symbolConfig6)!.withTintColor(UIColor(named: "baseBlack")!, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.visibilityTap))
@@ -646,7 +646,11 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
             presenter.sourceView = self.x2.value(forKey: "view") as? UIView ?? self.view
             presenter.sourceRect = (self.x2.value(forKey: "view") as? UIView)?.bounds ?? self.view.bounds
         }
-        self.present(alert, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad && self.isSplitOrSlideOver == false {
+            alert.show()
+        } else {
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func contentTap() {
@@ -1198,7 +1202,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                                 ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                                 self.dismiss(animated: true, completion: nil)
                                 #if targetEnvironment(macCatalyst)
-                                
+                                let x = self.view.window!.windowScene!.session
+                                UIApplication.shared.requestSceneSessionDestruction(x, options: nil) { (e) in
+                                    print("error", e)
+                                }
+                                GlobalStruct.macWindow = 4
+                                UIApplication.shared.windows.first?.becomeKey()
                                 #endif
                             }
                         }
@@ -1217,7 +1226,12 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                                     ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
                                     self.dismiss(animated: true, completion: nil)
                                     #if targetEnvironment(macCatalyst)
-                                    
+                                    let x = self.view.window!.windowScene!.session
+                                    UIApplication.shared.requestSceneSessionDestruction(x, options: nil) { (e) in
+                                        print("error", e)
+                                    }
+                                    GlobalStruct.macWindow = 4
+                                    UIApplication.shared.windows.first?.becomeKey()
                                     #endif
                                 }
                             }
@@ -1842,19 +1856,19 @@ extension PHAsset {
 #if targetEnvironment(macCatalyst)
 extension TootViewController: NSToolbarDelegate {
     func toolbar(_ toolbar: NSToolbar, itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier, willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "addMedia")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"))
-            toolbarItem.label = "Add Media".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.action = #selector(self.galleryView)
-            toolbarItem.target = self
-            toolbarItem.image = UIImage(systemName: "plus.circle")
-            return toolbarItem
-        }
+//        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "addMedia")) {
+//            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "addMedia"))
+//            toolbarItem.toolTip = "Add Media".localized
+//            toolbarItem.isBordered = true
+//            toolbarItem.isEnabled = true
+//            toolbarItem.action = #selector(self.galleryView)
+//            toolbarItem.target = self
+//            toolbarItem.image = UIImage(systemName: "plus.circle")
+//            return toolbarItem
+//        }
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "visibility")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "visibility"))
-            toolbarItem.label = "Visibility".localized
+            toolbarItem.toolTip = "Visibility".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
             toolbarItem.image = UIImage(systemName: "globe")
@@ -1864,7 +1878,7 @@ extension TootViewController: NSToolbarDelegate {
         }
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "spoiler")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "spoiler"))
-            toolbarItem.label = "Spoiler Text".localized
+            toolbarItem.toolTip = "Spoiler Text".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
             toolbarItem.image = UIImage(systemName: "exclamationmark.shield")
@@ -1874,7 +1888,7 @@ extension TootViewController: NSToolbarDelegate {
         }
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "emo")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "emo"))
-            toolbarItem.label = "Emoticons".localized
+            toolbarItem.toolTip = "Emoticons".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
             toolbarItem.image = UIImage(systemName: "smiley")
@@ -1884,7 +1898,7 @@ extension TootViewController: NSToolbarDelegate {
         }
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "poll")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "poll"))
-            toolbarItem.label = "Add Poll".localized
+            toolbarItem.toolTip = "Add Poll".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
             toolbarItem.image = UIImage(systemName: "chart.bar")
@@ -1894,7 +1908,7 @@ extension TootViewController: NSToolbarDelegate {
         }
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "schedule")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "schedule"))
-            toolbarItem.label = "Schedule Toot".localized
+            toolbarItem.toolTip = "Schedule Toot".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
             toolbarItem.image = UIImage(systemName: "clock")
@@ -1902,19 +1916,19 @@ extension TootViewController: NSToolbarDelegate {
             toolbarItem.target = self
             return toolbarItem
         }
-        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "drafts")) {
-            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"))
-            toolbarItem.label = "Drafts".localized
-            toolbarItem.isBordered = true
-            toolbarItem.isEnabled = true
-            toolbarItem.image = UIImage(systemName: "doc.text")
-            toolbarItem.action = #selector(self.viewDrafts)
-            toolbarItem.target = self
-            return toolbarItem
-        }
+//        if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "drafts")) {
+//            let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "drafts"))
+//            toolbarItem.toolTip = "Drafts".localized
+//            toolbarItem.isBordered = true
+//            toolbarItem.isEnabled = true
+//            toolbarItem.image = UIImage(systemName: "doc.text")
+//            toolbarItem.action = #selector(self.viewDrafts)
+//            toolbarItem.target = self
+//            return toolbarItem
+//        }
         if (itemIdentifier == NSToolbarItem.Identifier(rawValue: "tick")) {
             let toolbarItem = NSToolbarItem(itemIdentifier: NSToolbarItem.Identifier(rawValue: "tick"))
-            toolbarItem.label = "Post".localized
+            toolbarItem.toolTip = "Post".localized
             toolbarItem.isBordered = true
             toolbarItem.isEnabled = true
             toolbarItem.image = UIImage(systemName: "checkmark")
