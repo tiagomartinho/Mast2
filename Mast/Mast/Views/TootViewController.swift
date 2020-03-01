@@ -1200,15 +1200,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                                 ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
-                                self.dismiss(animated: true, completion: nil)
-                                #if targetEnvironment(macCatalyst)
-                                let x = self.view.window!.windowScene!.session
-                                UIApplication.shared.requestSceneSessionDestruction(x, options: nil) { (e) in
-                                    print("error", e)
-                                }
-                                GlobalStruct.macWindow = 4
-                                UIApplication.shared.windows.first?.becomeKey()
-                                #endif
+                                self.dismiss(animated: true, completion: {
+                                    #if targetEnvironment(macCatalyst)
+                                    let x = self.view.window!.windowScene!.session
+                                    UIApplication.shared.requestSceneSessionDestruction(x, options: nil) { (e) in
+                                        print("error", e)
+                                    }
+                                    GlobalStruct.macWindow = 4
+                                    UIApplication.shared.windows.first?.becomeKey()
+                                    #endif
+                                })
                             }
                         }
                     }
@@ -1224,15 +1225,16 @@ class TootViewController: UIViewController, UITextViewDelegate, UIImagePickerCon
                                 DispatchQueue.main.async {
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: "updatePosted"), object: nil)
                                     ViewController().showNotifBanner("Posted".localized, subtitle: "New toot".localized, style: BannerStyle.info)
-                                    self.dismiss(animated: true, completion: nil)
-                                    #if targetEnvironment(macCatalyst)
-                                    let x = self.view.window!.windowScene!.session
-                                    UIApplication.shared.requestSceneSessionDestruction(x, options: nil) { (e) in
-                                        print("error", e)
-                                    }
-                                    GlobalStruct.macWindow = 4
-                                    UIApplication.shared.windows.first?.becomeKey()
-                                    #endif
+                                    self.dismiss(animated: true, completion: {
+                                        #if targetEnvironment(macCatalyst)
+                                        let x = self.view.window!.windowScene!.session
+                                        UIApplication.shared.requestSceneSessionDestruction(x, options: nil) { (e) in
+                                            print("error", e)
+                                        }
+                                        GlobalStruct.macWindow = 4
+                                        UIApplication.shared.windows.first?.becomeKey()
+                                        #endif
+                                    })
                                 }
                             }
                         }
