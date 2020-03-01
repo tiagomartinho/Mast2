@@ -20,12 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
 
-//        #if targetEnvironment(macCatalyst)
-//        if let windowScene = scene as? UIWindowScene {
-//            windowScene.titlebar?.titleVisibility = .hidden
-//        }
-//        #endif
-
         var isSplitOrSlideOver: Bool {
             let windows = UIApplication.shared.windows
             for x in windows {
@@ -186,6 +180,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
+        GlobalStruct.macWindow = 4
+        self.window?.becomeKey()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {

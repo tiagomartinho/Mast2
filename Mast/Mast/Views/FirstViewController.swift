@@ -64,6 +64,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     var selSeg = 0
     var initialLoadPos = 0
     var isFetchingInitial = false
+    var shortcutDoOnce1: Bool = false
+    var shortcutDoOnce2: Bool = false
+    var shortcutDoOnce3: Bool = false
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("active: \(activationState)")
@@ -294,6 +297,9 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     override var keyCommands: [UIKeyCommand]? {
+        self.shortcutDoOnce1 = false
+        self.shortcutDoOnce2 = false
+        self.shortcutDoOnce3 = false
         let newToot = UIKeyCommand(input: "n", modifierFlags: .command, action: #selector(self.compose), discoverabilityTitle: "New Toot".localized)
         let search = UIKeyCommand(input: "f", modifierFlags: .command, action: #selector(self.search), discoverabilityTitle: "Search".localized)
         let settings = UIKeyCommand(input: ";", modifierFlags: .command, action: #selector(self.settings), discoverabilityTitle: "Settings".localized)
@@ -305,15 +311,24 @@ class FirstViewController: UIViewController, UITextFieldDelegate, UITableViewDat
     }
     
     @objc func compose() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "composea"), object: nil)
+        if self.shortcutDoOnce1 == false {
+            self.shortcutDoOnce1 = true
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "composea"), object: nil)
+        }
     }
     
     @objc func search() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "searcha"), object: nil)
+        if self.shortcutDoOnce2 == false {
+            self.shortcutDoOnce2 = true
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "searcha"), object: nil)
+        }
     }
     
     @objc func settings() {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "settingsa"), object: nil)
+        if self.shortcutDoOnce3 == false {
+            self.shortcutDoOnce3 = true
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "settingsa"), object: nil)
+        }
     }
     
     @objc func leftA() {

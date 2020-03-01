@@ -80,8 +80,13 @@ class VerticalTabBarController: UIViewController {
         let alert = UIAlertController(style: .actionSheet, message: nil)
         alert.addLocalePicker(type: .country) { info in
             // action with selected object
+            GlobalStruct.macWindow = 4
+            UIApplication.shared.windows.first?.becomeKey()
         }
-        alert.addAction(title: "Dismiss", style: .cancel)
+        alert.addAction(title: "Dismiss", style: .cancel) { info in
+            GlobalStruct.macWindow = 4
+            UIApplication.shared.windows.first?.becomeKey()
+        }
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = self.button2
             presenter.sourceRect = self.button2.bounds

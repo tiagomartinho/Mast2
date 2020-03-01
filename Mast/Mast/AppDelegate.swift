@@ -228,5 +228,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
+    @objc func supportPage() {
+        let url = URL(string: "https://www.thebluebird.app")!
+        UIApplication.shared.openURL(url)
+    }
+    
+    override func buildMenu(with builder: UIMenuBuilder) {
+        super.buildMenu(with: builder)
+        
+        builder.remove(menu: .edit)
+        builder.remove(menu: .format)
+        builder.replaceChildren(ofMenu: .help) { oldChildren in
+            var newChildren = oldChildren
+            let newGameItem = UIKeyCommand(input: "", modifierFlags: [], action: #selector(supportPage))
+            newGameItem.title = "Support"
+            newChildren.remove(at: 0)
+            newChildren.insert(newGameItem, at: 0)
+            return newChildren
+        }
+        
+        let command1 = UIKeyCommand(input: "N", modifierFlags: [.command], action: #selector(FirstViewController().compose))
+        command1.title =  "New Toot".localized
+        let command2 = UIKeyCommand(input: "F", modifierFlags: [.command], action: #selector(FirstViewController().search))
+        command2.title =  "Search".localized
+        let command3 = UIKeyCommand(input: ";", modifierFlags: [.command], action: #selector(FirstViewController().settings))
+        command3.title =  "Settings".localized
+        let formatDataMenuC = UIMenu(title: "Copy", image: nil, identifier: UIMenu.Identifier("format2"), options: .displayInline, children: [command1, command2, command3])
+        builder.insertChild(formatDataMenuC, atStartOfMenu: .file)
+    }
     
 }
