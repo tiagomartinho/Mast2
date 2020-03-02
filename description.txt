@@ -1,9 +1,0 @@
-Mast is a beautiful Mastodon app built with iOS design guidelines in mind. It’s as feature-packed as it is gorgeous. The stunning timelines make reading the latest content a joy.
-
-Mast is also fully optimised for iOS 13 with dark mode and context menu support. It also has Today Extensions, Share Extensions, iMessage Stickers, a Watch app, Siri Shortcuts, and an iPad app. I hope you enjoy using Mast.
-
-“What is Mastodon?”, you may ask. It’s a federated and decentralised social network. Think of it as email, where you can choose your provider, yet talk with almost anyone from anywhere regardless of their choices. The instances on Mastodon give users freedom to find their community, whilst allowing everyone to talk with each other with the level of visibility that they want. The content warning feature makes it safer, and the increased character count makes it far more expressible. It’s what microblogging should have always been.
-
-(Requires a Mastodon account)
-
-I'm constantly evolving and crafting Mast to create the perfect Mastodon app for you. If you have any suggestions or feedback, I'd love to hear it!
